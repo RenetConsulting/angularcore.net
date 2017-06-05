@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{1F3672DE-1B48-4C20-8551-C214405F2B09}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{46D36B75-80EB-4ADE-9F09-FA565FFFDB3F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataAccess", "DataAccess", "{F7C3B21E-324E-4BAE-9CA3-2E23E4D5F74B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.DataAccess", "DataAccess\Application.DataAccess\Application.DataAccess.csproj", "{861F3445-D3C3-4980-B3BE-F26B8025725F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.DataAccess.Test", "DataAccess\Application.DataAccess.Test\Application.DataAccess.Test.csproj", "{CCCC8A92-081D-4DF4-9CCB-57339BBEA86C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{10F9D20E-F460-4AD4-BCDA-12D62BAE30F7}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		GlobalAssemblyInfo.cs = GlobalAssemblyInfo.cs
+		GlobalSuppressions.cs = GlobalSuppressions.cs
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{861F3445-D3C3-4980-B3BE-F26B8025725F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{861F3445-D3C3-4980-B3BE-F26B8025725F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{861F3445-D3C3-4980-B3BE-F26B8025725F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{861F3445-D3C3-4980-B3BE-F26B8025725F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCCC8A92-081D-4DF4-9CCB-57339BBEA86C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCCC8A92-081D-4DF4-9CCB-57339BBEA86C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCCC8A92-081D-4DF4-9CCB-57339BBEA86C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCCC8A92-081D-4DF4-9CCB-57339BBEA86C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{861F3445-D3C3-4980-B3BE-F26B8025725F} = {F7C3B21E-324E-4BAE-9CA3-2E23E4D5F74B}
+		{CCCC8A92-081D-4DF4-9CCB-57339BBEA86C} = {F7C3B21E-324E-4BAE-9CA3-2E23E4D5F74B}
+	EndGlobalSection
+EndGlobal
