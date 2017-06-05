@@ -1,11 +1,7 @@
 ﻿namespace Application.DataAccess.Test
 {
-    using Application.DataAccess.Entities;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Metadata.Builders;
-    using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-    using Moq;
     using System;
+    using Microsoft.EntityFrameworkCore;
     using Xunit;
 
     public class DataContextFixture : IDisposable
@@ -45,6 +41,5 @@
 
             this.disposed = true;
         }
-
     }
 }

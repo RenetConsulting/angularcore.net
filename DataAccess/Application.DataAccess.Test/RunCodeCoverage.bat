@@ -4,7 +4,7 @@ SET opencover=%USERPROFILE%\.nuget\packages\OpenCover\4.6.519\tools\OpenCover.Co
 SET reportgenerator=%USERPROFILE%\.nuget\packages\reportgenerator\2.5.8\tools\ReportGenerator.exe
 
 SET targetargs="test"
-REM If you see no result, check filter for your aplication
+REM Important!!! If you see no result, check filter for your application namespace
 SET filter="+[*]Application.* -[*.Test]* -[xunit.*]* -[FluentValidation]*"
 SET coveragefile=Coverage.xml
 SET coveragedir=Coverage
