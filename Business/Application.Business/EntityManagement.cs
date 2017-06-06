@@ -5,6 +5,7 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
     using Application.Business.Models;
+    using Application.DataAccess.Repositories;
 
     /// <summary>
     /// Generic Entity Management class for CRUD operations on a single TEntity
@@ -18,7 +19,7 @@
             this.Repository = repo;
         }
 
-        protected DataAccess.Repositories.IGlobalRepository Repository { get; private set; }
+        protected IGlobalRepository Repository { get; private set; }
 
         public async Task<IEntityModel<TEntity>> AddAsync(IEntityModel<TEntity> model)
         {

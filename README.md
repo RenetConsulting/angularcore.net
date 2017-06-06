@@ -1,5 +1,6 @@
 # angular.net
-Template for Angular front-end .net core back-end project template
+Template for Angular front-end .net core back-end project template. 
+This project template implement optimistic concurrency, generic entity management, unit test with code coverage.
 
 Prerequisite:
 - Microsoft Visual Studio 2017 Community or Professional Edition (See: https://www.visualstudio.com/downloads/)
