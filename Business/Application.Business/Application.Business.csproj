@@ -3,8 +3,8 @@
   <PropertyGroup>
     <VersionPrefix>1.0.0</VersionPrefix>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <AssemblyName>Promise.Business</AssemblyName>
-    <PackageId>Promise.Business</PackageId>
+    <AssemblyName>Application.Business</AssemblyName>
+    <PackageId>Application.Business</PackageId>
     <NetStandardImplicitPackageVersion>1.6.1</NetStandardImplicitPackageVersion>
     <PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
