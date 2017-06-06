@@ -44,8 +44,8 @@
              where T : ApplicationEntity;
 
         [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "ValueTuple.")]
-        Task<(T[] list, long totalItems)> ItemList<T>(DbSet<T> entity, int? page, int? count, bool? active, PropertyInfo sortFieldName, SortOrder? sortOrder)
-            where T : ApplicationEntity;
+        Task<(TEntity[] list, long totalItems)> ListAsync<TEntity>(int? skip, int? take, bool? active, string sortFieldName, SortOrder? sortOrder)
+            where TEntity : ApplicationEntity;
 
         Task<T> FindByIdAsync<T>(params object[] keys)
             where T : ApplicationEntity;
