@@ -5,6 +5,7 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
     using Application.Business.Models;
+    using Application.DataAccess.Enums;
     using Application.DataAccess.Repositories;
 
     /// <summary>
@@ -55,6 +56,19 @@
             keys = keys ?? throw new ArgumentNullException(nameof(keys));
 
             return await this.Repository.FindByIdAsync<TEntity>(keys);
+        }
+
+        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "ValueTuple.")]
+        public async Task<(IEntityModel<TEntity>[] list, long totalItems)> ListAsync<TModel>(int? page, int? count, bool? active, string sortFieldName, SortOrder? sortOrder)
+             where TModel : ApplicationModel, IEntityModel<TEntity>, new()
+        {
+            var converter = this.ConvertPageCount(page, count);
+
+            var(list, totalItems) = await this.Repository.ListAsync<TEntity>(converter.skip, converter.take, active, sortFieldName, sortOrder);
+
+            List<IEntityModel<TEntity>> models = ToModelList<TEntity, TModel>(list);
+
+            return (models.ToArray(), totalItems);
         }
 
         internal static List<IEntityModel<T>> ToModelList<T, TModel>(T[] list)
