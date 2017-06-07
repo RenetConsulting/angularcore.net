@@ -1,4 +1,4 @@
-# angular.net
+# angularcore.net
 Template for Angular front-end .net core back-end project template. 
 This project template implement optimistic concurrency, generic entity management, unit test with code coverage.
 
