@@ -103,6 +103,10 @@
                 {
                     ((ApplicationEntity)entity.Entity).CreatedBy = currentUse;
                 }
+                else
+                {
+                    entity.Property("CreatedBy").IsModified = false;
+                }
 
                 ((ApplicationEntity)entity.Entity).UpdatedBy = currentUse;
             }

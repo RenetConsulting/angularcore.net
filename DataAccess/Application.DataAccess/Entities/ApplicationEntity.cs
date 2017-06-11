@@ -31,7 +31,6 @@
 
         [StringLength(450)]
         [Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)] // this will prevent the column to be updated
         public string CreatedBy { get; internal set; }
 
         [StringLength(450)]
