@@ -37,7 +37,7 @@
         {
             entity = entity ?? throw new ArgumentNullException(nameof(entity));
 
-            this.IsActive = entity.IsActive;
+            this.IsActive = entity.IsActive.HasValue ? entity.IsActive.Value : true;
             this.Timestamp = entity.Timestamp;
             this.CreatedDate = entity.CreatedDate;
             this.UpdatedDate = entity.UpdatedDate;

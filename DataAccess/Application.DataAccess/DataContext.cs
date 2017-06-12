@@ -58,14 +58,22 @@
 
             foreach (Type type in applicationEntityTypes)
             {
-                MethodInfo method = typeof(DataContext).GetMethod("ApplicationEntityDefaultValueSql", BindingFlags.Instance | BindingFlags.NonPublic);
-                if (method == null)
-                {
-                    throw new NotImplementedException("The 'ApplicationEntityDefaultValueSql' method is not implemented");
-                }
+                var dbSetType = this.GetType()
+                    .GetRuntimeProperties()
+                    .Where(o => o.PropertyType.GetTypeInfo().IsGenericType && o.PropertyType.GetGenericTypeDefinition() == typeof(DbSet<>) && o.PropertyType.GenericTypeArguments.Contains(type))
+                    .FirstOrDefault();
 
-                MethodInfo generic = method.MakeGenericMethod(type);
-                generic?.Invoke(this, new object[] { builder });
+                if (dbSetType != null)
+                {
+                    MethodInfo method = typeof(DataContext).GetMethod("ApplicationEntityDefaultValueSql", BindingFlags.Instance | BindingFlags.NonPublic);
+                    if (method == null)
+                    {
+                        throw new NotImplementedException("The 'ApplicationEntityDefaultValueSql' method is not implemented");
+                    }
+
+                    MethodInfo generic = method.MakeGenericMethod(type);
+                    generic?.Invoke(this, new object[] { builder });
+                }
             }
         }
 

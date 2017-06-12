@@ -17,7 +17,8 @@
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime? UpdatedDate { get; internal set; }
 
-        public bool IsActive { get; set; }
+        [Required]
+        public bool? IsActive { get; set; }
 
         [NotMapped]
         public virtual string Timestamp
