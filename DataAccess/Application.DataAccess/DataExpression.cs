@@ -37,13 +37,15 @@
 
                 if (value != null && entityProperty != null)
                 {
+                    var column = Expression.Property(parameter, property.Name);
+
                     // based on the type of the property object, create an expression
                     switch (Type.GetTypeCode(value.GetType()))
                     {
                         // for string - use the "contains"
                         case TypeCode.String:
                             whereExpressions.Add(Expression.Call(
-                                Expression.Property(parameter, property.Name),
+                                column,
                                 method,
                                 Expression.Constant(value)));
                             break;
@@ -69,8 +71,8 @@
                         case TypeCode.UInt64:
                         case TypeCode.Boolean:
                             whereExpressions.Add(Expression.Equal(
-                                    Expression.Property(parameter, property.Name),
-                                    Expression.Constant(value)));
+                                    column,
+                                    Expression.Convert(Expression.Constant(value), column.Type)));
                             break;
                         case TypeCode.Object:
                             break;

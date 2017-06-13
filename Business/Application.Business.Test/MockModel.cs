@@ -18,16 +18,20 @@
             };
         }
 
+        public MockEntity ToEntity(MockEntity entity)
+        {
+            base.ToEntity(entity);
+
+            entity.Id = this.Id;
+
+            return entity;
+        }
+
         public void ToModel(MockEntity entity)
         {
-            entity = entity ?? throw new ArgumentNullException(nameof(entity));
+            this.EntityToModel(entity);
 
             this.Id = entity.Id;
-
-            this.IsActive = entity.IsActive.HasValue ? entity.IsActive.Value : true;
-            this.Timestamp = entity.Timestamp;
-            this.CreatedDate = entity.CreatedDate;
-            this.UpdatedDate = entity.UpdatedDate;
         }
     }
 }
