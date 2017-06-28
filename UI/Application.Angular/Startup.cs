@@ -42,7 +42,7 @@
                 .AddDbContext<DataContext>(
                     options =>
                     {
-                        options.UseSqlServer(this.Configuration["Data:ConnectionString"], o => o.MigrationsAssembly("Promise.OfficeWeb"));
+                        options.UseSqlServer(this.Configuration["Data:ConnectionString"], o => o.MigrationsAssembly("Application.Angular"));
                         options.UseOpenIddict();
                     },
                     ServiceLifetime.Scoped);
