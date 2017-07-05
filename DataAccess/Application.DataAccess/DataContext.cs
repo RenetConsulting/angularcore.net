@@ -18,6 +18,10 @@
         {
         }
 
+        public virtual DbSet<UserAcceptedTerm> UserAcceptedTerms { get; set; }
+
+        public virtual DbSet<TermsOfService> TermsOfServices { get; set; }
+
         public IDbContextTransaction BeginTransaction()
         {
             return this.Database.BeginTransaction();
@@ -82,6 +86,10 @@
             base.OnModelCreating(builder);
 
             this.ApplicationEntityDefaultValueSqlForAllObjects(builder);
+
+            builder.Entity<UserAcceptedTerm>()
+                .HasKey(t => new { t.UserId, t.TermsOfServiceId });
+
         }
 
         private ModelBuilder ApplicationEntityDefaultValueSql<TEntity>(ModelBuilder builder)

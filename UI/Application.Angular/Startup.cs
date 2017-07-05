@@ -14,6 +14,8 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Net.Http.Headers;
+    using Microsoft.AspNetCore.SpaServices.Webpack;
 
     public class Startup
     {
@@ -72,6 +74,8 @@
                 options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
             });
 
+            services.AddNodeServices();
+
             services.AddScoped<IGlobalRepository, GlobalRepository>();
 
             // Removed SSL for Development
@@ -94,6 +98,69 @@
             loggerFactory.AddDebug();
 
             app.UseMvc();
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    string durationInSeconds = "max-age=1209600"; // 60 * 60 * 24 * 14 (days);
+
+                    if (!ctx.File.IsDirectory && !string.IsNullOrEmpty(ctx.File.Name) && ctx.File.Name.EndsWith(".json", System.StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (env.IsDevelopment())
+                        {
+                            durationInSeconds = "max-age=1"; // 1 sec
+                        }
+                        else
+                        {
+                            durationInSeconds = "max-age=360"; // 60 * 6 (min);
+                        }
+                    }
+
+                    if (!ctx.Context.Response.Headers.ContainsKey(HeaderNames.CacheControl))
+                    {
+                        ctx.Context.Response.Headers.Add(HeaderNames.CacheControl, durationInSeconds);
+                    }
+                    else
+                    {
+                        ctx.Context.Response.Headers[HeaderNames.CacheControl] = durationInSeconds;
+                    }
+
+                }
+            });
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                {
+                    HotModuleReplacement = true
+                });
+
+                app.MapWhen(x => !x.Request.Path.Value.StartsWith("/swagger"), builder =>
+                {
+                    builder.UseMvc(routes =>
+                    {
+                        routes.MapSpaFallbackRoute(
+                            name: "spa-fallback",
+                            defaults: new { controller = "Home", action = "Index" });
+                    });
+                });
+            }
+            else
+            {
+                app.UseMvc(routes =>
+                {
+                    routes.MapRoute(
+                        name: "default",
+                        template: "{controller=Home}/{action=Index}/{id?}");
+
+                    routes.MapSpaFallbackRoute(
+                        name: "spa-fallback",
+                        defaults: new { controller = "Home", action = "Index" });
+                });
+                app.UseExceptionHandler("/Home/Error");
+            }
         }
 
         private void RegisterOpenIddictServices(IServiceCollection services)

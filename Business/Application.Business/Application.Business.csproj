@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <Compile Include="..\..\GlobalAssemblyInfo.cs" />
-    <Compile Include="..\..\GlobalSuppressions.cs" Link="GlobalSuppressions.cs" />
+    <Compile Include="..\..\GlobalSuppressions.cs" Link="Properties\GlobalSuppressions.cs" />
   </ItemGroup>
   
   <ItemGroup>
