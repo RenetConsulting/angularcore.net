@@ -1,0 +1,37 @@
+<div class='main-nav'>
+	<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+		<div class='navbar-header'>
+			<button class="navbar-toggler navbar-toggler-right" 
+					type="button" 
+					data-toggle="collapse" 
+					data-target="#navbarText" 
+					aria-controls="navbarText" 
+					aria-expanded="false" 
+					aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<a class="navbar-brand" [routerLink]="['/']">WebApplicationBasic</a>
+		</div>
+
+		<div class='clearfix'></div>
+		<div class="collapse navbar-collapse" id="navbarText">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item " [routerLinkActive]="['active']">
+					<a class="nav-link" [routerLink]="['/home']">
+						<span class='glyphicon glyphicon-home'></span> Home
+					</a>
+				</li>
+				<li class="nav-item" [routerLinkActive]="['active']">
+					<a class="nav-link" [routerLink]="['/counter']">
+						<span class='glyphicon glyphicon-education'></span> Counter
+					</a>
+				</li>
+				<li class="nav-item" [routerLinkActive]="['active']">
+					<a class="nav-link" [routerLink]="['/fetch-data']">
+						<span class='glyphicon glyphicon-th-list'></span> Fetch data
+					</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+</div>

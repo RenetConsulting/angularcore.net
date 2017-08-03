@@ -1,7 +1,9 @@
-﻿@this.Html.Raw(this.ViewData["SpaHtml"])
+﻿@Html.Raw(ViewData["SpaHtml"])
+
 @section scripts {
-	@* Our webpack bundle *@
-	<script src="~/scripts/set-analyses.js" asp-append-version="true"></script>
-	<script src="~/scripts/page-analyses.js" asp-append-version="true"></script>
-	<script src="~/dist/main-browser.js" asp-append-version="true"></script>
+	<!-- Our webpack bundle -->
+
+	<script src="~/dist/polyfills.js" asp-append-version="true"></script>
+	<script src="~/dist/vendor.js" asp-append-version="true"></script>
+	<script src="~/dist/main-client.js" asp-append-version="true"></script>
 }

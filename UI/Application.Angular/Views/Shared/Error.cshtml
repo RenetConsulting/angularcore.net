@@ -1,6 +1,9 @@
-@{
-    ViewData["Title"] = "Error";
-}
+@Html.Raw(ViewData["SpaHtml"])
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+@section scripts {
+	<!-- Our webpack bundle -->
+
+	<script src="~/dist/polyfills.js" asp-append-version="true"></script>
+	<script src="~/dist/vendor.js" asp-append-version="true"></script>
+	<script src="~/dist/main-client.js" asp-append-version="true"></script>
+}

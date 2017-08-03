@@ -1,0 +1,67 @@
+li .glyphicon {
+	margin-right: 10px;
+}
+
+li.link-active a,
+li.link-active a:hover,
+li.link-active a:focus {
+	background-color: #4189C7;
+	color: white;
+}
+
+.main-nav {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 1;
+}
+
+
+@media (min-width: 768px) {
+	.main-nav {
+		height: 100%;
+		width: calc(25% - 20px);
+	}
+
+	.navbar {
+		border-radius: 0px;
+		border-width: 0px;
+		height: 100%;
+	}
+
+	.navbar-header {
+		float: none;
+	}
+
+	.navbar-collapse {
+		border-top: 1px solid #444;
+		padding: 0px;
+	}
+
+	.navbar ul {
+		display: block;
+	}
+
+	.navbar li {
+		display: block;
+		font-size: 15px;
+		margin: 6px;
+	}
+
+		.navbar li a {
+			padding: 10px 16px;
+			border-radius: 4px;
+		}
+
+	.navbar-toggleable-md {
+		flex-direction: column;
+	}
+
+	/*.navbar a {
+		width: 100%;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}*/
+}

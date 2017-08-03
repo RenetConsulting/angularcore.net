@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.12
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{1F3672DE-1B48-4C20-8551-C214405F2B09}"
 EndProject
@@ -9,9 +9,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{46
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataAccess", "DataAccess", "{F7C3B21E-324E-4BAE-9CA3-2E23E4D5F74B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.DataAccess", "DataAccess\Application.DataAccess\Application.DataAccess.csproj", "{861F3445-D3C3-4980-B3BE-F26B8025725F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.DataAccess", "DataAccess\Application.DataAccess\Application.DataAccess.csproj", "{861F3445-D3C3-4980-B3BE-F26B8025725F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.DataAccess.Test", "DataAccess\Application.DataAccess.Test\Application.DataAccess.Test.csproj", "{CCCC8A92-081D-4DF4-9CCB-57339BBEA86C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.DataAccess.Test", "DataAccess\Application.DataAccess.Test\Application.DataAccess.Test.csproj", "{CCCC8A92-081D-4DF4-9CCB-57339BBEA86C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{10F9D20E-F460-4AD4-BCDA-12D62BAE30F7}"
 	ProjectSection(SolutionItems) = preProject
@@ -23,11 +23,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Business", "Business\Application.Business\Application.Business.csproj", "{89191AD7-4A63-48FD-8BB3-4BB1342293A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Business", "Business\Application.Business\Application.Business.csproj", "{89191AD7-4A63-48FD-8BB3-4BB1342293A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Business.Test", "Business\Application.Business.Test\Application.Business.Test.csproj", "{7E001325-5586-4878-A1B0-9D97F63DECD7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Business.Test", "Business\Application.Business.Test\Application.Business.Test.csproj", "{7E001325-5586-4878-A1B0-9D97F63DECD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Angular", "UI\Application.Angular\Application.Angular.csproj", "{5F5D0840-68B2-44B6-BCD3-81BF9BD35CB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Angular", "UI\Application.Angular\Application.Angular.csproj", "{8C71D498-E01C-4133-BFD2-6FA8F65D466C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,10 +51,10 @@ Global
 		{7E001325-5586-4878-A1B0-9D97F63DECD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E001325-5586-4878-A1B0-9D97F63DECD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E001325-5586-4878-A1B0-9D97F63DECD7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5F5D0840-68B2-44B6-BCD3-81BF9BD35CB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5F5D0840-68B2-44B6-BCD3-81BF9BD35CB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5F5D0840-68B2-44B6-BCD3-81BF9BD35CB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5F5D0840-68B2-44B6-BCD3-81BF9BD35CB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C71D498-E01C-4133-BFD2-6FA8F65D466C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C71D498-E01C-4133-BFD2-6FA8F65D466C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C71D498-E01C-4133-BFD2-6FA8F65D466C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C71D498-E01C-4133-BFD2-6FA8F65D466C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,6 +64,6 @@ Global
 		{CCCC8A92-081D-4DF4-9CCB-57339BBEA86C} = {F7C3B21E-324E-4BAE-9CA3-2E23E4D5F74B}
 		{89191AD7-4A63-48FD-8BB3-4BB1342293A4} = {46D36B75-80EB-4ADE-9F09-FA565FFFDB3F}
 		{7E001325-5586-4878-A1B0-9D97F63DECD7} = {46D36B75-80EB-4ADE-9F09-FA565FFFDB3F}
-		{5F5D0840-68B2-44B6-BCD3-81BF9BD35CB0} = {1F3672DE-1B48-4C20-8551-C214405F2B09}
+		{8C71D498-E01C-4133-BFD2-6FA8F65D466C} = {1F3672DE-1B48-4C20-8551-C214405F2B09}
 	EndGlobalSection
 EndGlobal

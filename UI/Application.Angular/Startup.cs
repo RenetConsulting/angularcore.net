@@ -4,18 +4,17 @@
     using Application.DataAccess;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Repositories;
-    using AspNet.Security.OpenIdConnect.Primitives;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.SpaServices.Webpack;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Infrastructure;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Microsoft.Net.Http.Headers;
-    using Microsoft.AspNetCore.SpaServices.Webpack;
 
     public class Startup
     {
@@ -125,7 +124,6 @@
                     {
                         ctx.Context.Response.Headers[HeaderNames.CacheControl] = durationInSeconds;
                     }
-
                 }
             });
 
@@ -136,31 +134,23 @@
                 {
                     HotModuleReplacement = true
                 });
-
-                app.MapWhen(x => !x.Request.Path.Value.StartsWith("/swagger"), builder =>
-                {
-                    builder.UseMvc(routes =>
-                    {
-                        routes.MapSpaFallbackRoute(
-                            name: "spa-fallback",
-                            defaults: new { controller = "Home", action = "Index" });
-                    });
-                });
             }
             else
             {
-                app.UseMvc(routes =>
-                {
-                    routes.MapRoute(
-                        name: "default",
-                        template: "{controller=Home}/{action=Index}/{id?}");
-
-                    routes.MapSpaFallbackRoute(
-                        name: "spa-fallback",
-                        defaults: new { controller = "Home", action = "Index" });
-                });
-                app.UseExceptionHandler("/Home/Error");
+                // should be before UseMvc
+                app.UseStatusCodePagesWithReExecute("/Home/Error");
             }
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapSpaFallbackRoute(
+                    name: "spa-fallback",
+                    defaults: new { controller = "Home", action = "Index" });
+            });
         }
 
         private void RegisterOpenIddictServices(IServiceCollection services)
