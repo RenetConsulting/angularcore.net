@@ -1,0 +1,31 @@
+{
+	"atom": {
+		"rewriteTsconfig": false
+	},
+	"awesomeTypescriptLoaderOptions": {
+		"forkChecker": true,
+		"useWebpackText": true,
+		"useCache": false
+	},
+    "compilerOptions": {
+        "moduleResolution": "node",
+        "module": "es2015",
+        "target": "es5",
+        "noImplicitAny": false,
+        "noEmitOnError": true,
+        "removeComments": true,
+        "noUnusedParameters": false,
+        "noUnusedLocals": false,
+        "noImplicitReturns": false,
+        "sourceMap": false,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "skipLibCheck": true,
+        "lib": [ "es2016", "dom" ],
+        "types": [ "node" ]
+    },
+	"exclude": [ "bin", "node_modules" ],
+	"include": [
+		"ClientApp"
+	]
+}

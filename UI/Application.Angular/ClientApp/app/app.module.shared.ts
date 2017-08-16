@@ -15,21 +15,28 @@ import { HttpModule } from '@angular/http';
 declare var isDevelopment: any;
 declare var VERSION: any;
 
+export function isDevelopmentFactory() {
+    return (typeof isDevelopment != 'undefined') ? isDevelopment : null;
+}
+export function VERSIONFactory() {
+    return (typeof VERSION != 'undefined') ? VERSION : null;
+}
+
 @NgModule({
-	imports: [
-		CommonModule,
-		HttpModule
-	],
-	exports: [
-		CommonModule, FormsModule, ReactiveFormsModule, HttpModule
-	],
-	providers: [
-		{ provide: 'isBrowser', useValue: null },
-		{ provide: 'isNode', useValue: null },
-		{ provide: 'isDevelopment', useValue: (typeof isDevelopment != 'undefined') ? isDevelopment : null },
-		{ provide: 'VERSION', useValue: (typeof VERSION != 'undefined') ? VERSION : null },
-		{ provide: 'WINDOW', useValue: null },
-	]
+    imports: [
+        CommonModule,
+        HttpModule
+    ],
+    exports: [
+        CommonModule, FormsModule, ReactiveFormsModule, HttpModule
+    ],
+    providers: [
+        { provide: 'isBrowser', useValue: null },
+        { provide: 'isNode', useValue: null },
+        { provide: 'isDevelopment', useFactory: (isDevelopmentFactory) },
+        { provide: 'VERSION', useFactory: (VERSIONFactory) },
+        { provide: 'WINDOW', useValue: null },
+    ]
 
 })
 export class BaseSharedModule {

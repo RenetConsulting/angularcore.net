@@ -9,6 +9,7 @@ const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
 const UglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const AotPlugin = require('@ngtools/webpack').AotPlugin;
 
 const extractCSSBase = new ExtractTextPlugin({
     filename: 'base-styles.css',
@@ -43,9 +44,9 @@ module.exports = (env) => {
         },
         module: {
             rules: [
-                { test: /\.ts$/, include: /ClientApp/, use: ['awesome-typescript-loader?silent=true', 'angular2-template-loader'] },
+                //{ test: /\.ts$/, include: /ClientApp/, use: ['awesome-typescript-loader?silent=true', 'angular2-template-loader'] },
+                { test: /\.ts$/, include: /ClientApp/, use: isDevBuild ? ['awesome-typescript-loader?silent=true', 'angular2-template-loader'] : '@ngtools/webpack' },
                 { test: /\.html$/, use: 'html-loader?minimize=false' },
-                //{ test: /\.css$/, use: ['to-string-loader', isDevBuild ? 'css-loader' : 'css-loader?minimize'] },
                 { test: /\.css$/, include: [/components/], use: ['to-string-loader'].concat((isDevBuild) ? devCSSLoaders : prodCSSLoaders) },
                 {
                     test: /\.css$/,
@@ -97,13 +98,25 @@ module.exports = (env) => {
                 filename: '[file].map', // Remove this line if you prefer inline source maps
                 moduleFilenameTemplate: path.relative(clientBundleOutputDir, '[resourcePath]') // Point sourcemap entries to the original file locations on disk
             })
-        ] : [])
+        ] : [
+                new AotPlugin({
+                    tsConfigPath: './tsconfig.aot.json',
+                    entryModule: path.join(__dirname, 'ClientApp/app/app.module.client#AppModuleBrowser'),
+                    exclude: ['./**/*.server.ts']
+                })
+            ])
     });
 
     // Configuration for server-side (prerendering) bundle suitable for running in Node
     const serverBundleConfig = merge(sharedConfig, {
         resolve: { mainFields: ['main'] },
         entry: { 'main-server': './ClientApp/boot-server.ts' },
+        output: {
+            libraryTarget: 'commonjs',
+            path: path.join(__dirname, './ClientApp/dist')
+        },
+        target: 'node',
+        devtool: 'inline-source-map',
         plugins: [
             new webpack.DllReferencePlugin({
                 context: __dirname,
@@ -111,13 +124,13 @@ module.exports = (env) => {
                 sourceType: 'commonjs2',
                 name: './vendor'
             })
-        ],
-        output: {
-            libraryTarget: 'commonjs',
-            path: path.join(__dirname, './ClientApp/dist')
-        },
-        target: 'node',
-        devtool: 'inline-source-map'
+        ].concat(isDevBuild ? [] : [
+            new AotPlugin({
+                tsConfigPath: './tsconfig.aot.json',
+                entryModule: path.join(__dirname, 'ClientApp/app/app.module.server#AppModuleNode'),
+                exclude: ['./**/*.client.ts']
+            })
+        ]),
     });
 
     return [clientBundleConfig, serverBundleConfig];

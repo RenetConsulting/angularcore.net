@@ -89,7 +89,7 @@
 
 
 		"rimraf": "^2.6.1",
-		"@ngtools/webpack": "1.5.0",
+		"@ngtools/webpack": "1.6.0",
 		"aspnet-webpack": "^2.0.1",
 		"extract-text-webpack-plugin": "^3.0.0",
 		"uglifyjs-webpack-plugin": "^0.4.6",
