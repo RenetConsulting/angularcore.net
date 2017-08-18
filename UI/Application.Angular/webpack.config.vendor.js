@@ -20,22 +20,28 @@ const treeShakableModules = [
     '@angular/platform-browser',
     '@angular/platform-browser-dynamic',
     '@angular/router',
+    'rxjs',
     'zone.js',
 ];
 const nonTreeShakableModules = [
-    'bootstrap',
     'bootstrap/dist/css/bootstrap.css',
+    "font-awesome/css/font-awesome.css",
+
+    'bootstrap',
     'es6-promise',
     'es6-shim',
     'event-source-polyfill',
     'jquery',
-    "tether",
-    "font-awesome/css/font-awesome.css"
+    "popper.js",
 ];
-const allModules = treeShakableModules.concat(nonTreeShakableModules);
+
 
 module.exports = (env) => {
     const isDevBuild = !(env && env.prod);
+    const allModules = []
+        .concat((isDevBuild) ? treeShakableModules : [])
+        .concat(nonTreeShakableModules);
+
     const sharedConfig = {
         stats: { modules: false },
         resolve: { extensions: ['.js'] },
@@ -50,12 +56,13 @@ module.exports = (env) => {
             library: '[name]_[hash]'
         },
         plugins: [
-            new webpack.optimize.ModuleConcatenationPlugin(), // webpack 3
+            //new webpack.optimize.ModuleConcatenationPlugin(), // webpack 3
             new webpack.NoEmitOnErrorsPlugin(),
             new webpack.ProvidePlugin({
                 $: "jquery",
                 jQuery: "jquery",
-                Tether: "tether"
+                'window.jQuery': 'jquery',
+                Popper: ['popper.js', 'default'],
             }), // Maps these identifiers to the jQuery package (because Bootstrap expects it to be a global variable)
             new webpack.ContextReplacementPlugin(/\@angular\b.*\b(bundles|linker)/, path.join(__dirname, './ClientApp')), // Workaround for https://github.com/angular/angular/issues/11580
             new webpack.ContextReplacementPlugin(/angular(\\|\/)core(\\|\/)@angular/, path.join(__dirname, './ClientApp')), // Workaround for https://github.com/angular/angular/issues/14898

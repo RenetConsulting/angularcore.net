@@ -11,10 +11,6 @@ const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const AotPlugin = require('@ngtools/webpack').AotPlugin;
 
-const extractCSSBase = new ExtractTextPlugin({
-    filename: 'base-styles.css',
-    allChunks: true
-});
 const extractCSSMain = new ExtractTextPlugin({
     filename: 'main-styles.css',
     allChunks: true
@@ -27,7 +23,7 @@ const devCSSLoaders = [
     { loader: 'postcss-loader', options: { plugins: [autoprefixerPlugin] } }
 ];
 const prodCSSLoaders = [
-    { loader: 'css-loader', options: { minimize: true, } },
+    { loader: 'css-loader', options: { minimize: true } },
     { loader: 'postcss-loader', options: { plugins: [autoprefixerPlugin] } }
 ];
 
@@ -44,17 +40,8 @@ module.exports = (env) => {
         },
         module: {
             rules: [
-                //{ test: /\.ts$/, include: /ClientApp/, use: ['awesome-typescript-loader?silent=true', 'angular2-template-loader'] },
-                { test: /\.ts$/, include: /ClientApp/, use: isDevBuild ? ['awesome-typescript-loader?silent=true', 'angular2-template-loader'] : '@ngtools/webpack' },
                 { test: /\.html$/, use: 'html-loader?minimize=false' },
                 { test: /\.css$/, include: [/components/], use: ['to-string-loader'].concat((isDevBuild) ? devCSSLoaders : prodCSSLoaders) },
-                {
-                    test: /\.css$/,
-                    exclude: [/main-styles.css$/, /components/],
-                    use: ['to-string-loader'].concat(extractCSSBase.extract({
-                        use: [].concat((isDevBuild) ? devCSSLoaders : prodCSSLoaders)
-                    }))
-                },
                 {
                     test: /\.css$/,
                     include: [/main-styles.css$/],
@@ -63,22 +50,36 @@ module.exports = (env) => {
                         use: [].concat((isDevBuild) ? devCSSLoaders : prodCSSLoaders)
                     }))
                 },
-                { test: /\.(png|jpg|jpeg|gif|svg)$/, use: 'null-loader' } // put png|jpg|jpeg|gif|svg to wwwroot
-            ]
+                {
+                    test: /\.(woff2?|ttf|eot|svg)$/,
+                    use: 'file-loader?name=[path][name].[ext]'
+                },
+                {
+                    test: /\.(png|jpg|jpeg|gif|svg)$/,
+                    use: 'file-loader?name=[path][name].[ext]'
+                }
+            ].concat((isDevBuild) ? [
+                { test: /\.ts$/, include: /ClientApp/, use: ['awesome-typescript-loader?silent=true', 'angular2-template-loader'] },
+            ] : [
+                    { test: /\.ts$/, use: '@ngtools/webpack' },
+                ])
         },
         plugins: [
-            new webpack.optimize.ModuleConcatenationPlugin(), // webpack 3
+            //new webpack.optimize.ModuleConcatenationPlugin(), // webpack 3
             new webpack.NoEmitOnErrorsPlugin(),
             new webpack.DefinePlugin({
                 'isDevelopment': JSON.stringify(isDevBuild),
                 'VERSION': JSON.stringify(new Date().toISOString()),
             }),
             new CheckerPlugin(),
-            extractCSSMain,
-            extractCSSBase
+            extractCSSMain
 
         ].concat(isDevBuild ? [] : [
-            new UglifyjsWebpackPlugin()
+            new UglifyjsWebpackPlugin(),
+            // fixed bugs for production build
+            new webpack.ContextReplacementPlugin(/\@angular\b.*\b(bundles|linker)/, path.join(__dirname, './ClientApp')), // Workaround for https://github.com/angular/angular/issues/11580
+            new webpack.ContextReplacementPlugin(/angular(\\|\/)core(\\|\/)@angular/, path.join(__dirname, './ClientApp')), // Workaround for https://github.com/angular/angular/issues/14898
+            new webpack.IgnorePlugin(/^vertx$/) // Workaround for https://github.com/stefanpenner/es6-promise/issues/100
         ])
     };
 

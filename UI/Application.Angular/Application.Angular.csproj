@@ -1,72 +1,75 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
-    <PreserveCompilationContext>true</PreserveCompilationContext>
-    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
-    <IsPackable>false</IsPackable>
-    <RuntimeFrameworkVersion>1.1.1</RuntimeFrameworkVersion>
-    <PackageTargetFallback>portable-net45+win8</PackageTargetFallback>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>netcoreapp1.1</TargetFramework>
+        <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+        <IsPackable>false</IsPackable>
+        <PackageTargetFallback>portable-net45+win8</PackageTargetFallback>
+        <Version>1.0.0</Version>
+        <FileVersion>1.0.3.0</FileVersion>
+        <AssemblyVersion>1.0.3.0</AssemblyVersion>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Include="..\..\GlobalSuppressions.cs" Link="Properties\GlobalSuppressions.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Business\Application.Business\Application.Business.csproj" />
-    <ProjectReference Include="..\..\DataAccess\Application.DataAccess\Application.DataAccess.csproj" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="1.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="1.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="1.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="1.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="1.1.1" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="1.1.0" />
-    <PackageReference Include="OpenIddict" Version="1.0.0-*" />
-    <PackageReference Include="OpenIddict.Mvc" Version="1.0.0-*" />
-    <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="1.0.0-*" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="1.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="1.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="1.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="1.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.1.0" />
-    <PackageReference Include="System.ValueTuple" Version="4.3.0" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
-  </ItemGroup>
-  
-  <Target Name="RunWebpack" AfterTargets="ComputeFilesToPublish">
-    <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
-    <Exec Command="npm install" />
-    <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js --env.prod" />
-    <Exec Command="node node_modules/webpack/bin/webpack.js --env.prod" />
-
-    <!-- Include the newly-built files in the publish output -->
     <ItemGroup>
-      <DistFiles Include="wwwroot\dist\**; ClientApp\dist\**" />
-      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
-        <RelativePath>%(DistFiles.Identity)</RelativePath>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </ResolvedFileToPublish>
+        <ProjectReference Include="..\..\Business\Application.Business\Application.Business.csproj" />
+        <ProjectReference Include="..\..\DataAccess\Application.DataAccess\Application.DataAccess.csproj" />
     </ItemGroup>
-  </Target>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="1.1.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
+        <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="1.1.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="1.1.1" />
+        <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="1.1.0" />
+        <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.1" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="1.1.1" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.1" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="1.1.1" />
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.1" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.1" />
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="1.1.1" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.0" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="1.1.0" />
+        <PackageReference Include="OpenIddict" Version="1.0.0-*" />
+        <PackageReference Include="OpenIddict.Mvc" Version="1.0.0-*" />
+        <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="1.0.0-*" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="1.1.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="1.1.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="1.1.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="1.1.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.1.0" />
+        <PackageReference Include="System.ValueTuple" Version="4.3.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
+    </ItemGroup>
+
+    <Target Name="RunWebpack" AfterTargets="ComputeFilesToPublish">
+        <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+        <Exec Command="npm install" />
+        <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.polyfills.js --env.prod" />
+        <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js --env.prod" />
+        <Exec Command="node node_modules/webpack/bin/webpack.js --env.prod" />
+
+        <!-- Include the newly-built files in the publish output -->
+        <ItemGroup>
+            <DistFiles Include="wwwroot\dist\**; ClientApp\dist\**" />
+            <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+                <RelativePath>%(DistFiles.Identity)</RelativePath>
+                <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+            </ResolvedFileToPublish>
+        </ItemGroup>
+    </Target>
+
+    <Target Name="CleanDist" AfterTargets="Clean">
+        <ItemGroup>
+            <FilesToDelete Include="ClientApp\dist\**; wwwroot\dist\**" />
+        </ItemGroup>
+        <Delete Files="@(FilesToDelete)" />
+        <RemoveDir Directories="ClientApp\dist; wwwroot\dist" />
+    </Target>
 </Project>

@@ -50,7 +50,7 @@ module.exports = (env) => {
             filename: '[name].js'
         },
         plugins: [
-            new webpack.optimize.ModuleConcatenationPlugin(), // webpack 3
+            //new webpack.optimize.ModuleConcatenationPlugin(), // webpack 3
             new webpack.NoEmitOnErrorsPlugin(),
             // has bug https://stackoverflow.com/questions/44781415/angular-build-breaks-when-using-prod-flag
             new UglifyjsWebpackPlugin({
