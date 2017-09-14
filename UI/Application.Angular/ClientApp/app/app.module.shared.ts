@@ -9,7 +9,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 
 declare var isDevelopment: any;
@@ -24,6 +24,7 @@ export function VERSIONFactory() {
 
 @NgModule({
     imports: [
+		BrowserModule.withServerTransition({ appId: 'appId' }),
         CommonModule,
         HttpModule
     ],

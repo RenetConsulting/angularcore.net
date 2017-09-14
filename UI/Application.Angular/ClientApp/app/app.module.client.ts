@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './components/components';
 import { AppModule } from './app.module';
 
@@ -18,7 +17,6 @@ export function getOriginUrl(): string {
 @NgModule({
 	bootstrap: [AppComponent],
 	imports: [
-		BrowserModule.withServerTransition({ appId: 'appId' }),
 		AppModule
 	],
 	providers: [
