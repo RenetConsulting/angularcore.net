@@ -1,19 +1,22 @@
-﻿namespace Application.Angular.Controllers
+﻿namespace Application.Controllers
 {
     using System.Threading.Tasks;
+    using Application;
     using Application.Business;
     using Application.Business.Models;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Enums;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Options;
 
     [Route("api/[controller]")]
-    public abstract class ApplicationController<TModel, TEntity> : Controller
+    public abstract class ApplicationController<TModel, TEntity> : BaseController
          where TEntity : ApplicationEntity
          where TModel : ApplicationModel, IEntityModel<TEntity>, new()
     {
-        public ApplicationController(IEntityManagement<TEntity> entityManagement)
+        public ApplicationController(IEntityManagement<TEntity> entityManagement, IOptions<AppSettings> appSettings)
+            : base(appSettings)
         {
             this.EntityManagement = entityManagement;
         }

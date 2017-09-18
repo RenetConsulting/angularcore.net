@@ -1,6 +1,7 @@
-﻿namespace Application.Angular
+﻿namespace Application
 {
     using System;
+    using System.IO;
     using Application.DataAccess;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Repositories;
@@ -34,16 +35,30 @@
 
         private IHostingEnvironment Environment { get; set; }
 
+        public static void Main(string[] args)
+        {
+            var host = new WebHostBuilder()
+                .UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseIISIntegration()
+                .UseStartup<Startup>()
+                .Build();
+
+            host.Run();
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<AppSettings>(this.Configuration.GetSection("AppSettings"));
+
             // Add Entity Framework with OpenIdDict
             services.AddEntityFramework()
                 .AddEntityFrameworkSqlServer()
                 .AddDbContext<DataContext>(
                     options =>
                     {
-                        options.UseSqlServer(this.Configuration["Data:ConnectionString"], o => o.MigrationsAssembly("Application.Angular"));
+                        options.UseSqlServer(this.Configuration["Data:ConnectionString"], o => o.MigrationsAssembly("Application"));
                         options.UseOpenIddict();
                     },
                     ServiceLifetime.Scoped);
@@ -151,6 +166,17 @@
                     name: "spa-fallback",
                     defaults: new { controller = "Home", action = "Index" });
             });
+
+            // Create DB on startup
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                using (var context = serviceScope.ServiceProvider.GetService<DataContext>())
+                {
+                    context.Database.Migrate();
+                    int result = context.Initialize().Result;
+                    loggerFactory.CreateLogger("DataBase").LogInformation("Database initialized with {0} records", result);
+                }
+            }
         }
 
         private void RegisterOpenIddictServices(IServiceCollection services)

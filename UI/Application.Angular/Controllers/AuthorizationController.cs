@@ -1,4 +1,4 @@
-﻿namespace Application.Angular.Controllers
+﻿namespace Application.Controllers
 {
     using System.Diagnostics;
     using System.Linq;

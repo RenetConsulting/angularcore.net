@@ -18,6 +18,8 @@
         {
         }
 
+        public virtual DbSet<CompleteMigration> CompleteMigrations { get; set; }
+
         public virtual DbSet<UserAcceptedTerm> UserAcceptedTerms { get; set; }
 
         public virtual DbSet<TermsOfService> TermsOfServices { get; set; }

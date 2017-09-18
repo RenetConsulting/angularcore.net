@@ -1,61 +1,60 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputType>Library</OutputType>
-  </PropertyGroup>
+    <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <OutputType>Library</OutputType>
+    </PropertyGroup>
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <PropertyGroup>
+        <TargetFramework>netcoreapp1.1</TargetFramework>
+        <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+        <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+        <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+        <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+        <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+        <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+        <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+        <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+        <NeutralLanguage>en-US</NeutralLanguage>
+        <ApplicationIcon />
+        <OutputTypeEx>library</OutputTypeEx>
+        <StartupObject />
+    </PropertyGroup>
 
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
-    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
-    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-    <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
-    <NeutralLanguage>en-US</NeutralLanguage>
-    <ApplicationIcon />
-    <OutputTypeEx>library</OutputTypeEx>
-    <StartupObject />
-  </PropertyGroup>
+    <ItemGroup>
+        <ExcludeFromStyleCop Include="$(IntermediateOutputPath)\**\*.cs">
+            <Visible>False</Visible>
+        </ExcludeFromStyleCop>
+    </ItemGroup>
 
-  <ItemGroup>
-    <ExcludeFromStyleCop Include="$(IntermediateOutputPath)\**\*.cs">
-      <Visible>False</Visible>
-    </ExcludeFromStyleCop>
-  </ItemGroup>
-    
-  <ItemGroup>
-    <Compile Remove="Coverage\**" />
-    <EmbeddedResource Remove="Coverage\**" />
-    <None Remove="Coverage\**" />
-    <None Remove="Coverage.xml" />
-  </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="Coverage\**" />
+        <EmbeddedResource Remove="Coverage\**" />
+        <None Remove="Coverage\**" />
+        <None Remove="Coverage.xml" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Compile Include="..\..\GlobalAssemblyInfo.cs" Link="Properties\GlobalAssemblyInfo.cs" />
-    <Compile Include="..\..\GlobalSuppressions.cs" Link="Properties\GlobalSuppressions.cs" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
-    <PackageReference Include="OpenCover" Version="4.6.519" />
-    <PackageReference Include="ReportGenerator" Version="2.5.8" />
-    <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
-    <PackageReference Include="Moq" Version="4.7.8" />
-    <PackageReference Include="xunit" Version="2.2.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="1.1.1" />
-  </ItemGroup>
+    <ItemGroup>
+        <Compile Include="..\..\GlobalAssemblyInfo.cs" Link="Properties\GlobalAssemblyInfo.cs" />
+        <Compile Include="..\..\GlobalSuppressions.cs" Link="Properties\GlobalSuppressions.cs" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Application.DataAccess\Application.DataAccess.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
+        <PackageReference Include="OpenCover" Version="4.6.519" />
+        <PackageReference Include="ReportGenerator" Version="2.5.8" />
+        <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
+        <PackageReference Include="Moq" Version="4.7.8" />
+        <PackageReference Include="xunit" Version="2.2.0" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="1.1.2" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
-  </ItemGroup>
-  
+    <ItemGroup>
+        <ProjectReference Include="..\Application.DataAccess\Application.DataAccess.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+    </ItemGroup>
+
 </Project>
