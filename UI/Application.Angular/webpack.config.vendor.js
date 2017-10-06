@@ -56,7 +56,7 @@ module.exports = (env) => {
             library: '[name]_[hash]'
         },
         plugins: [
-            //new webpack.optimize.ModuleConcatenationPlugin(), // webpack 3
+            new webpack.optimize.ModuleConcatenationPlugin(), // webpack 3
             new webpack.NoEmitOnErrorsPlugin(),
             new webpack.ProvidePlugin({
                 $: "jquery",

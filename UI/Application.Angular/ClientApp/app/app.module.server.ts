@@ -10,4 +10,4 @@ import { AppModule } from './app.module';
 		AppModule
 	]
 })
-export class AppModuleNode { }
+export class AppModuleServer { }

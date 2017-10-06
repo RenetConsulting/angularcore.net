@@ -28,19 +28,21 @@ namespace Application.Controllers
 
         public async Task<IActionResult> BuildPage(string unencodedPathAndQuery)
         {
-            var nodeServices = this.Request.HttpContext.RequestServices.GetRequiredService<INodeServices>();
-            var hostEnv = this.Request.HttpContext.RequestServices.GetRequiredService<IHostingEnvironment>();
+            INodeServices nodeServices = this.Request.HttpContext.RequestServices.GetRequiredService<INodeServices>();
+            IHostingEnvironment hostEnv = this.Request.HttpContext.RequestServices.GetRequiredService<IHostingEnvironment>();
 
-            var applicationBasePath = hostEnv.ContentRootPath;
-            var unencodedAbsoluteUrl = $"{this.Request.Scheme}://{this.Request.Host}{unencodedPathAndQuery}";
+            string applicationBasePath = hostEnv.ContentRootPath;
+            string unencodedAbsoluteUrl = $"{this.Request.Scheme}://{this.Request.Host}{unencodedPathAndQuery}";
 
             // ** TransferData concept **
             // Here we can pass any Custom Data we want !
 
             // By default we're passing down Cookies, Headers, Host from the Request object here
-            TransferData transferData = new TransferData();
-            transferData.request = this.AbstractHttpContextRequestInfo(this.Request);
-            transferData.thisCameFromDotNET = "Hi Angular it's asp.net :)";
+            TransferData transferData = new TransferData
+            {
+                Request = this.AbstractHttpContextRequestInfo(this.Request),
+                ThisCameFromDotNET = "Hi Angular it's asp.net :)"
+            };
 
             // Add more customData here, add it to the TransferData class
             try
@@ -69,36 +71,41 @@ namespace Application.Controllers
             }
             catch (Exception ex)
             {
+                string input = ex.ToString().Replace("<", "&lt;").Replace(">", "&gt;");
+                string result = "<pre>" + input + "</pre>";
+
+                this.ViewData["SpaHtml"] = result;
             }
 
             return this.View();
         }
 
-        private IRequest AbstractHttpContextRequestInfo(HttpRequest request)
+        private RequestModel AbstractHttpContextRequestInfo(HttpRequest request)
         {
-            IRequest requestSimplified = new IRequest();
-            requestSimplified.cookies = request.Cookies;
-            requestSimplified.headers = request.Headers;
-            requestSimplified.host = request.Host;
-
-            return requestSimplified;
+            RequestModel model = new RequestModel
+            {
+                Cookies = request.Cookies,
+                Headers = request.Headers,
+                Host = request.Host
+            };
+            return model;
         }
     }
 
-    public class IRequest
+    public class RequestModel
     {
-        public object cookies { get; set; }
+        public object Cookies { get; set; }
 
-        public object headers { get; set; }
+        public object Headers { get; set; }
 
-        public object host { get; set; }
+        public object Host { get; set; }
     }
 
     public class TransferData
     {
-        public dynamic request { get; set; }
+        public dynamic Request { get; set; }
 
         // Your data here ?
-        public object thisCameFromDotNET { get; set; }
+        public object ThisCameFromDotNET { get; set; }
     }
 }

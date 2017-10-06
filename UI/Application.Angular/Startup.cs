@@ -167,16 +167,16 @@
                     defaults: new { controller = "Home", action = "Index" });
             });
 
-            // Create DB on startup
-            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            {
-                using (var context = serviceScope.ServiceProvider.GetService<DataContext>())
-                {
-                    context.Database.Migrate();
-                    int result = context.Initialize().Result;
-                    loggerFactory.CreateLogger("DataBase").LogInformation("Database initialized with {0} records", result);
-                }
-            }
+            // // Create DB on startup
+            // using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            // {
+            //    using (var context = serviceScope.ServiceProvider.GetService<DataContext>())
+            //    {
+            //        context.Database.Migrate();
+            //        int result = context.Initialize().Result;
+            //        loggerFactory.CreateLogger("DataBase").LogInformation("Database initialized with {0} records", result);
+            //    }
+            // }
         }
 
         private void RegisterOpenIddictServices(IServiceCollection services)

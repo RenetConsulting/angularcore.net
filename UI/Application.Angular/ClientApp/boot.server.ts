@@ -6,7 +6,7 @@ import 'rxjs/add/operator/first';
 import { enableProdMode } from '@angular/core';
 import { createServerRenderer, BootFuncParams } from 'aspnet-prerendering';
 
-import { AppModuleNode } from './app/app.module.server';
+import { AppModuleServer } from './app/app.module.server';
 import { ngAspnetCoreEngine, IEngineOptions, createTransferScript } from './modules/aspnetcore-engine/index';
 
 enableProdMode();
@@ -16,7 +16,7 @@ export default createServerRenderer((params: BootFuncParams) => {
 	// Platform-server provider configuration
 	const setupOptions: IEngineOptions = {
 		appSelector: '<app></app>',
-		ngModule: AppModuleNode,
+		ngModule: AppModuleServer,
 		request: params,
 		providers: [
 			// Optional - Any other Server providers you want to pass (remember you'll have to provide them for the Browser as well)

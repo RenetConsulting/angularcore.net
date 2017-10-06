@@ -3,12 +3,12 @@ import { Subscription } from 'RxJs/Subscription';
 
 export class ApplicationBase {
 
-	public successMessage: string = null;
-	public errorMessage: string = null;
+	public successMessage: string;
+	public errorMessage: string;
 
-	public routeParams: Subscription;
+	public routerParams: Subscription;
 	public routerEvents: Subscription;
-	public routeQueryParams: Subscription;
+	public routerQueryParams: Subscription;
 
 	constructor() {}
 
@@ -17,7 +17,4 @@ export class ApplicationBase {
 		this.errorMessage = null;
 	};
 
-	test = (...args: Array<any>) => {
-		console.log(args)
-	}
 }

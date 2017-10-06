@@ -65,7 +65,7 @@ module.exports = (env) => {
                 ])
         },
         plugins: [
-            //new webpack.optimize.ModuleConcatenationPlugin(), // webpack 3
+            new webpack.optimize.ModuleConcatenationPlugin(), // webpack 3
             new webpack.NoEmitOnErrorsPlugin(),
             new webpack.DefinePlugin({
                 'isDevelopment': JSON.stringify(isDevBuild),
@@ -86,7 +86,7 @@ module.exports = (env) => {
     // Configuration for client-side bundle suitable for running in browsers
     const clientBundleOutputDir = './wwwroot/dist';
     const clientBundleConfig = merge(sharedConfig, {
-        entry: { 'main-client': './ClientApp/boot-client.ts' },
+        entry: { 'main-client': './ClientApp/boot.browser.ts' },
         output: { path: path.join(__dirname, clientBundleOutputDir) },
         plugins: [
             new webpack.DllReferencePlugin({
@@ -102,7 +102,7 @@ module.exports = (env) => {
         ] : [
                 new AotPlugin({
                     tsConfigPath: './tsconfig.aot.json',
-                    entryModule: path.join(__dirname, 'ClientApp/app/app.module.client#AppModuleBrowser'),
+                    entryModule: path.join(__dirname, 'ClientApp/app/app.module.browser#AppModuleBrowser'),
                     exclude: ['./**/*.server.ts']
                 })
             ])
@@ -111,7 +111,7 @@ module.exports = (env) => {
     // Configuration for server-side (prerendering) bundle suitable for running in Node
     const serverBundleConfig = merge(sharedConfig, {
         resolve: { mainFields: ['main'] },
-        entry: { 'main-server': './ClientApp/boot-server.ts' },
+        entry: { 'main-server': './ClientApp/boot.server.ts' },
         output: {
             libraryTarget: 'commonjs',
             path: path.join(__dirname, './ClientApp/dist')
@@ -128,7 +128,7 @@ module.exports = (env) => {
         ].concat(isDevBuild ? [] : [
             new AotPlugin({
                 tsConfigPath: './tsconfig.aot.json',
-                entryModule: path.join(__dirname, 'ClientApp/app/app.module.server#AppModuleNode'),
+                entryModule: path.join(__dirname, 'ClientApp/app/app.module.server#AppModuleServer'),
                 exclude: ['./**/*.client.ts']
             })
         ]),
