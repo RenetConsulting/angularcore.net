@@ -24,7 +24,7 @@ export function VERSIONFactory() {
 
 @NgModule({
     imports: [
-		BrowserModule.withServerTransition({ appId: 'appId' }),
+        BrowserModule.withServerTransition({ appId: 'appId' }),
         CommonModule,
         HttpModule
     ],
