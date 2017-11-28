@@ -9,3 +9,9 @@ Prerequisite:
 - OpenCover - Installed via Nuget (See: https://github.com/OpenCover/opencover/) PM> Install-Package OpenCover -Version 4.6.519
 - ReportGenerator - Installed via Nuget (See: https://github.com/danielpalme/ReportGenerator) PM> Install-Package ReportGenerator -Version 2.5.8
 - Node.js  (See: https://nodejs.org/en/)
+
+Note:
+- Add     DebugType: full into the PropertyGroup of the source test project.
+  <PropertyGroup>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
