@@ -11,7 +11,7 @@ Prerequisite:
 - Node.js  (See: https://nodejs.org/en/)
 
 Note:
-- Add     DebugType: full into the PropertyGroup of the source test project.
-  <PropertyGroup>
-    <DebugType>full</DebugType>
-  </PropertyGroup>
+- Add     DebugType: full into the PropertyGroup of the source test project.<br/>
+  &lt;PropertyGroup&gt;<br/>
+    &lt;DebugType&gt;full&lt;/DebugType&gt;<br/>
+  &lt;/PropertyGroup&gt;<br/>
