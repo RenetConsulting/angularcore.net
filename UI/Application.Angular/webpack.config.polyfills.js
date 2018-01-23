@@ -1,7 +1,3 @@
-/*
-In the DOS prompt run:
-	webpack --config webpack.config.polyfills.js
-*/
 const path = require('path');
 const webpack = require('webpack');
 const UglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin');
@@ -21,10 +17,8 @@ const polyfills = [
     'core-js/es6/map',
     'core-js/es6/weak-map',
     'core-js/es6/set',
-
     'core-js/es6/reflect',
     'core-js/es7/reflect',
-
     'core-js/client/shim.min.js',
     'classlist.js/classList.min.js',
     'intl',
@@ -50,13 +44,16 @@ module.exports = (env) => {
             filename: '[name].js'
         },
         plugins: [
-            //new webpack.optimize.ModuleConcatenationPlugin(), // webpack 3
+            new webpack.optimize.ModuleConcatenationPlugin(), // webpack 3
             new webpack.NoEmitOnErrorsPlugin(),
             // has bug https://stackoverflow.com/questions/44781415/angular-build-breaks-when-using-prod-flag
             new UglifyjsWebpackPlugin({
-                compress: false,
-                mangle: false,
-                comments: false
+                cache: false,
+                uglifyOptions: {
+                    compress: false,
+                    mangle: false,
+                    comments: false
+                }
             })
         ]
     };

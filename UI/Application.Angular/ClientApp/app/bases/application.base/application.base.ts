@@ -1,11 +1,9 @@
-//
 import { Subscription } from 'RxJs/Subscription';
 
 export class ApplicationBase {
 
 	public successMessage: string;
 	public errorMessage: string;
-
 	public routerParams: Subscription;
 	public routerEvents: Subscription;
 	public routerQueryParams: Subscription;
@@ -16,5 +14,4 @@ export class ApplicationBase {
 		this.successMessage = null;
 		this.errorMessage = null;
 	};
-
 }

@@ -1,21 +1,23 @@
 import { NgModule } from '@angular/core';
 import { AppComponent } from './components/components';
-import { AppModule } from './app.module';
+import { AppBaseModule } from './app.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import 'jquery';
 import 'bootstrap';
 
-export function getOriginUrl(): string {
-    let url: string = '/';
+export function originUrlFactory(): string {
+    let url: string = null;
     if (typeof window != 'undefined') {
-        // IE9 support
-        url = window.location.protocol + "//" + window.location.hostname + ((window.location.port) ? ':' + window.location.port : '');
+        url = window.location.origin
+        if (url == null) {
+            // fixed bug for IE9 support
+            url = window.location.protocol + "//" + window.location.hostname + ((window.location.port) ? ':' + window.location.port : '')
+        }
     }
     return url;
 }
 
-export function getWindow() {
+export function windowFactory() {
     if (typeof window != 'undefined') {
         return window;
     }
@@ -25,13 +27,13 @@ export function getWindow() {
 @NgModule({
     bootstrap: [AppComponent],
     imports: [
-        AppModule,
+        AppBaseModule,
         BrowserAnimationsModule
     ],
     providers: [
-        { provide: 'ORIGIN_URL', useFactory: (getOriginUrl) },
+        { provide: 'ORIGIN_URL', useFactory: (originUrlFactory) },
         { provide: 'isBrowser', useValue: true },
-        { provide: 'WINDOW', useFactory: (getWindow) },
+        { provide: 'WINDOW', useFactory: (windowFactory) },
     ]
 })
-export class AppModuleBrowser { }
+export class AppModule { }

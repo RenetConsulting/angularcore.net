@@ -1,7 +1,3 @@
-/*
-In the DOS prompt run:
-	webpack
-*/
 const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
@@ -102,7 +98,7 @@ module.exports = (env) => {
         ] : [
                 new AotPlugin({
                     tsConfigPath: './tsconfig.aot.json',
-                    entryModule: path.join(__dirname, 'ClientApp/app/app.module.browser#AppModuleBrowser'),
+                    entryModule: path.join(__dirname, 'ClientApp/app/app.module.browser#AppModule'),
                     exclude: ['./**/*.server.ts']
                 })
             ])
@@ -128,8 +124,8 @@ module.exports = (env) => {
         ].concat(isDevBuild ? [] : [
             new AotPlugin({
                 tsConfigPath: './tsconfig.aot.json',
-                entryModule: path.join(__dirname, 'ClientApp/app/app.module.server#AppModuleServer'),
-                exclude: ['./**/*.client.ts']
+                entryModule: path.join(__dirname, 'ClientApp/app/app.module.server#AppModule'),
+                exclude: ['./**/*.browser.ts']
             })
         ]),
     });

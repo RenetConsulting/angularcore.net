@@ -1,7 +1,6 @@
-//
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { BaseSharedModule } from './app.module.shared';
+import { AppSharedModule } from './app.module.shared';
 import { ROUTES } from './app.routes';
 
 import './rx-imports';
@@ -16,10 +15,7 @@ import {
     NotFoundComponent
 } from './components/components';
 
-import { LinkService } from './services/services';
-
-//import { } from './directives/directives';
-//import { } from './pipes/pipes';
+import { MetadataService } from './services/services';
 
 const COMPONENTS = [
     AppComponent,
@@ -31,7 +27,7 @@ const COMPONENTS = [
 ];
 
 const PROVIDERS = [
-    LinkService
+    MetadataService
 ];
 
 const DIRECTIVES = [];
@@ -40,7 +36,7 @@ const PIPES = [];
 
 const MODULES = [
     RouterModule.forRoot(ROUTES),
-    BaseSharedModule,
+    AppSharedModule,
 ];
 
 
@@ -58,4 +54,4 @@ const MODULES = [
         ...PROVIDERS
     ]
 })
-export class AppModule { }
+export class AppBaseModule { }

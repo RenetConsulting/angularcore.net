@@ -1,3 +1,1 @@
-﻿//
-export { ApplicationBase } from './application';
-export { PageBase } from './page';
+﻿export { ApplicationBase } from './application.base/application.base';

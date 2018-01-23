@@ -1,7 +1,3 @@
-/*
-In the DOS prompt run:
-	webpack --config webpack.config.vendor.js
-*/
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -23,10 +19,9 @@ const treeShakableModules = [
     'rxjs',
     'zone.js',
 ];
+
 const nonTreeShakableModules = [
     'bootstrap/dist/css/bootstrap.css',
-    "font-awesome/css/font-awesome.css",
-
     'bootstrap',
     'es6-promise',
     'es6-shim',
@@ -34,7 +29,6 @@ const nonTreeShakableModules = [
     'jquery',
     "popper.js",
 ];
-
 
 module.exports = (env) => {
     const isDevBuild = !(env && env.prod);

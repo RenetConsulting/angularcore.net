@@ -1,2 +1,1 @@
-﻿//
-export { LinkService } from './link.service';
+﻿export { MetadataService } from './metadata.service/metadata.service';
