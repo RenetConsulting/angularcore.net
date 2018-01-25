@@ -5,16 +5,15 @@
     using System.Threading.Tasks;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Repositories;
+    using AspNet.Security.OpenIdConnect.Extensions;
     using AspNet.Security.OpenIdConnect.Primitives;
+    using AspNet.Security.OpenIdConnect.Server;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using OpenIddict.Core;
     using OpenIddict.Models;
-    using Microsoft.AspNetCore.Http;
-    using AspNet.Security.OpenIdConnect.Server;
-    using Microsoft.AspNetCore.Authentication;
-    using Microsoft.AspNetCore.Http.Authentication;
-    using AspNet.Security.OpenIdConnect.Extensions;
 
     public class AuthorizationController : Controller
     {
@@ -139,8 +138,7 @@
             else if (request.IsRefreshTokenGrantType())
             {
                 // Retrieve the claims principal stored in the refresh token.
-                var info = await this.HttpContext.Authentication.GetAuthenticateInfoAsync(
-                    OpenIdConnectServerDefaults.AuthenticationScheme);
+                var info = await this.HttpContext.AuthenticateAsync(OpenIdConnectServerDefaults.AuthenticationScheme);
 
                 // Retrieve the user profile corresponding to the refresh token.
                 var user = await this.userManager.GetUserAsync(info.Principal);

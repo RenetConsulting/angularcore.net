@@ -1,6 +1,7 @@
 namespace Application.Controllers
 {
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -51,6 +52,7 @@ namespace Application.Controllers
                 var prerenderResult = await Prerenderer.RenderToString(
                     "/",
                     nodeServices,
+                    default(CancellationToken),
                     new JavaScriptModuleExport(applicationBasePath + "/ClientApp/dist/main-server"),
                     unencodedAbsoluteUrl,
                     unencodedPathAndQuery,

@@ -2,7 +2,7 @@
 {
     using System.Threading.Tasks;
     using Application.DataAccess.Entities;
-    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.Logging;
@@ -20,14 +20,16 @@
         where TUser : ApplicationUser
     {
         public ApplicationSignInManager(
-            UserManager<TUser> userManager, 
+            UserManager<TUser> userManager,
             IHttpContextAccessor contextAccessor,
-            IUserClaimsPrincipalFactory<TUser> claimsFactory, 
+            IUserClaimsPrincipalFactory<TUser> claimsFactory,
             IOptions<IdentityOptions> optionsAccessor,
-            ILogger<SignInManager<TUser>> logger)
-            : base(userManager, contextAccessor, claimsFactory, optionsAccessor, logger)
+            ILogger<SignInManager<TUser>> logger,
+            IAuthenticationSchemeProvider schemeProvider)
+            : base(userManager, contextAccessor, claimsFactory, optionsAccessor, logger, schemeProvider)
         {
         }
+
 
         public CanSignInResult CanSignInResult { get; private set; }
 
