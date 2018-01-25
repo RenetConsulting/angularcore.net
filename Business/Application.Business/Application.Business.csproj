@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-
     <AssemblyName>Application.Business</AssemblyName>
     <PackageId>Application.Business</PackageId>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -17,12 +16,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\DataAccess\Application.DataAccess\Application.DataAccess.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="..\..\GlobalAssemblyInfo.cs" />
-    <Compile Include="..\..\GlobalSuppressions.cs" Link="Properties\GlobalSuppressions.cs" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
+    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
+    <PackageReference Include="Sendgrid" Version="9.9.0" />
+    <PackageReference Include="WindowsAzure.Storage" Version="8.7.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,10 +28,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
-    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
-    <PackageReference Include="Sendgrid" Version="9.9.0" />
-    <PackageReference Include="WindowsAzure.Storage" Version="8.7.0" />
+    <ProjectReference Include="..\..\DataAccess\Application.DataAccess\Application.DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Include="..\..\GlobalAssemblyInfo.cs" />
+    <Compile Include="..\..\GlobalSuppressions.cs" Link="Properties\GlobalSuppressions.cs" />
+  </ItemGroup>
+  
 </Project>

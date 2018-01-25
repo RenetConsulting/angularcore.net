@@ -1,8 +1,13 @@
+// <copyright file="HomeController.cs" company="RenetConsulting Inc.">
+// Copyright (c) RenetConsulting Inc.. All rights reserved.
+// </copyright>
+
 namespace Application.Controllers
 {
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+    using Application.Bussiness.Helpers;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Http.Features;
@@ -92,22 +97,5 @@ namespace Application.Controllers
             };
             return model;
         }
-    }
-
-    public class RequestModel
-    {
-        public object Cookies { get; set; }
-
-        public object Headers { get; set; }
-
-        public object Host { get; set; }
-    }
-
-    public class TransferData
-    {
-        public dynamic Request { get; set; }
-
-        // Your data here ?
-        public object ThisCameFromDotNET { get; set; }
     }
 }

@@ -1,4 +1,8 @@
-﻿namespace Angular.WebApi.Services
+﻿// <copyright file="ApplicationSignInManager.cs" company="RenetConsulting Inc.">
+// Copyright (c) RenetConsulting Inc.. All rights reserved.
+// </copyright>
+
+namespace Angular.WebApi.Services
 {
     using System.Threading.Tasks;
     using Application.DataAccess.Entities;
@@ -29,7 +33,6 @@
             : base(userManager, contextAccessor, claimsFactory, optionsAccessor, logger, schemeProvider)
         {
         }
-
 
         public CanSignInResult CanSignInResult { get; private set; }
 

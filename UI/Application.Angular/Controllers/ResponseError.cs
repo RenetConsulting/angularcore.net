@@ -1,4 +1,8 @@
-﻿namespace Application.Controllers
+﻿// <copyright file="ResponseError.cs" company="RenetConsulting Inc.">
+// Copyright (c) RenetConsulting Inc.. All rights reserved.
+// </copyright>
+
+namespace Application.Controllers
 {
     public class ResponseError<T>
     {

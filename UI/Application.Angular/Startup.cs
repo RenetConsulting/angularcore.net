@@ -1,21 +1,24 @@
-﻿namespace Application
+﻿// <copyright file="Startup.cs" company="RenetConsulting Inc.">
+// Copyright (c) RenetConsulting Inc.. All rights reserved.
+// </copyright>
+
+namespace Application
 {
     using System;
-    using System.Security.Principal;
     using Application.DataAccess;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Repositories;
     using AspNet.Security.OpenIdConnect.Primitives;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.SpaServices.Webpack;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
+    using Microsoft.Net.Http.Headers;
 
     public class Startup
     {
@@ -40,17 +43,6 @@
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<AppSettings>(this.Configuration.GetSection("AppSettings"));
-
-            //// Add Entity Framework with OpenIdDict
-            //services.AddEntityFramework()
-            //    .AddEntityFrameworkSqlServer()
-            //    .AddDbContext<DataContext>(
-            //        options =>
-            //        {
-            //            options.UseSqlServer(this.Configuration["Data:ConnectionString"], o => o.MigrationsAssembly("Application"));
-            //            options.UseOpenIddict();
-            //        },
-            //        ServiceLifetime.Scoped);
 
             services.AddDbContext<DataContext>(options =>
             {
@@ -155,40 +147,36 @@
             loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    string durationInSeconds = "max-age=1209600"; // 60 * 60 * 24 * 14 (days);
+
+                    if (!ctx.File.IsDirectory && !string.IsNullOrEmpty(ctx.File.Name) && ctx.File.Name.EndsWith(".json", System.StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (env.IsDevelopment())
+                        {
+                            durationInSeconds = "max-age=1"; // 1 sec
+                        }
+                        else
+                        {
+                            durationInSeconds = "max-age=360"; // 60 * 6 (min);
+                        }
+                    }
+
+                    if (!ctx.Context.Response.Headers.ContainsKey(HeaderNames.CacheControl))
+                    {
+                        ctx.Context.Response.Headers.Add(HeaderNames.CacheControl, durationInSeconds);
+                    }
+                    else
+                    {
+                        ctx.Context.Response.Headers[HeaderNames.CacheControl] = durationInSeconds;
+                    }
+                }
+            });
 
             app.UseMvc();
-
-            //app.UseStaticFiles(new StaticFileOptions
-            //{
-            //    OnPrepareResponse = ctx =>
-            //    {
-            //        string durationInSeconds = "max-age=1209600"; // 60 * 60 * 24 * 14 (days);
-
-            //        if (!ctx.File.IsDirectory && !string.IsNullOrEmpty(ctx.File.Name) && ctx.File.Name.EndsWith(".json", System.StringComparison.OrdinalIgnoreCase))
-            //        {
-            //            if (env.IsDevelopment())
-            //            {
-            //                durationInSeconds = "max-age=1"; // 1 sec
-            //            }
-            //            else
-            //            {
-            //                durationInSeconds = "max-age=360"; // 60 * 6 (min);
-            //            }
-            //        }
-
-            //        if (!ctx.Context.Response.Headers.ContainsKey(HeaderNames.CacheControl))
-            //        {
-            //            ctx.Context.Response.Headers.Add(HeaderNames.CacheControl, durationInSeconds);
-            //        }
-            //        else
-            //        {
-            //            ctx.Context.Response.Headers[HeaderNames.CacheControl] = durationInSeconds;
-            //        }
-            //    }
-            //});
-
-            
 
             if (env.IsDevelopment())
             {

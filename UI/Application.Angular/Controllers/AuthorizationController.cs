@@ -1,4 +1,8 @@
-﻿namespace Application.Controllers
+﻿// <copyright file="AuthorizationController.cs" company="RenetConsulting Inc.">
+// Copyright (c) RenetConsulting Inc.. All rights reserved.
+// </copyright>
+
+namespace Application.Controllers
 {
     using System.Diagnostics;
     using System.Linq;
@@ -109,21 +113,11 @@
 
                 // Validate T&C
                 string userAcceptedTerms = this.HttpContext.Request.Headers["AcceptedTerms"];
-                bool acceptedTerms;
-                if (!bool.TryParse(userAcceptedTerms, out acceptedTerms))
+
+                if (!bool.TryParse(userAcceptedTerms, out bool acceptedTerms))
                 {
                     acceptedTerms = false;
                 }
-
-                //var userTerms = await this.Repository.GetUserTermsAsync(user.Id, acceptedTerms);
-                //if (userTerms == null)
-                //{
-                //    return this.BadRequest(new OpenIdConnectResponse
-                //    {
-                //        Error = "40004",
-                //        ErrorDescription = "Please accept the new version Term of Service."
-                //    });
-                //}
 
                 if (this.userManager.SupportsUserLockout)
                 {
