@@ -91,7 +91,6 @@
 
             builder.Entity<UserAcceptedTerm>()
                 .HasKey(t => new { t.UserId, t.TermsOfServiceId });
-
         }
 
         private ModelBuilder ApplicationEntityDefaultValueSql<TEntity>(ModelBuilder builder)

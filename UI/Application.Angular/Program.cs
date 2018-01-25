@@ -1,4 +1,8 @@
-﻿namespace Application
+﻿// <copyright file="Program.cs" company="RenetConsulting Inc.">
+// Copyright (c) RenetConsulting Inc.. All rights reserved.
+// </copyright>
+
+namespace Application
 {
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;

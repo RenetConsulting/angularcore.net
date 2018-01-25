@@ -188,6 +188,7 @@
         #endregion
 
         #region GenerateUserPasswordResetTokenAsync
+        [Fact]
         public async Task GenerateUserPasswordResetTokenAsyncTest_Exception_ApplicationUserNull()
         {
             Exception ex = await Assert.ThrowsAsync<ArgumentNullException>(async () => await this.repo.GenerateUserPasswordResetTokenAsync(null as ApplicationUser));
@@ -299,9 +300,11 @@
         public void WhereSelectorTest_AndOrAreNull()
         {
             // the default selection IsActive == True if the object is not supplied
-            List<MockEntity> mockOwners = new List<MockEntity>();
-            mockOwners.Add(new MockEntity { MockEntityId = 1, IsActive = true });
-            mockOwners.Add(new MockEntity { MockEntityId = 2, IsActive = false });
+            List<MockEntity> mockOwners = new List<MockEntity>
+            {
+                new MockEntity { MockEntityId = 1, IsActive = true },
+                new MockEntity { MockEntityId = 2, IsActive = false }
+            };
 
             // Setup Moq
             var mockDbSet = mockOwners.AsDbSetMock();
@@ -320,9 +323,11 @@
         [Fact]
         public void WhereSelectorTest_OrIsNull()
         {
-            List<MockEntity> mockOwners = new List<MockEntity>();
-            mockOwners.Add(new MockEntity { MockEntityId = 1, IsActive = true });
-            mockOwners.Add(new MockEntity { MockEntityId = 2, IsActive = false });
+            List<MockEntity> mockOwners = new List<MockEntity>
+            {
+                new MockEntity { MockEntityId = 1, IsActive = true },
+                new MockEntity { MockEntityId = 2, IsActive = false }
+            };
 
             // Setup Moq
             var mockDbSet = mockOwners.AsDbSetMock();
@@ -344,10 +349,12 @@
         public void WhereSelectorTest_AndHasValuesTheOrIsNull()
         {
             // the default selection IsActive == False as the default for bool == false
-            List<MockEntity> mockOwners = new List<MockEntity>();
-            mockOwners.Add(new MockEntity { MockEntityId = 1, FirstName = "Alex", IsActive = true });
-            mockOwners.Add(new MockEntity { MockEntityId = 2, FirstName = "Alex", IsActive = false });
-            mockOwners.Add(new MockEntity { MockEntityId = 3, FirstName = "Alexander", IsActive = true });
+            List<MockEntity> mockOwners = new List<MockEntity>
+            {
+                new MockEntity { MockEntityId = 1, FirstName = "Alex", IsActive = true },
+                new MockEntity { MockEntityId = 2, FirstName = "Alex", IsActive = false },
+                new MockEntity { MockEntityId = 3, FirstName = "Alexander", IsActive = true }
+            };
 
             // Setup Moq
             var mockDbSet = mockOwners.AsDbSetMock();
