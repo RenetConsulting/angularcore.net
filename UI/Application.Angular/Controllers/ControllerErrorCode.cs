@@ -1,4 +1,8 @@
-﻿namespace Application.Controllers
+﻿// <copyright file="ControllerErrorCode.cs" company="RenetConsulting Inc.">
+// Copyright (c) RenetConsulting Inc.. All rights reserved.
+// </copyright>
+
+namespace Application.Controllers
 {
     using System.ComponentModel;
 

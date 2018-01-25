@@ -1,20 +1,23 @@
-﻿namespace Application.Controllers
+﻿// <copyright file="AuthorizationController.cs" company="RenetConsulting Inc.">
+// Copyright (c) RenetConsulting Inc.. All rights reserved.
+// </copyright>
+
+namespace Application.Controllers
 {
     using System.Diagnostics;
     using System.Linq;
     using System.Threading.Tasks;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Repositories;
+    using AspNet.Security.OpenIdConnect.Extensions;
     using AspNet.Security.OpenIdConnect.Primitives;
+    using AspNet.Security.OpenIdConnect.Server;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using OpenIddict.Core;
     using OpenIddict.Models;
-    using Microsoft.AspNetCore.Http;
-    using AspNet.Security.OpenIdConnect.Server;
-    using Microsoft.AspNetCore.Authentication;
-    using Microsoft.AspNetCore.Http.Authentication;
-    using AspNet.Security.OpenIdConnect.Extensions;
 
     public class AuthorizationController : Controller
     {
@@ -110,21 +113,11 @@
 
                 // Validate T&C
                 string userAcceptedTerms = this.HttpContext.Request.Headers["AcceptedTerms"];
-                bool acceptedTerms;
-                if (!bool.TryParse(userAcceptedTerms, out acceptedTerms))
+
+                if (!bool.TryParse(userAcceptedTerms, out bool acceptedTerms))
                 {
                     acceptedTerms = false;
                 }
-
-                //var userTerms = await this.Repository.GetUserTermsAsync(user.Id, acceptedTerms);
-                //if (userTerms == null)
-                //{
-                //    return this.BadRequest(new OpenIdConnectResponse
-                //    {
-                //        Error = "40004",
-                //        ErrorDescription = "Please accept the new version Term of Service."
-                //    });
-                //}
 
                 if (this.userManager.SupportsUserLockout)
                 {
@@ -139,8 +132,7 @@
             else if (request.IsRefreshTokenGrantType())
             {
                 // Retrieve the claims principal stored in the refresh token.
-                var info = await this.HttpContext.Authentication.GetAuthenticateInfoAsync(
-                    OpenIdConnectServerDefaults.AuthenticationScheme);
+                var info = await this.HttpContext.AuthenticateAsync(OpenIdConnectServerDefaults.AuthenticationScheme);
 
                 // Retrieve the user profile corresponding to the refresh token.
                 var user = await this.userManager.GetUserAsync(info.Principal);

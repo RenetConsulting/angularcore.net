@@ -1,17 +1,20 @@
-﻿namespace Application
+﻿// <copyright file="Startup.cs" company="RenetConsulting Inc.">
+// Copyright (c) RenetConsulting Inc.. All rights reserved.
+// </copyright>
+
+namespace Application
 {
     using System;
-    using System.IO;
     using Application.DataAccess;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Repositories;
+    using AspNet.Security.OpenIdConnect.Primitives;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.SpaServices.Webpack;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Infrastructure;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
@@ -25,60 +28,93 @@
 
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
+
             this.Configuration = builder.Build();
         }
 
-        public IConfigurationRoot Configuration { get; }
+        public IConfiguration Configuration { get; }
 
         private IHostingEnvironment Environment { get; set; }
-
-        public static void Main(string[] args)
-        {
-            var host = new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
-                .UseStartup<Startup>()
-                .Build();
-
-            host.Run();
-        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<AppSettings>(this.Configuration.GetSection("AppSettings"));
 
-            // Add Entity Framework with OpenIdDict
-            services.AddEntityFramework()
-                .AddEntityFrameworkSqlServer()
-                .AddDbContext<DataContext>(
-                    options =>
-                    {
-                        options.UseSqlServer(this.Configuration["Data:ConnectionString"], o => o.MigrationsAssembly("Application"));
-                        options.UseOpenIddict();
-                    },
-                    ServiceLifetime.Scoped);
+            services.AddDbContext<DataContext>(options =>
+            {
+                // Configure the context to use Microsoft SQL Server.
+                options.UseSqlServer(this.Configuration["Data:ConnectionString"], o => o.MigrationsAssembly("Application"));
 
-            // Add Identity
-            services.AddIdentity<ApplicationUser, IdentityRole>(
-                options =>
-                {
-                    options.Password.RequiredLength = 6;
-                    options.Password.RequireDigit = true;
-                    options.Password.RequireNonAlphanumeric = true;
-                    options.User.RequireUniqueEmail = true;
-                    options.SignIn.RequireConfirmedEmail = true;
-                    options.Lockout.DefaultLockoutTimeSpan = new TimeSpan(0, 3, 0);
-                    options.Lockout.MaxFailedAccessAttempts = 5;
-                })
-              .AddEntityFrameworkStores<DataContext>()
-              .AddDefaultTokenProviders();
+                // Register the entity sets needed by OpenIddict.
+                // Note: use the generic overload if you need
+                // to replace the default OpenIddict entities.
+                options.UseOpenIddict();
+            });
 
-            services.AddAuthentication();
+            // add identity
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
+                .AddEntityFrameworkStores<DataContext>()
+                .AddDefaultTokenProviders();
+
+            // Register the OAuth2 validation handler.
+            services.AddAuthentication()
+                .AddOAuthValidation();
+
+            // Configure Identity to use the same JWT claims as OpenIddict instead
+            // of the legacy WS-Federation claims it uses by default (ClaimTypes),
+            // which saves you from doing the mapping in your authorization controller.
+            services.Configure<IdentityOptions>(options =>
+            {
+                // User settings
+                options.User.RequireUniqueEmail = true;
+
+                // Password settings
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = false;
+
+                // Lockout settings
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+
+                options.ClaimsIdentity.UserNameClaimType = OpenIdConnectConstants.Claims.Name;
+                options.ClaimsIdentity.UserIdClaimType = OpenIdConnectConstants.Claims.Subject;
+                options.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
+            });
+
+            // Register the OpenIddict services.
+            // Note: use the generic overload if you need
+            // to replace the default OpenIddict entities.
+            services.AddOpenIddict(options =>
+            {
+                // Register the Entity Framework stores.
+                options.AddEntityFrameworkCoreStores<DataContext>();
+
+                // Register the ASP.NET Core MVC binder used by OpenIddict.
+                // Note: if you don't call this method, you won't be able to
+                // bind OpenIdConnectRequest or OpenIdConnectResponse parameters.
+                options.AddMvcBinders();
+
+                // Enable the token endpoint (required to use the password flow).
+                options.EnableTokenEndpoint("/connect/token");
+
+                // Allow client applications to use the grant_type=password flow.
+                options.AllowPasswordFlow();
+
+                // Allow client applications to use the grant_type=resfresh_token flow.
+                options.AllowRefreshTokenFlow();
+
+                // During development, you can disable the HTTPS requirement.
+                options.DisableHttpsRequirement();
+
+                options.UseRollingTokens();
+            });
 
             // Add framework services.
             services.AddMvc().AddJsonOptions(options =>
@@ -111,8 +147,6 @@
             loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseMvc();
-
             app.UseStaticFiles(new StaticFileOptions
             {
                 OnPrepareResponse = ctx =>
@@ -141,6 +175,8 @@
                     }
                 }
             });
+
+            app.UseMvc();
 
             if (env.IsDevelopment())
             {

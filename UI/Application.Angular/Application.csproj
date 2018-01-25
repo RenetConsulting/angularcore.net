@@ -1,89 +1,82 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-    <PropertyGroup>
-        <TargetFramework>netcoreapp1.1</TargetFramework>
-        <PreserveCompilationContext>true</PreserveCompilationContext>
-        <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
-        <IsPackable>false</IsPackable>
-        <RuntimeFrameworkVersion>1.1.1</RuntimeFrameworkVersion>
-        <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6;portable-net45+win8+wp8+wpa81</PackageTargetFallback>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\..\Business\Application.Business\Application.Business.csproj" />
-        <ProjectReference Include="..\..\DataAccess\Application.DataAccess\Application.DataAccess.csproj" />
-    </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;1705;SA1652</NoWarn>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
-        <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+    <PackageReference Include="AspNet.Security.OAuth.Validation" Version="2.0.0-rc1-final" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" PrivateAssets="All" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.1" />
+    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
+    <PackageReference Include="Sendgrid" Version="9.9.0" />
+    <PackageReference Include="WindowsAzure.Storage" Version="8.7.0" />
+    <PackageReference Include="AspNet.Security.OAuth.Validation" Version="2.0.0-*" />
+    <PackageReference Include="OpenIddict" Version="2.0.0-*" />
+    <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="2.0.0-*" />
+    <PackageReference Include="OpenIddict.Mvc" Version="2.0.0-*" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
-        <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="1.1.2" />
-        <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.3" />
-        <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="1.1.2" />
-        <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="1.1.2" />
-        <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="1.1.1" />
-        <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.2" />
-        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="1.1.2" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="1.1.2" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.2" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="1.1.2" />
-        <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.2" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.2" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.2" />
-        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="1.1.2" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="1.1.2" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="1.1.2" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.2" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="1.1.2" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.1.1" />
-        <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.0" />
-        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="1.1.0" />
-        <PackageReference Include="System.ValueTuple" Version="4.3.1" />
-        <PackageReference Include="Sendgrid" Version="9.4.1" />
-        <PackageReference Include="WindowsAzure.Storage" Version="8.1.1" />
-        <PackageReference Include="OpenIddict" Version="1.0.0-*" />
-        <PackageReference Include="OpenIddict.Mvc" Version="1.0.0-*" />
-        <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="1.0.0-*" />
-    </ItemGroup>
-    
-    <!--/-:cnd:noEmit -->
-    <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
-        <!-- In development, the dist files won't exist on the first run or when cloning to
+  <ItemGroup>
+    <ProjectReference Include="..\..\Business\Application.Business\Application.Business.csproj" />
+    <ProjectReference Include="..\..\DataAccess\Application.DataAccess\Application.DataAccess.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Files not to publish (note that the 'dist' subfolders are re-added below) -->
+    <Content Remove="ClientApp\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
+  </ItemGroup>
+
+  <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
+    <!-- Ensure Node.js is installed -->
+    <Exec Command="node --version" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+
+    <!-- In development, the dist files won't exist on the first run or when cloning to
          a different machine, so rebuild them if not already present. -->
-        <Message Importance="high" Text="Performing first-run Webpack build..." />
-        <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.polyfills.js" />
-        <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js" />
-        <Exec Command="node node_modules/webpack/bin/webpack.js" />
-    </Target>
-    <!--/+:cnd:noEmit -->
+    <Message Importance="high" Text="Performing first-run Webpack build..." />
+    <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js" />
+    <Exec Command="node node_modules/webpack/bin/webpack.js" />
+  </Target>
 
-    <Target Name="RunWebpack" AfterTargets="ComputeFilesToPublish">
-        <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
-        <Exec Command="npm install" />
-        <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.polyfills.js --env.prod" />
-        <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js --env.prod" />
-        <Exec Command="node node_modules/webpack/bin/webpack.js --env.prod" />
+  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+    <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+    <Exec Command="npm install" />
+    <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js --env.prod" />
+    <Exec Command="node node_modules/webpack/bin/webpack.js --env.prod" />
 
-        <!-- Include the newly-built files in the publish output -->
-        <ItemGroup>
-            <DistFiles Include="wwwroot\dist\**; ClientApp\dist\**" />
-            <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
-                <RelativePath>%(DistFiles.Identity)</RelativePath>
-                <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-            </ResolvedFileToPublish>
-        </ItemGroup>
-    </Target>
-
-    <Target Name="CleanDist" AfterTargets="Clean">
-        <ItemGroup>
-            <FilesToDelete Include="ClientApp\dist\**; wwwroot\dist\**" />
-        </ItemGroup>
-        <Delete Files="@(FilesToDelete)" />
-        <RemoveDir Directories="ClientApp\dist; wwwroot\dist" />
-    </Target>
+    <!-- Include the newly-built files in the publish output -->
+    <ItemGroup>
+      <DistFiles Include="wwwroot\dist\**; ClientApp\dist\**" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>%(DistFiles.Identity)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
 
 </Project>

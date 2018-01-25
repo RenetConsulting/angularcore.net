@@ -53,6 +53,5 @@
             Assert.Equal(model.CreatedDate, entity.CreatedDate);
             Assert.Equal(model.UpdatedDate, entity.UpdatedDate);
         }
-
     }
 }

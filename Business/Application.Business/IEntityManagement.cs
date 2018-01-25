@@ -1,9 +1,9 @@
 ﻿namespace Application.Business
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
     using Application.Business.Models;
     using Application.DataAccess.Entities;
-    using System.Diagnostics.CodeAnalysis;
     using Application.DataAccess.Enums;
 
     public interface IEntityManagement<TEntity>
