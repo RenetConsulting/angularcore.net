@@ -88,6 +88,8 @@ namespace Application
                 options.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
             });
 
+            services.AddScoped<IGlobalRepository, GlobalRepository>();
+
             // Register the OpenIddict services.
             // Note: use the generic overload if you need
             // to replace the default OpenIddict entities.
@@ -126,8 +128,6 @@ namespace Application
 
             services.AddNodeServices();
 
-            services.AddScoped<IGlobalRepository, GlobalRepository>();
-
             // Removed SSL for Development
             if (!this.Environment.IsDevelopment())
             {
@@ -137,8 +137,6 @@ namespace Application
                     options.Filters.Add(new RequireHttpsAttribute());
                 });
             }
-
-            this.RegisterOpenIddictServices(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -146,6 +144,21 @@ namespace Application
         {
             loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                {
+                    HotModuleReplacement = true,
+                    HotModuleReplacementEndpoint = "/dist/__webpack_hmr"
+                });
+            }
+            else
+            {
+                // should be before UseMvc
+                app.UseStatusCodePagesWithReExecute("/Home/Error");
+            }
 
             app.UseStaticFiles(new StaticFileOptions
             {
@@ -176,22 +189,6 @@ namespace Application
                 }
             });
 
-            app.UseMvc();
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-                {
-                    HotModuleReplacement = true
-                });
-            }
-            else
-            {
-                // should be before UseMvc
-                app.UseStatusCodePagesWithReExecute("/Home/Error");
-            }
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -213,38 +210,6 @@ namespace Application
             //        loggerFactory.CreateLogger("DataBase").LogInformation("Database initialized with {0} records", result);
             //    }
             // }
-        }
-
-        private void RegisterOpenIddictServices(IServiceCollection services)
-        {
-            // Register the OpenIddict services.
-            var openIddictBuilder = services.AddOpenIddict()
-
-                // Register the Entity Framework stores.
-                .AddEntityFrameworkCoreStores<DataContext>()
-
-                // Register the ASP.NET Core MVC binder used by OpenIddict.
-                // Note: if you don't call this method, you won't be able to
-                // bind OpenIdConnectRequest or OpenIdConnectResponse parameters.
-                .AddMvcBinders()
-
-                // Enable the token endpoint.
-                .EnableTokenEndpoint("/connect/token")
-
-                // Enable the password and the refresh token flows.
-                .AllowPasswordFlow()
-                .AllowRefreshTokenFlow()
-
-                // Register a new ephemeral key, that is discarded when the application
-                // shuts down. Tokens signed using this key are automatically invalidated.
-                // This method should only be used during development.
-                .AddEphemeralSigningKey();
-
-            // Removed SSL for Development
-            if (this.Environment.IsDevelopment())
-            {
-                openIddictBuilder.DisableHttpsRequirement();
-            }
         }
     }
 }
