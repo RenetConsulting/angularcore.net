@@ -22,6 +22,16 @@ const prodCSSLoaders = [
     { loader: 'css-loader', options: { minimize: true } },
     { loader: 'postcss-loader', options: { plugins: [autoprefixerPlugin] } }
 ];
+const devSCSSLoaders = [
+    'css-loader',
+    'sass-loader',
+    { loader: 'postcss-loader', options: { plugins: [autoprefixerPlugin] } }
+];
+const prodSCSSLoaders = [
+    { loader: 'css-loader', options: { minimize: true } },
+    'sass-loader',
+    { loader: 'postcss-loader', options: { plugins: [autoprefixerPlugin] } }
+];
 
 module.exports = (env) => {
     // Configuration in common to both client-side and server-side bundles
@@ -38,12 +48,13 @@ module.exports = (env) => {
             rules: [
                 { test: /\.html$/, use: 'html-loader?minimize=false' },
                 { test: /\.css$/, include: [/components/], use: ['to-string-loader'].concat((isDevBuild) ? devCSSLoaders : prodCSSLoaders) },
+                { test: /\.scss$/, include: [/components/], use: ['to-string-loader'].concat((isDevBuild) ? devSCSSLoaders : prodSCSSLoaders) },
                 {
-                    test: /\.css$/,
-                    include: [/main-styles.css$/],
+                    test: /\.scss$/,
+                    include: [/main-styles.scss$/],
                     exclude: [/components/],
                     use: ['to-string-loader'].concat(extractCSSMain.extract({
-                        use: [].concat((isDevBuild) ? devCSSLoaders : prodCSSLoaders)
+                        use: [].concat((isDevBuild) ? devSCSSLoaders : prodSCSSLoaders)
                     }))
                 },
                 {
@@ -131,4 +142,4 @@ module.exports = (env) => {
     });
 
     return [clientBundleConfig, serverBundleConfig];
-};
+}

@@ -6,7 +6,7 @@ import { MetadataService } from '../../services/services';
 @Component({
     selector: 'app',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css']
+    styleUrls: ['./app.component.scss']
 })
 export class AppComponent extends ApplicationBase implements OnInit, OnDestroy {
 
@@ -20,7 +20,8 @@ export class AppComponent extends ApplicationBase implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        console.log('VERSION', this.VERSION);
+        console.warn('VERSION', this.VERSION);
+        console.warn('LOCAL VERSION', this.VERSION);
 
         this.routerEvents = this.router.events.subscribe((event) => {
             this.metadataService.setMetadata(event, this.activatedRoute.snapshot.firstChild);

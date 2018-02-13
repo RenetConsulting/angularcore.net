@@ -2,7 +2,7 @@
 // Copyright (c) RenetConsulting Inc.. All rights reserved.
 // </copyright>
 
-namespace Angular.WebApi.Services
+namespace Application.Services
 {
     using System.Threading.Tasks;
     using Application.DataAccess.Entities;
