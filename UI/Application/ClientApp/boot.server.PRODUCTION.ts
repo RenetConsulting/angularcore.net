@@ -4,7 +4,8 @@ import 'rxjs/add/operator/first';
 import { enableProdMode } from '@angular/core';
 import { createServerRenderer } from 'aspnet-prerendering';
 import { ngAspnetCoreEngine, IEngineOptions, createTransferScript } from '@nguniversal/aspnetcore-engine';
-import { AppModule } from './app/app.server.module';
+//import { ngAspnetCoreEngine, IEngineOptions, createTransferScript } from './modules/aspnetcore-engine/index';
+const { AppModuleNgFactory } = require('./app/app.server.module.ngfactory'); // <-- ignore this - this is Production only
 
 enableProdMode();
 
@@ -13,7 +14,7 @@ export default createServerRenderer((params) => {
     // Platform-server provider configuration
     const setupOptions: IEngineOptions = {
         appSelector: '<app></app>',
-        ngModule: AppModule,
+        ngModule: AppModuleNgFactory,
         request: params,
         providers: [
             // Optional - Any other Server providers you want to pass

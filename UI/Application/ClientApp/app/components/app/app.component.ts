@@ -22,7 +22,6 @@ export class AppComponent extends ApplicationBase implements OnInit, OnDestroy {
     ngOnInit() {
         console.warn('VERSION', this.VERSION);
         console.warn('LOCAL VERSION', this.VERSION);
-
         this.routerEvents = this.router.events.subscribe((event) => {
             this.metadataService.setMetadata(event, this.activatedRoute.snapshot.firstChild);
         });

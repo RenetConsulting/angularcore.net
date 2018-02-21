@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AppSharedModule } from './app.module.shared';
+import { AppSharedModule } from './app.shared.module';
 import { ROUTES } from './app.routes';
 
 import './rx-imports';
