@@ -1,1 +1,1 @@
-﻿export { MetadataService } from './metadata.service/metadata.service';
+﻿export { MetadataService } from './metadata/metadata.service';
