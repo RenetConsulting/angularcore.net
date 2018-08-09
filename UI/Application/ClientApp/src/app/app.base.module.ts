@@ -6,12 +6,8 @@ import { AppComponent } from "./components/app/app.component";
 import { HomeComponent } from "./components/home/home.component";
 import { NavMenuComponent } from "./components/nav-menu/nav-menu.component";
 import "./rx-imports";
-
-const COMPONENTS = [
-    AppComponent,
-    NavMenuComponent,
-    HomeComponent
-]
+import { LocalStorageService } from "./services/local.storage/local.storage.service";
+import { TokenService } from "./services/token/token.service";
 
 const MODULES = [
     AppSharedModule,
@@ -22,13 +18,26 @@ const MODULES = [
     })
 ]
 
+const PROVIDERS = [
+    TokenService,
+    LocalStorageService
+]
+
+const COMPONENTS = [
+    AppComponent,
+    NavMenuComponent,
+    HomeComponent
+]
+
 @NgModule({
-    declarations: [
-        ...COMPONENTS
-    ],
     imports: [
         ...MODULES
     ],
-    providers: []
+    providers: [
+        ...PROVIDERS
+    ],
+    declarations: [
+        ...COMPONENTS
+    ]
 })
 export class AppBaseModule { }

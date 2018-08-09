@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
-import { Router } from "@angular/router";
 import { Observable } from "rxjs/Observable";
 import { OpenIdConnectRequestModel } from "../../models/open.id.connect.request";
 import { ResponseTokenModel } from "../../models/response.token";
@@ -15,7 +14,6 @@ export class AuthorizationService {
     constructor(
         @Inject("BASE_URL") private baseUrl: string,
         @Inject(HttpClient) private httpClient: HttpClient,
-        @Inject(Router) private router: Router,
         @Inject(TokenService) private tokenService: TokenService,
         @Inject(ToolsService) private toolsService: ToolsService,
         @Inject(HttpHandlerService) private httpHandlerService: HttpHandlerService
@@ -62,10 +60,5 @@ export class AuthorizationService {
         return this.httpClient
             .post(`${this.baseUrl}/api/account/register`, model)
             .catch(this.httpHandlerService.handleError);
-    }
-
-    signout = (): void => {
-        this.tokenService.clean();
-        this.router.navigate(["/sign-in"]);
     }
 }

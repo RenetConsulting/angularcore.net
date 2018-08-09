@@ -1,4 +1,6 @@
-import { Component } from "@angular/core";
+import { Component, Inject } from "@angular/core";
+import { Router } from "@angular/router";
+import { TokenService } from "../../services/token/token.service";
 
 @Component({
     selector: "app-nav-menu",
@@ -9,7 +11,10 @@ export class NavMenuComponent {
 
     isExpanded = false;
 
-    constructor() { }
+    constructor(
+        @Inject(Router) private router: Router,
+        @Inject(TokenService) private tokenService: TokenService
+    ) { }
 
     collapse = (): void => {
         this.isExpanded = false;
@@ -17,5 +22,10 @@ export class NavMenuComponent {
 
     toggle = (): void => {
         this.isExpanded = !this.isExpanded;
+    }
+
+    signout = (): void => {
+        this.tokenService.clean();
+        this.router.navigate(["/sign-in"]);
     }
 }

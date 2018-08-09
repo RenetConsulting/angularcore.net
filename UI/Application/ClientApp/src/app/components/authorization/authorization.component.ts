@@ -21,9 +21,6 @@ export class AuthorizationComponent extends FormBase implements OnInit {
         @Inject(Router) public router: Router
     ) {
         super();
-        if (typeof window != "undefined") {
-            window["AuthorizationComponent"] = this;
-        }
     }
 
     ngOnInit(): void {
