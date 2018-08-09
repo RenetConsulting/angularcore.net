@@ -1,4 +1,5 @@
 import { CommonModule } from "@angular/common";
+import { HttpClientModule } from "@angular/common/http";
 import { NgModule, isDevMode } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 
@@ -18,7 +19,8 @@ export function VERSIONFactory() {
 
 @NgModule({
     imports: [
-        BrowserModule.withServerTransition({ appId: "ng-cli-universal" })
+        BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
+        HttpClientModule
     ],
     exports: [
         CommonModule
@@ -27,7 +29,7 @@ export function VERSIONFactory() {
         { provide: "isBrowser", useValue: null },
         { provide: "WINDOW", useFactory: (WINDOWFactory) },
         { provide: "isDevelopment", useFactory: (isDevelopmentFactory) },
-        { provide: "VERSION", useFactory: (VERSIONFactory) },
+        { provide: "VERSION", useFactory: (VERSIONFactory) }
     ]
 })
 export class AppSharedModule { }

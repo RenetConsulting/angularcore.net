@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
 import { FormBase } from "../../bases/form.base";
-import { UserModel } from "../../models/user";
+import { UserModel } from "../../models/user.model";
 import { AuthorizationService } from "../../services/authorization/authorization.service";
 
 @Component({

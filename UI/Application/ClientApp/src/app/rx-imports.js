@@ -14,6 +14,7 @@ import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/timeout';
 import 'rxjs/add/operator/merge';
 import 'rxjs/add/operator/publish';
+import 'rxjs/add/operator/concatMap';
 
 // Observable operators
 import 'rxjs/add/observable/fromEvent';

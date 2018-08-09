@@ -1,6 +1,6 @@
-import { BaseModel } from "./base";
+import { BaseModel } from "./base.model";
 
-export class ResponseTokenModel extends BaseModel {
+export class TokenModel extends BaseModel {
 
     public access_token: string = null;
     public refresh_token: string = null;
@@ -9,7 +9,7 @@ export class ResponseTokenModel extends BaseModel {
     public token_type: string = null;
     public auth_time: string = null;
 
-    constructor(model?: ResponseTokenModel) {
+    constructor(model?: TokenModel) {
         super();
         this.setModel(model);
     }

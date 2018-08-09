@@ -1,4 +1,5 @@
-import { NgModule } from "@angular/core";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { Injector, NgModule, Provider } from "@angular/core";
 import { PreloadAllModules, RouterModule } from "@angular/router";
 import { ROUTES } from "./app.routes";
 import { AppSharedModule } from "./app.shared.module";
@@ -6,8 +7,12 @@ import { AppComponent } from "./components/app/app.component";
 import { HomeComponent } from "./components/home/home.component";
 import { NavMenuComponent } from "./components/nav-menu/nav-menu.component";
 import "./rx-imports";
+import { AuthorizationService } from "./services/authorization/authorization.service";
+import { HttpAuthorizationInterceptor } from "./services/http.authorization.interceptor/http.authorization.interceptor";
+import { HttpHandlerService } from "./services/http.handler/http.handler.service";
 import { LocalStorageService } from "./services/local.storage/local.storage.service";
 import { TokenService } from "./services/token/token.service";
+import { ToolsService } from "./services/tools/tools.service";
 
 const MODULES = [
     AppSharedModule,
@@ -18,9 +23,13 @@ const MODULES = [
     })
 ]
 
-const PROVIDERS = [
+const PROVIDERS: Array<Provider> = [
+    AuthorizationService,
+    HttpHandlerService,
+    LocalStorageService,
     TokenService,
-    LocalStorageService
+    ToolsService,
+    { provide: HTTP_INTERCEPTORS, useClass: HttpAuthorizationInterceptor, deps: [Injector], multi: true }
 ]
 
 const COMPONENTS = [

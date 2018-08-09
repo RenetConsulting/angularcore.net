@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs/Observable";
-import { OpenIdConnectRequestModel } from "../../models/open.id.connect.request";
-import { ResponseTokenModel } from "../../models/response.token";
-import { UserModel } from "../../models/user";
+import { OpenIdConnectRequestModel } from "../../models/open.id.connect.request.model";
+import { TokenModel } from "../../models/token.model";
+import { UserModel } from "../../models/user.model";
 import { HttpHandlerService } from "../http.handler/http.handler.service";
 import { TokenService } from "../token/token.service";
 import { ToolsService } from "../tools/tools.service";
@@ -25,16 +25,16 @@ export class AuthorizationService {
         return result;
     }
 
-    private getToken = (request: OpenIdConnectRequestModel): Observable<ResponseTokenModel> => {
+    getToken = (request: OpenIdConnectRequestModel, headers?: { [key: string]: string }): Observable<TokenModel> => {
         const body: string = this.toolsService.getQueryString(request).replace(/^\?/, "");
         const options = {
             headers: new HttpHeaders({
-                "Content-Type": "application/x-www-form-urlencoded",
-                "AllowAnonymous": "true"
+                ...headers,
+                "Content-Type": "application/x-www-form-urlencoded"
             })
         };
         return this.httpClient
-            .post<ResponseTokenModel>(`${this.baseUrl}/connect/token`, body, options)
+            .post<TokenModel>(`${this.baseUrl}/connect/token`, body, options)
             .map((success) => {
                 this.tokenService.clean();
                 this.tokenService.token = success;
@@ -46,7 +46,7 @@ export class AuthorizationService {
             });
     }
 
-    signin = (model: UserModel): Observable<ResponseTokenModel> => {
+    signin = (model: UserModel): Observable<TokenModel> => {
         const request = new OpenIdConnectRequestModel({
             grant_type: "password",
             scope: "offline_access",
