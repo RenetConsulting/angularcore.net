@@ -1,32 +1,25 @@
-import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
-import { PreloadAllModules, RouterModule } from '@angular/router';
-import { ROUTES } from './app.routes';
-import { AppComponent } from './app/app.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
-import { HomeComponent } from './home/home.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
+import { NgModule } from "@angular/core";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations"; // this is needed! 
+import { AppBaseModule } from "./app.base.module";
+import { AppComponent } from "./app/app.component";
+
+export function BASE_URLFactory(): string {
+    let url: string = null;
+    if (typeof window != "undefined") {
+        url = window.location.protocol + "//" + window.location.hostname + ((window.location.port) ? ":" + window.location.port : "");
+    }
+    return url;
+};
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        NavMenuComponent,
-        HomeComponent,
-        FetchDataComponent
-    ],
     imports: [
-        BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-        HttpClientModule,
-        FormsModule,
-        RouterModule.forRoot(ROUTES, {
-                useHash: false,
-                preloadingStrategy: PreloadAllModules,
-                initialNavigation: 'enabled'
-            })
+        BrowserAnimationsModule,
+        AppBaseModule
     ],
-    providers: [],
+    providers: [
+        { provide: "isBrowser", useValue: true },
+        { provide: "BASE_URL", useFactory: (BASE_URLFactory) }
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
