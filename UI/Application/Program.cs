@@ -16,7 +16,7 @@ namespace Application
     {
         public static void Main(string[] args)
         {
-            var host = BuildWebHost(args);
+            var host = CreateWebHostBuilder(args).Build();
 
             using (var scope = host.Services.CreateScope())
             {
@@ -41,9 +41,8 @@ namespace Application
             host.Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
+                .UseStartup<Startup>();
     }
 }
