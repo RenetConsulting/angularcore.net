@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations"; // this is needed! 
 import { AppBaseModule } from "./app.base.module";
-import { AppComponent } from "./app/app.component";
+import { AppComponent } from "./components/app/app.component";
 
 export function BASE_URLFactory(): string {
     let url: string = null;

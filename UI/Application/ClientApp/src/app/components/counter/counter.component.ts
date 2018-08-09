@@ -1,5 +1,4 @@
-import { Component, Inject } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { Component } from "@angular/core";
 
 @Component({
     selector: "app-counter-component",
@@ -12,5 +11,4 @@ export class CounterComponent {
     public incrementCounter() {
         this.currentCount++;
     }
-
 }
