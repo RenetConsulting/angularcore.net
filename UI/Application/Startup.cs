@@ -5,21 +5,26 @@
 namespace Application
 {
     using System;
+    using System.IO.Compression;
+    using System.Linq;
     using System.Threading.Tasks;
     using Application.DataAccess;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Repositories;
+    using Application.Providers;
     using AspNet.Security.OAuth.Validation;
     using AspNet.Security.OpenIdConnect.Primitives;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.ResponseCompression;
     using Microsoft.AspNetCore.SpaServices.AngularCli;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Net.Http.Headers;
 
     public class Startup
     {
@@ -155,6 +160,20 @@ namespace Application
 
             // Resolve dependencies
             services.AddScoped<IGlobalRepository, GlobalRepository>();
+
+            services.AddResponseCompression(options =>
+            {
+                options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+                new[] { "text/javascript", "image/svg+xml", "application/manifest+json" });
+                options.Providers.Add<BrotliCompressionProvider>();
+                options.Providers.Add<GzipCompressionProvider>();
+                options.EnableForHttps = true;
+            });
+
+            services.Configure<GzipCompressionProviderOptions>(options =>
+            {
+                options.Level = CompressionLevel.Fastest;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -171,13 +190,25 @@ namespace Application
             {
                 app.UseExceptionHandler("/Home/Error");
 
+#if !NoHttps
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
+#else
+            }
+
+#endif
+
+            // The UseResponseCompression should be first before UseStaticFiles/UseSpaStaticFiles.
+            // The order is important for all type compression.
+            app.UseResponseCompression();
+
             app.UseAuthentication();
-            app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+
+            app.UseStaticFiles(StaticFileOptions(env));
+
+            app.UseSpaStaticFiles(StaticFileOptions(env));
 
             app.UseSpa(spa =>
             {
@@ -206,6 +237,55 @@ namespace Application
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
+        }
+
+        private static StaticFileOptions StaticFileOptions(IHostingEnvironment env)
+        {
+            return new StaticFileOptions
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    string durationInSeconds = "max-age=31536000, immutable"; // 60 * 60 * 24 * 365 (days);
+
+                    if (!ctx.File.IsDirectory && !string.IsNullOrEmpty(ctx.File.Name) && ctx.File.Name.EndsWith(".json", System.StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (env.IsDevelopment())
+                        {
+                            durationInSeconds = "max-age=1"; // 1 sec
+                        }
+                        else
+                        {
+                            durationInSeconds = "max-age=360"; // 60 * 6 (min);
+                        }
+                    }
+
+                    if (!ctx.Context.Response.Headers.ContainsKey(HeaderNames.CacheControl))
+                    {
+                        ctx.Context.Response.Headers.Add(HeaderNames.CacheControl, durationInSeconds);
+                    }
+                    else
+                    {
+                        ctx.Context.Response.Headers[HeaderNames.CacheControl] = durationInSeconds;
+                    }
+
+                    if (!ctx.File.IsDirectory && !string.IsNullOrEmpty(ctx.File.Name))
+                    {
+                        if (ctx.File.Name.EndsWith(".js", System.StringComparison.OrdinalIgnoreCase) || ctx.File.Name.EndsWith(".css", System.StringComparison.OrdinalIgnoreCase))
+                        {
+                            ctx.Context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                        }
+
+                        if (ctx.File.Name.EndsWith(".js", System.StringComparison.OrdinalIgnoreCase))
+                        {
+                            ctx.Context.Response.Headers[HeaderNames.ContentType] = "text/javascript";
+                        }
+                        else if (ctx.File.Name.EndsWith("site.webmanifest", System.StringComparison.OrdinalIgnoreCase))
+                        {
+                            ctx.Context.Response.Headers[HeaderNames.ContentType] = "application/manifest+json";
+                        }
+                    }
+                }
+            };
         }
     }
 }
