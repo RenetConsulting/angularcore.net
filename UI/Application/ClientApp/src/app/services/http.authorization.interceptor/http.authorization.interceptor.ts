@@ -24,15 +24,6 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
         this.tokenService = injector.get(TokenService);
     }
 
-    get refreshToken(): Observable<any> {
-        let model: OpenIdConnectRequestModel = new OpenIdConnectRequestModel({
-            grant_type: "refresh_token",
-            scope: "offline_access",
-            refresh_token: this.tokenService.valueByProperty("refresh_token")
-        } as OpenIdConnectRequestModel);
-        return this.authorizationService.getToken(model, { [this.exceptionKey]: "true" });
-    }
-
     intercept(request: HttpRequest<any>, handler: HttpHandler): Observable<HttpEvent<any>> {
         const headers = {
             "Cache-Control": "no-store, no-cache, must-revalidate",
@@ -40,7 +31,7 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
         };
         if (this.tokenService.isValid && !request.headers.has(this.exceptionKey)) {
             if (this.tokenService.isExpired) {
-                return this.refreshToken.concatMap((): Observable<HttpEvent<any>> => {
+                return this.refreshToken().concatMap((): Observable<HttpEvent<any>> => {
                     headers[this.authorizationKey] = this.tokenService.header;
                     return handler.handle(this.getHttpRequest(request, headers));
                 });
@@ -55,8 +46,17 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
         }
     }
 
+    refreshToken = (): Observable<any> => {
+        const model: OpenIdConnectRequestModel = new OpenIdConnectRequestModel({
+            grant_type: "refresh_token",
+            scope: "offline_access",
+            refresh_token: this.tokenService.valueByProperty("refresh_token")
+        } as OpenIdConnectRequestModel);
+        return this.authorizationService.getToken(model, { [this.exceptionKey]: "true" });
+    }
+
     getHttpRequest = (request: HttpRequest<any>, headers: { [key: string]: string }): HttpRequest<any> => {
-        let result: HttpRequest<any> = request;
+        let result: HttpRequest<any>;
         if (request != null) {
             request.headers.keys().forEach((key): void => {
                 headers[key] = request.headers.get(key);
