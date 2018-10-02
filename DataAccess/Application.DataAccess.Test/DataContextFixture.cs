@@ -36,7 +36,7 @@
 
             if (disposing)
             {
-                //this.userManager.Dispose();
+                // this.userManager.Dispose();
             }
 
             this.disposed = true;

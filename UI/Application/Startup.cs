@@ -25,6 +25,7 @@ namespace Application
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Microsoft.Net.Http.Headers;
+    using OpenIddict.Abstractions;
 
     public class Startup
     {
@@ -124,35 +125,34 @@ namespace Application
                 };
             });
 
-            // Register the OpenIddict services.
-            // Note: use the generic overload if you need
-            // to replace the default OpenIddict entities.
-            services.AddOpenIddict(options =>
-            {
-                // Register the Entity Framework stores.
-                options.AddEntityFrameworkCoreStores<DataContext>();
+            services.AddOpenIddict()
+                .AddCore(options =>
+                {
+                    options.UseEntityFrameworkCore().UseDbContext<DataContext>();
+                })
+                .AddServer(options =>
+                {
+                    options.UseMvc();
+                    options.EnableTokenEndpoint("/connect/token");
+                    options.AllowPasswordFlow();
+                    options.AllowRefreshTokenFlow();
+                    options.AllowCustomFlow("external_identity_token");
+                    options.AcceptAnonymousClients();
+                    options.DisableHttpsRequirement(); // Note: Comment this out in production
+                    options.RegisterScopes(
+                        OpenIdConnectConstants.Scopes.OpenId,
+                        OpenIdConnectConstants.Scopes.Email,
+                        OpenIdConnectConstants.Scopes.Phone,
+                        OpenIdConnectConstants.Scopes.Profile,
+                        OpenIdConnectConstants.Scopes.OfflineAccess,
+                        OpenIddictConstants.Scopes.Roles);
 
-                // Register the ASP.NET Core MVC binder used by OpenIddict.
-                // Note: if you don't call this method, you won't be able to
-                // bind OpenIdConnectRequest or OpenIdConnectResponse parameters.
-                options.AddMvcBinders();
+                    options.UseRollingTokens();
 
-                // Enable the token endpoint (required to use the password flow).
-                options.EnableTokenEndpoint("/connect/token");
-
-                // Allow client applications to use the grant_type=password flow.
-                options.AllowPasswordFlow();
-
-                // Allow client applications to use the grant_type=resfresh_token flow.
-                options.AllowRefreshTokenFlow();
-
-                options.AllowCustomFlow("external_identity_token");
-
-                // During development, you can disable the HTTPS requirement.
-                options.DisableHttpsRequirement();
-
-                options.UseRollingTokens();
-            });
+                    // Note: to use JWT access tokens instead of the default encrypted format, the following lines are required:
+                    // options.UseJsonWebTokens();
+                })
+                .AddValidation();
 
             // Register the OAuth2 validation handler.
             services.AddAuthentication(options => options.DefaultAuthenticateScheme = OAuthValidationDefaults.AuthenticationScheme)
