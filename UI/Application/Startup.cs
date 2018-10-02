@@ -125,37 +125,72 @@ namespace Application
                 };
             });
 
+            //services.AddOpenIddict()
+            //    .AddCore(options =>
+            //    {
+            //        options.UseEntityFrameworkCore().UseDbContext<DataContext>();
+            //    })
+            //    .AddServer(options =>
+            //    {
+
+            //        options.UseRollingTokens();
+
+            //        // Note: to use JWT access tokens instead of the default encrypted format, the following lines are required:
+            //        // options.UseJsonWebTokens();
+            //    });
+
             services.AddOpenIddict()
+
+                // Register the OpenIddict core services.
                 .AddCore(options =>
                 {
-                    options.UseEntityFrameworkCore().UseDbContext<DataContext>();
+                    // Configure OpenIddict to use the Entity Framework Core stores and models.
+                    options.UseEntityFrameworkCore()
+                           .UseDbContext<DataContext>();
                 })
+
+                // Register the OpenIddict server handler.
                 .AddServer(options =>
                 {
+                    // Register the ASP.NET Core MVC services used by OpenIddict.
+                    // Note: if you don't call this method, you won't be able to
+                    // bind OpenIdConnectRequest or OpenIdConnectResponse parameters.
                     options.UseMvc();
-                    options.EnableTokenEndpoint("/connect/token");
-                    options.AllowPasswordFlow();
-                    options.AllowRefreshTokenFlow();
-                    options.AllowCustomFlow("external_identity_token");
-                    options.AcceptAnonymousClients();
 
+                    // Enable the authorization, logout, token and userinfo endpoints.
+                    options.EnableTokenEndpoint("/connect/token");
+
+                    // Note: the Mvc.Client sample only uses the code flow and the password flow, but you
+                    // can enable the other flows if you need to support implicit or client credentials.
+                    options.AllowPasswordFlow()
+                           .AllowRefreshTokenFlow()
+                           .AllowCustomFlow("external_identity_token");
+
+                    // Mark the "email", "profile" and "roles" scopes as supported scopes.
+                    options.RegisterScopes(
+                        OpenIdConnectConstants.Scopes.OpenId,
+                        OpenIdConnectConstants.Scopes.Email,
+                        OpenIdConnectConstants.Scopes.Profile,
+                        OpenIdConnectConstants.Scopes.OfflineAccess,
+                        OpenIddictConstants.Scopes.Roles);
+
+                    // During development, you can disable the HTTPS requirement.
                     if (this.Environment.IsDevelopment())
                     {
                         options.DisableHttpsRequirement();
                     }
 
-                    options.RegisterScopes(
-                        OpenIdConnectConstants.Scopes.OpenId,
-                        OpenIdConnectConstants.Scopes.Email,
-                        OpenIdConnectConstants.Scopes.Phone,
-                        OpenIdConnectConstants.Scopes.Profile,
-                        OpenIdConnectConstants.Scopes.OfflineAccess,
-                        OpenIddictConstants.Scopes.Roles);
+                    // Note: to use JWT access tokens instead of the default
+                    // encrypted format, the following lines are required:
+                    //
+                    // options.UseJsonWebTokens();
+                    // options.AddEphemeralSigningKey();
+
+                    // Note: if you don't want to specify a client_id when sending
+                    // a token or revocation request, uncomment the following line:
+                    options.AcceptAnonymousClients();
 
                     options.UseRollingTokens();
-
-                    // Note: to use JWT access tokens instead of the default encrypted format, the following lines are required:
-                    // options.UseJsonWebTokens();
                 });
 
             // Register the OAuth2 validation handler.
