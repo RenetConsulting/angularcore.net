@@ -4,13 +4,11 @@
 
 namespace Application
 {
-    using System;
     using Application.DataAccess;
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
 
     public class Program
     {
@@ -30,10 +28,9 @@ namespace Application
 
                         int result = context.Initialize().Result;
                     }
-                    catch (Exception ex)
+                    catch
                     {
-                        var logger = services.GetRequiredService<ILogger<Program>>();
-                        logger.LogCritical(1000, ex, ex.Message);
+                        throw;
                     }
                 }
             }

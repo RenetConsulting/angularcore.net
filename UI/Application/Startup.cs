@@ -5,21 +5,27 @@
 namespace Application
 {
     using System;
+    using System.IO.Compression;
+    using System.Linq;
     using System.Threading.Tasks;
     using Application.DataAccess;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Repositories;
+    using Application.Providers;
     using AspNet.Security.OAuth.Validation;
     using AspNet.Security.OpenIdConnect.Primitives;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.ResponseCompression;
     using Microsoft.AspNetCore.SpaServices.AngularCli;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Net.Http.Headers;
+    using OpenIddict.Abstractions;
 
     public class Startup
     {
@@ -119,35 +125,38 @@ namespace Application
                 };
             });
 
-            // Register the OpenIddict services.
-            // Note: use the generic overload if you need
-            // to replace the default OpenIddict entities.
-            services.AddOpenIddict(options =>
-            {
-                // Register the Entity Framework stores.
-                options.AddEntityFrameworkCoreStores<DataContext>();
+            services.AddOpenIddict()
+                .AddCore(options =>
+                {
+                    options.UseEntityFrameworkCore().UseDbContext<DataContext>();
+                })
+                .AddServer(options =>
+                {
+                    options.UseMvc();
+                    options.EnableTokenEndpoint("/connect/token");
+                    options.AllowPasswordFlow();
+                    options.AllowRefreshTokenFlow();
+                    options.AllowCustomFlow("external_identity_token");
+                    options.AcceptAnonymousClients();
 
-                // Register the ASP.NET Core MVC binder used by OpenIddict.
-                // Note: if you don't call this method, you won't be able to
-                // bind OpenIdConnectRequest or OpenIdConnectResponse parameters.
-                options.AddMvcBinders();
+                    if (this.Environment.IsDevelopment())
+                    {
+                        options.DisableHttpsRequirement();
+                    }
 
-                // Enable the token endpoint (required to use the password flow).
-                options.EnableTokenEndpoint("/connect/token");
+                    options.RegisterScopes(
+                        OpenIdConnectConstants.Scopes.OpenId,
+                        OpenIdConnectConstants.Scopes.Email,
+                        OpenIdConnectConstants.Scopes.Phone,
+                        OpenIdConnectConstants.Scopes.Profile,
+                        OpenIdConnectConstants.Scopes.OfflineAccess,
+                        OpenIddictConstants.Scopes.Roles);
 
-                // Allow client applications to use the grant_type=password flow.
-                options.AllowPasswordFlow();
+                    options.UseRollingTokens();
 
-                // Allow client applications to use the grant_type=resfresh_token flow.
-                options.AllowRefreshTokenFlow();
-
-                options.AllowCustomFlow("external_identity_token");
-
-                // During development, you can disable the HTTPS requirement.
-                options.DisableHttpsRequirement();
-
-                options.UseRollingTokens();
-            });
+                    // Note: to use JWT access tokens instead of the default encrypted format, the following lines are required:
+                    // options.UseJsonWebTokens();
+                });
 
             // Register the OAuth2 validation handler.
             services.AddAuthentication(options => options.DefaultAuthenticateScheme = OAuthValidationDefaults.AuthenticationScheme)
@@ -155,6 +164,20 @@ namespace Application
 
             // Resolve dependencies
             services.AddScoped<IGlobalRepository, GlobalRepository>();
+
+            services.AddResponseCompression(options =>
+            {
+                options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+                new[] { "text/javascript", "image/svg+xml", "application/manifest+json" });
+                options.Providers.Add<BrotliCompressionProvider>();
+                options.Providers.Add<GzipCompressionProvider>();
+                options.EnableForHttps = true;
+            });
+
+            services.Configure<GzipCompressionProviderOptions>(options =>
+            {
+                options.Level = CompressionLevel.Fastest;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -171,28 +194,31 @@ namespace Application
             {
                 app.UseExceptionHandler("/Home/Error");
 
+#if !NoHttps
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
+#else
+            }
+
+#endif
+
+            // The UseResponseCompression should be first before UseStaticFiles/UseSpaStaticFiles.
+            // The order is important for all type compression.
+            app.UseResponseCompression();
+
             app.UseAuthentication();
-            app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+
+            app.UseStaticFiles(StaticFileOptions(env));
+
+            app.UseSpaStaticFiles(StaticFileOptions(env));
 
             app.UseSpa(spa =>
             {
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
                 // see https://go.microsoft.com/fwlink/?linkid=864501
                 spa.Options.SourcePath = "ClientApp";
-
-                spa.UseSpaPrerendering(options =>
-                {
-                    options.BootModulePath = $"{spa.Options.SourcePath}/dist-server/main.bundle.js";
-                    options.BootModuleBuilder = env.IsDevelopment()
-                        ? new AngularCliBuilder(npmScript: "build:ssr")
-                        : null;
-                    options.ExcludeUrls = new[] { "/sockjs-node" };
-                });
 
                 if (env.IsDevelopment())
                 {
@@ -206,6 +232,55 @@ namespace Application
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
+        }
+
+        private static StaticFileOptions StaticFileOptions(IHostingEnvironment env)
+        {
+            return new StaticFileOptions
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    string durationInSeconds = "max-age=31536000, immutable"; // 60 * 60 * 24 * 365 (days);
+
+                    if (!ctx.File.IsDirectory && !string.IsNullOrEmpty(ctx.File.Name) && ctx.File.Name.EndsWith(".json", System.StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (env.IsDevelopment())
+                        {
+                            durationInSeconds = "max-age=1"; // 1 sec
+                        }
+                        else
+                        {
+                            durationInSeconds = "max-age=360"; // 60 * 6 (min);
+                        }
+                    }
+
+                    if (!ctx.Context.Response.Headers.ContainsKey(HeaderNames.CacheControl))
+                    {
+                        ctx.Context.Response.Headers.Add(HeaderNames.CacheControl, durationInSeconds);
+                    }
+                    else
+                    {
+                        ctx.Context.Response.Headers[HeaderNames.CacheControl] = durationInSeconds;
+                    }
+
+                    if (!ctx.File.IsDirectory && !string.IsNullOrEmpty(ctx.File.Name))
+                    {
+                        if (ctx.File.Name.EndsWith(".js", System.StringComparison.OrdinalIgnoreCase) || ctx.File.Name.EndsWith(".css", System.StringComparison.OrdinalIgnoreCase))
+                        {
+                            ctx.Context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                        }
+
+                        if (ctx.File.Name.EndsWith(".js", System.StringComparison.OrdinalIgnoreCase))
+                        {
+                            ctx.Context.Response.Headers[HeaderNames.ContentType] = "text/javascript";
+                        }
+                        else if (ctx.File.Name.EndsWith("site.webmanifest", System.StringComparison.OrdinalIgnoreCase))
+                        {
+                            ctx.Context.Response.Headers[HeaderNames.ContentType] = "application/manifest+json";
+                        }
+                    }
+                }
+            };
         }
     }
 }

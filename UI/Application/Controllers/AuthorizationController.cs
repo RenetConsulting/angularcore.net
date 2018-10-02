@@ -16,8 +16,9 @@ namespace Application.Controllers
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using OpenIddict.Abstractions;
     using OpenIddict.Core;
-    using OpenIddict.Models;
+    using OpenIddict.EntityFrameworkCore.Models;
 
     public class AuthorizationController : Controller
     {
