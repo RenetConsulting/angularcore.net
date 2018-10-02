@@ -138,7 +138,12 @@ namespace Application
                     options.AllowRefreshTokenFlow();
                     options.AllowCustomFlow("external_identity_token");
                     options.AcceptAnonymousClients();
-                    options.DisableHttpsRequirement(); // Note: Comment this out in production
+
+                    if (this.Environment.IsDevelopment())
+                    {
+                        options.DisableHttpsRequirement();
+                    }
+
                     options.RegisterScopes(
                         OpenIdConnectConstants.Scopes.OpenId,
                         OpenIdConnectConstants.Scopes.Email,
@@ -151,8 +156,7 @@ namespace Application
 
                     // Note: to use JWT access tokens instead of the default encrypted format, the following lines are required:
                     // options.UseJsonWebTokens();
-                })
-                .AddValidation();
+                });
 
             // Register the OAuth2 validation handler.
             services.AddAuthentication(options => options.DefaultAuthenticateScheme = OAuthValidationDefaults.AuthenticationScheme)
