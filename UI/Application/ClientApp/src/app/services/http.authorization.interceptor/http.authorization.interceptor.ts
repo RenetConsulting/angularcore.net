@@ -5,6 +5,9 @@ import { OpenIdConnectRequestModel } from "../../models/open.id.connect.request.
 import { AuthorizationService } from "../authorization/authorization.service";
 import { TokenService } from "../token/token.service";
 
+/**
+ * TODO: add a support to multiple calls
+ */
 @Injectable()
 export class HttpAuthorizationInterceptor implements HttpInterceptor {
 
@@ -25,6 +28,7 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
     }
 
     intercept(request: HttpRequest<any>, handler: HttpHandler): Observable<HttpEvent<any>> {
+        // TODO: replace with request.clone({setHeaders: {Authorization: `Bearer ${currentUser.token}`}});
         const headers = {
             "Cache-Control": "no-store, no-cache, must-revalidate",
             "Pragma": "no-cache"
