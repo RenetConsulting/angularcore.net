@@ -9,7 +9,7 @@ namespace Application.Pages
     using Microsoft.AspNetCore.Mvc.RazorPages;
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public class ErrorModel : PageModel
+    public class Error : PageModel
     {
         public string RequestId { get; set; }
 

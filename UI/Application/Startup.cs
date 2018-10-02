@@ -125,20 +125,6 @@ namespace Application
                 };
             });
 
-            //services.AddOpenIddict()
-            //    .AddCore(options =>
-            //    {
-            //        options.UseEntityFrameworkCore().UseDbContext<DataContext>();
-            //    })
-            //    .AddServer(options =>
-            //    {
-
-            //        options.UseRollingTokens();
-
-            //        // Note: to use JWT access tokens instead of the default encrypted format, the following lines are required:
-            //        // options.UseJsonWebTokens();
-            //    });
-
             services.AddOpenIddict()
 
                 // Register the OpenIddict core services.
