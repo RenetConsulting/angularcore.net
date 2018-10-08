@@ -10,7 +10,8 @@ import "./rx-imports";
 import { AuthorizationService } from "./services/authorization/authorization.service";
 import { HttpAuthorizationInterceptor } from "./services/http.authorization.interceptor/http.authorization.interceptor";
 import { HttpHandlerService } from "./services/http.handler/http.handler.service";
-import { LocalStorageService } from "./services/local.storage/local.storage.service";
+import { NoneCacheInterceptor } from "./services/none.cache.interceptor/none.cache.interceptor";
+import { StorageService } from "./services/storage/storage.service";
 import { TokenService } from "./services/token/token.service";
 import { ToolsService } from "./services/tools/tools.service";
 
@@ -26,10 +27,11 @@ const MODULES = [
 const PROVIDERS: Array<Provider> = [
     AuthorizationService,
     HttpHandlerService,
-    LocalStorageService,
+    StorageService,
     TokenService,
     ToolsService,
-    { provide: HTTP_INTERCEPTORS, useClass: HttpAuthorizationInterceptor, deps: [Injector], multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: HttpAuthorizationInterceptor, deps: [Injector], multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: NoneCacheInterceptor, multi: true }
 ]
 
 const COMPONENTS = [

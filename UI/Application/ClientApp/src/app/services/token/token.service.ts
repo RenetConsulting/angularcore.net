@@ -1,6 +1,6 @@
 import { Inject, Injectable } from "@angular/core";
 import { TokenModel } from "../../models/token.model";
-import { LocalStorageService } from "../local.storage/local.storage.service";
+import { StorageService } from "../storage/storage.service";
 
 @Injectable()
 export class TokenService {
@@ -12,17 +12,18 @@ export class TokenService {
     private readonly key: string = "tm";
 
     constructor(
-        @Inject(LocalStorageService) private localStorageService: LocalStorageService
+        @Inject(StorageService) private storageService: StorageService
     ) {
-        this.token = this.localStorageService.getObject(this.key);
+
     }
 
     get token(): TokenModel {
-        return (this._token != null && this._token.access_token != null && this._token.refresh_token != null) ? new TokenModel(this._token) : null;
+        const result = this.storageService.get(this.key);
+        return result && result.access_token && result.refresh_token ? result : null;
     }
 
     set token(value: TokenModel) {
-        if (value != null && value.access_token != null && value.refresh_token != null) {
+        if (value && value.access_token && value.refresh_token) {
             this._token = value;
             if (this._token.expired_at == null) {
                 try {
@@ -32,16 +33,12 @@ export class TokenService {
                     this.clean();
                 }
             }
-            this.localStorageService.setObject(this.key, this._token);
+            this.storageService.set(this.key, this._token);
         }
     }
 
     get isValid(): boolean {
-        let result: boolean = false;
-        if (this._token != null) {
-            result = this._token.access_token != null && this.token.refresh_token != null;
-        }
-        return result;
+        return this._token && this._token.access_token && !!this.token.refresh_token;
     }
 
     get isExpired(): boolean {
@@ -58,7 +55,7 @@ export class TokenService {
 
     valueByProperty = (key: keyof TokenModel): any => {
         let result: any = null
-        if (this._token != null && key != null) {
+        if (this._token && key) {
             if (key in this._token) {
                 result = this._token[key];
             }
@@ -67,7 +64,7 @@ export class TokenService {
     }
 
     clean = (): void => {
-        this.localStorageService.removeItem(this.key);
+        this.storageService.remove(this.key);
         this._token = null;
     }
 }
