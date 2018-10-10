@@ -14,9 +14,9 @@
 
     public class GlobalRepository : IGlobalRepository
     {
-        private DataContext context;
+        private readonly DataContext context;
 
-        private UserManager<ApplicationUser> userManager;
+        private readonly UserManager<ApplicationUser> userManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalRepository"/> class.
@@ -30,6 +30,32 @@
         }
 
         #region UserManagement
+
+        public async Task<IdentityResult> RegisterUserAsync(string password, string email)
+        {
+            ApplicationUser user = new ApplicationUser
+            {
+                UserName = email,
+                Email = email,
+                EmailConfirmed = false
+            };
+
+            var result = await this.userManager.CreateAsync(user, password);
+
+            return result;
+        }
+
+        public async Task<IdentityResult> RegisterUserAsync(string password, ApplicationUser user)
+        {
+            try
+            {
+                return await this.userManager.CreateAsync(user, password);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         /// <summary>
         /// Finds and returns a user, if any, who has the specified userId.
@@ -124,9 +150,11 @@
 
             return await this.GenerateUserPasswordResetTokenAsync(user);
         }
+
         #endregion
 
         #region Transactions
+
         public IDbContextTransaction BeginTransaction()
         {
             return this.context.BeginTransaction();
@@ -141,6 +169,7 @@
         {
             return await this.context.BeginTransactionAsync(isolationLevel, cancellationToken);
         }
+
         #endregion
 
         public async Task<T> AddAsync<T>(T entity)
@@ -169,7 +198,7 @@
 
                 return entity;
             }
-            catch (Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException ex)
+            catch (DbUpdateConcurrencyException ex)
             {
                 ex.Entries[0].Reload();
                 throw;

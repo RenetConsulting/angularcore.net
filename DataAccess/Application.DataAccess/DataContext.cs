@@ -4,18 +4,31 @@
     using System.Data;
     using System.Linq;
     using System.Reflection;
+    using System.Security.Claims;
+    using System.Security.Principal;
     using System.Threading;
     using System.Threading.Tasks;
     using Entities;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.ChangeTracking;
     using Microsoft.EntityFrameworkCore.Storage;
 
     public partial class DataContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
+        private readonly ClaimsPrincipal principal;
+
+        private string userName;
+
         public DataContext(DbContextOptions<DataContext> options)
             : base(options)
         {
+        }
+
+        public DataContext(DbContextOptions<DataContext> options, IPrincipal principal)
+            : base(options)
+        {
+            this.principal = principal as ClaimsPrincipal;
         }
 
         public virtual DbSet<CompleteMigration> CompleteMigrations { get; set; }
@@ -23,6 +36,21 @@
         public virtual DbSet<UserAcceptedTerm> UserAcceptedTerms { get; set; }
 
         public virtual DbSet<TermsOfService> TermsOfServices { get; set; }
+
+        internal string UserName
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(this.userName))
+                {
+                    this.userName = this.principal?.Identity?.Name ?? "Anonymous";
+                }
+
+                return this.userName;
+            }
+
+            set => this.userName = value;
+        }
 
         public IDbContextTransaction BeginTransaction()
         {
@@ -110,22 +138,34 @@
         {
             var entities = this.ChangeTracker.Entries().Where(x => x.Entity is ApplicationEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
 
-            var user = System.Security.Claims.ClaimsPrincipal.Current ?? throw new System.UnauthorizedAccessException("User is logoff");
+            var entityEntries = entities as EntityEntry[] ?? entities.ToArray();
 
-            var currentUse = user?.Claims.Where(c => c.Type == "sub").Select(c => c.Value).SingleOrDefault(); // OpenIdConnectConstants.Claims.Subject
+            if (!entityEntries.Any())
+            {
+                return;
+            }
 
-            foreach (var entity in entities)
+            var currentUser = this.UserName;
+
+            foreach (EntityEntry entity in entityEntries)
             {
                 if (entity.State == EntityState.Added)
                 {
-                    ((ApplicationEntity)entity.Entity).CreatedBy = currentUse;
+                    ((ApplicationEntity)entity.Entity).CreatedBy = currentUser;
+
+                    if (!((ApplicationEntity)entity.Entity).IsActive.HasValue)
+                    {
+                        ((ApplicationEntity)entity.Entity).IsActive = true;
+                    }
                 }
                 else
                 {
                     entity.Property("CreatedBy").IsModified = false;
-                }
 
-                ((ApplicationEntity)entity.Entity).UpdatedBy = currentUse;
+                    ((ApplicationEntity)entity.Entity).UpdatedBy = currentUser;
+
+                    ((ApplicationEntity)entity.Entity).UpdatedDate = DateTime.Now;
+                }
             }
         }
     }

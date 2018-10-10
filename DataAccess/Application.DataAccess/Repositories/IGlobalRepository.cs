@@ -1,18 +1,21 @@
 ﻿namespace Application.DataAccess.Repositories
 {
     using System.Diagnostics.CodeAnalysis;
-    using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
     using Application.DataAccess.Enums;
     using Entities;
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Storage;
 
     public interface IGlobalRepository
     {
         #region UserManagement
+
+        Task<IdentityResult> RegisterUserAsync(string password, string email);
+
+        Task<IdentityResult> RegisterUserAsync(string password, ApplicationUser user);
+
         Task<ApplicationUser> FindUserByIdAsync(string userId);
 
         Task<ApplicationUser> FindUserByEmailAsync(string email);
