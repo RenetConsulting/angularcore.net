@@ -1,13 +1,12 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { ReactiveFormsModule } from "@angular/forms";
 import { AuthorizationRoutingModule } from "./authorization-routing.module";
 import { AuthorizationComponent } from "./authorization.component";
 
 const MODULES = [
     CommonModule,
     AuthorizationRoutingModule,
-    FormsModule,
     ReactiveFormsModule
 ]
 

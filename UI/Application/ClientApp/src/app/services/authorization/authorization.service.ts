@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs/Observable";
+import { catchError, map } from "rxjs/operators";
 import { OpenIdConnectRequestModel } from "../../models/open.id.connect.request.model";
 import { TokenModel } from "../../models/token.model";
 import { UserModel } from "../../models/user.model";
@@ -20,9 +21,7 @@ export class AuthorizationService {
     ) { }
 
     get isAuthorized(): boolean {
-        let result: boolean;
-        result = (this.tokenService.isValid) ? true : false;
-        return result;
+        return this.tokenService.isValid;
     }
 
     getToken = (request: OpenIdConnectRequestModel, headers?: { [key: string]: string }): Observable<TokenModel> => {
@@ -34,16 +33,25 @@ export class AuthorizationService {
             })
         };
         return this.httpClient
-            .post<TokenModel>(`${this.baseUrl}/connect/token`, body, options)
-            .map((success) => {
-                this.tokenService.clean();
-                this.tokenService.token = success;
-                return success;
-            })
-            .catch((error) => {
-                this.tokenService.clean();
-                return this.httpHandlerService.handleError(error);
-            });
+            .post<TokenModel>(`${this.baseUrl}/connect/token`, body, options).pipe(
+                map((success) => {
+                    this.tokenService.token = success;
+                    return success;
+                }),
+                catchError((error) => {
+                    this.logout();
+                    return this.httpHandlerService.handleError(error);
+                })
+            )
+    }
+
+    refreshToken = (headers: { [key: string]: string }): Observable<any> => {
+        const model = new OpenIdConnectRequestModel({
+            grant_type: "refresh_token",
+            scope: "offline_access",
+            refresh_token: this.tokenService.valueByProperty("refresh_token")
+        });
+        return this.getToken(model, headers);
     }
 
     signin = (model: UserModel): Observable<TokenModel> => {
@@ -52,7 +60,7 @@ export class AuthorizationService {
             scope: "offline_access",
             password: model.password,
             username: model.email
-        } as OpenIdConnectRequestModel);
+        });
         return this.getToken(request);
     }
 
@@ -60,5 +68,9 @@ export class AuthorizationService {
         return this.httpClient
             .post(`${this.baseUrl}/api/account/register`, model)
             .catch(this.httpHandlerService.handleError);
+    }
+
+    logout = (): void => {
+        this.tokenService.clean();
     }
 }

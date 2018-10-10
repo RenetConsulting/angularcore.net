@@ -9,7 +9,7 @@ export class FormBase extends ApplicationBase {
         super();
     }
 
-    public setFormControl = <I>(key: keyof I, formControl: FormControl): void => {
+    public setFormControl = <I>(key: keyof I & string, formControl: FormControl): void => {
         if (!(this.itemForm instanceof FormGroup)) {
             this.itemForm = new FormGroup({ [key]: formControl });
         }

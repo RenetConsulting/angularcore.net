@@ -1,18 +1,20 @@
-import { HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from "@angular/common/http";
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { Inject, Injectable, Injector } from "@angular/core";
-import { Observable } from "rxjs";
-import { OpenIdConnectRequestModel } from "../../models/open.id.connect.request.model";
+import { Observable, Subject } from "rxjs";
+import { concatMap, finalize } from "rxjs/operators";
 import { AuthorizationService } from "../authorization/authorization.service";
 import { TokenService } from "../token/token.service";
 
 /**
- * TODO: add a support to multiple calls
+ * TODO: test a support to multiple calls
  */
 @Injectable()
 export class HttpAuthorizationInterceptor implements HttpInterceptor {
 
     private readonly exceptionKey: string = "AllowAnonymous";
     private readonly authorizationKey: string = "Authorization";
+    private subjects: Array<Subject<HttpRequest<any>>> = [];
+    private isProcessToken: boolean;
     private authorizationService: AuthorizationService;
     private tokenService: TokenService;
 
@@ -27,48 +29,43 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
         this.tokenService = injector.get(TokenService);
     }
 
+    /**
+     * on each branch make sure that header is fresh
+     */
     intercept(request: HttpRequest<any>, handler: HttpHandler): Observable<HttpEvent<any>> {
-        // TODO: replace with request.clone({setHeaders: {Authorization: `Bearer ${currentUser.token}`}});
-        const headers = {
-            "Cache-Control": "no-store, no-cache, must-revalidate",
-            "Pragma": "no-cache"
-        };
         if (this.tokenService.isValid && !request.headers.has(this.exceptionKey)) {
             if (this.tokenService.isExpired) {
-                return this.refreshToken().concatMap((): Observable<HttpEvent<any>> => {
-                    headers[this.authorizationKey] = this.tokenService.header;
-                    return handler.handle(this.getHttpRequest(request, headers));
-                });
+                if (this.isProcessToken) {
+                    const subject = new Subject<HttpRequest<any>>();
+                    this.subjects.push(subject);
+                    return subject.pipe(
+                        concatMap(() => handler.handle(this.clone(request, { [this.authorizationKey]: this.tokenService.header })))
+                    );
+                }
+                this.isProcessToken = true;
+                return this.authorizationService.refreshToken({ [this.exceptionKey]: "true" }).pipe(
+                    concatMap(() => handler.handle(this.clone(request, { [this.authorizationKey]: this.tokenService.header }))),
+                    finalize(() => {
+                        this.updateSubjects();
+                        this.isProcessToken = false;
+                    })
+                );
             }
             else {
-                headers[this.authorizationKey] = this.tokenService.header;
-                return handler.handle(this.getHttpRequest(request, headers));
+                return handler.handle(this.clone(request, { [this.authorizationKey]: this.tokenService.header }));
             }
         }
         else {
-            return handler.handle(this.getHttpRequest(request, headers));
+            return handler.handle(this.clone(request));
         }
     }
 
-    refreshToken = (): Observable<any> => {
-        const model: OpenIdConnectRequestModel = new OpenIdConnectRequestModel({
-            grant_type: "refresh_token",
-            scope: "offline_access",
-            refresh_token: this.tokenService.valueByProperty("refresh_token")
-        } as OpenIdConnectRequestModel);
-        return this.authorizationService.getToken(model, { [this.exceptionKey]: "true" });
+    updateSubjects = (): void => {
+        this.subjects.forEach(i => i.next(null));
+        this.subjects.length = 0;
     }
 
-    getHttpRequest = (request: HttpRequest<any>, headers: { [key: string]: string }): HttpRequest<any> => {
-        let result: HttpRequest<any>;
-        if (request != null) {
-            request.headers.keys().forEach((key): void => {
-                headers[key] = request.headers.get(key);
-            });
-            result = request.clone({
-                headers: new HttpHeaders(headers)
-            });
-        }
-        return result;
+    clone = (request: HttpRequest<any>, headers?: { [key: string]: string }): HttpRequest<any> => {
+        return request ? request.clone({ setHeaders: headers }) : request;
     }
 }

@@ -8,7 +8,7 @@ export class OpenIdConnectRequestModel extends BaseModel {
     public password: string = null;
     public refresh_token: string = null;
 
-    constructor(model?: OpenIdConnectRequestModel) {
+    constructor(model?: Partial<OpenIdConnectRequestModel>) {
         super();
         this.setModel(model);
     }
