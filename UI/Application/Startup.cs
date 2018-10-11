@@ -7,6 +7,7 @@ namespace Application
     using System;
     using System.IO.Compression;
     using System.Linq;
+    using System.Security.Principal;
     using System.Threading.Tasks;
     using Application.DataAccess;
     using Application.DataAccess.Entities;
@@ -16,6 +17,7 @@ namespace Application
     using AspNet.Security.OpenIdConnect.Primitives;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.ResponseCompression;
@@ -108,9 +110,6 @@ namespace Application
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
                 options.Lockout.MaxFailedAccessAttempts = 5;
 
-                // SignIn settings
-                options.SignIn.RequireConfirmedEmail = true;
-
                 options.ClaimsIdentity.UserNameClaimType = OpenIdConnectConstants.Claims.Name;
                 options.ClaimsIdentity.UserIdClaimType = OpenIdConnectConstants.Claims.Subject;
                 options.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
@@ -185,6 +184,9 @@ namespace Application
 
             // Resolve dependencies
             services.AddScoped<IGlobalRepository, GlobalRepository>();
+
+            services.AddTransient<IPrincipal>(
+                provider => provider.GetService<IHttpContextAccessor>()?.HttpContext?.User);
 
             services.AddResponseCompression(options =>
             {
