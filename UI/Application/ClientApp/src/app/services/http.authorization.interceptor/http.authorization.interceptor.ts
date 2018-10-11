@@ -30,7 +30,6 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
      * on each branch make sure that header is fresh
      */
     intercept(request: HttpRequest<any>, handler: HttpHandler): Observable<HttpEvent<any>> {
-        console.log("HttpAuthorizationInterceptor")
         if (this.tokenService.isValid && !request.headers.has(this.exceptionKey)) {
             if (this.tokenService.isExpired) {
                 if (this.isProcessToken) {

@@ -8,7 +8,6 @@ export class NoneCacheInterceptor implements HttpInterceptor {
     constructor() { }
 
     intercept(request: HttpRequest<any>, handler: HttpHandler): Observable<HttpEvent<any>> {
-        console.log("NoneCacheInterceptor")
         return handler.handle(request.clone({
             setHeaders: {
                 "Cache-Control": "no-store, no-cache, must-revalidate",
