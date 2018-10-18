@@ -5,7 +5,6 @@ import { StorageService } from "../storage/storage.service";
 @Injectable()
 export class TokenService {
 
-    private _token: TokenModel = null;
     /**
      * the key for token model
      */
@@ -13,58 +12,51 @@ export class TokenService {
 
     constructor(
         @Inject(StorageService) private storageService: StorageService
-    ) {
-
-    }
+    ) { }
 
     get token(): TokenModel {
-        const result = this.storageService.get(this.key);
-        return result && result.access_token && result.refresh_token ? result : null;
+        const item = this.storageService.get(this.key);
+        return (item && item.access_token && item.refresh_token) ? item : null;
     }
 
     set token(value: TokenModel) {
         if (value && value.access_token && value.refresh_token) {
-            this._token = value;
-            if (this._token.expired_at == null) {
+            if (value.expired_at) {
                 try {
-                    this._token.expired_at = new Date(new Date().valueOf() + 1000 * value.expires_in).toISOString();
+                    value.expired_at = new Date(new Date().valueOf() + 1000 * value.expires_in).toISOString();
                 }
                 catch (e) {
                     this.clean();
                 }
             }
-            this.storageService.set(this.key, this._token);
+            this.storageService.set(this.key, value);
         }
     }
 
     get isValid(): boolean {
-        return this._token && this._token.access_token && !!this.token.refresh_token;
+        const item = this.token;
+        return item && item.access_token && !!item.refresh_token;
     }
 
     get isExpired(): boolean {
         let result: boolean = false;
         if (this.isValid) {
-            result = new Date().valueOf() > new Date(this._token.expired_at).valueOf();
+            result = new Date().valueOf() > new Date(this.token.expired_at).valueOf();
         }
         return result;
     }
 
     get header(): string {
-        return (this.isValid) ? `${this._token.token_type} ${this._token.access_token}` : "";
+        const item = this.token;
+        return this.isValid ? `${item.token_type} ${item.access_token}` : "";
     }
 
     valueByProperty = (key: keyof TokenModel): any => {
-        let result: any = null
-        if (this._token && key) {
-            if (key in this._token) {
-                result = this._token[key];
-            }
-        }
-        return result;
+        const item = this.token;
+        return (key && item && key in item) ? item[key] : null;
     }
 
     clean = (): void => {
         this.storageService.remove(this.key);
-        this._token = null;
     }
 }

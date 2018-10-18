@@ -5,9 +5,6 @@ import { concatMap, finalize } from "rxjs/operators";
 import { AuthorizationService } from "../authorization/authorization.service";
 import { TokenService } from "../token/token.service";
 
-/**
- * TODO: test a support to multiple calls
- */
 @Injectable()
 export class HttpAuthorizationInterceptor implements HttpInterceptor {
 
