@@ -1,4 +1,8 @@
-﻿namespace Application.Controllers
+﻿// <copyright file="AccountController.cs" company="RenetConsulting Inc.">
+// Copyright (c) RenetConsulting Inc.. All rights reserved.
+// </copyright>
+
+namespace Application.Controllers
 {
     using System.Threading.Tasks;
     using Application.Business.Models;
@@ -14,7 +18,7 @@
         public AccountController(
             IGlobalRepository repository,
             IOptions<AppSettings> appSettings)
-            :base(repository, appSettings)
+            : base(repository, appSettings)
         {
         }
 
