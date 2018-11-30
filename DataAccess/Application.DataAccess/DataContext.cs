@@ -52,17 +52,17 @@
             set => this.userName = value;
         }
 
-        public IDbContextTransaction BeginTransaction()
+        public virtual IDbContextTransaction BeginTransaction()
         {
             return this.Database.BeginTransaction();
         }
 
-        public async Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             return await this.Database.BeginTransactionAsync(cancellationToken);
         }
 
-        public async Task<IDbContextTransaction> BeginTransactionAsync(IsolationLevel isolationLevel, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<IDbContextTransaction> BeginTransactionAsync(IsolationLevel isolationLevel, CancellationToken cancellationToken = default(CancellationToken))
         {
             return await this.Database.BeginTransactionAsync(isolationLevel, cancellationToken);
         }
