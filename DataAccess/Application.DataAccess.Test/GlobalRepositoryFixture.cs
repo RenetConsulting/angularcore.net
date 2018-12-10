@@ -3,11 +3,14 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
+    using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Enums;
     using Application.DataAccess.Repositories;
+    using Application.DataAccess.Test.MockDbSet;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Storage;
@@ -272,6 +275,32 @@
                 .Verifiable();
 
             IdentityResult result = await this.repo.RegisterUserAsync(password, applicationUser);
+
+            Assert.NotNull(identityResult);
+        }
+
+        [Fact]
+        public async Task RegisterUserAsyncTestEmail_ReturnsSuccessResult()
+        {
+            string password = "18C2356A-6106-46FB-9F90-A919B9EB6DA2";
+            string email = "testEmail@gmail.com";
+
+            ApplicationUser applicationUser = new ApplicationUser()
+            {
+                UserName = email,
+                Email = email,
+                EmailConfirmed = false
+            };
+
+            IdentityResult identityResult = new IdentityResult();
+
+            this.mockUserManager.Setup(x => x.CreateAsync(applicationUser, password))
+                .Returns(Task.FromResult(identityResult))
+                .Verifiable();
+
+            IdentityResult result = await this.repo.RegisterUserAsync(password, email);
+
+            Assert.NotNull(identityResult);
         }
 
         #region BeginTransaction
@@ -374,6 +403,95 @@
         }
 
         #endregion
+
+        [Fact]
+        public async Task FindItems_Success()
+        {
+            int? skip = 0;
+            int? take = 10;
+            PropertyInfo sortFieldProperty = null;
+            SortOrder? sortOrder = SortOrder.Ascending;
+
+            Expression<Func<ApplicationEntity, bool>> whereAnd = x => x.IsActive.GetValueOrDefault();
+
+            List<ApplicationEntity> entityList = new List<ApplicationEntity>
+            {
+                new Mock<ApplicationEntity>().Object,
+                new Mock<ApplicationEntity>().Object,
+            };
+
+            long total = entityList.Count;
+
+            this.mockContext.Setup(x => x.Set<ApplicationEntity>())
+                .Returns(entityList.AsDbSetMock().Object);
+
+            var(list, totalItems) = await this.repo.FindItems<ApplicationEntity, Expression<Func<ApplicationEntity, bool>>, object>(whereAnd, null, skip, take, sortFieldProperty, sortOrder);
+
+            Assert.Equal(entityList.Count, list.Length);
+            Assert.Equal(total, totalItems);
+        }
+
+        [Fact]
+        public async Task ItemListTest_Success()
+        {
+            int? skip = 0;
+            int? take = 10;
+            bool active = true;
+            PropertyInfo sortFieldProperty = null;
+            SortOrder? sortOrder = SortOrder.Ascending;
+
+            Mock<ApplicationEntity> app1 = new Mock<ApplicationEntity>();
+            app1.Object.IsActive = true;
+            Mock<ApplicationEntity> app2 = new Mock<ApplicationEntity>();
+            app2.Object.IsActive = true;
+
+            List<ApplicationEntity> entityList = new List<ApplicationEntity>
+            {
+                app1.Object,
+                app2.Object
+            };
+
+            IQueryable<ApplicationEntity> selector = entityList.AsDbSetMock().Object.AsQueryable();
+
+            this.mockContext.Setup(x => x.Set<ApplicationEntity>())
+                .Returns(entityList.AsDbSetMock().Object);
+
+            long total = entityList.Count;
+
+            var (list, totalItems) = await this.repo.ItemList(selector, skip, take, active, sortFieldProperty, sortOrder);
+
+            Assert.Equal(total, totalItems);
+        }
+
+        [Fact]
+        public async Task ListAsyncTest_Success()
+        {
+            int? skip = 0;
+            int? take = 10;
+            bool active = true;
+            string sortFieldName = "IsActive";
+            SortOrder? sortOrder = SortOrder.Ascending;
+
+            Mock<ApplicationEntity> app1 = new Mock<ApplicationEntity>();
+            app1.Object.IsActive = true;
+            Mock<ApplicationEntity> app2 = new Mock<ApplicationEntity>();
+            app2.Object.IsActive = true;
+
+            List<ApplicationEntity> entityList = new List<ApplicationEntity>
+            {
+                app1.Object,
+                app2.Object
+            };
+
+            this.mockContext.Setup(x => x.Set<ApplicationEntity>())
+                .Returns(entityList.AsDbSetMock().Object);
+
+            long total = entityList.Count;
+
+            var (list, totalItems) = await this.repo.ListAsync<ApplicationEntity>(skip, take, active, sortFieldName, sortOrder);
+
+            Assert.Equal(total, totalItems);
+        }
 
         [Fact]
         public async Task FindByIdAsyncTest_Found()
