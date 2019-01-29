@@ -14,7 +14,7 @@
         public AccountController(
             IGlobalRepository repository,
             IOptions<AppSettings> appSettings)
-            :base(repository, appSettings)
+            : base(repository, appSettings)
         {
         }
 

@@ -14,28 +14,7 @@ namespace Application
     {
         public static void Main(string[] args)
         {
-            var host = CreateWebHostBuilder(args).Build();
-
-            using (var scope = host.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-
-                using (var context = services.GetService<DataContext>())
-                {
-                    try
-                    {
-                        context.Database.Migrate();
-
-                        int result = context.Initialize().Result;
-                    }
-                    catch
-                    {
-                        throw;
-                    }
-                }
-            }
-
-            host.Run();
+            CreateWebHostBuilder(args).Build().Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

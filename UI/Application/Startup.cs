@@ -12,7 +12,6 @@ namespace Application
     using Application.DataAccess;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Repositories;
-    using Application.Providers;
     using AspNet.Security.OAuth.Validation;
     using AspNet.Security.OpenIdConnect.Primitives;
     using Microsoft.AspNetCore.Builder;
@@ -31,6 +30,11 @@ namespace Application
 
     public class Startup
     {
+        public Startup(IConfiguration configuration)
+        {
+            this.Configuration = configuration;
+        }
+
         public Startup(IHostingEnvironment env)
         {
             this.Environment = env;
@@ -51,6 +55,13 @@ namespace Application
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging(loggingBuilder =>
+            {
+                loggingBuilder.AddConfiguration(this.Configuration.GetSection("Logging"));
+                loggingBuilder.AddConsole();
+                loggingBuilder.AddDebug();
+            });
+
             services.Configure<AppSettings>(this.Configuration.GetSection("AppSettings"));
 
             // Add framework services.
@@ -60,20 +71,13 @@ namespace Application
                 options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc;
                 options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
             })
-            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-
-            // Add SSL for Production
-            if (!this.Environment.IsDevelopment())
-            {
-                // Require SSL
-                services.Configure<MvcOptions>(options => options.Filters.Add(new RequireHttpsAttribute()));
-            }
 
             services.AddDbContext<DataContext>(options =>
             {
@@ -159,11 +163,6 @@ namespace Application
                         OpenIdConnectConstants.Scopes.OfflineAccess,
                         OpenIddictConstants.Scopes.Roles);
 
-                    // During development, you can disable the HTTPS requirement.
-                    if (this.Environment.IsDevelopment())
-                    {
-                        options.DisableHttpsRequirement();
-                    }
 
                     // Note: to use JWT access tokens instead of the default
                     // encrypted format, the following lines are required:
@@ -201,31 +200,23 @@ namespace Application
             {
                 options.Level = CompressionLevel.Fastest;
             });
+            services.AddNodeServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             else
             {
-                app.UseExceptionHandler("/Error");
-
-#if !NoHttps
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
-#else
-            }
-
-#endif
 
             // The UseResponseCompression should be first before UseStaticFiles/UseSpaStaticFiles.
             // The order is important for all type compression.
@@ -250,11 +241,37 @@ namespace Application
                 // see https://go.microsoft.com/fwlink/?linkid=864501
                 spa.Options.SourcePath = "ClientApp";
 
+                spa.UseSpaPrerendering(options =>
+                {
+                    options.BootModulePath = $"{spa.Options.SourcePath}/dist-server/main.bundle.js";
+                    options.BootModuleBuilder = env.IsDevelopment()
+                        ? new AngularCliBuilder(npmScript: "build:ssr")
+                        : null;
+                    options.ExcludeUrls = new[] { "/sockjs-node" };
+                });
+
                 if (env.IsDevelopment())
                 {
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                using (var context = serviceScope.ServiceProvider.GetService<DataContext>())
+                {
+                    try
+                    {
+                        context.Database.Migrate();
+
+                        int result = context.Initialize().Result;
+                    }
+                    catch
+                    {
+                        throw;
+                    }
+                }
+            }
         }
 
         private static StaticFileOptions StaticFileOptions(IHostingEnvironment env)
