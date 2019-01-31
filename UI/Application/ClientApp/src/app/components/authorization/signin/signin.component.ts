@@ -25,8 +25,8 @@ export class SigninComponent implements OnInit {
 
     setFormGroup = (): void => {
         this.formGroup = new FormGroup(<MapPick<IUser, keyof IUser, FormControl>>{
-            email: new FormControl('', [Validators.required, Validators.minLength(6), Validators.email]),
-            password: new FormControl('', [Validators.required, Validators.minLength(6)])
+            email: new FormControl("", [Validators.required, Validators.minLength(6), Validators.email]),
+            password: new FormControl("", [Validators.required, Validators.minLength(6)])
         });
     }
 

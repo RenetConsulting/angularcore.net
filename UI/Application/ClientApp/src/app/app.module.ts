@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations"; // this is needed! 
-import 'hammerjs';
+import "hammerjs";
 import { AppBaseModule } from "./app.base.module";
 import { AppComponent } from "./components/app/app.component";
 

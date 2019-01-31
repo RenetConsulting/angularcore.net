@@ -1,11 +1,10 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { catchError, map } from "rxjs/operators";
+import { tap } from "rxjs/operators";
 import { IConnectToken } from "../../interfaces/connect.token";
 import { IToken } from "../../interfaces/token";
 import { IUser } from "../../interfaces/user";
-import { HttpHandlerService } from "../http.handler/http.handler.service";
 import { TokenService } from "../token/token.service";
 import { ToolsService } from "../tools/tools.service";
 
@@ -17,7 +16,6 @@ export class AuthorizationService {
         @Inject(HttpClient) private http: HttpClient,
         @Inject(TokenService) private tokenService: TokenService,
         @Inject(ToolsService) private toolsService: ToolsService,
-        @Inject(HttpHandlerService) private httpHandlerService: HttpHandlerService
     ) { }
 
     get isAuthorized(): boolean {
@@ -34,14 +32,7 @@ export class AuthorizationService {
         };
         return this.http
             .post<IToken>(`${this.baseUrl}/connect/token`, body, options).pipe(
-                map((success) => {
-                    this.tokenService.token = success;
-                    return success;
-                }),
-                catchError((error) => {
-                    this.logout();
-                    return this.httpHandlerService.handleError(error);
-                })
+                tap(i => this.tokenService.token = i, this.logout)
             )
     }
 
@@ -64,14 +55,8 @@ export class AuthorizationService {
         return this.getToken(request);
     }
 
-    signup = (model: IUser): Observable<null> => {
-        return this.http
-            .post(`${this.baseUrl}/api/account/register`, model).pipe(
-                catchError(this.httpHandlerService.handleError)
-            )
-    }
+    signup = (model: IUser) => this.http
+        .post(`${this.baseUrl}/api/account/register`, model);
 
-    logout = (): void => {
-        this.tokenService.clean();
-    }
+    logout = (): void => this.tokenService.clean();
 }
