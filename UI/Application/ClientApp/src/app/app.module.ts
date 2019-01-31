@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations"; // this is needed! 
+import 'hammerjs';
 import { AppBaseModule } from "./app.base.module";
 import { AppComponent } from "./components/app/app.component";
 
@@ -12,10 +13,7 @@ export function BASE_URLFactory(): string {
 };
 
 @NgModule({
-    imports: [
-        BrowserAnimationsModule,
-        AppBaseModule
-    ],
+    imports: [BrowserAnimationsModule, AppBaseModule],
     providers: [
         { provide: "isBrowser", useValue: true },
         { provide: "BASE_URL", useFactory: (BASE_URLFactory) }

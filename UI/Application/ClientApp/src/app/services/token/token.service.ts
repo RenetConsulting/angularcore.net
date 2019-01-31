@@ -1,5 +1,5 @@
 import { Inject, Injectable } from "@angular/core";
-import { TokenModel } from "../../models/token.model";
+import { IToken } from "../../interfaces/token";
 import { StorageService } from "../storage/storage.service";
 
 @Injectable()
@@ -14,12 +14,12 @@ export class TokenService {
         @Inject(StorageService) private storageService: StorageService
     ) { }
 
-    get token(): TokenModel {
+    get token(): IToken {
         const item = this.storageService.get(this.key);
         return (item && item.access_token && item.refresh_token) ? item : null;
     }
 
-    set token(value: TokenModel) {
+    set token(value: IToken) {
         if (value && value.access_token && value.refresh_token) {
             if (value.expired_at) {
                 value.expired_at = new Date(new Date().valueOf() + 1000 * value.expires_in).toISOString();
@@ -46,7 +46,7 @@ export class TokenService {
         return this.isValid ? `${item.token_type} ${item.access_token}` : "";
     }
 
-    valueByProperty = (key: keyof TokenModel): any => {
+    valueByProperty = (key: keyof IToken): any => {
         const item = this.token;
         return (key && item && key in item) ? item[key] : null;
     }

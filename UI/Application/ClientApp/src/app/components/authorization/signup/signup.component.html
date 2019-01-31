@@ -1,0 +1,6 @@
+<form [formGroup]="formGroup" (ngSubmit)="submit()">
+    <input type="email" formControlName="email">
+    <input type="password" formControlName="password">
+    <input type="password" formControlName="confirmPassword">
+    <button [class.disabled]="formGroup.invalid" type="submit">Sign up</button>
+</form>

@@ -2,9 +2,9 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { catchError, map } from "rxjs/operators";
-import { OpenIdConnectRequestModel } from "../../models/open.id.connect.request.model";
-import { TokenModel } from "../../models/token.model";
-import { UserModel } from "../../models/user.model";
+import { IConnectToken } from "../../interfaces/connect.token";
+import { IToken } from "../../interfaces/token";
+import { IUser } from "../../interfaces/user";
 import { HttpHandlerService } from "../http.handler/http.handler.service";
 import { TokenService } from "../token/token.service";
 import { ToolsService } from "../tools/tools.service";
@@ -24,7 +24,7 @@ export class AuthorizationService {
         return this.tokenService.isValid;
     }
 
-    getToken = (request: OpenIdConnectRequestModel, headers?: { [key: string]: string }): Observable<TokenModel> => {
+    getToken = (request: IConnectToken, headers?: { [key: string]: string }): Observable<IToken> => {
         const body: string = this.toolsService.getQueryString(request).replace(/^\?/, "");
         const options = {
             headers: new HttpHeaders({
@@ -33,7 +33,7 @@ export class AuthorizationService {
             })
         };
         return this.http
-            .post<TokenModel>(`${this.baseUrl}/connect/token`, body, options).pipe(
+            .post<IToken>(`${this.baseUrl}/connect/token`, body, options).pipe(
                 map((success) => {
                     this.tokenService.token = success;
                     return success;
@@ -46,25 +46,25 @@ export class AuthorizationService {
     }
 
     refreshToken = (headers: { [key: string]: string }): Observable<any> => {
-        const model = new OpenIdConnectRequestModel({
+        const model: IConnectToken = {
             grant_type: "refresh_token",
             scope: "offline_access",
             refresh_token: this.tokenService.valueByProperty("refresh_token")
-        });
+        };
         return this.getToken(model, headers);
     }
 
-    signin = (model: UserModel): Observable<TokenModel> => {
-        const request = new OpenIdConnectRequestModel({
+    signin = (model: IUser): Observable<IToken> => {
+        const request: IConnectToken = {
             grant_type: "password",
             scope: "offline_access",
             password: model.password,
             username: model.email
-        });
+        };
         return this.getToken(request);
     }
 
-    signup = (model: UserModel): Observable<null> => {
+    signup = (model: IUser): Observable<null> => {
         return this.http
             .post(`${this.baseUrl}/api/account/register`, model).pipe(
                 catchError(this.httpHandlerService.handleError)

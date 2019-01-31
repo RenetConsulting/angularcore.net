@@ -1,17 +1,17 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
-import { AuthorizationRoutingModule } from "./authorization-routing.module";
-import { AuthorizationComponent } from "./authorization.component";
+import { SigninRoutingModule } from "./signin-routing.module";
+import { SigninComponent } from "./signin.component";
 
 const MODULES = [
     CommonModule,
-    AuthorizationRoutingModule,
+    SigninRoutingModule,
     ReactiveFormsModule
 ]
 
 const COMPONENTS = [
-    AuthorizationComponent
+    SigninComponent
 ]
 
 @NgModule({
@@ -22,4 +22,4 @@ const COMPONENTS = [
         ...COMPONENTS
     ]
 })
-export class AuthorizationModule { }
+export class SigninModule { }
