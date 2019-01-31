@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 import { IUser } from "../../../interfaces/user";
 import { AuthorizationService } from "../../../services/authorization/authorization.service";
-import { Router } from "@angular/router";
 
 @Component({
     selector: "signin",
@@ -15,8 +15,7 @@ export class SigninComponent implements OnInit {
 
     constructor(
         @Inject(AuthorizationService) private authorizationService: AuthorizationService,
-        @Inject(Router) private router: Router,
-
+        @Inject(Router) private router: Router
     ) { }
 
     ngOnInit(): void {

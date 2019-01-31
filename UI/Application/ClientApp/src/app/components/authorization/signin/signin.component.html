@@ -1,9 +1,11 @@
 <form [formGroup]="formGroup" (ngSubmit)="submit()">
     <mat-form-field>
-        <input matInput placeholder="Email" type="email" formControlName="email">
+        <input [validator]="emailRef" matInput placeholder="Email" type="email" formControlName="email">
+        <mat-error #emailRef></mat-error>
     </mat-form-field>
     <mat-form-field>
-        <input matInput placeholder="Password" type="password" formControlName="password">
+        <input [validator]="passwordRef" matInput placeholder="Password" type="password" formControlName="password">
+        <mat-error #passwordRef></mat-error>
     </mat-form-field>
     <button mat-button [class.disabled]="formGroup.invalid" type="submit">Sign in</button>
 </form>
