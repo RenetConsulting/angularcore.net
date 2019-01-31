@@ -1,4 +1,4 @@
-﻿namespace Application.DataAccess.Test
+﻿namespace Application.DataAccess.Test.MockDbSet
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -12,7 +12,15 @@
         {
             IQueryable<T> queryableList = list.AsQueryable();
             Mock<DbSet<T>> dbSetMock = new Mock<DbSet<T>>();
-            dbSetMock.As<IQueryable<T>>().Setup(x => x.Provider).Returns(queryableList.Provider);
+
+            dbSetMock.As<IAsyncEnumerable<T>>()
+            .Setup(m => m.GetEnumerator())
+            .Returns(new MockAsyncEnumeratorExtensions<T>(queryableList.GetEnumerator()));
+
+            dbSetMock.As<IQueryable<T>>()
+            .Setup(m => m.Provider)
+            .Returns(new MockAsyncDbSetExtensions<T>(queryableList.Provider));
+
             dbSetMock.As<IQueryable<T>>().Setup(x => x.Expression).Returns(queryableList.Expression);
             dbSetMock.As<IQueryable<T>>().Setup(x => x.ElementType).Returns(queryableList.ElementType);
             dbSetMock.As<IQueryable<T>>().Setup(x => x.GetEnumerator()).Returns(queryableList.GetEnumerator());

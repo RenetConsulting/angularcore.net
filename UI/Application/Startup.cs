@@ -163,7 +163,6 @@ namespace Application
                         OpenIdConnectConstants.Scopes.OfflineAccess,
                         OpenIddictConstants.Scopes.Roles);
 
-
                     // Note: to use JWT access tokens instead of the default
                     // encrypted format, the following lines are required:
                     //
@@ -241,18 +240,18 @@ namespace Application
                 // see https://go.microsoft.com/fwlink/?linkid=864501
                 spa.Options.SourcePath = "ClientApp";
 
-                spa.UseSpaPrerendering(options =>
-                {
-                    options.BootModulePath = $"{spa.Options.SourcePath}/dist-server/main.bundle.js";
-                    options.BootModuleBuilder = env.IsDevelopment()
-                        ? new AngularCliBuilder(npmScript: "build:ssr")
-                        : null;
-                    options.ExcludeUrls = new[] { "/sockjs-node" };
-                });
-
                 if (env.IsDevelopment())
                 {
                     spa.UseAngularCliServer(npmScript: "start");
+                }
+                else
+                {
+                    // SSR is enabled only in production
+                    spa.UseSpaPrerendering(options =>
+                    {
+                        options.BootModulePath = $"{spa.Options.SourcePath}/dist-server/main.js";
+                        options.ExcludeUrls = new[] { "/sockjs-node" };
+                    });
                 }
             });
 

@@ -1,25 +1,26 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
-import { AuthorizationRoutingModule } from "./authorization-routing.module";
-import { AuthorizationComponent } from "./authorization.component";
+import { ValidatorDirective } from "./validator.directive";
 
 const MODULES = [
     CommonModule,
-    AuthorizationRoutingModule,
     ReactiveFormsModule
 ]
 
-const COMPONENTS = [
-    AuthorizationComponent
-]
+export const DIRECTIVES = [
+    ValidatorDirective
+];
 
 @NgModule({
     imports: [
         ...MODULES
     ],
+    exports: [
+        ...DIRECTIVES
+    ],
     declarations: [
-        ...COMPONENTS
+        ...DIRECTIVES
     ]
 })
-export class AuthorizationModule { }
+export class ValidatorModule { }

@@ -15,6 +15,7 @@
     <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
     <NeutralLanguage>en-US</NeutralLanguage>
     <DebugType>full</DebugType>
+    <Configurations>Debug;Release;TestingProduction</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

@@ -23,14 +23,14 @@ export class StorageService {
         }
     }
 
-    public remove = (key: string): void => {
+    remove = (key: string): void => {
         const storage = this.storage;
         if (storage) {
             storage.removeItem(key);
         }
     }
 
-    public get = (key: string): any => {
+    get = (key: string): any => {
         if (this.storage) {
             const value = this._get(key);
             if (value === null) {
@@ -46,7 +46,7 @@ export class StorageService {
         return null;
     }
 
-    public set = (key: string, value: any): void => {
+    set = (key: string, value: any): void => {
         if (this.storage) {
             if (typeof value == "string") {
                 this._set(key, value);

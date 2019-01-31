@@ -1,25 +1,25 @@
 <header>
-    <nav class='navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3'>
-        <a class="navbar-brand" href="/">Angular 6</a>
+    <nav class='navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-primary text-white shadow-sm'>
+        <a class="navbar-brand text-white w-auto" href="/">Angular 7</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-label="Toggle navigation" [attr.aria-expanded]="isExpanded" (click)="toggle()">
-            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon text-white"></span>
         </button>
         <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" [ngClass]='{"show": isExpanded}'>
-            <ul class="navbar-nav flex-grow-1">
+            <ul class="navbar-nav ml-auto">
                 <li class="nav-item" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-                    <a class="nav-link text-dark" [routerLink]='["/"]'>Home</a>
+                    <a class="nav-link text-white" [routerLink]='["/"]'>Home</a>
                 </li>
                 <li class="nav-item" [routerLinkActive]='["link-active"]'>
-                    <a class="nav-link text-dark" [routerLink]='["/counter"]'>Counter</a>
+                    <a class="nav-link text-white" [routerLink]='["/counter"]'>Counter</a>
                 </li>
                 <li class="nav-item" [routerLinkActive]='["link-active"]'>
-                    <a class="nav-link text-dark" [routerLink]='["/sign-in"]'>sign-in</a>
+                    <a class="nav-link text-white" [routerLink]='["/sign-in"]'>sign-in</a>
                 </li>
                 <li class="nav-item" [routerLinkActive]='["link-active"]'>
-                    <a class="nav-link text-dark" [routerLink]='["/sign-up"]'>sign-up</a>
+                    <a class="nav-link text-white" [routerLink]='["/sign-up"]'>sign-up</a>
                 </li>
                 <li class="nav-item">
-                    <button class="btn btn-primary" type="button" (click)="signout()">sign out</button>
+                    <button class="btn btn-outline-light" type="button" (click)="signout()">sign out</button>
                 </li>
             </ul>
         </div>

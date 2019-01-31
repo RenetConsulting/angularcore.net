@@ -1,9 +1,0 @@
-<form [formGroup]="itemForm" (ngSubmit)="submit()">
-    <input type="email" formControlName="email" tabindex="0">
-    <input type="password" formControlName="password" tabindex="0">
-    <input *ngIf="!isSignin" type="password" formControlName="confirmPassword">
-    <button [class.disabled]="itemForm.invalid" type="submit">{{buttonText}}</button>
-</form>
-<p class="alert alert-danger text-center" *ngIf="errorMessage">
-    {{errorMessage}}
-</p>
