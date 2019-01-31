@@ -13,6 +13,7 @@
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
     <DebugType>full</DebugType>
+    <Configurations>Debug;Release;TestingProduction</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

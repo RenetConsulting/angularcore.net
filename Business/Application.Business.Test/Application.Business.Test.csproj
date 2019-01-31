@@ -13,6 +13,7 @@
     <NeutralLanguage>en-US</NeutralLanguage>
     <ApplicationIcon />
     <OutputTypeEx>library</OutputTypeEx>
+    <Configurations>Debug;Release;TestingProduction</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
