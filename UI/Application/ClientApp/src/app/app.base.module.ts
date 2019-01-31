@@ -1,12 +1,11 @@
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { Injector, NgModule, Provider } from "@angular/core";
-import { PreloadAllModules, RouterModule } from "@angular/router";
+import { RouterModule } from "@angular/router";
 import { ROUTES } from "./app.routes";
 import { AppSharedModule } from "./app.shared.module";
 import { AppComponent } from "./components/app/app.component";
 import { HomeComponent } from "./components/home/home.component";
 import { NavMenuComponent } from "./components/nav-menu/nav-menu.component";
-import "./rx-imports";
 import { AuthorizationService } from "./services/authorization/authorization.service";
 import { HttpAuthorizationInterceptor } from "./services/http.authorization.interceptor/http.authorization.interceptor";
 import { HttpHandlerService } from "./services/http.handler/http.handler.service";
@@ -17,11 +16,7 @@ import { ToolsService } from "./services/tools/tools.service";
 
 const MODULES = [
     AppSharedModule,
-    RouterModule.forRoot(ROUTES, {
-        useHash: false,
-        preloadingStrategy: PreloadAllModules,
-        initialNavigation: "enabled"
-    })
+    RouterModule.forRoot(ROUTES)
 ]
 
 const PROVIDERS: Array<Provider> = [

@@ -4,6 +4,3 @@
     <input *ngIf="!isSignin" type="password" formControlName="confirmPassword">
     <button [class.disabled]="itemForm.invalid" type="submit">{{buttonText}}</button>
 </form>
-<p class="alert alert-danger text-center" *ngIf="errorMessage">
-    {{errorMessage}}
-</p>

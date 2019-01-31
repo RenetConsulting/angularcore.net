@@ -42,10 +42,10 @@ export class AuthorizationComponent extends FormBase implements OnInit {
     submit = (): void => {
         this.item = this.itemForm.value;
         if (this.isSignin) {
-            this.subscribe(this.authorizationService.signin(this.item));
+            this.authorizationService.signin(this.item).subscribe();
         }
         else {
-            this.subscribe(this.authorizationService.signup(this.item));
+            this.authorizationService.signup(this.item).subscribe();
         }
     }
 }

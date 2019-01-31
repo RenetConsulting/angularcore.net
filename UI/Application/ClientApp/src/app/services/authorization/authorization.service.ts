@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { OpenIdConnectRequestModel } from "../../models/open.id.connect.request.model";
 import { TokenModel } from "../../models/token.model";
@@ -14,7 +14,7 @@ export class AuthorizationService {
 
     constructor(
         @Inject("BASE_URL") private baseUrl: string,
-        @Inject(HttpClient) private httpClient: HttpClient,
+        @Inject(HttpClient) private http: HttpClient,
         @Inject(TokenService) private tokenService: TokenService,
         @Inject(ToolsService) private toolsService: ToolsService,
         @Inject(HttpHandlerService) private httpHandlerService: HttpHandlerService
@@ -32,7 +32,7 @@ export class AuthorizationService {
                 "Content-Type": "application/x-www-form-urlencoded"
             })
         };
-        return this.httpClient
+        return this.http
             .post<TokenModel>(`${this.baseUrl}/connect/token`, body, options).pipe(
                 map((success) => {
                     this.tokenService.token = success;
@@ -65,9 +65,10 @@ export class AuthorizationService {
     }
 
     signup = (model: UserModel): Observable<null> => {
-        return this.httpClient
-            .post(`${this.baseUrl}/api/account/register`, model)
-            .catch(this.httpHandlerService.handleError);
+        return this.http
+            .post(`${this.baseUrl}/api/account/register`, model).pipe(
+                catchError(this.httpHandlerService.handleError)
+            )
     }
 
     logout = (): void => {

@@ -22,12 +22,7 @@ export class TokenService {
     set token(value: TokenModel) {
         if (value && value.access_token && value.refresh_token) {
             if (value.expired_at) {
-                try {
-                    value.expired_at = new Date(new Date().valueOf() + 1000 * value.expires_in).toISOString();
-                }
-                catch (e) {
-                    this.clean();
-                }
+                value.expired_at = new Date(new Date().valueOf() + 1000 * value.expires_in).toISOString();
             }
             this.storageService.set(this.key, value);
         }
