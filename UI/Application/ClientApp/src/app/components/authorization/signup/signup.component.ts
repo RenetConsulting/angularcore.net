@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { IUser } from "../../../interfaces/user";
@@ -7,7 +7,8 @@ import { AuthorizationService } from "../../../services/authorization/authorizat
 @Component({
     selector: "signup",
     templateUrl: "./signup.component.html",
-    styleUrls: ["./signup.component.scss"]
+    styleUrls: ["./signup.component.scss"],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SignupComponent implements OnInit {
 
