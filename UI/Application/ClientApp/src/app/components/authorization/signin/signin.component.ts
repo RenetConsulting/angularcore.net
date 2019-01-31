@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { IUser } from "../../../interfaces/user";
 import { AuthorizationService } from "../../../services/authorization/authorization.service";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "signin",
@@ -13,7 +14,9 @@ export class SigninComponent implements OnInit {
     formGroup: FormGroup;
 
     constructor(
-        @Inject(AuthorizationService) private authorizationService: AuthorizationService
+        @Inject(AuthorizationService) private authorizationService: AuthorizationService,
+        @Inject(Router) private router: Router,
+
     ) { }
 
     ngOnInit(): void {
@@ -29,7 +32,7 @@ export class SigninComponent implements OnInit {
 
     submit = (): void => {
         if (this.formGroup.valid) {
-            this.authorizationService.signin(this.formGroup.value).subscribe();
+            this.authorizationService.signin(this.formGroup.value).subscribe(() => this.router.navigate(["/sign-in"]));
         }
     }
 }

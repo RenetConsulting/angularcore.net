@@ -1,6 +1,12 @@
 <form [formGroup]="formGroup" (ngSubmit)="submit()">
-    <input type="email" formControlName="email">
-    <input type="password" formControlName="password">
-    <input type="password" formControlName="confirmPassword">
-    <button [class.disabled]="formGroup.invalid" type="submit">Sign up</button>
+    <mat-form-field>
+        <input matInput placeholder="Email" type="email" formControlName="email">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Password" type="password" formControlName="password">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Confirm Password" type="password" formControlName="confirmPassword">
+    </mat-form-field>
+    <button mat-button [class.disabled]="formGroup.invalid" type="submit">Sign up</button>
 </form>

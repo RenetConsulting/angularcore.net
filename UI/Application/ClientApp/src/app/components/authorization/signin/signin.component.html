@@ -1,5 +1,9 @@
 <form [formGroup]="formGroup" (ngSubmit)="submit()">
-    <input type="email" formControlName="email">
-    <input type="password" formControlName="password">
-    <button [class.disabled]="formGroup.invalid" type="submit">Sign in</button>
+    <mat-form-field>
+        <input matInput placeholder="Email" type="email" formControlName="email">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Password" type="password" formControlName="password">
+    </mat-form-field>
+    <button mat-button [class.disabled]="formGroup.invalid" type="submit">Sign in</button>
 </form>
