@@ -2,8 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq.Expressions;
     using System.Threading.Tasks;
     using Application.Business.Models;
+    using Application.DataAccess.Enums;
     using Application.DataAccess.Repositories;
     using Moq;
     using Xunit;
@@ -123,6 +125,7 @@
 
         #endregion
 
+        #region ListTest
         [Fact]
         public void ToModelListTest_ValidateDataCreation()
         {
@@ -137,6 +140,35 @@
             Assert.Equal(list[0].CreatedDate, ((MockModel)result[0]).CreatedDate);
             Assert.Equal(list[1].Id, ((MockModel)result[1]).Id);
         }
+
+        [Fact]
+        public async Task ListTest_ReturnsSuccessResult()
+        {
+            int? page = 1;
+            int? count = 10;
+            bool? active = true;
+            string sortFieldName = "unitId";
+            SortOrder? sortOrder = SortOrder.Ascending;
+
+            List<MockEntity> listMockEntity = new List<MockEntity>
+            {
+                new MockEntity { Id = 1 },
+                new MockEntity { Id = 2 }
+            };
+
+            long totalItems = 50;
+
+            this.mockRepo.Setup(x => x.ListAsync<MockEntity>(0, count, active, sortFieldName, sortOrder))
+                .Returns(Task.FromResult((listMockEntity.ToArray(), totalItems))).Verifiable();
+
+            EntityManagement<MockEntity> um = new EntityManagement<MockEntity>(this.mockRepo.Object);
+
+            var result = await um.ListAsync<MockModel>(page, count, active, sortFieldName, sortOrder);
+
+            Assert.Equal(listMockEntity.Count, result.list.Length);
+            Assert.Equal(totalItems, result.totalItems);
+        }
+        #endregion
 
         [Fact]
         public void ConvertPageCountTest_ValidateBothNull()

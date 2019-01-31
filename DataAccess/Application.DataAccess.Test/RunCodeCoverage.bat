@@ -1,7 +1,7 @@
 ﻿@echo off
 SET dotnet="C:/Program Files/dotnet/dotnet.exe"
 SET opencover=%USERPROFILE%\.nuget\packages\OpenCover\4.6.519\tools\OpenCover.Console.exe
-SET reportgenerator=%USERPROFILE%\.nuget\packages\reportgenerator\2.5.8\tools\ReportGenerator.exe
+SET reportgenerator=%USERPROFILE%\.nuget\packages\reportgenerator\3.1.1\tools\ReportGenerator.exe
 
 SET targetargs="test"
 REM Important!!! If you see no result, check filter for your application namespace

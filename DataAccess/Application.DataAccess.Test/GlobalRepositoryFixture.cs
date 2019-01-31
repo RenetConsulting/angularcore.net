@@ -3,11 +3,17 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
+    using System.Reflection;
+    using System.Threading;
     using System.Threading.Tasks;
     using Application.DataAccess.Entities;
+    using Application.DataAccess.Enums;
     using Application.DataAccess.Repositories;
+    using Application.DataAccess.Test.MockDbSet;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Storage;
     using Moq;
     using Xunit;
 
@@ -248,6 +254,244 @@
             Assert.Equal("Value cannot be null.\r\nParameter name: user", ex.Message);
         }
         #endregion
+
+        [Fact]
+        public async Task RegisterUserAsyncTest_ReturnsSuccessResult()
+        {
+            string password = "18C2356A-6106-46FB-9F90-A919B9EB6DA2";
+            string email = "testEmail@gmail.com";
+
+            ApplicationUser applicationUser = new ApplicationUser()
+            {
+                UserName = email,
+                Email = email,
+                EmailConfirmed = false
+            };
+
+            IdentityResult identityResult = new IdentityResult();
+
+            this.mockUserManager.Setup(x => x.CreateAsync(applicationUser, password))
+                .Returns(Task.FromResult(identityResult))
+                .Verifiable();
+
+            IdentityResult result = await this.repo.RegisterUserAsync(password, applicationUser);
+
+            Assert.NotNull(identityResult);
+        }
+
+        [Fact]
+        public async Task RegisterUserAsyncTestEmail_ReturnsSuccessResult()
+        {
+            string password = "18C2356A-6106-46FB-9F90-A919B9EB6DA2";
+            string email = "testEmail@gmail.com";
+
+            ApplicationUser applicationUser = new ApplicationUser()
+            {
+                UserName = email,
+                Email = email,
+                EmailConfirmed = false
+            };
+
+            IdentityResult identityResult = new IdentityResult();
+
+            this.mockUserManager.Setup(x => x.CreateAsync(applicationUser, password))
+                .Returns(Task.FromResult(identityResult))
+                .Verifiable();
+
+            IdentityResult result = await this.repo.RegisterUserAsync(password, email);
+
+            Assert.NotNull(identityResult);
+        }
+
+        #region BeginTransaction
+        [Fact]
+        public void BeginTransaction_Success()
+        {
+            Mock<IDbContextTransaction> mockTransaction = new Mock<IDbContextTransaction>();
+
+            // Setup Moq
+            this.mockContext.Setup(x => x.BeginTransaction())
+                .Returns(mockTransaction.Object).Verifiable();
+
+            var result = this.repo.BeginTransaction();
+
+            Assert.Equal(result, mockTransaction.Object);
+        }
+
+        [Fact]
+        public async Task BeginTransactionAsync_Success()
+        {
+            Mock<IDbContextTransaction> mockTransaction = new Mock<IDbContextTransaction>();
+            CancellationToken cancel = default(CancellationToken);
+
+            // Setup Moq
+            this.mockContext.Setup(x => x.BeginTransactionAsync(cancel))
+                .Returns(Task.FromResult(mockTransaction.Object)).Verifiable();
+
+            var result = await this.repo.BeginTransactionAsync(cancel);
+
+            Assert.Equal(result, mockTransaction.Object);
+        }
+
+        [Fact]
+        public async Task BeginTransactionAsync_Params_Success()
+        {
+            Mock<IDbContextTransaction> mockTransaction = new Mock<IDbContextTransaction>();
+            System.Data.IsolationLevel isolationLevel = default(System.Data.IsolationLevel);
+            CancellationToken cancel = default(CancellationToken);
+
+            // Setup Moq
+            this.mockContext.Setup(x => x.BeginTransactionAsync(isolationLevel, cancel))
+                .Returns(Task.FromResult(mockTransaction.Object)).Verifiable();
+
+            var result = await this.repo.BeginTransactionAsync(isolationLevel, cancel);
+
+            Assert.Equal(result, mockTransaction.Object);
+        }
+
+        #endregion
+
+        #region AddAsync
+        [Fact]
+        public async Task AddAsync_Exception_ReturnsNullResult()
+        {
+            Exception ex = await Assert.ThrowsAsync<ArgumentNullException>(async () => await this.repo.AddAsync<object>(null));
+        }
+
+        [Fact]
+        public async Task AddAsync_ReturnsSuccessResult()
+        {
+            string entity = "entity";
+
+            object returnVal = new object();
+
+            this.mockContext.Setup(x => x.Add<string>(entity));
+
+            int savedRecords = 1;
+            CancellationToken ct = default(CancellationToken);
+            this.mockContext.Setup(x => x.SaveChangesAsync(ct))
+                .Returns(Task.FromResult(savedRecords)).Verifiable();
+
+            var result = await this.repo.AddAsync<string>(entity);
+
+            Assert.Equal(entity, result);
+        }
+        #endregion
+
+        #region UpdateAsync
+        [Fact]
+        public async Task UpdateAsync_Exception_ReturnsNullResult()
+        {
+            Exception ex = await Assert.ThrowsAsync<ArgumentNullException>(async () => await this.repo.UpdateAsync<ApplicationEntity>(null));
+        }
+
+        [Fact]
+        public async Task UpdateAsync_ReturnsSuccessResult()
+        {
+            Mock<ApplicationEntity> mockApEntity = new Mock<ApplicationEntity>();
+
+            this.mockContext.Setup(x => x.Update<ApplicationEntity>(mockApEntity.Object));
+
+            int savedRecords = 1;
+            CancellationToken ct = default(CancellationToken);
+            this.mockContext.Setup(x => x.SaveChangesAsync(ct))
+                .Returns(Task.FromResult(savedRecords)).Verifiable();
+
+            var result = await this.repo.UpdateAsync<ApplicationEntity>(mockApEntity.Object);
+
+            Assert.Equal(mockApEntity.Object, result);
+        }
+
+        #endregion
+
+        [Fact]
+        public async Task FindItems_Success()
+        {
+            int? skip = 0;
+            int? take = 10;
+            PropertyInfo sortFieldProperty = null;
+            SortOrder? sortOrder = SortOrder.Ascending;
+
+            Expression<Func<ApplicationEntity, bool>> whereAnd = x => x.IsActive.GetValueOrDefault();
+
+            List<ApplicationEntity> entityList = new List<ApplicationEntity>
+            {
+                new Mock<ApplicationEntity>().Object,
+                new Mock<ApplicationEntity>().Object,
+            };
+
+            long total = entityList.Count;
+
+            this.mockContext.Setup(x => x.Set<ApplicationEntity>())
+                .Returns(entityList.AsDbSetMock().Object);
+
+            var(list, totalItems) = await this.repo.FindItems<ApplicationEntity, Expression<Func<ApplicationEntity, bool>>, object>(whereAnd, null, skip, take, sortFieldProperty, sortOrder);
+
+            Assert.Equal(entityList.Count, list.Length);
+            Assert.Equal(total, totalItems);
+        }
+
+        [Fact]
+        public async Task ItemListTest_Success()
+        {
+            int? skip = 0;
+            int? take = 10;
+            bool active = true;
+            PropertyInfo sortFieldProperty = null;
+            SortOrder? sortOrder = SortOrder.Ascending;
+
+            Mock<ApplicationEntity> app1 = new Mock<ApplicationEntity>();
+            app1.Object.IsActive = true;
+            Mock<ApplicationEntity> app2 = new Mock<ApplicationEntity>();
+            app2.Object.IsActive = true;
+
+            List<ApplicationEntity> entityList = new List<ApplicationEntity>
+            {
+                app1.Object,
+                app2.Object
+            };
+
+            IQueryable<ApplicationEntity> selector = entityList.AsDbSetMock().Object.AsQueryable();
+
+            this.mockContext.Setup(x => x.Set<ApplicationEntity>())
+                .Returns(entityList.AsDbSetMock().Object);
+
+            long total = entityList.Count;
+
+            var (list, totalItems) = await this.repo.ItemList(selector, skip, take, active, sortFieldProperty, sortOrder);
+
+            Assert.Equal(total, totalItems);
+        }
+
+        [Fact]
+        public async Task ListAsyncTest_Success()
+        {
+            int? skip = 0;
+            int? take = 10;
+            bool active = true;
+            string sortFieldName = "IsActive";
+            SortOrder? sortOrder = SortOrder.Ascending;
+
+            Mock<ApplicationEntity> app1 = new Mock<ApplicationEntity>();
+            app1.Object.IsActive = true;
+            Mock<ApplicationEntity> app2 = new Mock<ApplicationEntity>();
+            app2.Object.IsActive = true;
+
+            List<ApplicationEntity> entityList = new List<ApplicationEntity>
+            {
+                app1.Object,
+                app2.Object
+            };
+
+            this.mockContext.Setup(x => x.Set<ApplicationEntity>())
+                .Returns(entityList.AsDbSetMock().Object);
+
+            long total = entityList.Count;
+
+            var (list, totalItems) = await this.repo.ListAsync<ApplicationEntity>(skip, take, active, sortFieldName, sortOrder);
+
+            Assert.Equal(total, totalItems);
+        }
 
         [Fact]
         public async Task FindByIdAsyncTest_Found()
