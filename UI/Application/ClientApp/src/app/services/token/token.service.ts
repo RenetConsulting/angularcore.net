@@ -29,8 +29,13 @@ export class TokenService {
     }
 
     get isValid(): boolean {
-        const item = this.token;
-        return item && item.access_token && !!item.refresh_token;
+        if (this.token) {
+            const item = this.token;
+            return item && item.access_token && !!item.refresh_token;
+        }
+        else {
+            return false;
+        }
     }
 
     get isExpired(): boolean {

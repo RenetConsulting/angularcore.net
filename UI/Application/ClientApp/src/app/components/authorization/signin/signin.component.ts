@@ -32,7 +32,7 @@ export class SigninComponent implements OnInit {
 
     submit = (): void => {
         if (this.formGroup.valid) {
-            this.authorizationService.signin(this.formGroup.value).subscribe(() => this.router.navigate(["/sign-in"]));
+            this.authorizationService.signin(this.formGroup.value).subscribe(() => this.router.navigate(["/"]));
         }
     }
 }

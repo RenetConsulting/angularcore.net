@@ -1,6 +1,7 @@
 import { Component, Inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { TokenService } from "../../services/token/token.service";
+import { AuthorizationService } from "../../services/authorization/authorization.service";
 
 @Component({
     selector: "app-nav-menu",
@@ -13,6 +14,7 @@ export class NavMenuComponent {
 
     constructor(
         @Inject(Router) private router: Router,
+        @Inject(AuthorizationService) private authorizationService: AuthorizationService,
         @Inject(TokenService) private tokenService: TokenService
     ) { }
 
@@ -25,7 +27,9 @@ export class NavMenuComponent {
     }
 
     signout = (): void => {
-        this.tokenService.clean();
+        this.authorizationService.logout();
         this.router.navigate(["/sign-in"]);
     }
+
+    isAuthenticated = () => { return this.authorizationService.isAuthorized;}
 }
