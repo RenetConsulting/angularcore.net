@@ -28,8 +28,7 @@ namespace Application.Controllers
 
         public AuthorizationController(
             SignInManager<ApplicationUser> signInManager,
-            IUserManager userManager,
-            IGlobalRepository repository)
+            IUserManager userManager)
             : base()
         {
             this.signInManager = signInManager;
