@@ -19,6 +19,7 @@ namespace Application.Controllers
     using OpenIddict.Abstractions;
     using OpenIddict.Core;
     using OpenIddict.EntityFrameworkCore.Models;
+    using OpenIddict.Mvc.Internal;
 
     public class AuthorizationController : Controller
     {
@@ -40,125 +41,46 @@ namespace Application.Controllers
             this.userManager = userManager;
         }
 
-        // TODO: move logic into business class
         [HttpPost("~/connect/token")]
         [Produces("application/json")]
-        public async Task<IActionResult> Exchange(OpenIdConnectRequest request)
+        public async Task<IActionResult> Exchange([ModelBinder(typeof(OpenIddictMvcBinder))] OpenIdConnectRequest request)
         {
-            Debug.Assert(
-                request.IsTokenRequest(),
-                "The OpenIddict binder for ASP.NET Core MVC is not registered. " + "Make sure services.AddOpenIddict().AddMvcBinders() is correctly called.");
-
             if (request.IsPasswordGrantType())
             {
                 var user = await this.userManager.FindByNameAsync(request.Username);
                 if (user == null)
                 {
-                    var responseError = new OpenIdConnectResponse
+                    return this.BadRequest(new OpenIdConnectResponse
                     {
                         Error = OpenIdConnectConstants.Errors.InvalidGrant,
                         ErrorDescription = "The username/password couple is invalid."
-                    };
-
-                    return this.StatusCode(StatusCodes.Status401Unauthorized, responseError);
-                }
-
-                // Ensure the user is allowed to sign in.
-                if (!await this.signInManager.CanSignInAsync(user))
-                {
-                    OpenIdConnectResponse openIdConnectResponse = new OpenIdConnectResponse
-                    {
-                        Error = OpenIdConnectConstants.Errors.InvalidGrant,
-                        ErrorDescription = "The specified user is not allowed to sign in."
-                    };
-
-                    return this.StatusCode(StatusCodes.Status403Forbidden, openIdConnectResponse);
-                }
-
-                // Reject the token request if two-factor authentication has been enabled by the user.
-                if (this.userManager.SupportsUserTwoFactor && await this.userManager.GetTwoFactorEnabledAsync(user))
-                {
-                    return this.BadRequest(new OpenIdConnectResponse
-                    {
-                        Error = OpenIdConnectConstants.Errors.InvalidGrant,
-                        ErrorDescription = "The specified user is not allowed to sign in."
                     });
                 }
 
-                // Ensure the user is not already locked out.
-                if (this.userManager.SupportsUserLockout && await this.userManager.IsLockedOutAsync(user))
+                // Validate the username/password parameters and ensure the account is not locked out.
+                var result = await this.signInManager.CheckPasswordSignInAsync(user, request.Password, lockoutOnFailure: true);
+                if (!result.Succeeded)
                 {
-                    return this.BadRequest(new OpenIdConnectResponse
+                    if (result.IsLockedOut)
                     {
-                        Error = OpenIdConnectConstants.Errors.InvalidGrant,
-                        ErrorDescription = "The username/password couple is invalid.."
-                    });
-                }
-
-                // Ensure the password is valid.
-                if (!await this.userManager.CheckPasswordAsync(user, request.Password))
-                {
-                    if (this.userManager.SupportsUserLockout)
-                    {
-                        await this.userManager.AccessFailedAsync(user);
+                        return this.BadRequest(new OpenIdConnectResponse
+                        {
+                            Error = OpenIdConnectConstants.Errors.InvalidGrant,
+                            ErrorDescription = "Account is locked. Try again in 5 min."
+                        });
                     }
-
-                    var responseError = new OpenIdConnectResponse
+                    else
                     {
-                        Error = OpenIdConnectConstants.Errors.InvalidGrant,
-                        ErrorDescription = "The username/password couple is invalid..."
-                    };
-
-                    return this.StatusCode(StatusCodes.Status401Unauthorized, responseError);
-                }
-
-                // Validate T&C
-                string userAcceptedTerms = this.HttpContext.Request.Headers["AcceptedTerms"];
-
-                if (!bool.TryParse(userAcceptedTerms, out bool acceptedTerms))
-                {
-                    acceptedTerms = false;
-                }
-
-                if (this.userManager.SupportsUserLockout)
-                {
-                    await this.userManager.ResetAccessFailedCountAsync(user);
+                        return this.BadRequest(new OpenIdConnectResponse
+                        {
+                            Error = OpenIdConnectConstants.Errors.InvalidGrant,
+                            ErrorDescription = "The username/password couple is invalid."
+                        });
+                    }
                 }
 
                 // Create a new authentication ticket.
                 var ticket = await this.CreateTicketAsync(request, user);
-
-                return this.SignIn(ticket.Principal, ticket.Properties, ticket.AuthenticationScheme);
-            }
-            else if (request.IsRefreshTokenGrantType())
-            {
-                // Retrieve the claims principal stored in the refresh token.
-                var info = await this.HttpContext.AuthenticateAsync(OpenIdConnectServerDefaults.AuthenticationScheme);
-
-                // Retrieve the user profile corresponding to the refresh token.
-                var user = await this.userManager.GetUserAsync(info.Principal);
-                if (user == null)
-                {
-                    return this.BadRequest(new OpenIdConnectResponse
-                    {
-                        Error = OpenIdConnectConstants.Errors.InvalidGrant,
-                        ErrorDescription = "The refresh token is no longer valid."
-                    });
-                }
-
-                // Ensure the user is still allowed to sign in.
-                if (!await this.signInManager.CanSignInAsync(user))
-                {
-                    return this.BadRequest(new OpenIdConnectResponse
-                    {
-                        Error = OpenIdConnectConstants.Errors.InvalidGrant,
-                        ErrorDescription = "The user is no longer allowed to sign in."
-                    });
-                }
-
-                // Create a new authentication ticket, but reuse the properties stored
-                // in the refresh token, including the scopes originally granted.
-                var ticket = await this.CreateTicketAsync(request, user, info.Properties);
 
                 return this.SignIn(ticket.Principal, ticket.Properties, ticket.AuthenticationScheme);
             }
