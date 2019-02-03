@@ -95,6 +95,7 @@ namespace Application
             services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddRoles<ApplicationRole>()
                 .AddRoleManager<RoleManager<ApplicationRole>>()
+                .AddUserManager<UserManager<ApplicationUser>>()
                 .AddEntityFrameworkStores<DataContext>()
                 .AddDefaultTokenProviders();
 

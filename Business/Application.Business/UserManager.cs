@@ -7,12 +7,15 @@
 
     public class UserManager : IUserManager
     {
-        public UserManager(IGlobalRepository repo)
+        public UserManager(IGlobalRepository repository, UserManager<ApplicationUser> userManager)
         {
-            this.Repository = repo;
+            this.Repository = repository;
+            this.IdentityUserManager = userManager;
         }
 
         protected IGlobalRepository Repository { get; private set; }
+
+        protected UserManager<ApplicationUser> IdentityUserManager { get; private set; }
 
         public async Task<IdentityResult> RegisterAsync(string userName, string password)
         {
@@ -21,7 +24,7 @@
 
         public async Task<ApplicationUser> FindByNameAsync(string userName)
         {
-            return await this.Repository.FindByNameAsync(userName);
+            return await this.IdentityUserManager.FindByNameAsync(userName);
         }
     }
 }

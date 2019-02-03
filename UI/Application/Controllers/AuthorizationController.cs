@@ -4,16 +4,15 @@
 
 namespace Application.Controllers
 {
-    using System.Diagnostics;
     using System.Linq;
     using System.Threading.Tasks;
+    using Application.Business;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Repositories;
     using AspNet.Security.OpenIdConnect.Extensions;
     using AspNet.Security.OpenIdConnect.Primitives;
     using AspNet.Security.OpenIdConnect.Server;
     using Microsoft.AspNetCore.Authentication;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using OpenIddict.Abstractions;
@@ -23,20 +22,16 @@ namespace Application.Controllers
 
     public class AuthorizationController : Controller
     {
-        private readonly OpenIddictApplicationManager<OpenIddictApplication> applicationManager;
-
         private readonly SignInManager<ApplicationUser> signInManager;
 
-        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IUserManager userManager;
 
         public AuthorizationController(
-            OpenIddictApplicationManager<OpenIddictApplication> applicationManager,
             SignInManager<ApplicationUser> signInManager,
-            UserManager<ApplicationUser> userManager,
+            IUserManager userManager,
             IGlobalRepository repository)
             : base()
         {
-            this.applicationManager = applicationManager;
             this.signInManager = signInManager;
             this.userManager = userManager;
         }

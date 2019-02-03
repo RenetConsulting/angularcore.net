@@ -1,6 +1,7 @@
 ﻿namespace Application.Business.Test
 {
     using System.Threading.Tasks;
+    using Application.DataAccess.Entities;
     using Application.DataAccess.Repositories;
     using Microsoft.AspNetCore.Identity;
     using Moq;
@@ -10,15 +11,21 @@
     {
         private Mock<IGlobalRepository> mockRepo;
 
+        private Mock<UserManager<ApplicationUser>> mockUserManager;
+
+        private Mock<IUserStore<ApplicationUser>> mockStore;
+
         public UserManagerFixture()
         {
             this.mockRepo = new Mock<IGlobalRepository>();
+            this.mockStore = new Mock<IUserStore<ApplicationUser>>();
+            this.mockUserManager = new Mock<UserManager<ApplicationUser>>(this.mockStore.Object, null, null, null, null, null, null, null, null);
         }
 
         [Fact]
         public async Task RegisterAsync_RepoCallValidate()
         {
-            UserManager userManager = new UserManager(this.mockRepo.Object);
+            UserManager userManager = new UserManager(this.mockRepo.Object, this.mockUserManager.Object);
 
             IdentityResult identityResult = new IdentityResult();
 
