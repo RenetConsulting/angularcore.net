@@ -42,5 +42,24 @@
             // Validate true result
             Assert.Equal(result, identityResult);
         }
+
+        [Fact]
+        public async Task FindByNameAsync_RepoCallValidate()
+        {
+            UserManager userManager = new UserManager(this.mockRepo.Object, this.mockUserManager.Object);
+
+            ApplicationUser user = new ApplicationUser();
+            string userName = "abc";
+
+            // Setup Moq
+            this.mockUserManager.Setup(x => x.FindByNameAsync(userName))
+                .Returns(Task.FromResult(user)).Verifiable();
+
+            // Run Code
+            var result = await userManager.FindByNameAsync(userName);
+
+            // Validate true result
+            Assert.Equal(result, user);
+        }
     }
 }
