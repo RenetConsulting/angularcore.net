@@ -9,6 +9,7 @@ namespace Application
     using System.Linq;
     using System.Security.Principal;
     using System.Threading.Tasks;
+    using Application.Business;
     using Application.DataAccess;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Repositories;
@@ -182,6 +183,7 @@ namespace Application
 
             // Resolve dependencies
             services.AddScoped<IGlobalRepository, GlobalRepository>();
+            services.AddScoped<IUserManager, UserManager>();
 
             services.AddTransient<IPrincipal>(
                 provider => provider.GetService<IHttpContextAccessor>()?.HttpContext?.User);

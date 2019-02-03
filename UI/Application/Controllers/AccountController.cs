@@ -4,7 +4,9 @@
 
 namespace Application.Controllers
 {
+    using System.Linq;
     using System.Threading.Tasks;
+    using Application.Business;
     using Application.Business.Models;
     using Application.DataAccess.Repositories;
     using Microsoft.AspNetCore.Authorization;
@@ -15,11 +17,15 @@ namespace Application.Controllers
     [Route("api/[controller]")]
     public class AccountController : BaseController
     {
+        private IUserManager userManager;
+
         public AccountController(
             IGlobalRepository repository,
+            IUserManager userManager,
             IOptions<AppSettings> appSettings)
             : base(repository, appSettings)
         {
+            this.userManager = userManager;
         }
 
        // POST api/Account/Register
@@ -33,29 +39,20 @@ namespace Application.Controllers
                 return this.BadRequest(this.ModelState);
             }
 
-            var findUser = await this.Repository.FindUserByEmailAsync(userModel.Email).ConfigureAwait(false);
+            IdentityResult result = await this.userManager.RegisterAsync(userModel.Email, userModel.Password);
 
-            if (findUser != null)
+            if (result.Succeeded)
             {
-                this.ModelState.AddModelError(string.Empty, "Email is already taken");
-                return this.BadRequest(this.ModelState);
-            }
-
-            try
-            {
-                IdentityResult result = await this.Repository.RegisterUserAsync(userModel.Password, userModel.Email).ConfigureAwait(false);
-
-                IActionResult errorResult = this.GetErrorResult(result);
-                if (errorResult != null)
-                {
-                    return this.BadRequest(errorResult);
-                }
-
                 return this.Ok();
             }
-            catch
+            else
             {
-                throw;
+                foreach (var error in result.Errors)
+                {
+                    this.ModelState.AddModelError(error.Code, error.Description);
+                }
+
+                return this.BadRequest(this.ModelState);
             }
         }
 

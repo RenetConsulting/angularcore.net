@@ -31,7 +31,7 @@
 
         #region UserManagement
 
-        public async Task<IdentityResult> RegisterUserAsync(string password, string email)
+        public async Task<IdentityResult> RegisterUserAsync(string email, string password)
         {
             ApplicationUser user = new ApplicationUser
             {
@@ -45,7 +45,7 @@
             return result;
         }
 
-        public async Task<IdentityResult> RegisterUserAsync(string password, ApplicationUser user)
+        public async Task<IdentityResult> RegisterUserAsync(ApplicationUser user, string password)
         {
             try
             {
@@ -70,6 +70,23 @@
             }
 
             return await this.userManager.FindByIdAsync(userId);
+        }
+
+        /// <summary>
+        ///     Finds and returns a user, if any, who has the specified user name.
+        /// </summary>
+        /// <param name="userName">The user name to search for.</param>
+        /// <returns>The System.Threading.Tasks.Task that represents the asynchronous operation, containing
+        ///     the user matching the specified userName if it exists.
+        /// </returns>
+        public async Task<ApplicationUser> FindByNameAsync(string userName)
+        {
+            if (string.IsNullOrEmpty(userName))
+            {
+                throw new ArgumentNullException("userName");
+            }
+
+            return await this.userManager.FindByNameAsync(userName);
         }
 
         /// <summary>

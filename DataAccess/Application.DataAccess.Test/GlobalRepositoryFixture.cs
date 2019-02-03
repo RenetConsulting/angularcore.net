@@ -274,7 +274,7 @@
                 .Returns(Task.FromResult(identityResult))
                 .Verifiable();
 
-            IdentityResult result = await this.repo.RegisterUserAsync(password, applicationUser);
+            IdentityResult result = await this.repo.RegisterUserAsync(applicationUser, password);
 
             Assert.NotNull(identityResult);
         }
@@ -298,7 +298,7 @@
                 .Returns(Task.FromResult(identityResult))
                 .Verifiable();
 
-            IdentityResult result = await this.repo.RegisterUserAsync(password, email);
+            IdentityResult result = await this.repo.RegisterUserAsync(email, password);
 
             Assert.NotNull(identityResult);
         }
@@ -458,7 +458,7 @@
 
             long total = entityList.Count;
 
-            var (list, totalItems) = await this.repo.ItemList(selector, skip, take, active, sortFieldProperty, sortOrder);
+            var(list, totalItems) = await this.repo.ItemList(selector, skip, take, active, sortFieldProperty, sortOrder);
 
             Assert.Equal(total, totalItems);
         }
@@ -488,7 +488,7 @@
 
             long total = entityList.Count;
 
-            var (list, totalItems) = await this.repo.ListAsync<ApplicationEntity>(skip, take, active, sortFieldName, sortOrder);
+            var(list, totalItems) = await this.repo.ListAsync<ApplicationEntity>(skip, take, active, sortFieldName, sortOrder);
 
             Assert.Equal(total, totalItems);
         }

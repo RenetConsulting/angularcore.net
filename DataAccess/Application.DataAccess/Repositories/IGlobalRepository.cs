@@ -12,11 +12,13 @@
     {
         #region UserManagement
 
-        Task<IdentityResult> RegisterUserAsync(string password, string email);
+        Task<IdentityResult> RegisterUserAsync(string email, string password);
 
-        Task<IdentityResult> RegisterUserAsync(string password, ApplicationUser user);
+        Task<IdentityResult> RegisterUserAsync(ApplicationUser user, string password);
 
         Task<ApplicationUser> FindUserByIdAsync(string userId);
+
+        Task<ApplicationUser> FindByNameAsync(string username);
 
         Task<ApplicationUser> FindUserByEmailAsync(string email);
 
