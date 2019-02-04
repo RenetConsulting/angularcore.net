@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Security.Authentication;
     using System.Threading.Tasks;
     using Application.DataAccess.Entities;
     using Microsoft.AspNetCore.Identity;
@@ -57,7 +58,30 @@
 
             TUser user = await this.Me.FindByIdAsync(userId);
 
-            return await this.Me.GeneratePasswordResetTokenAsync(user);
+            if (user != null)
+            {
+                return await this.Me.GeneratePasswordResetTokenAsync(user);
+            }
+            else
+            {
+                throw new InvalidCredentialException("User not found");
+            }
+        }
+
+        public async Task<string> GeneratePasswordResetTokenByEmailAsync(string email)
+        {
+            email = email ?? throw new ArgumentNullException(nameof(email));
+
+            TUser user = await this.Me.FindByEmailAsync(email);
+
+            if (user != null)
+            {
+                return await this.GeneratePasswordResetTokenAsync(user);
+            }
+            else
+            {
+                throw new InvalidCredentialException("User not found");
+            }
         }
 
         /// <summary>
@@ -75,16 +99,6 @@
             TUser user = await this.Me.FindByIdAsync(userId);
 
             return await this.Me.ResetPasswordAsync(user, token, newPassword);
-        }
-
-        /// <summary>
-        /// Gets the user, if any, associated with the normalized value of the specified email address.
-        /// </summary>
-        /// <param name="email">The email address to return the user for.</param>
-        /// <returns>The task object containing the results of the asynchronous lookup operation, the user, if any, associated with a normalized value of the specified email address.</returns>
-        public async Task<TUser> FindUserByEmailAsync(string email)
-        {
-            return await this.Me.FindByEmailAsync(email);
         }
     }
 }
