@@ -5,14 +5,17 @@ import { tap } from "rxjs/operators";
 import { IConnectToken } from "../../interfaces/connect.token";
 import { IToken } from "../../interfaces/token";
 import { IUser } from "../../interfaces/user";
+import { BASE_URL } from "../../tokens/base.url";
 import { TokenService } from "../token/token.service";
 import { ToolsService } from "../tools/tools.service";
 
-@Injectable()
+@Injectable({
+    providedIn: "root"
+})
 export class AuthorizationService {
 
     constructor(
-        @Inject("BASE_URL") private baseUrl: string,
+        @Inject(BASE_URL) private baseUrl: string,
         @Inject(HttpClient) private http: HttpClient,
         @Inject(TokenService) private tokenService: TokenService,
         @Inject(ToolsService) private toolsService: ToolsService,
@@ -23,7 +26,7 @@ export class AuthorizationService {
     }
 
     getToken = (request: IConnectToken, headers?: { [key: string]: string }): Observable<IToken> => {
-        const body: string = this.toolsService.getQueryString(request).replace(/^\?/, "");
+        const body: string = this.toolsService.getQuery(request).replace(/^\?/, "");
         const options = {
             headers: new HttpHeaders({
                 ...headers,

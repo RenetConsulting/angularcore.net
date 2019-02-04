@@ -1,10 +1,13 @@
 import { Inject, Injectable } from "@angular/core";
+import { WINDOW } from "../../tokens/window";
 
-@Injectable()
+@Injectable({
+    providedIn: "root"
+})
 export class StorageService {
 
     constructor(
-        @Inject("WINDOW") private window: any
+        @Inject(WINDOW) private window: any
     ) { }
 
     private get storage(): any {

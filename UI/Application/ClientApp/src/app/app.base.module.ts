@@ -10,11 +10,6 @@ import { NavMenuComponent } from "./components/nav-menu/nav-menu.component";
 import { ErrorInterceptor } from "./interceptors/error/error.interceptor";
 import { HttpAuthorizationInterceptor } from "./interceptors/http.authorization/http.authorization.interceptor";
 import { NoneCacheInterceptor } from "./interceptors/none.cache/none.cache.interceptor";
-import { AuthorizationService } from "./services/authorization/authorization.service";
-import { MessageHandlerService } from "./services/message.handler/message.handler.service";
-import { StorageService } from "./services/storage/storage.service";
-import { TokenService } from "./services/token/token.service";
-import { ToolsService } from "./services/tools/tools.service";
 
 const MODULES = [
     AppSharedModule,
@@ -23,11 +18,6 @@ const MODULES = [
 ]
 
 const PROVIDERS: Array<Provider> = [
-    AuthorizationService,
-    StorageService,
-    TokenService,
-    ToolsService,
-    MessageHandlerService,
     { provide: HTTP_INTERCEPTORS, useClass: HttpAuthorizationInterceptor, deps: [Injector], multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: NoneCacheInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, deps: [Injector], multi: true }
