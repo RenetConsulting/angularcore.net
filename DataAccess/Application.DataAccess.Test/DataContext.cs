@@ -1,7 +1,5 @@
 ﻿namespace Application.DataAccess.Test
 {
-    using Application.DataAccess.Entities;
-    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
     public partial class DataContextMock : Application.DataAccess.DataContext
