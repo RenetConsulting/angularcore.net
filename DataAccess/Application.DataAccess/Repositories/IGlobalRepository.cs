@@ -10,30 +10,6 @@
 
     public interface IGlobalRepository
     {
-        #region UserManagement
-
-        Task<IdentityResult> RegisterUserAsync(string email, string password);
-
-        Task<IdentityResult> RegisterUserAsync(ApplicationUser user, string password);
-
-        Task<ApplicationUser> FindUserByIdAsync(string userId);
-
-        Task<ApplicationUser> FindByNameAsync(string username);
-
-        Task<ApplicationUser> FindUserByEmailAsync(string email);
-
-        Task<IdentityResult> UpdateUserAsync(ApplicationUser user);
-
-        Task<IdentityResult> ResetUserPasswordAsync(ApplicationUser user, string token, string newPassword);
-
-        Task<IdentityResult> ResetUserPasswordAsync(string userId, string token, string newPassword);
-
-        Task<string> GenerateUserPasswordResetTokenAsync(ApplicationUser user);
-
-        Task<string> GenerateUserPasswordResetTokenAsync(string userId);
-
-        #endregion
-
         #region Transactions
         IDbContextTransaction BeginTransaction();
 

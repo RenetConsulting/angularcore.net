@@ -45,5 +45,37 @@
 
             return result;
         }
+
+        /// <summary>
+        /// Generates a password reset token for the specified user, using the configured password reset token provider.
+        /// </summary>
+        /// <param name="userId">The userId to generate a password reset token for.</param>
+        /// <returns>The System.Threading.Tasks.Task that represents the asynchronous operation, containing a password reset token for the specified user.</returns>
+        /// <exception cref="System.ArgumentNullException">Throw ArgumentNullException if the userId parameter is null or empty or user not found</exception>
+        public async Task<string> GeneratePasswordResetTokenAsync(string userId)
+        {
+            userId = userId ?? throw new ArgumentNullException(nameof(userId));
+
+            TUser user = await this.Me.FindByIdAsync(userId);
+
+            return await this.Me.GeneratePasswordResetTokenAsync(user);
+        }
+
+        /// <summary>
+        /// Resets the user's password to the specified newPassword after validating the given password reset token.
+        /// </summary>
+        /// <param name="userId">The userId whose password should be reset.</param>
+        /// <param name="token">The password reset token to verify.</param>
+        /// <param name="newPassword">The new password to set if reset token verification fails.</param>
+        /// <returns>The System.Threading.Tasks.Task that represents the asynchronous operation, containing the Microsoft.AspNetCore.Identity.IdentityResult of the operation.</returns>
+        /// <exception cref="System.ArgumentNullException">Throw ArgumentNullException if the userId parameter is null or empty or user not found</exception>
+        public async Task<IdentityResult> ResetPasswordAsync(string userId, string token, string newPassword)
+        {
+            userId = userId ?? throw new ArgumentNullException(nameof(userId));
+
+            TUser user = await this.Me.FindByIdAsync(userId);
+
+            return await this.Me.ResetPasswordAsync(user, token, newPassword);
+        }
     }
 }

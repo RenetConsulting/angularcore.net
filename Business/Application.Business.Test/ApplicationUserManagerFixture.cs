@@ -19,7 +19,7 @@
         }
 
         [Fact]
-        public async Task RegisterAsync_RepoCallValidate()
+        public async Task RegisterAsync_CallValidate()
         {
             ApplicationUserManager<ApplicationUser> userManager = new ApplicationUserManager<ApplicationUser>(this.mockStore.Object, null, null, null, null, null, null, null, null)
             {
@@ -37,6 +37,73 @@
 
             // Run Code
             var result = await userManager.RegisterAsync(userName, password);
+
+            // Validate true result
+            Assert.NotNull(result);
+            Assert.True(result.Succeeded);
+        }
+
+        [Fact]
+        public async Task GeneratePasswordResetTokenAsync_CallValidate()
+        {
+            ApplicationUserManager<ApplicationUser> userManager = new ApplicationUserManager<ApplicationUser>(this.mockStore.Object, null, null, null, null, null, null, null, null)
+            {
+                Me = this.mockIUserManager.Object
+            };
+
+            string token = "ABC";
+
+            string userId = "abc";
+
+            ApplicationUser user = new ApplicationUser { UserName = "AAA", Id = userId };
+
+            // Setup Moq
+            this.mockIUserManager.Setup(x => x.FindByIdAsync(userId))
+                .Returns(Task.FromResult(user)).Verifiable();
+
+            this.mockIUserManager.Setup(x => x.GeneratePasswordResetTokenAsync(user))
+                .Returns(Task.FromResult(token)).Verifiable();
+
+            // Run Code
+            var result = await userManager.GeneratePasswordResetTokenAsync(userId);
+
+            // Validate true result
+            Assert.Equal(token, result);
+        }
+
+        [Fact]
+        public void Me_ValidateNotAssignedValue()
+        {
+            ApplicationUserManager<ApplicationUser> userManager = new ApplicationUserManager<ApplicationUser>(this.mockStore.Object, null, null, null, null, null, null, null, null);
+
+            Assert.Equal(userManager, userManager.Me);
+        }
+
+        [Fact]
+        public async Task ResetPasswordAsync_CallValidate()
+        {
+            ApplicationUserManager<ApplicationUser> userManager = new ApplicationUserManager<ApplicationUser>(this.mockStore.Object, null, null, null, null, null, null, null, null)
+            {
+                Me = this.mockIUserManager.Object
+            };
+
+            string token = "ABC";
+            string newPassword = "password";
+            string userId = "abc";
+
+            IdentityResult identityResult = IdentityResult.Success;
+
+            ApplicationUser user = new ApplicationUser { UserName = "AAA", Id = userId };
+
+            // Setup Moq
+            this.mockIUserManager.Setup(x => x.FindByIdAsync(userId))
+                .Returns(Task.FromResult(user)).Verifiable();
+
+            this.mockIUserManager.Setup(x => x.ResetPasswordAsync(user, token, newPassword))
+                .Returns(Task.FromResult(identityResult)).Verifiable();
+
+            // Run Code
+            var result = await userManager.ResetPasswordAsync(userId, token, newPassword);
 
             // Validate true result
             Assert.NotNull(result);
