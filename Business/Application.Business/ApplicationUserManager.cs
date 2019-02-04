@@ -77,5 +77,15 @@
 
             return await this.Me.ResetPasswordAsync(user, token, newPassword);
         }
+
+        /// <summary>
+        /// Gets the user, if any, associated with the normalized value of the specified email address.
+        /// </summary>
+        /// <param name="email">The email address to return the user for.</param>
+        /// <returns>The task object containing the results of the asynchronous lookup operation, the user, if any, associated with a normalized value of the specified email address.</returns>
+        public async Task<TUser> FindUserByEmailAsync(string email)
+        {
+            return await this.Me.FindByEmailAsync(email);
+        }
     }
 }

@@ -4,9 +4,9 @@
 
 namespace Application.Controllers
 {
-    using System.Linq;
     using System.Threading.Tasks;
     using Application.Business;
+    using Application.Business.Communications;
     using Application.Business.Models;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Repositories;
@@ -40,7 +40,8 @@ namespace Application.Controllers
                 return this.BadRequest(this.ModelState);
             }
 
-            IdentityResult result = await this.userManager.RegisterAsync(userModel.Email, userModel.Password);
+            IdentityResult result = await this.userManager.RegisterAsync(userModel.Email, userModel.Password)
+                .ConfigureAwait(false);
 
             if (result.Succeeded)
             {
@@ -54,6 +55,95 @@ namespace Application.Controllers
                 }
 
                 return this.BadRequest(this.ModelState);
+            }
+        }
+
+        // GET api/Account/ResetPassword
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("ResetPassword", Name = "ResetPassword")]
+        public async Task<IActionResult> ResetPasswordAsync(string email)
+        {
+            ApplicationUser applicationUser = await this.userManager.FindUserByEmailAsync(email)
+                .ConfigureAwait(false);
+
+            if (applicationUser != null)
+            {
+                var token = await this.userManager.GeneratePasswordResetTokenAsync(applicationUser.Id)
+                    .ConfigureAwait(false);
+
+                var url = this.AppSettings.SiteHost
+                    + "reset-password?token="
+                    + System.Net.WebUtility.UrlEncode(token)
+                    + $"&email={email}";
+
+                string message = string.Format(
+                    "<p>For reset Password: <a href='{0}'>follow the link</a>"
+                    + "<br />"
+                    + "<p>Please do not reply to this email.</p>",
+                    url);
+
+                await MailClient.SendEmailAsync(
+                    new SendGrid.SendGridClient(this.AppSettings.SendGridKey),
+                    this.AppSettings.InfoEmail,
+                    email,
+                    this.AppSettings.ResetPasswordSubject,
+                    message).ConfigureAwait(false);
+
+                return this.Ok();
+            }
+            else
+            {
+                return this.BadRequest("User is not registered");
+            }
+        }
+
+        // POST api/Account/ResetPasswordFromMail
+        [AllowAnonymous]
+        [Route("ResetPasswordFromMail", Name = "ResetPasswordFromMail")]
+        [HttpPost]
+        public async Task<IActionResult> ResetPasswordFromMailAsync([FromBody] UserModel userModel)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            ApplicationUser applicationUser = await this.userManager.FindUserByEmailAsync(userModel.Email)
+                .ConfigureAwait(false);
+
+            if (applicationUser != null)
+            {
+                if (string.IsNullOrEmpty(userModel.Token))
+                {
+                    return this.BadRequest("Token in link is not found.");
+                }
+
+                IdentityResult result = await this.userManager.ResetPasswordAsync(applicationUser.Id, userModel.Token, userModel.Password)
+                    .ConfigureAwait(false);
+
+                if (!result.Succeeded)
+                {
+                    return this.BadRequest($"Something error with reset {userModel.Email} password.");
+                }
+
+                string message = string.Format(
+                    "<p>You're receiving this e-mail because you or someone else reset your password at {1}."
+                    + " If this occurred without your approval, please contact us at <a href='{0}'>{1}</a>.</p>",
+                    this.AppSettings.SiteHost);
+
+                await MailClient.SendEmailAsync(
+                    new SendGrid.SendGridClient(this.AppSettings.SendGridKey),
+                    this.AppSettings.InfoEmail,
+                    userModel.Email,
+                    this.AppSettings.AfterResetPasswordSubject,
+                    message).ConfigureAwait(false);
+
+                return this.Ok();
+            }
+            else
+            {
+                return this.BadRequest("Email adress is not found.");
             }
         }
 

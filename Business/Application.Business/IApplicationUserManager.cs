@@ -9,6 +9,8 @@
 
         Task<TUser> FindByIdAsync(string userId);
 
+        Task<TUser> FindByEmailAsync(string email);
+
         Task<string> GeneratePasswordResetTokenAsync(TUser user);
 
         Task<IdentityResult> ResetPasswordAsync(TUser user, string token, string newPassword);

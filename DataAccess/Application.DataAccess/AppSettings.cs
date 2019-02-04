@@ -4,7 +4,15 @@
     {
         public string SendGridKey { get; set; }
 
+        public string SiteHost { get; set; }
+
         public string InfoFromEmail { get; set; }
+
+        public string ResetPasswordSubject { get; set; }
+
+        public string AfterResetPasswordSubject { get; set; }
+
+        public string InfoEmail { get; set; }
 
         public string RecaptchaSecret { get; set; }
 
