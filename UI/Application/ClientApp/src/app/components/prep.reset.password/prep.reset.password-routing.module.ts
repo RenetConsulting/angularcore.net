@@ -1,13 +1,13 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { ChangePasswordComponent } from "./change.password.component";
+import { PrepResetPasswordComponent } from "./prep.reset.password.component";
 
 const routes: Routes = [
-    { path: "", component: ChangePasswordComponent }
+    { path: "", component: PrepResetPasswordComponent }
 ];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class ChangePasswordRoutingModule { }
+export class PrepResetPasswordRoutingModule { }

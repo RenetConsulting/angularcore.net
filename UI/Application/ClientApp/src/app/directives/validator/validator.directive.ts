@@ -41,6 +41,9 @@ export class ValidatorDirective implements OnChanges, OnInit, OnDestroy {
             else if (errors.maxlength) {
                 return `The length of the ${this.placeholder} must be at most ${errors.maxlength.requiredLength} characters long.`;
             }
+            else if (errors.errorMessage) {
+                return errors.errorMessage;
+            }
         }
         return null;
     }

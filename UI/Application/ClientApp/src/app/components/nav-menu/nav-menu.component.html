@@ -19,9 +19,6 @@
                     <a class="nav-link text-white" [routerLink]='["/sign-in"]'>Sign In</a>
                 </li>
                 <li *ngIf="isAuthenticated" class="nav-item">
-                    <a class="nav-link text-white" [routerLink]='["/change-password"]'>Change Password</a>
-                </li>
-                <li *ngIf="isAuthenticated" class="nav-item">
                     <button class="btn btn-outline-light" type="button" (click)="signout()">Sign Out</button>
                 </li>
             </ul>

@@ -61,10 +61,14 @@ export class AuthorizationService {
     signup = (model: IUser) => this.http
         .post(`${this.baseUrl}/api/account/register`, model);
 
-    changePassword = (model: IUser) => this.http
+    changePassword = (_model: IUser) => {
+        throw new Error("TODO: create the API");
+    }
+
+    resetPassword = (model: IUser) => this.http
         .post(`${this.baseUrl}/api/account/ResetPasswordFromMail`, model);
 
-    resetPassword = (email: string) => {
+    prepResetPassword = ({ email }: IUser) => {
         const body = this.toolsService.getQuery({ email });
         return this.http
             .get(`${this.baseUrl}/api/account/ResetPassword${body}`);
