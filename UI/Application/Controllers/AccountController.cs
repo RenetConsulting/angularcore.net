@@ -40,7 +40,7 @@ namespace Application.Controllers
                 return this.BadRequest(this.ModelState);
             }
 
-            IdentityResult result = await this.userManager.RegisterAsync(userModel.Email, userModel.Password)
+            IdentityResult result = await this.userManager.CreateAsync(userModel.Email, userModel.Password)
                 .ConfigureAwait(false);
 
             if (result.Succeeded)

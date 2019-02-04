@@ -36,7 +36,7 @@
                 .Returns(Task.FromResult(identityResult)).Verifiable();
 
             // Run Code
-            var result = await userManager.RegisterAsync(userName, password);
+            var result = await userManager.CreateAsync(userName, password);
 
             // Validate true result
             Assert.NotNull(result);

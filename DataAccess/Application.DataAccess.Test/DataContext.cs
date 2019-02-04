@@ -2,7 +2,7 @@
 {
     using Microsoft.EntityFrameworkCore;
 
-    public partial class DataContextMock : Application.DataAccess.DataContext
+    public partial class DataContextMock : DataContext
     {
         public DataContextMock(DbContextOptions<DataContext> options)
             : base(options)

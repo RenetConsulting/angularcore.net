@@ -31,7 +31,7 @@
             }
         }
 
-        public async Task<IdentityResult> RegisterAsync(string userName, string password)
+        public async Task<IdentityResult> CreateAsync(string userName, string password)
         {
             TUser user = new TUser
             {
