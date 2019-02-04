@@ -25,9 +25,11 @@ export class NavMenuComponent {
     }
 
     signout = (): void => {
-        this.authorizationService.logout();
+        this.authorizationService.signout();
         this.router.navigate(["/sign-in"]);
     }
 
-    isAuthenticated = () => { return this.authorizationService.isAuthorized;}
+    get isAuthenticated(): boolean {
+        return this.authorizationService.isAuthenticated
+    }
 }

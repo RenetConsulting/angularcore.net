@@ -6,8 +6,10 @@ export const ROUTES: Array<Route> = [
 
     { path: "home", component: HomeComponent },
     { path: "counter", loadChildren: "./components/counter/counter.module#CounterModule" },
-    { path: "sign-in", loadChildren: "./components/authorization/signin/signin.module#SigninModule" },
-    { path: "sign-up", loadChildren: "./components/authorization/signup/signup.module#SignupModule" },
+    { path: "sign-in", loadChildren: "./components/signin/signin.module#SigninModule" },
+    { path: "sign-up", loadChildren: "./components/signup/signup.module#SignupModule" },
+    { path: "reset-password", loadChildren: "./components/reset.password/reset.password.module#ResetPasswordModule" },
+    { path: "change-password", loadChildren: "./components/change.password/change.password.module#ChangePasswordModule" },
 
     { path: "**", redirectTo: "/home" }
 ]

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { IUser } from "../../../interfaces/user";
-import { AuthorizationService } from "../../../services/authorization/authorization.service";
+import { IUser } from "../../interfaces/user";
+import { AuthorizationService } from "../../services/authorization/authorization.service";
 
 @Component({
     selector: "signup",

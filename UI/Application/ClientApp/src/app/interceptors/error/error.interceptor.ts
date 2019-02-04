@@ -15,7 +15,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         this.messageHandlerService = injector.get(MessageHandlerService);
     }
 
-    public intercept(request: HttpRequest<any>, handler: HttpHandler): Observable<HttpEvent<any>> {
+    intercept(request: HttpRequest<any>, handler: HttpHandler): Observable<HttpEvent<any>> {
         return handler.handle(request).pipe(
             catchError(this.handleError)
         );

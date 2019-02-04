@@ -21,12 +21,12 @@ export class AuthorizationService {
         @Inject(ToolsService) private toolsService: ToolsService,
     ) { }
 
-    get isAuthorized(): boolean {
+    get isAuthenticated(): boolean {
         return this.tokenService.isValid;
     }
 
     getToken = (request: IConnectToken, headers?: { [key: string]: string }): Observable<IToken> => {
-        const body: string = this.toolsService.getQuery(request).replace(/^\?/, "");
+        const body = this.toolsService.getQuery(request).replace(/^\?/, "");
         const options = {
             headers: new HttpHeaders({
                 ...headers,
@@ -35,7 +35,7 @@ export class AuthorizationService {
         };
         return this.http
             .post<IToken>(`${this.baseUrl}/connect/token`, body, options).pipe(
-                tap(i => this.tokenService.token = i, this.logout)
+                tap(i => this.tokenService.token = i, this.signout)
             )
     }
 
@@ -61,5 +61,14 @@ export class AuthorizationService {
     signup = (model: IUser) => this.http
         .post(`${this.baseUrl}/api/account/register`, model);
 
-    logout = (): void => this.tokenService.clean();
+    changePassword = (model: IUser) => this.http
+        .post(`${this.baseUrl}/api/account/ResetPasswordFromMail`, model);
+
+    resetPassword = (email: string) => {
+        const body = this.toolsService.getQuery({ email });
+        return this.http
+            .get(`${this.baseUrl}/api/account/ResetPassword${body}`);
+    }
+
+    signout = (): void => this.tokenService.clean();
 }

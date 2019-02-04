@@ -7,11 +7,14 @@ import { Subject } from "rxjs";
 export class MessageHandlerService {
 
     readonly errorMessage500: string = "Oops something went wrong! :[";
-    readonly subject = new Subject<string>();
+    readonly errorSubject = new Subject<string>();
+    readonly successSubject = new Subject<string>();
 
     constructor() { }
 
     handleError = (value: string): void => {
-        this.subject.next(value || this.errorMessage500);
+        this.errorSubject.next(value || this.errorMessage500);
     }
+
+    handleSuccess = (value: string): void => value && this.successSubject.next(value);
 }

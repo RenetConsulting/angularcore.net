@@ -2,20 +2,20 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
-import { ControlInputModule } from "../../control.input/control.input.module";
-import { SigninRoutingModule } from "./signin-routing.module";
-import { SigninComponent } from "./signin.component";
+import { ControlInputModule } from "../control.input/control.input.module";
+import { ChangePasswordRoutingModule } from "./change.password-routing.module";
+import { ChangePasswordComponent } from "./change.password.component";
 
 const MODULES = [
     CommonModule,
-    SigninRoutingModule,
+    ChangePasswordRoutingModule,
     ReactiveFormsModule,
     MatButtonModule,
     ControlInputModule
 ]
 
 const COMPONENTS = [
-    SigninComponent
+    ChangePasswordComponent
 ]
 
 @NgModule({
@@ -26,4 +26,4 @@ const COMPONENTS = [
         ...COMPONENTS
     ]
 })
-export class SigninModule { }
+export class ChangePasswordModule { }
