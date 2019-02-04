@@ -4,6 +4,7 @@
 
 namespace Application.Controllers
 {
+    using System.Security.Authentication;
     using System.Threading.Tasks;
     using Application.Business;
     using Application.Business.Communications;
@@ -40,7 +41,7 @@ namespace Application.Controllers
                 return this.BadRequest(this.ModelState);
             }
 
-            IdentityResult result = await this.userManager.RegisterAsync(userModel.Email, userModel.Password)
+            IdentityResult result = await this.userManager.CreateAsync(userModel.Email, userModel.Password)
                 .ConfigureAwait(false);
 
             if (result.Succeeded)
@@ -64,38 +65,37 @@ namespace Application.Controllers
         [Route("ResetPassword", Name = "ResetPassword")]
         public async Task<IActionResult> ResetPasswordAsync(string email)
         {
-            ApplicationUser applicationUser = await this.userManager.FindUserByEmailAsync(email)
-                .ConfigureAwait(false);
+            string token = string.Empty;
 
-            if (applicationUser != null)
+            try
             {
-                var token = await this.userManager.GeneratePasswordResetTokenAsync(applicationUser.Id)
+                token = await this.userManager.GeneratePasswordResetTokenAsync(email)
                     .ConfigureAwait(false);
-
-                var url = this.AppSettings.SiteHost
-                    + "reset-password?token="
-                    + System.Net.WebUtility.UrlEncode(token)
-                    + $"&email={email}";
-
-                string message = string.Format(
-                    "<p>For reset Password: <a href='{0}'>follow this link</a>"
-                    + "<br />"
-                    + "<p>Please do not reply to this email.</p>",
-                    url);
-
-                await MailClient.SendEmailAsync(
-                    new SendGrid.SendGridClient(this.AppSettings.SendGridKey),
-                    this.AppSettings.InfoEmail,
-                    email,
-                    this.AppSettings.ResetPasswordSubject,
-                    message).ConfigureAwait(false);
-
-                return this.Ok();
             }
-            else
+            catch (InvalidCredentialException ex)
             {
-                return this.BadRequest("User is not registered");
+                return this.BadRequest(ex.Message);
             }
+
+            var url = this.AppSettings.SiteHost
+                + "reset-password?token="
+                + System.Net.WebUtility.UrlEncode(token)
+                + $"&email={email}";
+
+            string message = string.Format(
+                "<p>For reset Password: <a href='{0}'>follow this link</a>"
+                + "<br />"
+                + "<p>Please do not reply to this email.</p>",
+                url);
+
+            await MailClient.SendEmailAsync(
+                new SendGrid.SendGridClient(this.AppSettings.SendGridKey),
+                this.AppSettings.InfoEmail,
+                email,
+                this.AppSettings.ResetPasswordSubject,
+                message).ConfigureAwait(false);
+
+            return this.Ok();
         }
 
         // POST api/Account/ResetPasswordFromMail
@@ -109,7 +109,7 @@ namespace Application.Controllers
                 return this.BadRequest(this.ModelState);
             }
 
-            ApplicationUser applicationUser = await this.userManager.FindUserByEmailAsync(userModel.Email)
+            ApplicationUser applicationUser = await this.userManager.FindByEmailAsync(userModel.Email)
                 .ConfigureAwait(false);
 
             if (applicationUser != null)

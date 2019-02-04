@@ -36,7 +36,7 @@
                 .Returns(Task.FromResult(identityResult)).Verifiable();
 
             // Run Code
-            var result = await userManager.RegisterAsync(userName, password);
+            var result = await userManager.CreateAsync(userName, password);
 
             // Validate true result
             Assert.NotNull(result);
@@ -108,28 +108,6 @@
             // Validate true result
             Assert.NotNull(result);
             Assert.True(result.Succeeded);
-        }
-
-        [Fact]
-        public async Task FindUserByEmailAsyncTest_ReturnsSuccessResult()
-        {
-            ApplicationUserManager<ApplicationUser> userManager = new ApplicationUserManager<ApplicationUser>(this.mockStore.Object, null, null, null, null, null, null, null, null)
-            {
-                Me = this.mockIUserManager.Object
-            };
-
-            ApplicationUser applicationUser = new ApplicationUser { UserName = "Carrot", Email = "myEmail@gmail.com" };
-
-            // Setup Moq
-            this.mockIUserManager.Setup(x => x.FindByEmailAsync(applicationUser.Email))
-                .Returns(Task.FromResult(applicationUser));
-
-            // Run Code
-            var result = await userManager.FindUserByEmailAsync(applicationUser.Email);
-
-            // Validate result
-            Assert.NotNull(result);
-            Assert.Equal(applicationUser.Email, result.Email);
         }
     }
 }
