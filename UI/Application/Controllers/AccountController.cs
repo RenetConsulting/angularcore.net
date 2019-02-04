@@ -78,7 +78,7 @@ namespace Application.Controllers
                     + $"&email={email}";
 
                 string message = string.Format(
-                    "<p>For reset Password: <a href='{0}'>follow the link</a>"
+                    "<p>For reset Password: <a href='{0}'>follow this link</a>"
                     + "<br />"
                     + "<p>Please do not reply to this email.</p>",
                     url);
