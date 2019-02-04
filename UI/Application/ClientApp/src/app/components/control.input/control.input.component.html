@@ -1,0 +1,13 @@
+<mat-form-field class="w-100 my-3">
+    <input #inputRef
+           matInput
+           [type]="type"
+           [validator]="errorRef"
+           [required]="required"
+           [minlength]="minlength"
+           [maxlength]="maxlength"
+           [readonly]="readonly"
+           [placeholder]="placeholder"
+           [formControl]="ngControl.control">
+    <mat-error #errorRef></mat-error>
+</mat-form-field>

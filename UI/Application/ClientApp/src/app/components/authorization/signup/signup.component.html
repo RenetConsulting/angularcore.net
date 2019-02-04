@@ -2,19 +2,10 @@
     <div class="row d-flex justify-content-center align-items-center pt-5">
         <div class="col-md-6 shadow-lg p-5 mb-5 bg-white rounded">
             <h1>Sign up</h1>
-            <form class="example-form" [formGroup]="formGroup" (ngSubmit)="submit()">
-                <mat-form-field class="w-100 my-3">
-                    <input [validator]="emailRef" matInput placeholder="Email" type="email" formControlName="email">
-                    <mat-error #emailRef></mat-error>
-                </mat-form-field>
-                <mat-form-field class="w-100 my-3">
-                    <input [validator]="passwordRef" matInput placeholder="Password" type="password" formControlName="password">
-                    <mat-error #passwordRef></mat-error>
-                </mat-form-field>
-                <mat-form-field class="w-100 my-3">
-                    <input [validator]="confirmPasswordRef" matInput placeholder="Confirm Password" type="password" formControlName="confirmPassword">
-                    <mat-error #confirmPasswordRef></mat-error>
-                </mat-form-field>
+            <form [formGroup]="formGroup" (ngSubmit)="submit()">
+                <control-input placeholder="Email" type="email" formControlName="email"></control-input>
+                <control-input placeholder="Password" type="password" formControlName="password"></control-input>
+                <control-input placeholder="Confirm Password" type="password" formControlName="confirmPassword"></control-input>
                 <button mat-raised-button color="primary" [class.disabled]="formGroup.invalid" type="submit">Sign up</button>
             </form>
         </div>
