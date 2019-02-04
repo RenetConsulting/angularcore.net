@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using System.Threading.Tasks;
     using Application.Business.Models;
     using Application.DataAccess.Enums;
@@ -46,7 +47,8 @@
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException ex)
             {
-                model.ToModel(ex.Entries[0].Entity as TEntity);
+                var exceptionEntry = ex.Entries.FirstOrDefault();
+                model.ToModel(exceptionEntry as TEntity);
                 throw new UpdateConcurrencyException<IEntityModel<TEntity>>() { Model = model };
             }
         }

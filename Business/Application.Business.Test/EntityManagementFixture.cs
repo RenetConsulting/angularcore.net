@@ -2,11 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq.Expressions;
     using System.Threading.Tasks;
     using Application.Business.Models;
     using Application.DataAccess.Enums;
     using Application.DataAccess.Repositories;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Update;
     using Moq;
     using Xunit;
 
@@ -89,6 +90,34 @@
             // Validate true result
             Assert.Equal(mockModel.Object, result);
         }
+
+        [Fact]
+        public async Task UpdateAsyncTest_Validate_ExTrueResult()
+        {
+            EntityManagement<MockEntity> um = new EntityManagement<MockEntity>(this.mockRepo.Object);
+
+            // Create mock model
+            Mock<IEntityModel<MockEntity>> mockModel = new Mock<IEntityModel<MockEntity>>();
+
+            // Create object MockEntity
+            MockEntity mockEntity = new MockEntity();
+            Mock<IUpdateEntry> fakeIUpdateEntry = new Mock<IUpdateEntry>();
+
+            DbUpdateConcurrencyException dbUpdateConcurrencyException =
+                new DbUpdateConcurrencyException(
+                    "Update concurrency exception",
+                    new List<IUpdateEntry> { fakeIUpdateEntry.Object });
+
+            // Setup Moq
+            mockModel.Setup(x => x.ToEntity())
+                .Returns(mockEntity);
+
+            this.mockRepo.Setup(x => x.UpdateAsync(mockEntity)).ThrowsAsync(dbUpdateConcurrencyException);
+
+            // Run Code
+            Exception ex = await Assert.ThrowsAsync<UpdateConcurrencyException<IEntityModel<MockEntity>>>(async () => await um.UpdateAsync(mockModel.Object));
+        }
+
         #endregion
 
         #region FindByIdAsync
