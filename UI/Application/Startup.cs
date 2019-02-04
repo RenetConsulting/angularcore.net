@@ -95,7 +95,7 @@ namespace Application
             services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddRoles<ApplicationRole>()
                 .AddRoleManager<RoleManager<ApplicationRole>>()
-                .AddUserManager<UserManager<ApplicationUser>>()
+                .AddUserManager<ApplicationUserManager<ApplicationUser>>()
                 .AddEntityFrameworkStores<DataContext>()
                 .AddDefaultTokenProviders();
 
@@ -186,7 +186,6 @@ namespace Application
 
             // Resolve dependencies
             services.AddScoped<IGlobalRepository, GlobalRepository>();
-            services.AddScoped<IUserManager, UserManager>();
 
             services.AddTransient<IPrincipal>(
                 provider => provider.GetService<IHttpContextAccessor>()?.HttpContext?.User);

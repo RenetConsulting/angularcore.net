@@ -8,6 +8,7 @@ namespace Application.Controllers
     using System.Threading.Tasks;
     using Application.Business;
     using Application.Business.Models;
+    using Application.DataAccess.Entities;
     using Application.DataAccess.Repositories;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -17,11 +18,11 @@ namespace Application.Controllers
     [Route("api/[controller]")]
     public class AccountController : BaseController
     {
-        private IUserManager userManager;
+        private ApplicationUserManager<ApplicationUser> userManager;
 
         public AccountController(
             IGlobalRepository repository,
-            IUserManager userManager,
+            ApplicationUserManager<ApplicationUser> userManager,
             IOptions<AppSettings> appSettings)
             : base(repository, appSettings)
         {

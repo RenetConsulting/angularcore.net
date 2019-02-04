@@ -24,11 +24,11 @@ namespace Application.Controllers
     {
         private readonly SignInManager<ApplicationUser> signInManager;
 
-        private readonly IUserManager userManager;
+        private readonly ApplicationUserManager<ApplicationUser> userManager;
 
         public AuthorizationController(
             SignInManager<ApplicationUser> signInManager,
-            IUserManager userManager)
+            ApplicationUserManager<ApplicationUser> userManager)
             : base()
         {
             this.signInManager = signInManager;
