@@ -11,7 +11,7 @@ export class NoneCacheInterceptor implements HttpInterceptor {
         return handler.handle(request.clone({
             setHeaders: {
                 'Cache-Control': 'no-store, no-cache, must-revalidate',
-                'Pragma': 'no-cache'
+                Pragma: 'no-cache'
             }
         }));
     }
