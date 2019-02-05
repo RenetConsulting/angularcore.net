@@ -34,7 +34,7 @@ namespace Application.Controllers
        [AllowAnonymous]
        [HttpPost]
        [Route("Register")]
-        public async Task<IActionResult> RegisterAsync(ResetPasswordFromMailModel userModel)
+        public async Task<IActionResult> RegisterAsync(UserModel userModel)
         {
             if (!this.ModelState.IsValid)
             {
