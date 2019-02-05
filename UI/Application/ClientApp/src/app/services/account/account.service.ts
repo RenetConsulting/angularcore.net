@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { IChangePassword } from '../../interfaces/change.password';
 import { IUser } from '../../interfaces/user';
 import { BASE_URL } from '../../tokens/base.url';
 import { ToolsService } from '../tools/tools.service';
@@ -18,7 +19,7 @@ export class AccountService {
         @Inject(ToolsService) private toolsService: ToolsService,
     ) { }
 
-    changePassword = (model: IUser) => this.http
+    changePassword = (model: IChangePassword) => this.http
         .post(`${this.baseUrl}${this.url}/ChangePassword`, model)
 
     resetPassword = (model: IUser) => this.http
