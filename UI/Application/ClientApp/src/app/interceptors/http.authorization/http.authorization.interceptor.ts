@@ -1,15 +1,15 @@
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
-import { Inject, Injectable, Injector } from "@angular/core";
-import { Observable, Subject, throwError } from "rxjs";
-import { catchError, concatMap } from "rxjs/operators";
-import { ALLOW_ANONYMOUS_HEADER } from "../../consts/allow.anaymous.header";
-import { AuthorizationService } from "../../services/authorization/authorization.service";
-import { TokenService } from "../../services/token/token.service";
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { Inject, Injectable, Injector } from '@angular/core';
+import { Observable, Subject, throwError } from 'rxjs';
+import { catchError, concatMap } from 'rxjs/operators';
+import { ALLOW_ANONYMOUS_HEADER } from '../../consts/allow.anaymous.header';
+import { AuthorizationService } from '../../services/authorization/authorization.service';
+import { TokenService } from '../../services/token/token.service';
 
 @Injectable()
 export class HttpAuthorizationInterceptor implements HttpInterceptor {
 
-    private readonly authorizationKey: string = "Authorization";
+    private readonly authorizationKey: string = 'Authorization';
     private subjects: Array<Subject<HttpRequest<any>>> = [];
     private isProcessToken: boolean;
     private authorizationService: AuthorizationService;
@@ -20,7 +20,7 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
     ) {
         /**
          * the bug fix for next error:
-         * Cannot instantiate cyclic dependency! InjectionToken_HTTP_INTERCEPTORS ("[ERROR ->]"): in NgModule AppServerModule in ./AppServerModule@-1:-1
+         * Cannot instantiate cyclic dependency! InjectionToken_HTTP_INTERCEPTORS ('[ERROR ->]'): in NgModule AppServerModule in ./AppServerModule@-1:-1
          */
         this.authorizationService = injector.get(AuthorizationService);
         this.tokenService = injector.get(TokenService);
@@ -67,7 +67,7 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
         this.subjects.forEach(i => i.complete());
         this.subjects.length = 0;
         this.isProcessToken = false;
-        //this.errorService.errorOccurred(error, "This error is occurred during refreshing a token.");
+        //this.errorService.errorOccurred(error, 'This error is occurred during refreshing a token.');
         return throwError(error);
     }
 

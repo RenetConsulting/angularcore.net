@@ -1,15 +1,15 @@
-import { Component, Inject, OnInit } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { tap } from "rxjs/operators";
-import { IUser } from "../../interfaces/user";
-import { AccountService } from "../../services/account/account.service";
-import { MessageHandlerService } from "../../services/message.handler/message.handler.service";
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { tap } from 'rxjs/operators';
+import { IUser } from '../../interfaces/user';
+import { AccountService } from '../../services/account/account.service';
+import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
 
 /** Preparation to reset a password */
 @Component({
-    selector: "prep-reset-password",
-    templateUrl: "./prep.reset.password.component.html",
-    styleUrls: ["./prep.reset.password.component.scss"]
+    selector: 'prep-reset-password',
+    templateUrl: './prep.reset.password.component.html',
+    styleUrls: ['./prep.reset.password.component.scss']
 })
 export class PrepResetPasswordComponent implements OnInit {
 
@@ -26,7 +26,7 @@ export class PrepResetPasswordComponent implements OnInit {
 
     setFormGroup = (): void => {
         this.formGroup = new FormGroup(<MapPick<IUser, keyof IUser, FormControl>>{
-            email: new FormControl("", [Validators.required, Validators.minLength(6), Validators.email]),
+            email: new FormControl('', [Validators.required, Validators.minLength(6), Validators.email]),
         });
     }
 
@@ -35,7 +35,7 @@ export class PrepResetPasswordComponent implements OnInit {
             this.accountService.prepResetPassword(this.formGroup.value)
                 .pipe(
                     tap(() => this.formGroup.reset()))
-                .subscribe(() => this.messageHandlerService.handleSuccess("Please check your email."));
+                .subscribe(() => this.messageHandlerService.handleSuccess('Please check your email.'));
         }
     }
 }

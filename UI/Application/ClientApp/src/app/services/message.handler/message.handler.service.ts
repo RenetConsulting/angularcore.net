@@ -1,12 +1,12 @@
-import { Injectable } from "@angular/core";
-import { Subject } from "rxjs";
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Injectable({
-    providedIn: "root"
+    providedIn: 'root'
 })
 export class MessageHandlerService {
 
-    readonly errorMessage500: string = "Oops something went wrong! :[";
+    readonly errorMessage500: string = 'Oops something went wrong! :[';
     readonly errorSubject = new Subject<string>();
     readonly successSubject = new Subject<string>();
 

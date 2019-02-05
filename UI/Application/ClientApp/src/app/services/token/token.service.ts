@@ -1,14 +1,14 @@
-import { Inject, Injectable } from "@angular/core";
-import { IToken } from "../../interfaces/token";
-import { StorageService } from "../storage/storage.service";
+import { Inject, Injectable } from '@angular/core';
+import { IToken } from '../../interfaces/token';
+import { StorageService } from '../storage/storage.service';
 
 @Injectable({
-    providedIn: "root"
+    providedIn: 'root'
 })
 export class TokenService {
 
     /** the key for token */
-    private readonly key: string = "tm";
+    private readonly key: string = 'tm';
     private _token: IToken;
 
     constructor(
@@ -37,7 +37,7 @@ export class TokenService {
 
     get header(): string {
         const item = this.token;
-        return this.isValid ? `${item.token_type} ${item.access_token}` : "";
+        return this.isValid ? `${item.token_type} ${item.access_token}` : '';
     }
 
     setToken = (value: IToken) => {

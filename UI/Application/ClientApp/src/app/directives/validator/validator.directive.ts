@@ -1,13 +1,13 @@
-import { Directive, Inject, Input, OnChanges, OnDestroy, OnInit } from "@angular/core";
-import { NgControl, ValidationErrors } from "@angular/forms";
-import { Subscription } from "rxjs";
+import { Directive, Inject, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import { NgControl, ValidationErrors } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Directive({
-    selector: "[validator]",
+    selector: '[validator]',
 })
 export class ValidatorDirective implements OnChanges, OnInit, OnDestroy {
 
-    @Input("validator") element: HTMLElement;
+    @Input('validator') element: HTMLElement;
     @Input() placeholder: string;
     readonly subscription = new Subscription();
 

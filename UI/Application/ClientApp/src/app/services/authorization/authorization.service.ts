@@ -1,18 +1,18 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Inject, Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { tap } from "rxjs/operators";
-import { ALLOW_ANONYMOUS_HEADER } from "../../consts/allow.anaymous.header";
-import { ALLOW_HTTP_ERROR_HEADER } from "../../consts/allow.http.error.header";
-import { IConnectToken } from "../../interfaces/connect.token";
-import { IToken } from "../../interfaces/token";
-import { IUser } from "../../interfaces/user";
-import { BASE_URL } from "../../tokens/base.url";
-import { TokenService } from "../token/token.service";
-import { ToolsService } from "../tools/tools.service";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { ALLOW_ANONYMOUS_HEADER } from '../../consts/allow.anaymous.header';
+import { ALLOW_HTTP_ERROR_HEADER } from '../../consts/allow.http.error.header';
+import { IConnectToken } from '../../interfaces/connect.token';
+import { IToken } from '../../interfaces/token';
+import { IUser } from '../../interfaces/user';
+import { BASE_URL } from '../../tokens/base.url';
+import { TokenService } from '../token/token.service';
+import { ToolsService } from '../tools/tools.service';
 
 @Injectable({
-    providedIn: "root"
+    providedIn: 'root'
 })
 export class AuthorizationService {
 
@@ -28,10 +28,10 @@ export class AuthorizationService {
     }
 
     getToken = (request: IConnectToken): Observable<IToken> => {
-        const body = this.toolsService.getQuery(request).replace(/^\?/, "");
+        const body = this.toolsService.getQuery(request).replace(/^\?/, '');
         const options = {
             headers: new HttpHeaders({
-                "Content-Type": "application/x-www-form-urlencoded",
+                'Content-Type': 'application/x-www-form-urlencoded',
                 [ALLOW_HTTP_ERROR_HEADER]: ALLOW_HTTP_ERROR_HEADER,
                 [ALLOW_ANONYMOUS_HEADER]: ALLOW_ANONYMOUS_HEADER
             })
@@ -43,14 +43,14 @@ export class AuthorizationService {
     }
 
     refreshToken = () => this.getToken({
-        scope: "offline_access",
-        grant_type: "refresh_token",
-        refresh_token: this.tokenService.getValue("refresh_token")
+        scope: 'offline_access',
+        grant_type: 'refresh_token',
+        refresh_token: this.tokenService.getValue('refresh_token')
     });
 
     signin = (model: IUser) => this.getToken({
-        scope: "offline_access",
-        grant_type: "password",
+        scope: 'offline_access',
+        grant_type: 'password',
         password: model.password,
         username: model.email
     });

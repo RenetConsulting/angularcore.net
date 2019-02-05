@@ -1,11 +1,11 @@
-import { Component, Inject } from "@angular/core";
-import { Router } from "@angular/router";
-import { AuthorizationService } from "../../services/authorization/authorization.service";
+import { Component, Inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthorizationService } from '../../services/authorization/authorization.service';
 
 @Component({
-    selector: "app-nav-menu",
-    templateUrl: "./nav-menu.component.html",
-    styleUrls: ["./nav-menu.component.scss"]
+    selector: 'app-nav-menu',
+    templateUrl: './nav-menu.component.html',
+    styleUrls: ['./nav-menu.component.scss']
 })
 export class NavMenuComponent {
 
@@ -26,7 +26,7 @@ export class NavMenuComponent {
 
     signout = (): void => {
         this.authorizationService.signout();
-        this.router.navigate(["/sign-in"]);
+        this.router.navigate(['/sign-in']);
     }
 
     get isAuthenticated(): boolean {

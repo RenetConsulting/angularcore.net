@@ -1,21 +1,21 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Inject, Input, OnDestroy, OnInit, Optional, Self, ViewChild } from "@angular/core";
-import { ControlValueAccessor, FormGroupDirective, NgControl } from "@angular/forms";
-import { MatFormFieldControl } from "@angular/material/form-field";
-import { Subscription } from "rxjs";
+import { ChangeDetectionStrategy, Component, ElementRef, Inject, Input, OnDestroy, OnInit, Optional, Self, ViewChild } from '@angular/core';
+import { ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
+import { MatFormFieldControl } from '@angular/material/form-field';
+import { Subscription } from 'rxjs';
 
 @Component({
-    selector: "control-input",
-    templateUrl: "./control.input.component.html",
-    styleUrls: ["./control.input.component.scss"],
+    selector: 'control-input',
+    templateUrl: './control.input.component.html',
+    styleUrls: ['./control.input.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ControlInputComponent implements ControlValueAccessor, OnInit, OnDestroy {
 
-    @ViewChild("inputRef") _inputRef: ElementRef;
+    @ViewChild('inputRef') _inputRef: ElementRef;
     @ViewChild(MatFormFieldControl) fieldControl: MatFormFieldControl<any>;
     @Input() placeholder: string;
     @Input() readonly: boolean;
-    @Input() type: string = "text";
+    @Input() type: string = 'text';
     @Input() required: boolean;
     @Input() minlength: number;
     @Input() maxlength: number;

@@ -1,7 +1,7 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
 @Injectable({
-    providedIn: "root"
+    providedIn: 'root'
 })
 export class ToolsService {
 
@@ -16,7 +16,7 @@ export class ToolsService {
                     value.map(v => `${encodeURIComponent(name)}=${encodeURIComponent(v)}`).join('&') :
                     `${encodeURIComponent(name)}=${encodeURIComponent(value)}`;
             });
-            return strParams.length ? `?${strParams.join("&")}` : '';
+            return strParams.length ? `?${strParams.join('&')}` : '';
         }
         return null;
     }

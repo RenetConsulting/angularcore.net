@@ -1,8 +1,8 @@
-import { Inject, Injectable } from "@angular/core";
-import { WINDOW } from "../../tokens/window";
+import { Inject, Injectable } from '@angular/core';
+import { WINDOW } from '../../tokens/window';
 
 @Injectable({
-    providedIn: "root"
+    providedIn: 'root'
 })
 export class StorageService {
 
@@ -51,7 +51,7 @@ export class StorageService {
 
     set = (key: string, value: any): void => {
         if (this.storage) {
-            if (typeof value == "string") {
+            if (typeof value == 'string') {
                 this._set(key, value);
             }
             else {

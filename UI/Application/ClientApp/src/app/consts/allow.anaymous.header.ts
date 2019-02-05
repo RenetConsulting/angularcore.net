@@ -1,1 +1,1 @@
-export const ALLOW_ANONYMOUS_HEADER = "AllowAnonymous";
+export const ALLOW_ANONYMOUS_HEADER = 'AllowAnonymous';

@@ -1,15 +1,15 @@
-import { HTTP_INTERCEPTORS } from "@angular/common/http";
-import { Injector, NgModule, Provider } from "@angular/core";
-import { RouterModule } from "@angular/router";
-import { ROUTES } from "./app.routes";
-import { AppSharedModule } from "./app.shared.module";
-import { AppComponent } from "./components/app/app.component";
-import { HomeComponent } from "./components/home/home.component";
-import { MessagerModule } from "./components/messager/messager.module";
-import { NavMenuComponent } from "./components/nav-menu/nav-menu.component";
-import { ErrorInterceptor } from "./interceptors/error/error.interceptor";
-import { HttpAuthorizationInterceptor } from "./interceptors/http.authorization/http.authorization.interceptor";
-import { NoneCacheInterceptor } from "./interceptors/none.cache/none.cache.interceptor";
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { Injector, NgModule, Provider } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { ROUTES } from './app.routes';
+import { AppSharedModule } from './app.shared.module';
+import { AppComponent } from './components/app/app.component';
+import { HomeComponent } from './components/home/home.component';
+import { MessagerModule } from './components/messager/messager.module';
+import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
+import { ErrorInterceptor } from './interceptors/error/error.interceptor';
+import { HttpAuthorizationInterceptor } from './interceptors/http.authorization/http.authorization.interceptor';
+import { NoneCacheInterceptor } from './interceptors/none.cache/none.cache.interceptor';
 
 const MODULES = [
     AppSharedModule,

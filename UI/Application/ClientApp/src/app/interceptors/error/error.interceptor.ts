@@ -1,9 +1,9 @@
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
-import { Inject, Injectable, Injector } from "@angular/core";
-import { empty, Observable, throwError } from "rxjs";
-import { catchError } from "rxjs/operators";
-import { ALLOW_HTTP_ERROR_HEADER } from "../../consts/allow.http.error.header";
-import { MessageHandlerService } from "../../services/message.handler/message.handler.service";
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { Inject, Injectable, Injector } from '@angular/core';
+import { empty, Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { ALLOW_HTTP_ERROR_HEADER } from '../../consts/allow.http.error.header';
+import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {

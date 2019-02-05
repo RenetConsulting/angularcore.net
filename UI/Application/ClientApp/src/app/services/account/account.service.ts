@@ -17,7 +17,7 @@ export class AccountService {
     ) { }
 
     changePassword = (_model: IUser): Observable<null> => {
-        throw new Error("TODO: create the API");
+        throw new Error('TODO: create the API');
     }
 
     resetPassword = (model: IUser) => this.http
