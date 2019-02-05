@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { tap } from 'rxjs/operators';
-import { IUser } from '../../interfaces/user';
+import { IChangePassword } from '../../interfaces/change.password';
 import { AccountService } from '../../services/account/account.service';
 import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
 
@@ -23,12 +23,17 @@ export class ChangePasswordComponent implements OnInit {
         this.setFormGroup();
     }
 
+    matchPasswordValidator = (control: AbstractControl): ValidationErrors | null => {
+        return control.value === (this.formGroup && this.formGroup.controls.newPassword.value) ? null
+            : { errorMessage: 'The new password and new confirmation password do not match.' };
+    }
+
     setFormGroup = (): void => {
         this.formGroup = new FormGroup({
-            email: new FormControl('', [Validators.required, Validators.minLength(6), Validators.email]),
-            password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-            confirmPassword: new FormControl('', [Validators.required, Validators.minLength(6)]),
-        } as MapPick<IUser, keyof IUser, FormControl>);
+            oldPassword: new FormControl('', [Validators.required, Validators.minLength(6)]),
+            newPassword: new FormControl('', [Validators.required, Validators.minLength(6)]),
+            confirmNewPassword: new FormControl('', [Validators.required, Validators.minLength(6), this.matchPasswordValidator]),
+        } as MapPick<IChangePassword, keyof IChangePassword, FormControl>);
     }
 
     submit = (): void => {

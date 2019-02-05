@@ -35,7 +35,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
 
     matchPasswordValidator = (control: AbstractControl): ValidationErrors | null => {
         return control.value === (this.formGroup && this.formGroup.controls.password.value) ? null
-            : { errorMessage: `Doesn't match with Password.` };
+            : { errorMessage: 'The password and confirmation password do not match.' };
     }
 
     setFormGroup = (): void => {
