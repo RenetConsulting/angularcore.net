@@ -1,0 +1,1 @@
+export const ALLOW_HTTP_ERROR_HEADER = "ALLOW_HTTP_ERROR";

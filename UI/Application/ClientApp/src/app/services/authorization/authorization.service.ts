@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
+import { ALLOW_ANONYMOUS_HEADER } from "../../consts/allow.anaymous.header";
+import { ALLOW_HTTP_ERROR_HEADER } from "../../consts/allow.http.error.header";
 import { IConnectToken } from "../../interfaces/connect.token";
 import { IToken } from "../../interfaces/token";
 import { IUser } from "../../interfaces/user";
@@ -25,54 +27,36 @@ export class AuthorizationService {
         return this.tokenService.isValid;
     }
 
-    getToken = (request: IConnectToken, headers?: { [key: string]: string }): Observable<IToken> => {
+    getToken = (request: IConnectToken): Observable<IToken> => {
         const body = this.toolsService.getQuery(request).replace(/^\?/, "");
         const options = {
             headers: new HttpHeaders({
-                ...headers,
-                "Content-Type": "application/x-www-form-urlencoded"
+                "Content-Type": "application/x-www-form-urlencoded",
+                [ALLOW_HTTP_ERROR_HEADER]: ALLOW_HTTP_ERROR_HEADER,
+                [ALLOW_ANONYMOUS_HEADER]: ALLOW_ANONYMOUS_HEADER
             })
         };
         return this.http
             .post<IToken>(`${this.baseUrl}/connect/token`, body, options).pipe(
-                tap(i => this.tokenService.token = i, this.signout)
+                tap(this.tokenService.setToken)
             )
     }
 
-    refreshToken = (headers: { [key: string]: string }): Observable<any> => {
-        const model: IConnectToken = {
-            grant_type: "refresh_token",
-            scope: "offline_access",
-            refresh_token: this.tokenService.valueByProperty("refresh_token")
-        };
-        return this.getToken(model, headers);
-    }
+    refreshToken = () => this.getToken({
+        scope: "offline_access",
+        grant_type: "refresh_token",
+        refresh_token: this.tokenService.getValue("refresh_token")
+    });
 
-    signin = (model: IUser): Observable<IToken> => {
-        const request: IConnectToken = {
-            grant_type: "password",
-            scope: "offline_access",
-            password: model.password,
-            username: model.email
-        };
-        return this.getToken(request);
-    }
+    signin = (model: IUser) => this.getToken({
+        scope: "offline_access",
+        grant_type: "password",
+        password: model.password,
+        username: model.email
+    });
 
     signup = (model: IUser) => this.http
         .post(`${this.baseUrl}/api/account/register`, model);
-
-    changePassword = (_model: IUser) => {
-        throw new Error("TODO: create the API");
-    }
-
-    resetPassword = (model: IUser) => this.http
-        .post(`${this.baseUrl}/api/account/ResetPasswordFromMail`, model);
-
-    prepResetPassword = ({ email }: IUser) => {
-        const body = this.toolsService.getQuery({ email });
-        return this.http
-            .get(`${this.baseUrl}/api/account/ResetPassword${body}`);
-    }
 
     signout = (): void => this.tokenService.clean();
 }

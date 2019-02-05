@@ -4,5 +4,4 @@ export interface IToken {
     expires_in: number;
     expired_at: string;
     token_type: string;
-    auth_time: string;
 }

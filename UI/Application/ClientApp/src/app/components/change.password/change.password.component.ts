@@ -5,19 +5,18 @@ import { IUser } from "../../interfaces/user";
 import { AccountService } from "../../services/account/account.service";
 import { MessageHandlerService } from "../../services/message.handler/message.handler.service";
 
-/** Preparation to reset a password */
 @Component({
-    selector: "prep-reset-password",
-    templateUrl: "./prep.reset.password.component.html",
-    styleUrls: ["./prep.reset.password.component.scss"]
+    selector: "change-password",
+    templateUrl: "./change.password.component.html",
+    styleUrls: ["./change.password.component.scss"]
 })
-export class PrepResetPasswordComponent implements OnInit {
+export class ChangePasswordComponent implements OnInit {
 
     formGroup: FormGroup;
 
     constructor(
         @Inject(AccountService) private accountService: AccountService,
-        @Inject(MessageHandlerService) private messageHandlerService: MessageHandlerService
+        @Inject(MessageHandlerService) private messageHandlerService: MessageHandlerService,
     ) { }
 
     ngOnInit(): void {
@@ -27,15 +26,17 @@ export class PrepResetPasswordComponent implements OnInit {
     setFormGroup = (): void => {
         this.formGroup = new FormGroup(<MapPick<IUser, keyof IUser, FormControl>>{
             email: new FormControl("", [Validators.required, Validators.minLength(6), Validators.email]),
+            password: new FormControl("", [Validators.required, Validators.minLength(6)]),
+            confirmPassword: new FormControl("", [Validators.required, Validators.minLength(6)]),
         });
     }
 
     submit = (): void => {
         if (this.formGroup.valid) {
-            this.accountService.prepResetPassword(this.formGroup.value)
+            this.accountService.changePassword(this.formGroup.value)
                 .pipe(
                     tap(() => this.formGroup.reset()))
-                .subscribe(() => this.messageHandlerService.handleSuccess("Please check your email."));
+                .subscribe(() => this.messageHandlerService.handleSuccess("The password has been changed successfully."));
         }
     }
 }

@@ -2,7 +2,7 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/c
 import { Inject, Injectable, Injector } from "@angular/core";
 import { Observable, Subject, throwError } from "rxjs";
 import { catchError, concatMap } from "rxjs/operators";
-import { HTTP_EXCEPTION_KEY } from "../../consts/http.exception.key";
+import { ALLOW_ANONYMOUS_HEADER } from "../../consts/allow.anaymous.header";
 import { AuthorizationService } from "../../services/authorization/authorization.service";
 import { TokenService } from "../../services/token/token.service";
 
@@ -30,11 +30,9 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
         return this.tokenService.isValid && !this.tokenService.isExpired ? { [this.authorizationKey]: this.tokenService.header } : null;
     }
 
-    /**
-     * on each branch make sure that header is fresh
-     * */
+    /** on each branch make sure that header is fresh */
     intercept(request: HttpRequest<any>, handler: HttpHandler): Observable<HttpEvent<any>> {
-        if (this.tokenService.isValid && !request.headers.has(HTTP_EXCEPTION_KEY)) {
+        if (this.tokenService.isValid && !request.headers.has(ALLOW_ANONYMOUS_HEADER)) {
             if (this.tokenService.isExpired) {
                 if (this.isProcessToken) {
                     const subject = new Subject<HttpRequest<any>>();
@@ -44,7 +42,7 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
                     );
                 }
                 this.isProcessToken = true;
-                return this.authorizationService.refreshToken({ [HTTP_EXCEPTION_KEY]: "true" }).pipe(
+                return this.authorizationService.refreshToken().pipe(
                     concatMap(this.handleSuccess(request, handler)),
                     catchError(this.handleError)
                 );

@@ -7,43 +7,30 @@ import { StorageService } from "../storage/storage.service";
 })
 export class TokenService {
 
-    /**
-     * the key for token model
-     */
+    /** the key for token */
     private readonly key: string = "tm";
+    private _token: IToken;
 
     constructor(
         @Inject(StorageService) private storageService: StorageService
     ) { }
 
-    get token(): IToken {
-        const item = this.storageService.get(this.key);
-        return (item && item.access_token && item.refresh_token) ? item : null;
-    }
-
-    set token(value: IToken) {
-        if (value && value.access_token && value.refresh_token) {
-            if (value.expired_at) {
-                value.expired_at = new Date(new Date().valueOf() + 1000 * value.expires_in).toISOString();
-            }
-            this.storageService.set(this.key, value);
+    private get token(): IToken {
+        if (!this._token) {
+            this._token = this.storageService.get(this.key);
         }
+        return this._token && this._token.access_token && this._token.refresh_token ? this._token : null;
     }
 
     get isValid(): boolean {
-        if (this.token) {
-            const item = this.token;
-            return item && item.access_token && !!item.refresh_token;
-        }
-        else {
-            return false;
-        }
+        const item = this.token;
+        return item && item.access_token && !!item.refresh_token;
     }
 
     get isExpired(): boolean {
         let result: boolean = false;
         if (this.isValid) {
-            result = new Date().valueOf() > new Date(this.token.expired_at).valueOf();
+            result = new Date().valueOf() > new Date(this.token.expired_at || 0).valueOf();
         }
         return result;
     }
@@ -53,12 +40,24 @@ export class TokenService {
         return this.isValid ? `${item.token_type} ${item.access_token}` : "";
     }
 
-    valueByProperty = (key: keyof IToken): any => {
+    setToken = (value: IToken) => {
+        const token = { ...value };
+        if (token && token.access_token && token.refresh_token) {
+            if (token.expires_in) {
+                token.expired_at = new Date(new Date().valueOf() + 1000 * token.expires_in).toISOString();
+            }
+            this._token = { ...token };
+            this.storageService.set(this.key, token);
+        }
+    }
+
+    getValue = (key: keyof IToken): any => {
         const item = this.token;
         return (key && item && key in item) ? item[key] : null;
     }
 
     clean = (): void => {
+        this._token = null;
         this.storageService.remove(this.key);
     }
 }

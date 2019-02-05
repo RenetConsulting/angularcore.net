@@ -4,7 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Subscription } from "rxjs";
 import { tap } from "rxjs/operators";
 import { IResetPassword } from "../../interfaces/reset.password";
-import { AuthorizationService } from "../../services/authorization/authorization.service";
+import { AccountService } from "../../services/account/account.service";
 import { MessageHandlerService } from "../../services/message.handler/message.handler.service";
 
 @Component({
@@ -18,7 +18,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     formGroup: FormGroup;
 
     constructor(
-        @Inject(AuthorizationService) private authorizationService: AuthorizationService,
+        @Inject(AccountService) private accountService: AccountService,
         @Inject(MessageHandlerService) private messageHandlerService: MessageHandlerService,
         @Inject(ActivatedRoute) private activatedRoute: ActivatedRoute
     ) { }
@@ -47,7 +47,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
 
     submit = (): void => {
         if (this.formGroup.valid) {
-            this.authorizationService.resetPassword(this.formGroup.value)
+            this.accountService.resetPassword(this.formGroup.value)
                 .pipe(
                     tap(() => this.formGroup.reset()))
                 .subscribe(() => this.messageHandlerService.handleSuccess("The password has been changed successfully."));
