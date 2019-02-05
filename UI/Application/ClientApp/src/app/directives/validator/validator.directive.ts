@@ -20,7 +20,7 @@ export class ValidatorDirective implements OnChanges, OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.subscription.add(this.ngControl.statusChanges.subscribe(this.setError))
+        this.subscription.add(this.ngControl.statusChanges.subscribe(this.setError));
     }
 
     ngOnDestroy(): void {

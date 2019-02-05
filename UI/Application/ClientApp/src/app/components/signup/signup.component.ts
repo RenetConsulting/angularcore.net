@@ -24,11 +24,11 @@ export class SignupComponent implements OnInit {
     }
 
     setFormGroup = (): void => {
-        this.formGroup = new FormGroup(<MapPick<IUser, keyof IUser, FormControl>>{
+        this.formGroup = new FormGroup({
             email: new FormControl('', [Validators.required, Validators.minLength(6), Validators.email]),
             password: new FormControl('', [Validators.required, Validators.minLength(6)]),
             confirmPassword: new FormControl('', [Validators.required, Validators.minLength(6)]),
-        });
+        } as MapPick<IUser, keyof IUser, FormControl>);
     }
 
     submit = (): void => {

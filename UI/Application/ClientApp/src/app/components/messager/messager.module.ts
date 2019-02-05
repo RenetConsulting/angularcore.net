@@ -7,20 +7,20 @@ import { MessagerComponent } from './messager.component';
 const MODULES = [
     CommonModule,
     MatSnackBarModule
-]
+];
 
 const PROVIDERS: Array<Provider> = [
-    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: SNACK_BAR_MESSAGER_OPTIONS}
-]
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: SNACK_BAR_MESSAGER_OPTIONS }
+];
 
 const COMPONENTS = [
     MessagerComponent
-]
+];
 
 @NgModule({
     imports: [
         ...MODULES
-    ],   
+    ],
     exports: [
         ...COMPONENTS
     ],

@@ -10,11 +10,11 @@ const MODULES = [
     ReactiveFormsModule,
     MatInputModule,
     ValidatorModule
-]
+];
 
 const COMPONENTS = [
     ControlInputComponent
-]
+];
 
 @NgModule({
     imports: [

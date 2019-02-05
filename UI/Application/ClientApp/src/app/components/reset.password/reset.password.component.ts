@@ -25,7 +25,8 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.setFormGroup();
-        this.subscription.add(this.activatedRoute.queryParams.subscribe(i => this.formGroup.controls.token.reset(i['token'])));
+        this.subscription.add(this.activatedRoute.queryParams
+            .subscribe((i: Pick<IResetPassword, 'token'>) => this.formGroup.controls.token.reset(i.token)));
     }
 
     ngOnDestroy(): void {
@@ -33,16 +34,17 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     }
 
     matchPasswordValidator = (control: AbstractControl): ValidationErrors | null => {
-        return control.value !== (this.formGroup && this.formGroup.controls.password.value) ? { errorMessage: `Doesn't match with Password.` } : null;
+        return control.value === (this.formGroup && this.formGroup.controls.password.value) ? null
+            : { errorMessage: `Doesn't match with Password.` };
     }
 
     setFormGroup = (): void => {
-        this.formGroup = new FormGroup(<MapPick<IResetPassword, keyof IResetPassword, FormControl>>{
+        this.formGroup = new FormGroup({
             email: new FormControl('', [Validators.required, Validators.minLength(6), Validators.email]),
             password: new FormControl('', [Validators.required, Validators.minLength(6)]),
             confirmPassword: new FormControl('', [Validators.required, Validators.minLength(6), this.matchPasswordValidator]),
             token: new FormControl('', [Validators.required]),
-        });
+        } as MapPick<IResetPassword, keyof IResetPassword, FormControl>);
     }
 
     submit = (): void => {

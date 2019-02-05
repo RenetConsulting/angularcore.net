@@ -6,7 +6,7 @@ import { ValidatorDirective } from './validator.directive';
 const MODULES = [
     CommonModule,
     ReactiveFormsModule
-]
+];
 
 export const DIRECTIVES = [
     ValidatorDirective

@@ -12,11 +12,11 @@ const MODULES = [
     ReactiveFormsModule,
     MatButtonModule,
     ControlInputModule
-]
+];
 
 const COMPONENTS = [
     SignupComponent
-]
+];
 
 @NgModule({
     imports: [

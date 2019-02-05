@@ -15,19 +15,19 @@ const MODULES = [
     AppSharedModule,
     MessagerModule,
     RouterModule.forRoot(ROUTES)
-]
+];
 
 const PROVIDERS: Array<Provider> = [
     { provide: HTTP_INTERCEPTORS, useClass: HttpAuthorizationInterceptor, deps: [Injector], multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: NoneCacheInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, deps: [Injector], multi: true }
-]
+];
 
 const COMPONENTS = [
     AppComponent,
     NavMenuComponent,
     HomeComponent
-]
+];
 
 @NgModule({
     imports: [

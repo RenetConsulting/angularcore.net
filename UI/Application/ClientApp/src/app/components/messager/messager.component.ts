@@ -17,8 +17,8 @@ export class MessagerComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit() {
-        this.subscription.add(this.messageHandlerService.errorSubject.subscribe(i => this.matSnackBar.open(i, 'Close')))
-        this.subscription.add(this.messageHandlerService.successSubject.subscribe(i => this.matSnackBar.open(i, 'Close')))
+        this.subscription.add(this.messageHandlerService.errorSubject.subscribe(i => this.matSnackBar.open(i, 'Close')));
+        this.subscription.add(this.messageHandlerService.successSubject.subscribe(i => this.matSnackBar.open(i, 'Close')));
     }
 
     ngOnDestroy(): void {

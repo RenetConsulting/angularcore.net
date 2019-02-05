@@ -30,6 +30,6 @@ export class NavMenuComponent {
     }
 
     get isAuthenticated(): boolean {
-        return this.authorizationService.isAuthenticated
+        return this.authorizationService.isAuthenticated;
     }
 }

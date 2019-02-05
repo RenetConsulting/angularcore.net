@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { WINDOW } from '../../tokens/window';
+import { LOCAL_STORAGE } from '../../tokens/local.storage';
 
 @Injectable({
     providedIn: 'root'
@@ -7,35 +7,28 @@ import { WINDOW } from '../../tokens/window';
 export class StorageService {
 
     constructor(
-        @Inject(WINDOW) private window: any
+        @Inject(LOCAL_STORAGE) private storage: any
     ) { }
 
-    private get storage(): any {
-        return this.window && this.window.localStorage;
+    private getItem = (key: string): string => {
+        return this.storage && this.storage.getItem(key);
     }
 
-    private _get = (key: string): string => {
-        const storage = this.storage;
-        return storage && storage.getItem(key);
-    }
-
-    private _set = (key: string, value: string): void => {
-        const storage = this.storage;
-        if (storage) {
-            storage.setItem(key, value);
+    private setItem = (key: string, value: string): void => {
+        if (this.storage) {
+            this.storage.setItem(key, value);
         }
     }
 
     remove = (key: string): void => {
-        const storage = this.storage;
-        if (storage) {
-            storage.removeItem(key);
+        if (this.storage) {
+            this.storage.removeItem(key);
         }
     }
 
     get = (key: string): any => {
         if (this.storage) {
-            const value = this._get(key);
+            const value = this.getItem(key);
             if (value === null) {
                 return null;
             }
@@ -51,11 +44,11 @@ export class StorageService {
 
     set = (key: string, value: any): void => {
         if (this.storage) {
-            if (typeof value == 'string') {
-                this._set(key, value);
+            if (typeof value === 'string') {
+                this.setItem(key, value);
             }
             else {
-                this._set(key, JSON.stringify(value));
+                this.setItem(key, JSON.stringify(value));
             }
         }
     }

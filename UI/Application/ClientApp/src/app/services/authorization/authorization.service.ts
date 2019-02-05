@@ -39,24 +39,24 @@ export class AuthorizationService {
         return this.http
             .post<IToken>(`${this.baseUrl}/connect/token`, body, options).pipe(
                 tap(this.tokenService.setToken)
-            )
+            );
     }
 
     refreshToken = () => this.getToken({
         scope: 'offline_access',
         grant_type: 'refresh_token',
         refresh_token: this.tokenService.getValue('refresh_token')
-    });
+    })
 
     signin = (model: IUser) => this.getToken({
         scope: 'offline_access',
         grant_type: 'password',
         password: model.password,
         username: model.email
-    });
+    })
 
     signup = (model: IUser) => this.http
-        .post(`${this.baseUrl}/api/account/register`, model);
+        .post(`${this.baseUrl}/api/account/register`, model)
 
     signout = (): void => this.tokenService.clean();
 }

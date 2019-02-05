@@ -28,7 +28,7 @@ export class TokenService {
     }
 
     get isExpired(): boolean {
-        let result: boolean = false;
+        let result = false;
         if (this.isValid) {
             result = new Date().valueOf() > new Date(this.token.expired_at || 0).valueOf();
         }

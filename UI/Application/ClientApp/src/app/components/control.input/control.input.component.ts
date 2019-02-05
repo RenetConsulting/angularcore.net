@@ -15,15 +15,15 @@ export class ControlInputComponent implements ControlValueAccessor, OnInit, OnDe
     @ViewChild(MatFormFieldControl) fieldControl: MatFormFieldControl<any>;
     @Input() placeholder: string;
     @Input() readonly: boolean;
-    @Input() type: string = 'text';
+    @Input() type = 'text';
     @Input() required: boolean;
     @Input() minlength: number;
     @Input() maxlength: number;
     readonly subscription = new Subscription();
     disabled: boolean;
-    onChange: Function;
-    onTouched: Function;
-    value: any;
+    onChange: (i) => any | null;
+    onTouched;
+    value;
 
     constructor(
         @Optional() @Self() @Inject(NgControl) readonly ngControl: NgControl,
@@ -35,7 +35,7 @@ export class ControlInputComponent implements ControlValueAccessor, OnInit, OnDe
     }
 
     ngOnInit(): void {
-        this.subscription.add(this._parentFormGroup.ngSubmit.subscribe(() => this.ngControl.control.updateValueAndValidity()))
+        this.subscription.add(this._parentFormGroup.ngSubmit.subscribe(() => this.ngControl.control.updateValueAndValidity()));
     }
 
     ngOnDestroy(): void {
@@ -44,7 +44,9 @@ export class ControlInputComponent implements ControlValueAccessor, OnInit, OnDe
 
     writeValue(value): void {
         this.value = value;
-        this.onChange && this.onChange(value);
+        if (this.onChange) {
+            this.onChange(value);
+        }
     }
 
     registerOnChange(fn): void {

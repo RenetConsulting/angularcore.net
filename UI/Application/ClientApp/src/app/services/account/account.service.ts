@@ -21,7 +21,7 @@ export class AccountService {
     }
 
     resetPassword = (model: IUser) => this.http
-        .post(`${this.baseUrl}/api/account/ResetPasswordFromMail`, model);
+        .post(`${this.baseUrl}/api/account/ResetPasswordFromMail`, model)
 
     prepResetPassword = ({ email }: IUser) => {
         const body = this.toolsService.getQuery({ email });

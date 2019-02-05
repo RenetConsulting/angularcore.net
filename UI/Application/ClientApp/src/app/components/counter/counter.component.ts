@@ -18,7 +18,7 @@ export class CounterComponent {
     }
 
     test = () => {
-        for (var i = 0; i < 5; i++) {
+        for (let i = 0; i < 5; i++) {
             this.http.get(`https://httpbin.org/get?test=${i}`).subscribe(console.log, console.log);
         }
     }

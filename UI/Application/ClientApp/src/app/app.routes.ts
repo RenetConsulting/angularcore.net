@@ -13,4 +13,4 @@ export const ROUTES: Array<Route> = [
     { path: 'change-password', loadChildren: './components/change.password/change.password.module#ChangePasswordModule' },
 
     { path: '**', redirectTo: '/home' }
-]
+];
