@@ -34,7 +34,7 @@ namespace Application.Controllers
        [AllowAnonymous]
        [HttpPost]
        [Route("Register")]
-        public async Task<IActionResult> RegisterAsync(UserModel userModel)
+        public async Task<IActionResult> RegisterAsync(ResetPasswordFromMailModel userModel)
         {
             if (!this.ModelState.IsValid)
             {
@@ -69,7 +69,7 @@ namespace Application.Controllers
 
             try
             {
-                token = await this.userManager.GeneratePasswordResetTokenAsync(email)
+                token = await this.userManager.GeneratePasswordResetTokenByEmailAsync(email)
                     .ConfigureAwait(false);
             }
             catch (InvalidCredentialException ex)
@@ -102,49 +102,49 @@ namespace Application.Controllers
         [AllowAnonymous]
         [Route("ResetPasswordFromMail", Name = "ResetPasswordFromMail")]
         [HttpPost]
-        public async Task<IActionResult> ResetPasswordFromMailAsync([FromBody] UserModel userModel)
+        public async Task<IActionResult> ResetPasswordFromMailAsync([FromBody] ResetPasswordFromMailModel resetPasswordFromMailModel)
         {
             if (!this.ModelState.IsValid)
             {
                 return this.BadRequest(this.ModelState);
             }
 
-            ApplicationUser applicationUser = await this.userManager.FindByEmailAsync(userModel.Email)
-                .ConfigureAwait(false);
-
-            if (applicationUser != null)
+            IdentityResult result;
+            try
             {
-                if (string.IsNullOrEmpty(userModel.Token))
-                {
-                    return this.BadRequest("Token in link is not found.");
-                }
-
-                IdentityResult result = await this.userManager.ResetPasswordAsync(applicationUser.Id, userModel.Token, userModel.Password)
+                result = await this.userManager
+                    .ResetPasswordByEmailAsync(resetPasswordFromMailModel.Email, resetPasswordFromMailModel.Token, resetPasswordFromMailModel.Password)
                     .ConfigureAwait(false);
+            }
+            catch (InvalidCredentialException ex)
+            {
+                return this.BadRequest(ex.Message);
+            }
 
-                if (!result.Succeeded)
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
                 {
-                    return this.BadRequest($"Something error with reset {userModel.Email} password.");
+                    this.ModelState.AddModelError(error.Code, error.Description);
                 }
 
-                string message = string.Format(
-                    "<p>You're receiving this e-mail because you or someone else reset your password at {1}."
-                    + " If this occurred without your approval, please contact us at <a href='{0}'>{1}</a>.</p>",
-                    this.AppSettings.SiteHost);
-
-                await MailClient.SendEmailAsync(
-                    new SendGrid.SendGridClient(this.AppSettings.SendGridKey),
-                    this.AppSettings.InfoEmail,
-                    userModel.Email,
-                    this.AppSettings.AfterResetPasswordSubject,
-                    message).ConfigureAwait(false);
-
-                return this.Ok();
+                return this.BadRequest(this.ModelState);
             }
-            else
-            {
-                return this.BadRequest("Email adress is not found.");
-            }
+
+            string message = string.Format(
+                "<p>You're receiving this e-mail because you or someone else reset your password at {1}."
+                + " If this occurred without your approval, please contact us at <a href='{0}'>{1}</a>.</p>",
+                this.AppSettings.SiteHost,
+                this.AppSettings.SiteHost);
+
+            await MailClient.SendEmailAsync(
+                new SendGrid.SendGridClient(this.AppSettings.SendGridKey),
+                this.AppSettings.InfoEmail,
+                resetPasswordFromMailModel.Email,
+                this.AppSettings.AfterResetPasswordSubject,
+                message).ConfigureAwait(false);
+
+            return this.Ok();
         }
 
         private IActionResult GetErrorResult(IdentityResult result)

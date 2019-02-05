@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class UserModel
+    public class ResetPasswordFromMailModel
     {
         [Required]
         [DataType(DataType.EmailAddress)]
@@ -21,6 +21,7 @@
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
+        [Required]
         [Display(Name = "Token")]
         public string Token { get; set; }
     }
