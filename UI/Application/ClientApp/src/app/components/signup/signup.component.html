@@ -3,9 +3,9 @@
         <div class="col-md-6 shadow-lg p-5 mb-5 bg-white rounded">
             <h1>Sign up</h1>
             <form [formGroup]="formGroup" (ngSubmit)="submit()">
-                <control-input placeholder="Email" type="email" formControlName="email"></control-input>
-                <control-input placeholder="Password" type="password" formControlName="password"></control-input>
-                <control-input placeholder="Confirmation Password" type="password" formControlName="confirmPassword"></control-input>
+                <control-input placeholder="Email" [maxlength]="maxLengthEmail" type="email" formControlName="email"></control-input>
+                <control-input placeholder="Password" [maxlength]="maxLengthPassword" type="password" formControlName="password"></control-input>
+                <control-input placeholder="Confirmation Password" [maxlength]="maxLengthPassword" type="password" formControlName="confirmPassword"></control-input>
                 <button mat-raised-button color="primary" [class.disabled]="formGroup.invalid" type="submit">Sign up</button>
             </form>
         </div>

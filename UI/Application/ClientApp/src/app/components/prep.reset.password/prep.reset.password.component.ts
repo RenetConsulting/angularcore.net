@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { tap } from 'rxjs/operators';
+import { MaxLengthBase } from '../../bases/max.length/max.length.base';
 import { IUser } from '../../interfaces/user';
 import { AccountService } from '../../services/account/account.service';
 import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
@@ -11,14 +12,16 @@ import { MessageHandlerService } from '../../services/message.handler/message.ha
     templateUrl: './prep.reset.password.component.html',
     styleUrls: ['./prep.reset.password.component.scss']
 })
-export class PrepResetPasswordComponent implements OnInit {
+export class PrepResetPasswordComponent extends MaxLengthBase implements OnInit {
 
     formGroup: FormGroup;
 
     constructor(
         @Inject(AccountService) private accountService: AccountService,
         @Inject(MessageHandlerService) private messageHandlerService: MessageHandlerService
-    ) { }
+    ) {
+        super();
+    }
 
     ngOnInit(): void {
         this.setFormGroup();

@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { tap } from 'rxjs/operators';
+import { MaxLengthBase } from '../../bases/max.length/max.length.base';
 import { IChangePassword } from '../../interfaces/change.password';
 import { AccountService } from '../../services/account/account.service';
 import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
@@ -10,14 +11,16 @@ import { MessageHandlerService } from '../../services/message.handler/message.ha
     templateUrl: './change.password.component.html',
     styleUrls: ['./change.password.component.scss']
 })
-export class ChangePasswordComponent implements OnInit {
+export class ChangePasswordComponent extends MaxLengthBase implements OnInit {
 
     formGroup: FormGroup;
 
     constructor(
         @Inject(AccountService) private accountService: AccountService,
         @Inject(MessageHandlerService) private messageHandlerService: MessageHandlerService,
-    ) { }
+    ) {
+        super();
+    }
 
     ngOnInit(): void {
         this.setFormGroup();
