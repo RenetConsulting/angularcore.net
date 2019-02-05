@@ -32,7 +32,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
 
-    matchPassword = (control: AbstractControl): ValidationErrors | null => {
+    matchPasswordValidator = (control: AbstractControl): ValidationErrors | null => {
         return control.value !== (this.formGroup && this.formGroup.controls.password.value) ? { errorMessage: `Doesn't match with Password.` } : null;
     }
 
@@ -40,7 +40,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
         this.formGroup = new FormGroup(<MapPick<IResetPassword, keyof IResetPassword, FormControl>>{
             email: new FormControl("", [Validators.required, Validators.minLength(6), Validators.email]),
             password: new FormControl("", [Validators.required, Validators.minLength(6)]),
-            confirmPassword: new FormControl("", [Validators.required, Validators.minLength(6), this.matchPassword]),
+            confirmPassword: new FormControl("", [Validators.required, Validators.minLength(6), this.matchPasswordValidator]),
             token: new FormControl("", [Validators.required]),
         });
     }
