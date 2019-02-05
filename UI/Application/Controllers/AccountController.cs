@@ -34,7 +34,7 @@ namespace Application.Controllers
        [AllowAnonymous]
        [HttpPost]
        [Route("Register")]
-        public async Task<IActionResult> RegisterAsync(UserModel userModel)
+        public async Task<IActionResult> RegisterAsync(ResetPasswordFromMailModel userModel)
         {
             if (!this.ModelState.IsValid)
             {
@@ -102,7 +102,7 @@ namespace Application.Controllers
         [AllowAnonymous]
         [Route("ResetPasswordFromMail", Name = "ResetPasswordFromMail")]
         [HttpPost]
-        public async Task<IActionResult> ResetPasswordFromMailAsync([FromBody] UserModel userModel)
+        public async Task<IActionResult> ResetPasswordFromMailAsync([FromBody] ResetPasswordFromMailModel resetPasswordFromMailModel)
         {
             if (!this.ModelState.IsValid)
             {
@@ -112,7 +112,8 @@ namespace Application.Controllers
             IdentityResult result;
             try
             {
-                result = await this.userManager.ResetPasswordByEmailAsync(userModel.Email, userModel.Token, userModel.Password)
+                result = await this.userManager
+                    .ResetPasswordByEmailAsync(resetPasswordFromMailModel.Email, resetPasswordFromMailModel.Token, resetPasswordFromMailModel.Password)
                     .ConfigureAwait(false);
             }
             catch (InvalidCredentialException ex)
@@ -139,7 +140,7 @@ namespace Application.Controllers
             await MailClient.SendEmailAsync(
                 new SendGrid.SendGridClient(this.AppSettings.SendGridKey),
                 this.AppSettings.InfoEmail,
-                userModel.Email,
+                resetPasswordFromMailModel.Email,
                 this.AppSettings.AfterResetPasswordSubject,
                 message).ConfigureAwait(false);
 

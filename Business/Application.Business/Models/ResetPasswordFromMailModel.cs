@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class UserModel
+    public class ResetPasswordFromMailModel
     {
         [Required]
         [DataType(DataType.EmailAddress)]
