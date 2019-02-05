@@ -89,21 +89,21 @@
 
             string token = "ABC";
             string newPassword = "password";
-            string userId = "abc";
+            string email = "abc@aaa.com";
 
             IdentityResult identityResult = IdentityResult.Success;
 
-            ApplicationUser user = new ApplicationUser { UserName = "AAA", Id = userId };
+            ApplicationUser user = new ApplicationUser { UserName = "AAA", Id = email };
 
             // Setup Moq
-            this.mockIUserManager.Setup(x => x.FindByIdAsync(userId))
+            this.mockIUserManager.Setup(x => x.FindByEmailAsync(email))
                 .Returns(Task.FromResult(user)).Verifiable();
 
             this.mockIUserManager.Setup(x => x.ResetPasswordAsync(user, token, newPassword))
                 .Returns(Task.FromResult(identityResult)).Verifiable();
 
             // Run Code
-            var result = await userManager.ResetPasswordAsync(userId, token, newPassword);
+            var result = await userManager.ResetPasswordByEmailAsync(email, token, newPassword);
 
             // Validate true result
             Assert.NotNull(result);

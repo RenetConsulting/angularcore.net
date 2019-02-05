@@ -12,6 +12,8 @@
     public class ApplicationUserManager<TUser> : UserManager<TUser>, IApplicationUserManager<TUser>
         where TUser : ApplicationUser, new()
     {
+        private const string UserNotFoundMessage = "User not found";
+
         private IApplicationUserManager<TUser> me;
 
         public ApplicationUserManager(IUserStore<TUser> store, IOptions<IdentityOptions> optionsAccessor, IPasswordHasher<TUser> passwordHasher, IEnumerable<IUserValidator<TUser>> userValidators, IEnumerable<IPasswordValidator<TUser>> passwordValidators, ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, IServiceProvider services, ILogger<UserManager<TUser>> logger)
@@ -64,7 +66,7 @@
             }
             else
             {
-                throw new InvalidCredentialException("User not found");
+                throw new InvalidCredentialException(UserNotFoundMessage);
             }
         }
 
@@ -76,29 +78,37 @@
 
             if (user != null)
             {
-                return await this.GeneratePasswordResetTokenAsync(user);
+                return await this.Me.GeneratePasswordResetTokenAsync(user);
             }
             else
             {
-                throw new InvalidCredentialException("User not found");
+                throw new InvalidCredentialException(UserNotFoundMessage);
             }
         }
 
         /// <summary>
         /// Resets the user's password to the specified newPassword after validating the given password reset token.
         /// </summary>
-        /// <param name="userId">The userId whose password should be reset.</param>
+        /// <param name="email">The userId whose password should be reset.</param>
         /// <param name="token">The password reset token to verify.</param>
         /// <param name="newPassword">The new password to set if reset token verification fails.</param>
         /// <returns>The System.Threading.Tasks.Task that represents the asynchronous operation, containing the Microsoft.AspNetCore.Identity.IdentityResult of the operation.</returns>
         /// <exception cref="System.ArgumentNullException">Throw ArgumentNullException if the userId parameter is null or empty or user not found</exception>
-        public async Task<IdentityResult> ResetPasswordAsync(string userId, string token, string newPassword)
+        /// <exception cref="System.Security.Authentication.InvalidCredentialException">Throw InvalidCredentialException if the user not found</exception>
+        public async Task<IdentityResult> ResetPasswordByEmailAsync(string email, string token, string newPassword)
         {
-            userId = userId ?? throw new ArgumentNullException(nameof(userId));
+            email = email ?? throw new ArgumentNullException(nameof(email));
 
-            TUser user = await this.Me.FindByIdAsync(userId);
+            TUser user = await this.Me.FindByEmailAsync(email);
 
-            return await this.Me.ResetPasswordAsync(user, token, newPassword);
+            if (user != null)
+            {
+                return await this.Me.ResetPasswordAsync(user, token, newPassword);
+            }
+            else
+            {
+                throw new InvalidCredentialException(UserNotFoundMessage);
+            }
         }
     }
 }
