@@ -9,6 +9,7 @@ import { ToolsService } from '../tools/tools.service';
 })
 export class AccountService {
 
+    /** the URL of a controller */
     readonly url = '/api/account';
 
     constructor(
