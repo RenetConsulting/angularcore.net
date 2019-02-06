@@ -2,17 +2,12 @@
     <div class="container">
         <div class="row d-flex justify-content-center align-items-center pt-5">
             <div class="col-md-6 shadow-sm p-5 mb-5 bg-light rounded">
-                <div class="brand rounded-circle bg-white shadow-lg text-center p-3 f-none mx-auto d-flex justify-content-center align-items-center">
-                    <div>
-                        <h1 class="text-uppercase font-weight-bold text-primary d-block m-0">LOGO</h1>
-                        <span class="font-weight-lighter font-italic text-dark d-block">placeholder</span>
-                    </div>
-                </div>
+                <logo></logo>
                 <h2 class="text-center mt-4">Sign up</h2>
                 <form [formGroup]="formGroup" (ngSubmit)="submit()">
-                    <control-input placeholder="Email" [maxlength]="maxLengthEmail" type="email" formControlName="email"></control-input>
-                    <control-input placeholder="Password" [maxlength]="maxLengthPassword" type="password" formControlName="password"></control-input>
-                    <control-input placeholder="Confirmation Password" [maxlength]="maxLengthPassword" type="password" formControlName="confirmPassword"></control-input>
+                    <control-input placeholder="Email" type="email" formControlName="email"></control-input>
+                    <control-input placeholder="Password" type="password" formControlName="password"></control-input>
+                    <control-input placeholder="Confirmation Password" type="password" formControlName="confirmPassword"></control-input>
                     <div class="d-flex justify-content-center my-4">
                         <button mat-raised-button color="primary" class="py-3 px-5" [class.disabled]="formGroup.invalid" type="submit">Sign up</button>
                     </div>

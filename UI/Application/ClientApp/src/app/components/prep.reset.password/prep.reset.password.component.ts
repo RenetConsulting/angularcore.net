@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { tap } from 'rxjs/operators';
-import { MaxLengthBase } from '../../bases/max.length/max.length.base';
+import { MAX_LENGTH_EMAIL } from '../../consts/max.length.email';
+import { MIN_LENGTH_EMAIL } from '../../consts/min.length.email';
 import { IUser } from '../../interfaces/user';
 import { AccountService } from '../../services/account/account.service';
 import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
@@ -15,16 +16,14 @@ import { MessageHandlerService } from '../../services/message.handler/message.ha
         './prep.reset.password.component.scss'
     ]
 })
-export class PrepResetPasswordComponent extends MaxLengthBase implements OnInit {
+export class PrepResetPasswordComponent implements OnInit {
 
     formGroup: FormGroup;
 
     constructor(
         @Inject(AccountService) private accountService: AccountService,
         @Inject(MessageHandlerService) private messageHandlerService: MessageHandlerService
-    ) {
-        super();
-    }
+    ) { }
 
     ngOnInit(): void {
         this.setFormGroup();
@@ -32,7 +31,7 @@ export class PrepResetPasswordComponent extends MaxLengthBase implements OnInit 
 
     setFormGroup = (): void => {
         this.formGroup = new FormGroup({
-            email: new FormControl('', [Validators.required, Validators.minLength(6), Validators.email]),
+            email: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_EMAIL), Validators.email, Validators.maxLength(MAX_LENGTH_EMAIL)]),
         } as MapPick<IUser, keyof IUser, FormControl>);
     }
 

@@ -3,7 +3,9 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators }
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { MaxLengthBase } from '../../bases/max.length/max.length.base';
+import { MAX_LENGTH_EMAIL } from '../../consts/max.length.email';
+import { MAX_LENGTH_PASSWORD } from '../../consts/max.length.password';
+import { MIN_LENGTH_EMAIL } from '../../consts/min.length.email';
 import { IResetPassword } from '../../interfaces/reset.password';
 import { AccountService } from '../../services/account/account.service';
 import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
@@ -16,7 +18,7 @@ import { MessageHandlerService } from '../../services/message.handler/message.ha
         './reset.password.component.scss'
     ]
 })
-export class ResetPasswordComponent extends MaxLengthBase implements OnInit, OnDestroy {
+export class ResetPasswordComponent implements OnInit, OnDestroy {
 
     readonly subscription = new Subscription();
     formGroup: FormGroup;
@@ -25,9 +27,7 @@ export class ResetPasswordComponent extends MaxLengthBase implements OnInit, OnD
         @Inject(AccountService) private accountService: AccountService,
         @Inject(MessageHandlerService) private messageHandlerService: MessageHandlerService,
         @Inject(ActivatedRoute) private activatedRoute: ActivatedRoute
-    ) {
-        super();
-    }
+    ) { }
 
     ngOnInit(): void {
         this.setFormGroup();
@@ -46,9 +46,9 @@ export class ResetPasswordComponent extends MaxLengthBase implements OnInit, OnD
 
     setFormGroup = (): void => {
         this.formGroup = new FormGroup({
-            email: new FormControl('', [Validators.required, Validators.minLength(6), Validators.email]),
-            password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-            confirmPassword: new FormControl('', [Validators.required, Validators.minLength(6), this.matchPasswordValidator]),
+            email: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_EMAIL), Validators.email, Validators.maxLength(MAX_LENGTH_EMAIL)]),
+            password: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_EMAIL), Validators.maxLength(MAX_LENGTH_PASSWORD)]),
+            confirmPassword: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_EMAIL), Validators.maxLength(MAX_LENGTH_PASSWORD), this.matchPasswordValidator]),
             token: new FormControl('', [Validators.required]),
         } as MapPick<IResetPassword, keyof IResetPassword, FormControl>);
     }
