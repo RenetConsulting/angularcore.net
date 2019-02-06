@@ -10,7 +10,10 @@ import { MessageHandlerService } from '../../services/message.handler/message.ha
 @Component({
     selector: 'prep-reset-password',
     templateUrl: './prep.reset.password.component.html',
-    styleUrls: ['./prep.reset.password.component.scss']
+    styleUrls: [
+        '../signup/signup.component.scss',
+        './prep.reset.password.component.scss'
+    ]
 })
 export class PrepResetPasswordComponent extends MaxLengthBase implements OnInit {
 

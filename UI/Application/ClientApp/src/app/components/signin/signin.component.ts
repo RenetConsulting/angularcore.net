@@ -8,7 +8,10 @@ import { AuthorizationService } from '../../services/authorization/authorization
 @Component({
     selector: 'signin',
     templateUrl: './signin.component.html',
-    styleUrls: ['./signin.component.scss'],
+    styleUrls: [
+    '../signup/signup.component.scss',
+    './signin.component.scss'
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SigninComponent extends MaxLengthBase implements OnInit {
