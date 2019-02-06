@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MAX_LENGTH_EMAIL } from '../../consts/max.length.email';
-import { MAX_LENGTH_PASSWORD } from '../../consts/max.length.password';
-import { MIN_LENGTH_EMAIL } from '../../consts/min.length.email';
+import { EMAIL_VALIDATORS } from '../../consts/email.validators';
+import { PASSWORD_VALIDATORS } from '../../consts/password.validators';
 import { IUser } from '../../interfaces/user';
 import { AuthorizationService } from '../../services/authorization/authorization.service';
 
@@ -28,9 +27,9 @@ export class SignupComponent implements OnInit {
 
     setFormGroup = (): void => {
         this.formGroup = new FormGroup({
-            email: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_EMAIL), Validators.email, Validators.maxLength(MAX_LENGTH_EMAIL)]),
-            password: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_EMAIL), Validators.maxLength(MAX_LENGTH_PASSWORD)]),
-            confirmPassword: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_EMAIL), Validators.maxLength(MAX_LENGTH_PASSWORD)]),
+            email: new FormControl('', [...EMAIL_VALIDATORS]),
+            password: new FormControl('', [...PASSWORD_VALIDATORS]),
+            confirmPassword: new FormControl('', [...PASSWORD_VALIDATORS]),
         } as MapPick<IUser, keyof IUser, FormControl>);
     }
 

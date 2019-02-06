@@ -1,8 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { tap } from 'rxjs/operators';
-import { MAX_LENGTH_EMAIL } from '../../consts/max.length.email';
-import { MIN_LENGTH_EMAIL } from '../../consts/min.length.email';
+import { EMAIL_VALIDATORS } from '../../consts/password.validators';
 import { IUser } from '../../interfaces/user';
 import { AccountService } from '../../services/account/account.service';
 import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
@@ -31,7 +30,7 @@ export class PrepResetPasswordComponent implements OnInit {
 
     setFormGroup = (): void => {
         this.formGroup = new FormGroup({
-            email: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_EMAIL), Validators.email, Validators.maxLength(MAX_LENGTH_EMAIL)]),
+            email: new FormControl('', [...EMAIL_VALIDATORS]),
         } as MapPick<IUser, keyof IUser, FormControl>);
     }
 

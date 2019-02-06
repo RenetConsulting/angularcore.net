@@ -1,11 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { tap } from 'rxjs/operators';
-import { MAX_LENGTH_PASSWORD } from '../../consts/max.length.password';
-import { MIN_LENGTH_EMAIL } from '../../consts/min.length.email';
 import { IChangePassword } from '../../interfaces/change.password';
 import { AccountService } from '../../services/account/account.service';
 import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
+import { PASSWORD_VALIDATORS } from '../../consts/password.validators';
 
 @Component({
     selector: 'change-password',
@@ -32,9 +31,9 @@ export class ChangePasswordComponent implements OnInit {
 
     setFormGroup = (): void => {
         this.formGroup = new FormGroup({
-            oldPassword: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_EMAIL), Validators.maxLength(MAX_LENGTH_PASSWORD)]),
-            newPassword: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_EMAIL), Validators.maxLength(MAX_LENGTH_PASSWORD)]),
-            confirmNewPassword: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_EMAIL), Validators.maxLength(MAX_LENGTH_PASSWORD), this.matchPasswordValidator]),
+            oldPassword: new FormControl('', [...PASSWORD_VALIDATORS]),
+            newPassword: new FormControl('', [...PASSWORD_VALIDATORS]),
+            confirmNewPassword: new FormControl('', [...PASSWORD_VALIDATORS, this.matchPasswordValidator]),
         } as MapPick<IChangePassword, keyof IChangePassword, FormControl>);
     }
 
