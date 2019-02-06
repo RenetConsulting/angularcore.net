@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { tap } from 'rxjs/operators';
-import { EMAIL_VALIDATORS } from '../../consts/password.validators';
+import { EMAIL_VALIDATORS } from '../../consts/email.validators';
 import { IUser } from '../../interfaces/user';
 import { AccountService } from '../../services/account/account.service';
 import { MessageHandlerService } from '../../services/message.handler/message.handler.service';

@@ -12,17 +12,17 @@
                 <li class="nav-item" [routerLinkActive]='["link-active"]'>
                     <a class="nav-link" [routerLink]='["/counter"]'>Counter</a>
                 </li>
-                <li class="nav-item" [routerLinkActive]='["link-active"]'>
-                    <a class="nav-link" [routerLink]='["/sign-up"]'>Sign Up</a>
-                </li>
                 <li *ngIf="isAuthenticated" class="nav-item" [routerLinkActive]='["link-active"]'>
                     <a class="nav-link" [routerLink]='["/change-password"]'>Change Password</a>
                 </li>
-                <li *ngIf="!isAuthenticated" class="nav-item" [routerLinkActive]='["link-active"]'>
-                    <a class="nav-link" [routerLink]='["/sign-in"]'>Sign In</a>
-                </li>
                 <li *ngIf="isAuthenticated" class="nav-item">
                     <button class="btn btn-outline-light" type="button" (click)="signout()">Sign Out</button>
+                </li>
+                <li *ngIf="!isAuthenticated" class="nav-item" [routerLinkActive]='["link-active"]'>
+                    <a class="nav-link" [routerLink]='["/sign-up"]'>Sign Up</a>
+                </li>
+                <li *ngIf="!isAuthenticated" class="nav-item" [routerLinkActive]='["link-active"]'>
+                    <a class="nav-link" [routerLink]='["/sign-in"]'>Sign In</a>
                 </li>
             </ul>
         </div>
