@@ -4,12 +4,15 @@
 
 namespace Application.Controllers
 {
+    using System.Collections.Generic;
     using System.Security.Authentication;
     using System.Threading.Tasks;
     using Application.Business;
     using Application.Business.Communications;
+    using Application.Business.Helpers;
     using Application.Business.Models;
     using Application.DataAccess.Entities;
+    using Application.DataAccess.Enums;
     using Application.DataAccess.Repositories;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -50,12 +53,9 @@ namespace Application.Controllers
             }
             else
             {
-                foreach (var error in result.Errors)
-                {
-                    this.ModelState.AddModelError(error.Code, error.Description);
-                }
+                ErrorListModel errorList = this.GetErrorListModel(result.Errors);
 
-                return this.BadRequest(this.ModelState);
+                return this.BadRequest(errorList);
             }
         }
 
@@ -147,6 +147,25 @@ namespace Application.Controllers
             return this.Ok();
         }
 
+        [Authorize]
+        [HttpGet]
+        [Route("GenerateUserToken")]
+        public async Task<IActionResult> GenerateUserTokenAsync()
+        {
+            try
+            {
+                ApplicationUser user = await this.userManager.GetUserAsync(this.User).ConfigureAwait(false);
+
+                string token = await this.userManager.GenerateUserTokenAsync(user);
+
+                return this.Ok(token);
+            }
+            catch (InvalidCredentialException ex)
+            {
+                return this.BadRequest(ex.Message);
+            }
+        }
+
         private IActionResult GetErrorResult(IdentityResult result)
         {
             if (result == null)
@@ -174,6 +193,31 @@ namespace Application.Controllers
             }
 
             return null;
+        }
+
+        private ErrorListModel GetErrorListModel(IEnumerable<IdentityError> errors)
+        {
+            ErrorListModel errorList = new ErrorListModel();
+
+            foreach (var error in errors)
+            {
+                ErrorMark errorType = ErrorMarks.GetErrorMark(error.Code);
+
+                if (errorType == ErrorMark.Email)
+                {
+                    errorList.Email.Add(error.Description);
+                }
+                else if (errorType == ErrorMark.Password)
+                {
+                    errorList.Password.Add(error.Description);
+                }
+                else if (errorType == ErrorMark.ConfirmPassword)
+                {
+                    errorList.ConfirmPassword.Add(error.Description);
+                }
+            }
+
+            return errorList;
         }
     }
 }

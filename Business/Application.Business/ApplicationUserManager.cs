@@ -86,6 +86,13 @@
             }
         }
 
+        public async Task<string> GenerateUserTokenAsync(TUser user)
+        {
+            user = user ?? throw new InvalidCredentialException(UserNotFoundMessage);
+
+            return await this.GenerateUserTokenAsync(user);
+        }
+
         /// <summary>
         /// Resets the user's password to the specified newPassword after validating the given password reset token.
         /// </summary>
