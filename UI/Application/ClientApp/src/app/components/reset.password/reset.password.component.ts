@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators }
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { MaxLengthBase } from '../../bases/max.length/max.length.base';
 import { IResetPassword } from '../../interfaces/reset.password';
 import { AccountService } from '../../services/account/account.service';
 import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
@@ -10,9 +11,12 @@ import { MessageHandlerService } from '../../services/message.handler/message.ha
 @Component({
     selector: 'reset-password',
     templateUrl: './reset.password.component.html',
-    styleUrls: ['./reset.password.component.scss']
+    styleUrls: [
+        '../signup/signup.component.scss',
+        './reset.password.component.scss'
+    ]
 })
-export class ResetPasswordComponent implements OnInit, OnDestroy {
+export class ResetPasswordComponent extends MaxLengthBase implements OnInit, OnDestroy {
 
     readonly subscription = new Subscription();
     formGroup: FormGroup;
@@ -21,7 +25,9 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
         @Inject(AccountService) private accountService: AccountService,
         @Inject(MessageHandlerService) private messageHandlerService: MessageHandlerService,
         @Inject(ActivatedRoute) private activatedRoute: ActivatedRoute
-    ) { }
+    ) {
+        super();
+    }
 
     ngOnInit(): void {
         this.setFormGroup();
@@ -35,7 +41,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
 
     matchPasswordValidator = (control: AbstractControl): ValidationErrors | null => {
         return control.value === (this.formGroup && this.formGroup.controls.password.value) ? null
-            : { errorMessage: `Doesn't match with Password.` };
+            : { errorMessage: 'The password and confirmation password do not match.' };
     }
 
     setFormGroup = (): void => {

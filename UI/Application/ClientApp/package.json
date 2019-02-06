@@ -9,6 +9,7 @@
     "build:ssr": "ng run angular7:server:production",
     "build:full:prod": "npm i --prod && npm run build:prod && npm run build:ssr",
     "clean": "rimraf dist && rimraf dist-server",
+    "lint": "ng lint",
     "test": "ng test --watch=false",
     "test:watch": "ng test",
     "e2e": "ng e2e"

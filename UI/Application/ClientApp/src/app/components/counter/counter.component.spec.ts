@@ -22,7 +22,7 @@ describe('CounterComponent', () => {
 
     it('toBeDefined component', () => {
         expect(component).toBeDefined();
-    })
+    });
 
     it('should display a title', async(() => {
         const titleText = fixture.nativeElement.querySelector('h1').textContent;

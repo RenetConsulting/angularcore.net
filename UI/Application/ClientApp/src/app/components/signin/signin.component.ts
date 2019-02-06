@@ -1,23 +1,29 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MaxLengthBase } from '../../bases/max.length/max.length.base';
 import { IUser } from '../../interfaces/user';
 import { AuthorizationService } from '../../services/authorization/authorization.service';
 
 @Component({
     selector: 'signin',
     templateUrl: './signin.component.html',
-    styleUrls: ['./signin.component.scss'],
+    styleUrls: [
+    '../signup/signup.component.scss',
+    './signin.component.scss'
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SigninComponent implements OnInit {
+export class SigninComponent extends MaxLengthBase implements OnInit {
 
     formGroup: FormGroup;
 
     constructor(
         @Inject(AuthorizationService) private authorizationService: AuthorizationService,
         @Inject(Router) private router: Router
-    ) { }
+    ) {
+        super();
+    }
 
     ngOnInit(): void {
         this.setFormGroup();
