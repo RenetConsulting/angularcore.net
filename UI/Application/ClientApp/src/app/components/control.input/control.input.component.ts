@@ -1,15 +1,16 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Inject, Input, OnDestroy, OnInit, Optional, Self, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Inject, Input, OnChanges, OnDestroy, OnInit, Optional, Self, ViewChild } from '@angular/core';
 import { ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
-import { MatFormFieldControl } from '@angular/material/form-field';
+import { matFormFieldAnimations, MatFormFieldControl } from '@angular/material/form-field';
 import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'control-input',
     templateUrl: './control.input.component.html',
     styleUrls: ['./control.input.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    animations: [matFormFieldAnimations.transitionMessages]
 })
-export class ControlInputComponent implements ControlValueAccessor, OnInit, OnDestroy {
+export class ControlInputComponent implements ControlValueAccessor, OnChanges, OnInit, OnDestroy {
 
     @ViewChild('inputRef') _inputRef: ElementRef;
     @ViewChild(MatFormFieldControl) fieldControl: MatFormFieldControl<any>;
@@ -21,6 +22,7 @@ export class ControlInputComponent implements ControlValueAccessor, OnInit, OnDe
     @Input() maxlength: number;
     @Input() errorMessages: Array<string>;
     readonly subscription = new Subscription();
+    subscriptAnimationState: string;
     disabled: boolean;
     onChange: (i) => any | null;
     onTouched;
@@ -32,6 +34,12 @@ export class ControlInputComponent implements ControlValueAccessor, OnInit, OnDe
     ) {
         if (this.ngControl) {
             this.ngControl.valueAccessor = this;
+        }
+    }
+
+    ngOnChanges(e) {
+        if (e.errorMessages) {
+            this.subscriptAnimationState = this.errorMessages ? 'enter' : '';
         }
     }
 
