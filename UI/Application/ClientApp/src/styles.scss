@@ -16,6 +16,9 @@ a {
 }
 a, button {
     transition: all 1s ease .01s;
+    &:focus {
+        outline: 0;
+    }
 }
 .rounded {
     border-radius: 10px !important;
