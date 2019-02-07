@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { tap } from 'rxjs/operators';
+import { PASSWORD_VALIDATORS } from '../../consts/password.validators';
 import { IChangePassword } from '../../interfaces/change.password';
 import { AccountService } from '../../services/account/account.service';
 import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
-import { PASSWORD_VALIDATORS } from '../../consts/password.validators';
 
 @Component({
     selector: 'change-password',
@@ -14,6 +14,7 @@ import { PASSWORD_VALIDATORS } from '../../consts/password.validators';
 export class ChangePasswordComponent implements OnInit {
 
     formGroup: FormGroup;
+    errors: MapPick<IChangePassword, keyof IChangePassword, Array<string>>;
 
     constructor(
         @Inject(AccountService) private accountService: AccountService,
@@ -39,10 +40,11 @@ export class ChangePasswordComponent implements OnInit {
 
     submit = (): void => {
         if (this.formGroup.valid) {
+            this.errors = null;
             this.accountService.changePassword(this.formGroup.value)
                 .pipe(
                     tap(() => this.formGroup.reset()))
-                .subscribe(() => this.messageHandlerService.handleSuccess('The password has been changed successfully.'));
+                .subscribe(() => this.messageHandlerService.handleSuccess('The password has been changed successfully.'), e => this.errors = e.error);
         }
     }
 }

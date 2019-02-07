@@ -4,3 +4,4 @@
     <mat-error #errorRef></mat-error>
     <mat-hint *ngIf="maxlength" align="end">{{ngControl.control.value?.length || 0}}/{{maxlength}}</mat-hint>
 </mat-form-field>
+<mat-error *ngFor="let item of errorMessages"><i class="fas fa-exclamation-circle"></i> {{item}}</mat-error>

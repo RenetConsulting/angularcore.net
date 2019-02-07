@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EMAIL_VALIDATORS } from '../../consts/email.validators';
@@ -12,12 +12,12 @@ import { AuthorizationService } from '../../services/authorization/authorization
     styleUrls: [
         '../signup/signup.component.scss',
         './signin.component.scss'
-    ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    ]
 })
 export class SigninComponent implements OnInit {
 
     formGroup: FormGroup;
+    errors: MapPick<IUser, keyof IUser, Array<string>>;
 
     constructor(
         @Inject(AuthorizationService) private authorizationService: AuthorizationService,
@@ -37,7 +37,9 @@ export class SigninComponent implements OnInit {
 
     submit = (): void => {
         if (this.formGroup.valid) {
-            this.authorizationService.signin(this.formGroup.value).subscribe(() => this.router.navigate(['/']));
+            this.errors = null;
+            this.authorizationService.signin(this.formGroup.value)
+                .subscribe(() => this.router.navigate(['/']), e => this.errors = e.error);
         }
     }
 }

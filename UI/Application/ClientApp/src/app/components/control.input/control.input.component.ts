@@ -19,6 +19,7 @@ export class ControlInputComponent implements ControlValueAccessor, OnInit, OnDe
     @Input() required: boolean;
     @Input() minlength: number;
     @Input() maxlength: number;
+    @Input() errorMessages: Array<string>;
     readonly subscription = new Subscription();
     disabled: boolean;
     onChange: (i) => any | null;

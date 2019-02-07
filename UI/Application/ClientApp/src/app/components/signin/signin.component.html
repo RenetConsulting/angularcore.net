@@ -5,8 +5,8 @@
                 <logo></logo>
                 <h2 class="text-center mt-4">Sign in</h2>
                 <form [formGroup]="formGroup" (ngSubmit)="submit()">
-                    <control-input placeholder="Email" type="email" formControlName="email"></control-input>
-                    <control-input placeholder="Password" type="password" formControlName="password"></control-input>
+                    <control-input placeholder="Email" type="email" formControlName="email" [errorMessages]="errors?.email"></control-input>
+                    <control-input placeholder="Password" type="password" formControlName="password" [errorMessages]="errors?.password"></control-input>
                     <div class="d-flex justify-content-center my-4">
                         <button class="py-3 px-5" mat-raised-button color="primary" [class.disabled]="formGroup.invalid" type="submit">Sign in</button>
                     </div>

@@ -23,7 +23,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
 
     handleError = (request: HttpRequest<any>, error: HttpErrorResponse) => {
-        if (error instanceof HttpErrorResponse) {
+        if (error instanceof HttpErrorResponse && !request.headers.has(ALLOW_HTTP_ERROR_HEADER)) {
             this.messageHandlerService.handleError(error.error);
         }
         /** prevents errors in console, to return errors in stack errors use {@link return throwError(error)} */

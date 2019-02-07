@@ -21,6 +21,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
 
     readonly subscription = new Subscription();
     formGroup: FormGroup;
+    errors: MapPick<IResetPassword, keyof IResetPassword, Array<string>>;
 
     constructor(
         @Inject(AccountService) private accountService: AccountService,
@@ -54,10 +55,11 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
 
     submit = (): void => {
         if (this.formGroup.valid) {
+            this.errors = null;
             this.accountService.resetPassword(this.formGroup.value)
                 .pipe(
                     tap(() => this.formGroup.reset()))
-                .subscribe(() => this.messageHandlerService.handleSuccess('The password has been changed successfully.'));
+                .subscribe(() => this.messageHandlerService.handleSuccess('The password has been changed successfully.'), e => this.errors = e.error);
         }
     }
 }

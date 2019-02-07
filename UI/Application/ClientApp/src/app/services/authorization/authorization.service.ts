@@ -32,8 +32,8 @@ export class AuthorizationService {
         const options = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/x-www-form-urlencoded',
-                [ALLOW_HTTP_ERROR_HEADER]: ALLOW_HTTP_ERROR_HEADER,
-                [ALLOW_ANONYMOUS_HEADER]: ALLOW_ANONYMOUS_HEADER
+                ALLOW_HTTP_ERROR_HEADER,
+                ALLOW_ANONYMOUS_HEADER
             })
         };
         return this.http
@@ -56,7 +56,7 @@ export class AuthorizationService {
     })
 
     signup = (model: IUser) => this.http
-        .post(`${this.baseUrl}/api/account/register`, model)
+        .post(`${this.baseUrl}/api/account/register`, model, { headers: { ALLOW_HTTP_ERROR_HEADER } })
 
     signout = (): void => this.tokenService.clean();
 }
