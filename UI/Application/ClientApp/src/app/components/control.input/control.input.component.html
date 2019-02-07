@@ -4,4 +4,6 @@
     <mat-error #errorRef></mat-error>
     <mat-hint *ngIf="maxlength" align="end">{{ngControl.control.value?.length || 0}}/{{maxlength}}</mat-hint>
 </mat-form-field>
-<div class="error"><mat-error [@transitionMessages]="subscriptAnimationState" *ngFor="let item of errorMessages"><i class="fas fa-exclamation-circle"></i> {{item}}</mat-error></div>
+<div [@enterLeaveHOW]="transition">
+    <mat-error class="error" *ngFor="let item of errorMessages"><i class="fas fa-exclamation-circle"></i> {{item}}</mat-error>
+</div>

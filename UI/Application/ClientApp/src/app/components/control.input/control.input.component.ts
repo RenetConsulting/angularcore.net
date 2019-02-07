@@ -1,14 +1,15 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Inject, Input, OnChanges, OnDestroy, OnInit, Optional, Self, ViewChild } from '@angular/core';
 import { ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
-import { matFormFieldAnimations, MatFormFieldControl } from '@angular/material/form-field';
+import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subscription } from 'rxjs';
+import { enterLeaveHOW } from '../../animations/enter.leave.how';
 
 @Component({
     selector: 'control-input',
     templateUrl: './control.input.component.html',
     styleUrls: ['./control.input.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    animations: [matFormFieldAnimations.transitionMessages]
+    animations: [enterLeaveHOW]
 })
 export class ControlInputComponent implements ControlValueAccessor, OnChanges, OnInit, OnDestroy {
 
@@ -22,7 +23,7 @@ export class ControlInputComponent implements ControlValueAccessor, OnChanges, O
     @Input() maxlength: number;
     @Input() errorMessages: Array<string>;
     readonly subscription = new Subscription();
-    subscriptAnimationState: string;
+    transition: boolean;
     disabled: boolean;
     onChange: (i) => any | null;
     onTouched;
@@ -39,7 +40,7 @@ export class ControlInputComponent implements ControlValueAccessor, OnChanges, O
 
     ngOnChanges(e) {
         if (e.errorMessages) {
-            this.subscriptAnimationState = this.errorMessages ? 'enter' : '';
+            this.transition = this.errorMessages ? this.errorMessages.length : 0;
         }
     }
 
