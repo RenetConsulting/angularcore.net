@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EMAIL_VALIDATORS } from '../../consts/email.validators';
 import { PASSWORD_VALIDATORS } from '../../consts/password.validators';
@@ -36,6 +36,7 @@ export class SignupComponent implements OnInit {
             email: new FormControl('', [...EMAIL_VALIDATORS]),
             password: new FormControl('', [...PASSWORD_VALIDATORS]),
             confirmPassword: new FormControl('', [...PASSWORD_VALIDATORS, this.matchPasswordValidator]),
+            readTerms: new FormControl(false, [Validators.requiredTrue]),
         } as MapPick<IUser, keyof IUser, FormControl>);
     }
 

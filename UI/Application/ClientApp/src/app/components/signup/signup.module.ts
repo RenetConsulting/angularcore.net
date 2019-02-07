@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatInputModule } from '@angular/material/input';
 import { ControlInputModule } from '../control.input/control.input.module';
 import { LogoModule } from '../logo/logo.module';
 import { SocialMediaModule } from '../social.media/social.media.module';
@@ -15,7 +17,9 @@ const MODULES = [
     MatButtonModule,
     ControlInputModule,
     LogoModule,
-    SocialMediaModule
+    SocialMediaModule,
+    MatCheckboxModule,
+    MatInputModule
 ];
 
 const COMPONENTS = [

@@ -2,5 +2,6 @@ export interface IUser {
     email: string;
     password: string;
     confirmPassword: string;
-    isRemember?: boolean
+    isRemember?: boolean;
+    readTerms?: boolean;
 }

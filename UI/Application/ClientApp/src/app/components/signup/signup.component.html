@@ -1,19 +1,26 @@
 <div class="container-fluid vh-100">
     <div class="container">
         <div class="row d-flex justify-content-center align-items-center pt-5">
-            <div class="col-md-6 shadow-sm p-5 mb-5 bg-light rounded">
+            <section class="col-md-6 shadow-sm p-5 mb-5 bg-light rounded">
                 <logo></logo>
                 <h2 class="text-center mt-4">Sign up</h2>
                 <form [formGroup]="formGroup" (ngSubmit)="submit()">
                     <control-input placeholder="Email" type="email" formControlName="email" [errorMessages]="errors?.email"></control-input>
                     <control-input placeholder="Password" type="password" formControlName="password" [errorMessages]="errors?.password"></control-input>
                     <control-input placeholder="Confirmation Password" type="password" formControlName="confirmPassword" [errorMessages]="errors?.confirmPassword"></control-input>
+                    <mat-form-field class="w-100 my-3">
+                        <input matInput formControlName="readTerms" hidden="hidden">
+                        <mat-checkbox formControlName="readTerms">I have read <ng-template [ngTemplateOutlet]="termsRef"></ng-template>.</mat-checkbox>
+                        <mat-error>Please read <ng-template [ngTemplateOutlet]="termsRef"></ng-template> to continue registration.</mat-error>
+                    </mat-form-field>
                     <div class="d-flex justify-content-center my-4">
                         <button mat-raised-button color="primary" class="py-3 px-5" [class.disabled]="formGroup.invalid" type="submit">Sign up</button>
                     </div>
                     <social-media></social-media>
                 </form>
-            </div>
+            </section>
         </div>
     </div>
 </div>
+
+<ng-template #termsRef><a href="/">Privacy Policy</a> and <a href="/">Terms of use</a></ng-template>

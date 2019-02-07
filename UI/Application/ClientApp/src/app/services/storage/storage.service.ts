@@ -28,9 +28,9 @@ export class StorageService {
     }
 
     /**
-     * @param isLocalSorage - is a type of storage that we must use
      * by default, the storage must be local storage unless a user logins with another Browser
-     * */
+     * @param isLocalSorage - is a type of storage that we must use
+     */
     setStorage = (isLocalSorage: boolean = true): void => {
         this.set(this.storageTypeKey, isLocalSorage, this.localSorage);
         this.storage = isLocalSorage ? this.localSorage : this.sessionSorage;
