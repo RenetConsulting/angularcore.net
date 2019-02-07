@@ -23,7 +23,7 @@ export class ControlInputComponent implements ControlValueAccessor, OnChanges, O
     @Input() maxlength: number;
     @Input() errorMessages: Array<string>;
     readonly subscription = new Subscription();
-    transition: boolean;
+    transition: number;
     disabled: boolean;
     onChange: (i) => any | null;
     onTouched;
