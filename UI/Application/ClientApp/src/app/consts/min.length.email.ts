@@ -1,1 +1,0 @@
-export const MIN_LENGTH_EMAIL = 6;
