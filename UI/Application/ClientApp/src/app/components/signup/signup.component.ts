@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors } from '@angu
 import { Router } from '@angular/router';
 import { EMAIL_VALIDATORS } from '../../consts/email.validators';
 import { PASSWORD_VALIDATORS } from '../../consts/password.validators';
+import { Messages } from '../../enums/messages';
 import { IUser } from '../../interfaces/user';
 import { AuthorizationService } from '../../services/authorization/authorization.service';
 
@@ -27,7 +28,7 @@ export class SignupComponent implements OnInit {
 
     matchPasswordValidator = (control: AbstractControl): ValidationErrors | null => {
         return control.value === (this.formGroup && this.formGroup.controls.password.value) ? null
-            : { errorMessage: 'The password and confirmation password do not match.' };
+            : { errorMessage: Messages.passwordsDoNotMatch };
     }
 
     setFormGroup = (): void => {

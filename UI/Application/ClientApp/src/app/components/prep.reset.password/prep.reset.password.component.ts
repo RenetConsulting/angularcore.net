@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { tap } from 'rxjs/operators';
 import { EMAIL_VALIDATORS } from '../../consts/email.validators';
+import { Messages } from '../../enums/messages';
 import { IUser } from '../../interfaces/user';
 import { AccountService } from '../../services/account/account.service';
 import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
@@ -39,7 +40,7 @@ export class PrepResetPasswordComponent implements OnInit {
             this.accountService.prepResetPassword(this.formGroup.value)
                 .pipe(
                     tap(() => this.formGroup.reset()))
-                .subscribe(() => this.messageHandlerService.handleSuccess('Please check your email.'));
+                .subscribe(() => this.messageHandlerService.handleSuccess(Messages.checkEmail));
         }
     }
 }

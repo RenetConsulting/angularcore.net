@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { tap } from 'rxjs/operators';
 import { PASSWORD_VALIDATORS } from '../../consts/password.validators';
+import { Messages } from '../../enums/messages';
 import { IChangePassword } from '../../interfaces/change.password';
 import { AccountService } from '../../services/account/account.service';
 import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
@@ -27,7 +28,7 @@ export class ChangePasswordComponent implements OnInit {
 
     matchPasswordValidator = (control: AbstractControl): ValidationErrors | null => {
         return control.value === (this.formGroup && this.formGroup.controls.newPassword.value) ? null
-            : { errorMessage: 'The new password and new confirmation password do not match.' };
+            : { errorMessage: Messages.passwordsDoNotMatch };
     }
 
     setFormGroup = (): void => {
@@ -44,7 +45,7 @@ export class ChangePasswordComponent implements OnInit {
             this.accountService.changePassword(this.formGroup.value)
                 .pipe(
                     tap(() => this.formGroup.reset()))
-                .subscribe(() => this.messageHandlerService.handleSuccess('The password has been changed successfully.'), e => this.errors = e.error);
+                .subscribe(() => this.messageHandlerService.handleSuccess(Messages.passwordHasChanged), e => this.errors = e.error);
         }
     }
 }

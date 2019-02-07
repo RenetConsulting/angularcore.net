@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { EMAIL_VALIDATORS } from '../../consts/email.validators';
 import { PASSWORD_VALIDATORS } from '../../consts/password.validators';
+import { Messages } from '../../enums/messages';
 import { IResetPassword } from '../../interfaces/reset.password';
 import { AccountService } from '../../services/account/account.service';
 import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
@@ -41,7 +42,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
 
     matchPasswordValidator = (control: AbstractControl): ValidationErrors | null => {
         return control.value === (this.formGroup && this.formGroup.controls.password.value) ? null
-            : { errorMessage: 'The password and confirmation password do not match.' };
+            : { errorMessage: Messages.passwordsDoNotMatch };
     }
 
     setFormGroup = (): void => {
@@ -59,7 +60,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
             this.accountService.resetPassword(this.formGroup.value)
                 .pipe(
                     tap(() => this.formGroup.reset()))
-                .subscribe(() => this.messageHandlerService.handleSuccess('The password has been changed successfully.'), e => this.errors = e.error);
+                .subscribe(() => this.messageHandlerService.handleSuccess(Messages.passwordHasChanged), e => this.errors = e.error);
         }
     }
 }
