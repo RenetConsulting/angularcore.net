@@ -5,6 +5,7 @@ import { ROUTES } from './app.routes';
 import { AppSharedModule } from './app.shared.module';
 import { AppComponent } from './components/app/app.component';
 import { HomeComponent } from './components/home/home.component';
+import { LogoModule } from './components/logo/logo.module';
 import { MessagerModule } from './components/messager/messager.module';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { ErrorInterceptor } from './interceptors/error/error.interceptor';
@@ -14,7 +15,8 @@ import { NoneCacheInterceptor } from './interceptors/none.cache/none.cache.inter
 const MODULES = [
     AppSharedModule,
     MessagerModule,
-    RouterModule.forRoot(ROUTES)
+    RouterModule.forRoot(ROUTES),
+    LogoModule
 ];
 
 const PROVIDERS: Array<Provider> = [
