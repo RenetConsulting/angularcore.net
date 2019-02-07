@@ -5,6 +5,7 @@ import { EMAIL_VALIDATORS } from '../../consts/email.validators';
 import { PASSWORD_VALIDATORS } from '../../consts/password.validators';
 import { IUser } from '../../interfaces/user';
 import { AuthorizationService } from '../../services/authorization/authorization.service';
+import { StorageService } from '../../services/storage/storage.service';
 
 @Component({
     selector: 'signin',
@@ -21,6 +22,7 @@ export class SigninComponent implements OnInit {
 
     constructor(
         @Inject(AuthorizationService) private authorizationService: AuthorizationService,
+        @Inject(StorageService) private storageService: StorageService,
         @Inject(Router) private router: Router
     ) { }
 
@@ -31,13 +33,15 @@ export class SigninComponent implements OnInit {
     setFormGroup = (): void => {
         this.formGroup = new FormGroup({
             email: new FormControl('', [...EMAIL_VALIDATORS]),
-            password: new FormControl('', [...PASSWORD_VALIDATORS])
+            password: new FormControl('', [...PASSWORD_VALIDATORS]),
+            isRemember: new FormControl(false),
         } as MapPick<IUser, keyof IUser, FormControl>);
     }
 
     submit = (): void => {
         if (this.formGroup.valid) {
             this.errors = null;
+            this.storageService.setStorage(this.formGroup.controls.isRemember.value);
             this.authorizationService.signin(this.formGroup.value)
                 .subscribe(() => this.router.navigate(['/']), e => this.errors = e.error);
         }

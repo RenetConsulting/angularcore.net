@@ -7,6 +7,7 @@
                 <form [formGroup]="formGroup" (ngSubmit)="submit()">
                     <control-input placeholder="Email" type="email" formControlName="email" [errorMessages]="errors?.email"></control-input>
                     <control-input placeholder="Password" type="password" formControlName="password" [errorMessages]="errors?.password"></control-input>
+                    <mat-checkbox formControlName="isRemember">Remember me</mat-checkbox>
                     <div class="d-flex justify-content-center my-4">
                         <button class="py-3 px-5" mat-raised-button color="primary" [class.disabled]="formGroup.invalid" type="submit">Sign in</button>
                     </div>
