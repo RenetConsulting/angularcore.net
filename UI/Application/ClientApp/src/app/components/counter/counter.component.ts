@@ -22,4 +22,8 @@ export class CounterComponent {
             this.http.get(`https://httpbin.org/get?test=${i}`).subscribe(console.log, console.log);
         }
     }
+
+    testError = () => {
+        this.http.get(`testError`).subscribe(console.log, console.log);
+    }
 }
