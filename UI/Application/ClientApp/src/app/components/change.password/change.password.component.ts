@@ -10,7 +10,10 @@ import { MessageHandlerService } from '../../services/message.handler/message.ha
 @Component({
     selector: 'change-password',
     templateUrl: './change.password.component.html',
-    styleUrls: ['./change.password.component.scss']
+    styleUrls: [
+        '../signup/signup.component.scss',
+        './change.password.component.scss'
+    ]
 })
 export class ChangePasswordComponent implements OnInit {
 

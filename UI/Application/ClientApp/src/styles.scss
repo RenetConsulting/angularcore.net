@@ -9,6 +9,9 @@ body {
     font-size: 18px;
     line-height: inherit;
 }
+a {
+    color: $color_cornflower_blue_approx;
+}
 a, button {
     transition: all 1s ease .01s;
 }

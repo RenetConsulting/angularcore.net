@@ -9,6 +9,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 export class LogoComponent {
 
     @Input() size = 152;
+    @Input() cssClass: string;
 
     constructor() { }
 }
