@@ -1,4 +1,5 @@
 @import './../../../node_modules/@angular/material/theming';
+@import 'mat.blue.palette.scss';
 
 @include mat-core();
 
@@ -25,37 +26,5 @@ $mat-purple;
 $mat-pink;
 $mat-red;
 */
-$mat-blue-palette: (
-    50 : #edf5fc,
-    100 : #d3e6f7,
-    200 : #b6d6f2,
-    300 : #98c6ec,
-    400 : #82b9e8,
-    500 : #6cade4,
-    600 : #64a6e1,
-    700 : #599cdd,
-    800 : #4f93d9,
-    900 : #3d83d1,
-    A100 : #ffffff,
-    A200 : #ecf5ff,
-    A400 : #b9d9ff,
-    A700 : #a0cbff,
-    contrast: (
-        50 : #000000,
-        100 : #000000,
-        200 : #000000,
-        300 : #000000,
-        400 : #000000,
-        500 : #000000,
-        600 : #000000,
-        700 : #000000,
-        800 : #000000,
-        900 : #ffffff,
-        A100 : #000000,
-        A200 : #000000,
-        A400 : #000000,
-        A700 : #000000,
-    )
-);
 $default-app-theme: mat-light-theme(mat-palette($mat-blue-palette), mat-palette($mat-green), mat-palette($mat-red));
 @include angular-material-theme($default-app-theme);

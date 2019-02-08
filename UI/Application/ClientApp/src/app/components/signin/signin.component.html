@@ -7,7 +7,7 @@
                 <form [formGroup]="formGroup" (ngSubmit)="submit()">
                     <control-input placeholder="Email" type="email" formControlName="email" [errorMessages]="errors?.email"></control-input>
                     <control-input placeholder="Password" type="password" formControlName="password" [errorMessages]="errors?.password"></control-input>
-                    <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between py-3">
                         <div>
                             <mat-checkbox formControlName="isRemember">Remember me</mat-checkbox>
                         </div>
