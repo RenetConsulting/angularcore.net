@@ -10,4 +10,8 @@ span {
     font-size: 75%;
     overflow: hidden;
     white-space: nowrap;
+
+    &:nth-child(1) {
+        margin-top: -0.5rem;
+    }
 }
