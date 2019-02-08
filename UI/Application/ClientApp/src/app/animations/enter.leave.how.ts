@@ -25,6 +25,6 @@ export const enterLeaveHOW = trigger('enterLeaveHOW', [
             stagger(150, [
                 animate('300ms ease-out', style(initStyle)),
             ]),
-        ])
+        ], { optional: true })
     ]),
 ]);

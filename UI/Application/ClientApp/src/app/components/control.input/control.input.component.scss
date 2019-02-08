@@ -1,17 +1,23 @@
-span {
-    display: inline-block;
-    width: 25px;
-    line-height: 25px;
-    text-align: center;
-    cursor: pointer;
-}
+control-input {
 
-.error {
-    font-size: 75%;
-    overflow: hidden;
-    white-space: nowrap;
+    .error {
+        font-size: 75%;
+        overflow: hidden;
+        white-space: nowrap;
+    }
 
-    &:nth-child(1) {
-        margin-top: -0.5rem;
+    .mat-form-field-appearance-legacy .mat-form-field-underline {
+        position: relative;
+        bottom: 0;
+    }
+
+    .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+        padding-bottom: 0;
+    }
+
+    .mat-form-field-appearance-legacy .mat-form-field-subscript-wrapper {
+        position: relative;
+        margin-top: initial;
+        top: initial;
     }
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Inject, Input, OnChanges, OnDestroy, OnInit, Optional, Self, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Inject, Input, OnChanges, OnDestroy, OnInit, Optional, Self, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subscription } from 'rxjs';
@@ -9,6 +9,7 @@ import { enterLeaveHOW } from '../../animations/enter.leave.how';
     templateUrl: './control.input.component.html',
     styleUrls: ['./control.input.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
     animations: [enterLeaveHOW]
 })
 export class ControlInputComponent implements ControlValueAccessor, OnChanges, OnInit, OnDestroy {
@@ -45,11 +46,23 @@ export class ControlInputComponent implements ControlValueAccessor, OnChanges, O
     }
 
     ngOnInit(): void {
-        this.subscription.add(this._parentFormGroup.ngSubmit.subscribe(() => this.ngControl.control.updateValueAndValidity()));
+        this.subscription.add(this._parentFormGroup.ngSubmit.subscribe(() => {
+            this.ngControl.control.markAsDirty();
+            this.ngControl.control.markAsTouched();
+            this.ngControl.control.updateValueAndValidity();
+        }));
     }
 
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
+    }
+
+    get valid() {
+        return this.ngControl && this.ngControl.control.valid;
+    }
+
+    get hasErrors() {
+        return this.ngControl && this.ngControl.control.touched && this.ngControl.control.invalid;
     }
 
     writeValue(value): void {
@@ -70,4 +83,6 @@ export class ControlInputComponent implements ControlValueAccessor, OnChanges, O
     setDisabledState(isDisabled: boolean): void {
         this.disabled = isDisabled;
     }
+
+    getElementsCount = (value: boolean, count = 1) => value ? count : 0;
 }
