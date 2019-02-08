@@ -22,13 +22,18 @@ export class ControlInputComponent implements ControlValueAccessor, OnChanges, O
     @Input() required: boolean;
     @Input() minlength: number;
     @Input() maxlength: number;
+    /** custom error messages */
     @Input() errorMessages: Array<string>;
     readonly subscription = new Subscription();
-    transition: number;
     disabled: boolean;
     onChange: (i) => any | null;
     onTouched;
     value;
+    /** {@link NgControl} error message */
+    matError: string;
+    messagesAnimationState: number;
+    matErrorAnimationState: number;
+    matHintAnimationState: number;
 
     constructor(
         @Optional() @Self() @Inject(NgControl) readonly ngControl: NgControl,
@@ -41,7 +46,7 @@ export class ControlInputComponent implements ControlValueAccessor, OnChanges, O
 
     ngOnChanges(e) {
         if (e.errorMessages) {
-            this.transition = this.errorMessages ? this.errorMessages.length : 0;
+            this.messagesAnimationState = this.errorMessages ? this.errorMessages.length : 0;
         }
     }
 
@@ -51,18 +56,11 @@ export class ControlInputComponent implements ControlValueAccessor, OnChanges, O
             this.ngControl.control.markAsTouched();
             this.ngControl.control.updateValueAndValidity();
         }));
+        this.setError(null);
     }
 
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
-    }
-
-    get valid() {
-        return this.ngControl && this.ngControl.control.valid;
-    }
-
-    get hasErrors() {
-        return this.ngControl && this.ngControl.control.touched && this.ngControl.control.invalid;
     }
 
     writeValue(value): void {
@@ -84,5 +82,9 @@ export class ControlInputComponent implements ControlValueAccessor, OnChanges, O
         this.disabled = isDisabled;
     }
 
-    getElementsCount = (value: boolean, count = 1) => value ? count : 0;
+    setError = (value: string): void => {
+        this.matErrorAnimationState = value ? 1 : 0;
+        this.matHintAnimationState = !value ? 1 : 0;
+        this.matError = value;
+    }
 }

@@ -1,18 +1,16 @@
 <mat-form-field class="w-100 mt-3">
-    <input #inputRef matInput [type]="type" [validator]="errorRef" [required]="required" [minlength]="minlength" [maxlength]="maxlength"
+    <input #inputRef matInput [type]="type" (validator)="setError($event)" [required]="required" [minlength]="minlength" [maxlength]="maxlength"
            [readonly]="readonly" [placeholder]="placeholder" [formControl]="ngControl.control">
 </mat-form-field>
 
-<mat-error [@enterLeaveHOW]="getElementsCount(hasErrors)">
-    <div *ngIf="hasErrors" class="error mb-1"><ng-template [ngTemplateOutlet]="errorTemplateRef"></ng-template></div>
-</mat-error>
-<mat-error [@enterLeaveHOW]="transition">
-    <div class="error mb-1" *ngFor="let item of errorMessages"><i class="fas fa-exclamation-circle"></i> {{item}}</div>
+<mat-error [@enterLeaveHOW]="matErrorAnimationState">
+    <div *ngIf="matError" class="error mb-1">{{matError}}</div>
 </mat-error>
 
-<mat-hint *ngIf="!!maxlength" [@enterLeaveHOW]="getElementsCount(!hasErrors)">
-    <div *ngIf="!hasErrors" class="mt-1">{{ngControl.control.value?.length || 0}}/{{maxlength}}</div>
+<mat-error [@enterLeaveHOW]="messagesAnimationState">
+    <div *ngFor="let item of errorMessages" class="error mb-1"><i class="fas fa-exclamation-circle"></i> {{item}}</div>
+</mat-error>
+
+<mat-hint *ngIf="maxlength" [@enterLeaveHOW]="matHintAnimationState">
+    <div *ngIf="!matError" class="mt-1">{{ngControl.control.value?.length || 0}}/{{maxlength}}</div>
 </mat-hint>
-
-<ng-template #errorTemplateRef>{{errorRef.innerText}}</ng-template>
-<ng-template #errorRef></ng-template>
