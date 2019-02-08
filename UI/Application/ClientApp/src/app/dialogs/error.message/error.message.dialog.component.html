@@ -1,4 +1,12 @@
 <button type="button" [mat-dialog-close]="true" class="close" data-dismiss="modal" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
+    <i class="fas fa-times"></i>
 </button>
-{{message}}
+<div class="d-flex">
+    <div class="p-2 mat-error">
+        <h1><i class="fas fa-exclamation-circle"></i></h1>
+    </div>
+    <div class="p-2 flex-grow-1">{{message}}</div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>
+</div>
