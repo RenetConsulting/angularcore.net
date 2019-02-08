@@ -36,8 +36,8 @@ export class ControlInputComponent implements ControlValueAccessor, OnChanges, O
     matHintAnimationState: number;
 
     constructor(
-        @Optional() @Self() @Inject(NgControl) readonly ngControl: NgControl,
-        @Optional() @Inject(FormGroupDirective) private readonly _parentFormGroup: FormGroupDirective,
+        @Optional() @Self() @Inject(NgControl) public ngControl: NgControl,
+        @Optional() @Inject(FormGroupDirective) private parentFormGroup: FormGroupDirective,
     ) {
         if (this.ngControl) {
             this.ngControl.valueAccessor = this;
@@ -51,7 +51,7 @@ export class ControlInputComponent implements ControlValueAccessor, OnChanges, O
     }
 
     ngOnInit(): void {
-        this.subscription.add(this._parentFormGroup.ngSubmit.subscribe(() => {
+        this.subscription.add(this.parentFormGroup.ngSubmit.subscribe(() => {
             this.ngControl.control.markAsDirty();
             this.ngControl.control.markAsTouched();
             this.ngControl.control.updateValueAndValidity();
