@@ -6,9 +6,6 @@
         </button>
         <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" [ngClass]='{"show": isExpanded}'>
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-                    <a class="nav-link" [routerLink]='["/"]'>Home</a>
-                </li>
                 <li class="nav-item" [routerLinkActive]='["link-active"]'>
                     <a class="nav-link" [routerLink]='["/counter"]'>Counter</a>
                 </li>
@@ -16,7 +13,7 @@
                     <a class="nav-link" [routerLink]='["/change-password"]'>Change Password</a>
                 </li>
                 <li *ngIf="isAuthenticated" class="nav-item">
-                    <button class="btn btn-outline-secondary" type="button" (click)="signout()">Sign Out</button>
+                    <button mat-raised-button color="primary" type="button" (click)="signout()">Sign Out</button>
                 </li>
                 <li *ngIf="!isAuthenticated" class="nav-item" [routerLinkActive]='["link-active"]'>
                     <a class="nav-link" [routerLink]='["/sign-up"]'>Sign Up</a>

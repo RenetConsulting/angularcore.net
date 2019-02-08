@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Injector, NgModule, Provider } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { ROUTES } from './app.routes';
@@ -19,7 +20,8 @@ const MODULES = [
     HttpClientModule,
     MessagerModule,
     RouterModule.forRoot(ROUTES),
-    LogoModule
+    LogoModule,
+    MatButtonModule
 ];
 
 const PROVIDERS: Array<Provider> = [

@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "app/styles/varialles.scss";
-@import "app/styles/mat.dialog.scss";
 @import "app/styles/mat.theme.scss";
+@import "app/styles/mat.dialog.scss";
 
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Fjalla One', sans-serif;
@@ -35,11 +35,13 @@ a, button {
 .text-primary {
     color: $color_cornflower_blue_approx !important;
 }
-.mat-raised-button {
-    border-radius: 10px !important;
+.mat-checkbox-layout {
+    white-space: normal !important;
+}
+.text-30 {
     font-size: 30px !important;
     font-weight: 300;
 }
-.mat-checkbox-layout {
-    white-space: normal !important;
+.rounded-10 {
+    border-radius: 10px !important;
 }
