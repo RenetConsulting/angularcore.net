@@ -6,12 +6,16 @@ const initStyle = {
     height: '0px'
 };
 
+/**
+ * about duration read at https://material.io/design/motion/speed.html#duration
+ * about easing read at https://material.io/design/motion/speed.html#easing
+ */
 export const enterLeaveHOW = trigger('enterLeaveHOW', [
     transition(':enter, * => void', []),
     transition(':increment', [
         query(':enter', [
             style(initStyle),
-            stagger(150, [
+            stagger(180, [
                 animate('300ms ease-out', style({
                     opacity: 1,
                     width: '*',
@@ -23,7 +27,7 @@ export const enterLeaveHOW = trigger('enterLeaveHOW', [
     transition(':decrement', [
         query(':leave', [
             stagger(150, [
-                animate('300ms ease-out', style(initStyle)),
+                animate('250ms ease-in', style(initStyle)),
             ]),
         ], { optional: true })
     ]),
