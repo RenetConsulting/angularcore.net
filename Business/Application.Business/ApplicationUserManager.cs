@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Security.Authentication;
     using System.Threading.Tasks;
+    using Application.Business.Helpers;
     using Application.DataAccess.Entities;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.Logging;
@@ -123,7 +124,7 @@
         {
             if (!newPassword.Equals(confirmNewPassword))
             {
-                throw new Exception("Password you enter is not equal to confirm password.");
+                return IdentityResult.Failed(new ApplicationIdentityErrorDescriber().ConfirmPasswordMismatch());
             }
 
             TUser user = await this.GetUserAsync(userClaims);

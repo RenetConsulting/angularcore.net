@@ -7,7 +7,7 @@
     {
         public static ErrorMark GetErrorMark(string errorCode)
         {
-            IdentityErrorDescriber errorType = new IdentityErrorDescriber();
+            ApplicationIdentityErrorDescriber errorType = new ApplicationIdentityErrorDescriber();
 
             switch (errorCode)
             {
@@ -26,6 +26,7 @@
                     return ErrorMark.Password;
 
                 case nameof(errorType.DefaultError):
+                case nameof(errorType.ConfirmPasswordMismatch):
                     return ErrorMark.ConfirmPassword;
             }
 
