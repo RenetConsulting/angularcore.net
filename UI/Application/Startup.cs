@@ -61,6 +61,7 @@ namespace Application
                 loggingBuilder.AddConfiguration(this.Configuration.GetSection("Logging"));
                 loggingBuilder.AddConsole();
                 loggingBuilder.AddDebug();
+                loggingBuilder.AddAzureWebAppDiagnostics();
             });
 
             services.Configure<AppSettings>(this.Configuration.GetSection("AppSettings"));

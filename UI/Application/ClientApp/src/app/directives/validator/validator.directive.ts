@@ -1,4 +1,4 @@
-import { Directive, Inject, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import { Directive, EventEmitter, HostListener, Inject, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { NgControl, ValidationErrors } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -7,8 +7,8 @@ import { Subscription } from 'rxjs';
 })
 export class ValidatorDirective implements OnChanges, OnInit, OnDestroy {
 
-    @Input('validator') element: HTMLElement;
     @Input() placeholder: string;
+    @Output('validator') readonly emitter = new EventEmitter<string | null>();
     readonly subscription = new Subscription();
 
     constructor(
@@ -26,6 +26,8 @@ export class ValidatorDirective implements OnChanges, OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
     }
+
+    @HostListener('blur') blur = (): void => this.setError();
 
     getError = (errors: ValidationErrors = this.ngControl.errors): string | null => {
         if (errors) {
@@ -48,11 +50,9 @@ export class ValidatorDirective implements OnChanges, OnInit, OnDestroy {
         return null;
     }
 
-    hasError = (): boolean => !!this.ngControl.errors;
-
     setError = (): void => {
-        if (this.hasError() && this.element) {
-            this.element.innerText = this.getError();
+        if (this.ngControl.enabled && this.ngControl.touched) {
+            this.emitter.emit(this.getError());
         }
     }
 }

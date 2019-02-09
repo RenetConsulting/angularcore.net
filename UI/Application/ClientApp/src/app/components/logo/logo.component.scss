@@ -1,0 +1,15 @@
+@import "../../styles/varialles.scss";
+
+h1 {
+    font-size: 50px;
+}
+.navbar-logo {
+    width: 70px !important;
+    height: 70px !important;
+    font-size: 50%;
+    box-shadow: 3px 5px 8px 0px rgba($black, 0.05) !important;
+
+    h1 {
+        font-size: 18px;
+    }
+}

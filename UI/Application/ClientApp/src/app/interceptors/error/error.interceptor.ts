@@ -18,15 +18,17 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, handler: HttpHandler): Observable<HttpEvent<any>> {
         return handler.handle(request).pipe(
-            catchError(e => this.handleError(request, e))
+            catchError(e => this.handleError(e, request))
         );
     }
 
-    handleError = (request: HttpRequest<any>, error: HttpErrorResponse) => {
+    handleError = (error: HttpErrorResponse, request: HttpRequest<any>) => {
         if (error instanceof HttpErrorResponse) {
-            this.messageHandlerService.handleError(error.error);
+            if (!request.headers.has(ALLOW_HTTP_ERROR_HEADER) || error.status >= 500) {
+                this.messageHandlerService.handleError(error.error);
+                return EMPTY;
+            }
         }
-        /** prevents errors in console, to return errors in stack errors use {@link return throwError(error)} */
-        return request.headers.has(ALLOW_HTTP_ERROR_HEADER) ? throwError(error) : EMPTY;
+        return throwError(error);
     }
 }

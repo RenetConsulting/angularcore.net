@@ -1,28 +1,24 @@
-<div class="container-fluid vh-100">
-    <div class="container">
-        <div class="row d-flex justify-content-center align-items-center pt-5">
-            <div class="col-md-6 shadow-sm p-5 mb-5 bg-light rounded">
-                <div class="brand rounded-circle bg-white shadow-lg text-center p-3 f-none mx-auto d-flex justify-content-center align-items-center">
+<div class="container">
+    <div class="row d-flex justify-content-center align-items-center pt-5">
+        <div class="col-md-6 shadow-sm p-5 mb-5 bg-light rounded-10">
+            <h2 class="text-center mt-4">Sign in</h2>
+            <form [formGroup]="formGroup" (ngSubmit)="submit()">
+                <control-input placeholder="Email" type="email" formControlName="email" [errorMessages]="errors?.email"></control-input>
+                <control-input placeholder="Password" type="password" formControlName="password" [errorMessages]="errors?.password"></control-input>
+                <div class="d-flex justify-content-between py-3">
                     <div>
-                        <h1 class="text-uppercase font-weight-bold text-primary d-block m-0">LOGO</h1>
-                        <span class="font-weight-lighter font-italic text-dark d-block">placeholder</span>
+                        <mat-checkbox formControlName="isRemember">Remember me</mat-checkbox>
                     </div>
+                    <div>
+                        <a class="text-center d-block text-primary font-italic" [routerLink]="['/prep-reset-password']">Reset Password</a>
+                    </div>
+
                 </div>
-                <h2 class="text-center mt-4">Sign in</h2>
-                <form [formGroup]="formGroup" (ngSubmit)="submit()">
-                    <control-input placeholder="Email" [maxlength]="maxLengthEmail" type="email" formControlName="email"></control-input>
-                    <control-input placeholder="Password" [maxlength]="maxLengthPassword" type="password" formControlName="password"></control-input>
-                    <div class="d-flex justify-content-center my-4">
-                        <button class="py-3 px-5" mat-raised-button color="primary" [class.disabled]="formGroup.invalid" type="submit">Sign in</button>
-                    </div>
-                    <div class="d-flex justify-content-center">
-                        <span class="text-center px-2"><a href="#"><i class="fab fa-facebook-square"></i></a></span>
-                        <span class="text-center px-2"><a href="#"><i class="fab fa-instagram"></i></a></span>
-                        <span class="text-center px-2"><a href="#"><i class="fab fa-twitter-square"></i></a></span>
-                    </div>
-                </form>
-                <a class="text-center d-block mt-4 text-primary font-italic" [routerLink]="['/prep-reset-password']">Reset Password</a>
-            </div>
+                <div class="d-flex justify-content-center my-4">
+                    <button class="py-3 px-5 text-30 rounded-10" mat-raised-button color="primary" [class.disabled]="formGroup.invalid" type="submit">Sign in</button>
+                </div>
+                <social-media></social-media>
+            </form>
         </div>
     </div>
 </div>

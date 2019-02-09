@@ -1,0 +1,25 @@
+@import "../../styles/varialles.scss";
+
+i {
+    font-size: 60px;
+
+    &.fa-facebook-square {
+        color: $color_azure_approx;
+    }
+
+    &.fa-instagram {
+        color: $color_purple_heart_approx;
+        background: linear-gradient(to bottom, $color_purple_heart_approx 0,$color_amaranth_approx 50%,$color_goldenrod_approx 100%);
+        transition: all 1s 0.01s;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+
+        @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+            background: transparent;
+        }
+    }
+
+    &.fa-twitter-square {
+        color: $color_dodger_blue_approx;
+    }
+}

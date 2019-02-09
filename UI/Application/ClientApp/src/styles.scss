@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
-@import "../node_modules/@angular/material/prebuilt-themes/indigo-pink.css";
-@import "varialles.scss";
+@import "app/styles/varialles.scss";
+@import "app/styles/mat.theme.scss";
+@import "app/styles/mat.dialog.scss";
+
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Fjalla One', sans-serif;
 }
@@ -9,8 +11,14 @@ body {
     font-size: 18px;
     line-height: inherit;
 }
+a {
+    color: $color_cornflower_blue_approx;
+}
 a, button {
     transition: all 1s ease .01s;
+    &:focus {
+        outline: 0;
+    }
 }
 .rounded {
     border-radius: 10px !important;
@@ -27,20 +35,13 @@ a, button {
 .text-primary {
     color: $color_cornflower_blue_approx !important;
 }
-.btn-primary,
-.bg-primary,
-.mat-fab.mat-primary,
-.mat-flat-button.mat-primary,
-.mat-mini-fab.mat-primary,
-.mat-raised-button.mat-primary {
-    background: $color_cornflower_blue_approx;
+.mat-checkbox-layout {
+    white-space: normal !important;
 }
-.mat-raised-button {
-    border-radius: 10px !important;
+.text-30 {
     font-size: 30px !important;
     font-weight: 300;
-    &:hover,
-    &:focus {
-        outline: 0;
-    }
+}
+.rounded-10 {
+    border-radius: 10px !important;
 }

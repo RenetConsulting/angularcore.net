@@ -1,0 +1,23 @@
+control-input {
+
+    .error {
+        font-size: 75%;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .mat-form-field-appearance-legacy .mat-form-field-underline {
+        position: relative;
+        bottom: 0;
+    }
+
+    .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+        padding-bottom: 0;
+    }
+
+    .mat-form-field-appearance-legacy .mat-form-field-subscript-wrapper {
+        position: relative;
+        margin-top: initial;
+        top: initial;
+    }
+}

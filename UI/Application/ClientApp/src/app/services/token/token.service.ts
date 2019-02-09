@@ -8,7 +8,7 @@ import { StorageService } from '../storage/storage.service';
 export class TokenService {
 
     /** the key for token */
-    private readonly key: string = 'tm';
+    private readonly key: string = 'token.tm';
     private _token: IToken;
 
     constructor(

@@ -12,9 +12,7 @@ export class MessageHandlerService {
 
     constructor() { }
 
-    handleError = (value: string): void => {
-        this.errorSubject.next(value || this.errorMessage500);
-    }
+    handleError = (value: string): void => this.errorSubject.next(value || this.errorMessage500);
 
     handleSuccess = (value: string): void => value && this.successSubject.next(value);
 }

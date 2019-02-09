@@ -1,42 +1,50 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, Inject, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MaxLengthBase } from '../../bases/max.length/max.length.base';
+import { EMAIL_VALIDATORS } from '../../consts/email.validators';
+import { PASSWORD_VALIDATORS } from '../../consts/password.validators';
+import { Messages } from '../../enums/messages';
 import { IUser } from '../../interfaces/user';
 import { AuthorizationService } from '../../services/authorization/authorization.service';
 
 @Component({
     selector: 'signup',
     templateUrl: './signup.component.html',
-    styleUrls: ['./signup.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    styleUrls: ['./signup.component.scss']
 })
-export class SignupComponent extends MaxLengthBase implements OnInit {
+export class SignupComponent implements OnInit {
 
     formGroup: FormGroup;
+    errors: MapPick<IUser, keyof IUser, Array<string>>;
 
     constructor(
         @Inject(AuthorizationService) private authorizationService: AuthorizationService,
         @Inject(Router) private router: Router
-    ) {
-        super();
-    }
+    ) { }
 
     ngOnInit(): void {
         this.setFormGroup();
     }
 
+    matchPasswordValidator = (control: AbstractControl): ValidationErrors | null => {
+        return control.value === (this.formGroup && this.formGroup.controls.password.value) ? null
+            : { errorMessage: Messages.passwordsDoNotMatch };
+    }
+
     setFormGroup = (): void => {
         this.formGroup = new FormGroup({
-            email: new FormControl('', [Validators.required, Validators.minLength(6), Validators.email]),
-            password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-            confirmPassword: new FormControl('', [Validators.required, Validators.minLength(6)]),
+            email: new FormControl('', [...EMAIL_VALIDATORS]),
+            password: new FormControl('', [...PASSWORD_VALIDATORS]),
+            confirmPassword: new FormControl('', [...PASSWORD_VALIDATORS, this.matchPasswordValidator]),
+            readTerms: new FormControl(false, [Validators.requiredTrue]),
         } as MapPick<IUser, keyof IUser, FormControl>);
     }
 
     submit = (): void => {
         if (this.formGroup.valid) {
-            this.authorizationService.signup(this.formGroup.value).subscribe(() => this.router.navigate(['/sign-in']));
+            this.errors = null;
+            this.authorizationService.signup(this.formGroup.value)
+                .subscribe(() => this.router.navigate(['/sign-in']), e => this.errors = e.error);
         }
     }
 }

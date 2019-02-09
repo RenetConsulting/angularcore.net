@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { ALLOW_HTTP_ERROR_HEADER } from '../../consts/allow.http.error.header';
 import { IChangePassword } from '../../interfaces/change.password';
 import { IUser } from '../../interfaces/user';
 import { BASE_URL } from '../../tokens/base.url';
@@ -20,10 +21,10 @@ export class AccountService {
     ) { }
 
     changePassword = (model: IChangePassword) => this.http
-        .post(`${this.baseUrl}${this.url}/ChangePassword`, model)
+        .post(`${this.baseUrl}${this.url}/ChangePassword`, model, { headers: { ALLOW_HTTP_ERROR_HEADER } })
 
     resetPassword = (model: IUser) => this.http
-        .post(`${this.baseUrl}${this.url}/ResetPasswordFromMail`, model)
+        .post(`${this.baseUrl}${this.url}/ResetPasswordFromMail`, model, { headers: { ALLOW_HTTP_ERROR_HEADER } })
 
     prepResetPassword = ({ email }: IUser) => {
         const body = this.toolsService.getQuery({ email });

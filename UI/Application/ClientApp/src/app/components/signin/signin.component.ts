@@ -1,29 +1,30 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MaxLengthBase } from '../../bases/max.length/max.length.base';
+import { EMAIL_VALIDATORS } from '../../consts/email.validators';
+import { PASSWORD_VALIDATORS } from '../../consts/password.validators';
 import { IUser } from '../../interfaces/user';
 import { AuthorizationService } from '../../services/authorization/authorization.service';
+import { StorageService } from '../../services/storage/storage.service';
 
 @Component({
     selector: 'signin',
     templateUrl: './signin.component.html',
     styleUrls: [
-    '../signup/signup.component.scss',
-    './signin.component.scss'
-    ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+        '../signup/signup.component.scss',
+        './signin.component.scss'
+    ]
 })
-export class SigninComponent extends MaxLengthBase implements OnInit {
+export class SigninComponent implements OnInit {
 
     formGroup: FormGroup;
+    errors: MapPick<IUser, keyof IUser, Array<string>>;
 
     constructor(
         @Inject(AuthorizationService) private authorizationService: AuthorizationService,
+        @Inject(StorageService) private storageService: StorageService,
         @Inject(Router) private router: Router
-    ) {
-        super();
-    }
+    ) { }
 
     ngOnInit(): void {
         this.setFormGroup();
@@ -31,14 +32,18 @@ export class SigninComponent extends MaxLengthBase implements OnInit {
 
     setFormGroup = (): void => {
         this.formGroup = new FormGroup({
-            email: new FormControl('', [Validators.required, Validators.minLength(6), Validators.email]),
-            password: new FormControl('', [Validators.required, Validators.minLength(6)])
+            email: new FormControl('', [...EMAIL_VALIDATORS]),
+            password: new FormControl('', [...PASSWORD_VALIDATORS]),
+            isRemember: new FormControl(false),
         } as MapPick<IUser, keyof IUser, FormControl>);
     }
 
     submit = (): void => {
         if (this.formGroup.valid) {
-            this.authorizationService.signin(this.formGroup.value).subscribe(() => this.router.navigate(['/']));
+            this.errors = null;
+            this.storageService.setStorage(this.formGroup.controls.isRemember.value);
+            this.authorizationService.signin(this.formGroup.value)
+                .subscribe(() => this.router.navigate(['/']), e => this.errors = e.error);
         }
     }
 }

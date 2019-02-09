@@ -1,0 +1,34 @@
+@import './../../../node_modules/@angular/material/theming';
+@import 'mat.blue.palette.scss';
+
+@include mat-core();
+
+/*
+    to create your own palette use this tools http://mcg.mbitson.com
+    here are material palettes:
+$mat-blue-grey;
+$mat-grey;
+$mat-brown;
+$mat-deep-orange;
+$mat-orange;
+$mat-amber;
+$mat-yellow;
+$mat-lime;
+$mat-light-green;
+$mat-green;
+$mat-teal;
+$mat-cyan;
+$mat-light-blue;
+$mat-blue;
+$mat-indigo;
+$mat-deep-purple;
+$mat-purple;
+$mat-pink;
+$mat-red;
+*/
+$default-app-theme: mat-light-theme(mat-palette($mat-blue-palette), mat-palette($mat-green), mat-palette($mat-red));
+@include angular-material-theme($default-app-theme);
+
+.mat-checkbox-label {
+    user-select: none;
+}
