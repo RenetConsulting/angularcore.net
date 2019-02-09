@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SocialMediaComponent } from './social.media.component';
+import { SocialMediaComponent } from './social-media.component';
 
 const MODULES = [
     CommonModule

@@ -10,10 +10,10 @@ import { MessageHandlerService } from '../../services/message.handler/message.ha
 /** Preparation to reset a password */
 @Component({
     selector: 'prep-reset-password',
-    templateUrl: './prep.reset.password.component.html',
+    templateUrl: './prep-reset-password.component.html',
     styleUrls: [
         '../signup/signup.component.scss',
-        './prep.reset.password.component.scss'
+        './prep-reset-password.component.scss'
     ]
 })
 export class PrepResetPasswordComponent implements OnInit {

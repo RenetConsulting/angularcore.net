@@ -6,8 +6,8 @@ import { enterLeaveHOW } from '../../animations/enter.leave.how';
 
 @Component({
     selector: 'control-input',
-    templateUrl: './control.input.component.html',
-    styleUrls: ['./control.input.component.scss'],
+    templateUrl: './control-input.component.html',
+    styleUrls: ['./control-input.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: [enterLeaveHOW]

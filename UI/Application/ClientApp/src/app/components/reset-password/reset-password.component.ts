@@ -12,10 +12,10 @@ import { MessageHandlerService } from '../../services/message.handler/message.ha
 
 @Component({
     selector: 'reset-password',
-    templateUrl: './reset.password.component.html',
+    templateUrl: './reset-password.component.html',
     styleUrls: [
         '../signup/signup.component.scss',
-        './reset.password.component.scss'
+        './reset-password.component.scss'
     ]
 })
 export class ResetPasswordComponent implements OnInit, OnDestroy {

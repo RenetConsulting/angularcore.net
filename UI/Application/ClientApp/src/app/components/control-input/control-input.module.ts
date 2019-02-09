@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { ValidatorModule } from '../../directives/validator/validator.module';
-import { ControlInputComponent } from './control.input.component';
+import { ControlInputComponent } from './control-input.component';
 
 const MODULES = [
     CommonModule,
