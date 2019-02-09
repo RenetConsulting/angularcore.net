@@ -148,6 +148,31 @@ namespace Application.Controllers
         }
 
         [Authorize]
+        [Route("ChangePassword")]
+        [HttpPost]
+        public async Task<IActionResult> ChangePasswordAsync([FromBody]ChangePasswordModel changePasswordModel)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            IdentityResult result = await this.userManager.ChangeUserPasswordAsync(this.User, changePasswordModel.OldPassword, changePasswordModel.NewPassword, changePasswordModel.ConfirmNewPassword)
+                    .ConfigureAwait(false);
+
+            if (result.Succeeded)
+            {
+                return this.Ok();
+            }
+            else
+            {
+                ErrorListModel errorList = this.GetErrorListModel(result.Errors);
+
+                return this.BadRequest(errorList);
+            }
+        }
+
+        [Authorize]
         [HttpGet]
         [Route("GenerateUserToken")]
         public async Task<IActionResult> GenerateUserTokenAsync()

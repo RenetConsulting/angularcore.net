@@ -86,6 +86,7 @@
             }
         }
 
+        // TODO: check
         public async Task<string> GenerateUserTokenAsync(TUser user)
         {
             user = user ?? throw new InvalidCredentialException(UserNotFoundMessage);
@@ -116,6 +117,20 @@
             {
                 throw new InvalidCredentialException(UserNotFoundMessage);
             }
+        }
+
+        public async Task<IdentityResult> ChangeUserPasswordAsync(System.Security.Claims.ClaimsPrincipal userClaims, string oldPassword, string newPassword, string confirmNewPassword)
+        {
+            if (!newPassword.Equals(confirmNewPassword))
+            {
+                throw new Exception("Password you enter is not equal to confirm password.");
+            }
+
+            TUser user = await this.GetUserAsync(userClaims);
+
+            user = user ?? throw new InvalidCredentialException(UserNotFoundMessage);
+
+            return await this.Me.ChangePasswordAsync(user, oldPassword, newPassword);
         }
     }
 }
