@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, Inject, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
+import { Directive, EventEmitter, HostListener, Inject, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { NgControl, ValidationErrors } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -26,6 +26,8 @@ export class ValidatorDirective implements OnChanges, OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
     }
+
+    @HostListener('blur') blur = (): void => this.setError();
 
     getError = (errors: ValidationErrors = this.ngControl.errors): string | null => {
         if (errors) {
