@@ -26,7 +26,7 @@ export const enterLeaveHOW = trigger('enterLeaveHOW', [
     ]),
     transition(':decrement', [
         query(':leave', [
-            stagger(150, [
+            stagger(100, [
                 animate('250ms ease-in', style(initStyle)),
             ]),
         ], { optional: true })

@@ -28,3 +28,7 @@ $mat-red;
 */
 $default-app-theme: mat-light-theme(mat-palette($mat-blue-palette), mat-palette($mat-green), mat-palette($mat-red));
 @include angular-material-theme($default-app-theme);
+
+.mat-checkbox-label {
+    user-select: none;
+}
