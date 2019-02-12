@@ -15,7 +15,7 @@ namespace CoreCaptcha
     {
         public static readonly string ClientId = Environment.GetEnvironmentVariable("ClientId");
 
-        [FunctionName("CaptchaGet")]
+        [FunctionName("CaptchaCreate")]
         public static async Task<HttpResponseMessage> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)]HttpRequestMessage req, TraceWriter log)
         {
             log.Info("CaptchaGet HTTP trigger function processed a request.");
@@ -29,14 +29,15 @@ namespace CoreCaptcha
             var result = CSCaptchaCodeASPNETCore.Captcha.GenerateCaptchaImage(width, height, captchaCode);
 
 
-            Stream s = new MemoryStream(result.CaptchaByteData);
+            Stream captchaStream = new MemoryStream(result.CaptchaByteData);
 
             var response = req.CreateResponse(HttpStatusCode.OK);
-            response.Content = new StreamContent(s);
+            response.Content = new StreamContent(captchaStream);
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("image/png");
-            var hash = Cryptor.ComputeHashWithSalt(captchaCode, ClientId);
 
+            var hash = Cryptor.ComputeHashWithSalt(captchaCode, ClientId);
             response.Content.Headers.Add("Captcha", hash);
+
             return response;
         }
 
