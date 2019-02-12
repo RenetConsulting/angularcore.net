@@ -12,6 +12,7 @@ namespace Application.Controllers
     using Application.DataAccess.Enums;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
 
     [Route("api/[controller]")]
@@ -19,8 +20,11 @@ namespace Application.Controllers
          where TEntity : ApplicationEntity
          where TModel : ApplicationModel, IEntityModel<TEntity>, new()
     {
-        public ApplicationController(IEntityManagement<TEntity> entityManagement, IOptions<AppSettings> appSettings)
-            : base(appSettings)
+        public ApplicationController(
+            IEntityManagement<TEntity> entityManagement,
+            IOptions<AppSettings> appSettings,
+            ILogger<ApplicationController<TModel, TEntity>> logger)
+            : base(appSettings, logger)
         {
             this.EntityManagement = entityManagement;
         }

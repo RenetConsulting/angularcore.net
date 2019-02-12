@@ -10,6 +10,7 @@ namespace Application
     using System.Security.Principal;
     using System.Threading.Tasks;
     using Application.Business;
+    using Application.Business.Communications;
     using Application.DataAccess;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Repositories;
@@ -28,6 +29,7 @@ namespace Application
     using Microsoft.Extensions.Logging;
     using Microsoft.Net.Http.Headers;
     using OpenIddict.Abstractions;
+    using SendGrid;
 
     public class Startup
     {
@@ -187,6 +189,9 @@ namespace Application
 
             // Resolve dependencies
             services.AddScoped<IGlobalRepository, GlobalRepository>();
+            string apiKey = this.Configuration["AppSettings:SendGridKey"];
+            services.AddScoped<ISendGridClient>(f => new SendGridClient(apiKey));
+            services.AddScoped<IMailClient, MailClient>();
 
             services.AddTransient<IPrincipal>(
                 provider => provider.GetService<IHttpContextAccessor>()?.HttpContext?.User);

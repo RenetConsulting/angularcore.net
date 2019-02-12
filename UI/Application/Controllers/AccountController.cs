@@ -5,6 +5,7 @@
 namespace Application.Controllers
 {
     using System.Collections.Generic;
+    using System.Net;
     using System.Security.Authentication;
     using System.Threading.Tasks;
     using Application.Business;
@@ -17,20 +18,25 @@ namespace Application.Controllers
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
 
     [Route("api/[controller]")]
     public class AccountController : BaseController
     {
-        private ApplicationUserManager<ApplicationUser> userManager;
+        private readonly ApplicationUserManager<ApplicationUser> userManager;
+        private readonly IMailClient mailClient;
 
         public AccountController(
             IGlobalRepository repository,
             ApplicationUserManager<ApplicationUser> userManager,
-            IOptions<AppSettings> appSettings)
-            : base(repository, appSettings)
+            IOptions<AppSettings> appSettings,
+            IMailClient mailClient,
+            ILogger<AccountController> logger)
+            : base(appSettings, logger)
         {
             this.userManager = userManager;
+            this.mailClient = mailClient;
         }
 
        // POST api/Account/Register
@@ -66,6 +72,7 @@ namespace Application.Controllers
         public async Task<IActionResult> ResetPasswordAsync(string email)
         {
             string token = string.Empty;
+            ActionResult returnCode = this.Ok();
 
             try
             {
@@ -88,14 +95,9 @@ namespace Application.Controllers
                 + "<p>Please do not reply to this email.</p>",
                 url);
 
-            await MailClient.SendEmailAsync(
-                new SendGrid.SendGridClient(this.AppSettings.SendGridKey),
-                this.AppSettings.InfoEmail,
-                email,
-                this.AppSettings.ResetPasswordSubject,
-                message).ConfigureAwait(false);
+            returnCode = await this.SendEmailAsync(email, this.AppSettings.ResetPasswordSubject, message);
 
-            return this.Ok();
+            return returnCode;
         }
 
         // POST api/Account/ResetPasswordFromMail
@@ -104,6 +106,8 @@ namespace Application.Controllers
         [HttpPost]
         public async Task<IActionResult> ResetPasswordFromMailAsync([FromBody] ResetPasswordFromMailModel resetPasswordFromMailModel)
         {
+            ActionResult returnCode = this.Ok();
+
             if (!this.ModelState.IsValid)
             {
                 return this.BadRequest(this.ModelState);
@@ -137,14 +141,9 @@ namespace Application.Controllers
                 this.AppSettings.SiteHost,
                 this.AppSettings.SiteHost);
 
-            await MailClient.SendEmailAsync(
-                new SendGrid.SendGridClient(this.AppSettings.SendGridKey),
-                this.AppSettings.InfoEmail,
-                resetPasswordFromMailModel.Email,
-                this.AppSettings.AfterResetPasswordSubject,
-                message).ConfigureAwait(false);
+            returnCode = await this.SendEmailAsync(resetPasswordFromMailModel.Email, this.AppSettings.AfterResetPasswordSubject, message);
 
-            return this.Ok();
+            return returnCode;
         }
 
         [Authorize]
@@ -189,6 +188,28 @@ namespace Application.Controllers
             {
                 return this.BadRequest(ex.Message);
             }
+        }
+
+        internal async Task<ActionResult> SendEmailAsync(string emailTo, string subject, string message)
+        {
+            ActionResult returnCode = this.Ok();
+
+            var response = await this.mailClient.SendEmailAsync(
+                this.AppSettings.InfoFromEmail,
+                emailTo,
+                subject,
+                message).ConfigureAwait(false);
+
+            if (response.StatusCode == HttpStatusCode.BadRequest)
+            {
+                string body = await response.Body.ReadAsStringAsync();
+
+                this.Logger.LogError(body);
+
+                returnCode = this.BadRequest("Email send error.");
+            }
+
+            return returnCode;
         }
 
         private IActionResult GetErrorResult(IdentityResult result)
