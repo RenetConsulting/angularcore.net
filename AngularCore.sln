@@ -33,6 +33,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{7B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreCaptcha", "Services\CoreCaptcha\CoreCaptcha.csproj", "{53BC1D85-6445-4557-8531-2F93A56DC6CC}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Captcha", "Services\Captcha\Captcha.csproj", "{12FA0913-4829-4ACD-BF74-0752DE2737F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +76,12 @@ Global
 		{53BC1D85-6445-4557-8531-2F93A56DC6CC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{53BC1D85-6445-4557-8531-2F93A56DC6CC}.TestingProduction|Any CPU.ActiveCfg = Debug|Any CPU
 		{53BC1D85-6445-4557-8531-2F93A56DC6CC}.TestingProduction|Any CPU.Build.0 = Debug|Any CPU
+		{12FA0913-4829-4ACD-BF74-0752DE2737F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12FA0913-4829-4ACD-BF74-0752DE2737F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12FA0913-4829-4ACD-BF74-0752DE2737F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12FA0913-4829-4ACD-BF74-0752DE2737F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12FA0913-4829-4ACD-BF74-0752DE2737F3}.TestingProduction|Any CPU.ActiveCfg = Debug|Any CPU
+		{12FA0913-4829-4ACD-BF74-0752DE2737F3}.TestingProduction|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,6 +93,7 @@ Global
 		{7E001325-5586-4878-A1B0-9D97F63DECD7} = {46D36B75-80EB-4ADE-9F09-FA565FFFDB3F}
 		{3F3851A4-98EF-4B69-A7D7-02C78DCC71B4} = {1F3672DE-1B48-4C20-8551-C214405F2B09}
 		{53BC1D85-6445-4557-8531-2F93A56DC6CC} = {7B798BEB-8EF8-4459-8F62-02C6A7E72BD3}
+		{12FA0913-4829-4ACD-BF74-0752DE2737F3} = {7B798BEB-8EF8-4459-8F62-02C6A7E72BD3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B08C599-CF94-4BC6-9D7F-F7DC85331814}

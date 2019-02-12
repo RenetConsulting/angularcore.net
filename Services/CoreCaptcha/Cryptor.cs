@@ -34,19 +34,19 @@ namespace CoreCaptcha
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
-        public static string ComputeHashWithSalt(string rawData)
+        public static string ComputeHashWithSalt(string rawData, string ClientId)
         {
             string salt = RandomString(saltLength);
 
-            return salt + ComputeHash(salt + rawData);
+            return salt + ComputeHash(salt + ClientId + rawData);
         }
 
-        public static bool ValidateHash(string hash, string value)
+        public static bool ValidateHash(string hash, string value, string ClientId)
         {
             string salt = hash.Substring(0, 10);
             string hashValue = hash.Substring(10);
 
-            if(hashValue == ComputeHash(salt + value))
+            if(hashValue == ComputeHash(salt + ClientId + value.ToUpperInvariant()))
             {
                 return true;
             }

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -25,6 +26,11 @@ namespace CoreCaptcha
                 .FirstOrDefault(q => string.Compare(q.Key, "captcha", true) == 0)
                 .Value;
 
+            // parse query parameter
+            string clientId = req.GetQueryNameValuePairs()
+                .FirstOrDefault(q => string.Compare(q.Key, "clientId", true) == 0)
+                .Value;
+
             if (hash == null)
             {
                 // Get request body
@@ -32,7 +38,7 @@ namespace CoreCaptcha
                 hash = data?.name;
             }
 
-            bool validate = Cryptor.ValidateHash(hash, captcha);
+            bool validate = Cryptor.ValidateHash(hash, captcha, clientId);
             return !validate
                 ? req.CreateResponse(HttpStatusCode.BadRequest)
                 : req.CreateResponse(HttpStatusCode.OK);

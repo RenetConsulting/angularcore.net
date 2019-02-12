@@ -1,0 +1,9 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "",
+    "AzureWebJobsDashboard": "",
+
+    "ClientId": "12345" // "Application ID" from Azure AD app registration!
+  }
+}

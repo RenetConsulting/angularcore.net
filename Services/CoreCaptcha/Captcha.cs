@@ -50,9 +50,11 @@ namespace CSCaptchaCodeASPNETCore
 
                 return new CaptchaResult { CaptchaCode = captchaCode, CaptchaByteData = ms.ToArray(), Timestamp = DateTime.Now };
 
-                int GetFontSize(int imageWidth, int captchCodeCount)
+                int GetFontSize(int imageWidth, int imageHeight, int captchCodeCount)
                 {
                     var averageSize = imageWidth / captchCodeCount;
+
+                    averageSize = Math.Min(averageSize, imageHeight - Convert.ToInt32(imageHeight * 0.15));
 
                     return Convert.ToInt32(averageSize);
                 }
@@ -78,7 +80,7 @@ namespace CSCaptchaCodeASPNETCore
                 void DrawCaptchaCode()
                 {
                     SolidBrush fontBrush = new SolidBrush(Color.Black);
-                    int fontSize = GetFontSize(width, captchaCode.Length);
+                    int fontSize = GetFontSize(width, height, captchaCode.Length);
                     Font font = new Font(FontFamily.GenericSerif, fontSize, FontStyle.Bold, GraphicsUnit.Pixel);
                     for (int i = 0; i < captchaCode.Length; i++)
                     {
