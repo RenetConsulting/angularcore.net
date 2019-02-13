@@ -14,6 +14,8 @@ namespace CoreCaptcha
     public static class CaptchaCreate
     {
         public static readonly string ClientId = Environment.GetEnvironmentVariable("ClientId");
+        private static readonly int DefaultWidth = 180;
+        private static readonly int DefaultHeight = 40;
 
         [FunctionName("CaptchaCreate")]
         public static async Task<HttpResponseMessage> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)]HttpRequestMessage req, TraceWriter log)
@@ -24,7 +26,7 @@ namespace CoreCaptcha
             int width = ImageWidth(req);
             int height = ImageHeight(req);
 
-            var captchaCode = CSCaptchaCodeASPNETCore.Captcha.GenerateCaptchaCode();
+            var captchaCode = CSCaptchaCodeASPNETCore.Captcha.GenerateCaptchaCode(5);
 
             var result = CSCaptchaCodeASPNETCore.Captcha.GenerateCaptchaImage(width, height, captchaCode);
 
@@ -49,12 +51,12 @@ namespace CoreCaptcha
 
             if (!int.TryParse(widthValue, out int width))
             {
-                width = 200;
+                width = DefaultWidth;
             }
 
             if (width < 10 || width > 500)
             {
-                width = 200;
+                width = DefaultWidth;
             }
 
             return width;
@@ -68,12 +70,12 @@ namespace CoreCaptcha
 
             if (!int.TryParse(widthValue, out int height))
             {
-                height = 60;
+                height = DefaultHeight;
             }
 
             if (height < 10 || height > 500)
             {
-                height = 60;
+                height = DefaultHeight;
             }
 
             return height;

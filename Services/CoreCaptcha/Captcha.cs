@@ -1,26 +1,23 @@
-﻿using System;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
-using System.Text;
-
-namespace CSCaptchaCodeASPNETCore
+﻿namespace CSCaptchaCodeASPNETCore
 {
+    using System;
+    using System.Drawing;
+    using System.Drawing.Imaging;
+    using System.IO;
+    using System.Text;
+
     public static class Captcha
     {
-
-
         const string Letters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-        public static string GenerateCaptchaCode()
+        public static string GenerateCaptchaCode(int length)
         {
             Random rand = new Random();
             int maxRand = Letters.Length - 1;
 
             StringBuilder sb = new StringBuilder();
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < length; i++)
             {
                 int index = rand.Next(maxRand);
                 sb.Append(Letters[index]);

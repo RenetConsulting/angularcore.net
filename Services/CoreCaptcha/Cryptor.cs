@@ -1,29 +1,39 @@
-﻿using System;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-
-namespace CoreCaptcha
+﻿namespace CoreCaptcha
 {
+    using System;
+    using System.Linq;
+    using System.Security.Cryptography;
+    using System.Text;
+
     public class Cryptor
     {
         private static readonly int saltLength = 10;
-        public static string ComputeHash(string rawData)
+        public static string ComputeHash(string input)
         {
             // Create a SHA256   
             using (SHA256 sha256Hash = SHA256.Create())
             {
-                // ComputeHash - returns byte array  
-                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(rawData));
-
-                // Convert byte array to a string   
-                StringBuilder builder = new StringBuilder();
-                for (int i = 0; i < bytes.Length; i++)
-                {
-                    builder.Append(bytes[i].ToString("x2"));
-                }
-                return builder.ToString();
+                return GetHash(sha256Hash, input);
             }
+        }
+
+        private static string GetHash(HashAlgorithm hashAlgorithm, string input)
+        {
+            // Convert the input string to a byte array and compute the hash.
+            byte[] data = hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(input));
+
+            // Create a new Stringbuilder to collect the bytes and create a string.   
+            StringBuilder builder = new StringBuilder();
+
+            // Loop through each byte of the hashed data 
+            // and format each one as a hexadecimal string.
+            for (int index = 0; index < data.Length; index++)
+            {
+                builder.Append(data[index].ToString("x2"));
+            }
+
+            // Return the hexadecimal string.
+            return builder.ToString();
         }
 
         private static Random random = new Random();
@@ -41,12 +51,17 @@ namespace CoreCaptcha
             return salt + ComputeHash(salt + ClientId + rawData);
         }
 
-        public static bool ValidateHash(string hash, string value, string ClientId)
+        public static bool ValidateHash(string hash, string value, string clientId)
         {
-            string salt = hash.Substring(0, 10);
-            string hashValue = hash.Substring(10);
+            if(string.IsNullOrEmpty(hash) || string.IsNullOrEmpty(value) || hash.Length <= saltLength + 1 || string.IsNullOrEmpty(clientId))
+            {
+                return false;
+            }
 
-            if(hashValue == ComputeHash(salt + ClientId + value.ToUpperInvariant()))
+            string salt = hash.Substring(0, saltLength);
+            string hashValue = hash.Substring(saltLength);
+
+            if(hashValue.Equals(ComputeHash(salt + clientId + value.ToUpperInvariant()), StringComparison.InvariantCultureIgnoreCase))
             {
                 return true;
             }
