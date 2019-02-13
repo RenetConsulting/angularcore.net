@@ -43,9 +43,18 @@ namespace CoreCaptcha
             var hash = Cryptor.ComputeHashWithSalt(captchaCode, ClientId);
             model.Hash = hash;
 
-            CaptchaSound sound = new CaptchaSound();
-            var soundData = sound.GenerateCaptchaSound(captchaCode);
-            model.Sound = soundHeader + Convert.ToBase64String(soundData);
+            //CaptchaSound sound = new CaptchaSound();
+            //try
+            //{
+            //    var soundData = sound.GenerateCaptchaSound(captchaCode);
+
+            //    model.Sound = soundHeader + Convert.ToBase64String(soundData);
+            //}
+            //catch (Exception ex)
+            //{
+            //    log.Error(ex.Message, ex);
+            //    throw;
+            //}
 
             MediaTypeFormatter formatter = new JsonMediaTypeFormatter
             {

@@ -15,6 +15,11 @@ namespace CoreCaptcha
         {
             using (SpeechSynthesizer synthesizer = new SpeechSynthesizer())
             {
+                if(synthesizer == null)
+                {
+                    throw new ApplicationException("SpeechSynthesizer is null");
+                }
+
                 synthesizer.Volume = 100;  // 0...100
                 synthesizer.Rate = -1;     // -10...10
 
