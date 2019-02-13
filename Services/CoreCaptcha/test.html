@@ -1,19 +1,25 @@
 <html>
 <body>
 
-<img id='captcha'  src="" />
+    <img id='captcha' src="" />
+    <button id="sound" onclick="javascript:snd.play();">Sound</button>
 
-<script>
-let url = 'http://localhost:7071/api/CaptchaCreate';
+    <script>
+    let url = 'http://localhost:7071/api/CaptchaCreate';
 
-fetch(url)
-.then(res => res.json())
-.then((out) => {
-document.getElementById('captcha').src = out.image;
-  console.log('Checkout this JSON! ', out);
-})
-.catch(err => { throw err });
+    let snd = new Audio();
 
-</script>
+    fetch(url)
+        .then(res => res.json())
+        .then((out) => {
+            document.getElementById('captcha').src = out.image;
+
+            snd.src = out.sound;
+
+            console.log('Checkout this JSON! ', out);
+        })
+        .catch(err => { throw err });
+
+    </script>
 </body>
 </html>

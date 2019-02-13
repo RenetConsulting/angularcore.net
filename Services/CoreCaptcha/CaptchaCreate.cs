@@ -35,12 +35,17 @@ namespace CoreCaptcha
 
             Stream captchaStream = new MemoryStream(result.CaptchaByteData);
             string imageHeader = "data:image/png;base64,";
+            string soundHeader = "data:audio/x-wav;base64,";
 
             CaptchaModel model = new CaptchaModel();
             model.Image = imageHeader + Convert.ToBase64String(result.CaptchaByteData);
 
             var hash = Cryptor.ComputeHashWithSalt(captchaCode, ClientId);
             model.Hash = hash;
+
+            CaptchaSound sound = new CaptchaSound();
+            var soundData = sound.GenerateCaptchaSound(captchaCode);
+            model.Sound = soundHeader + Convert.ToBase64String(soundData);
 
             MediaTypeFormatter formatter = new JsonMediaTypeFormatter
             {
