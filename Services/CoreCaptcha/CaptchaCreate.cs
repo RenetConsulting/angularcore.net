@@ -3,11 +3,13 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Host;
+using Newtonsoft.Json.Serialization;
 
 namespace CoreCaptcha
 {
@@ -32,13 +34,25 @@ namespace CoreCaptcha
 
 
             Stream captchaStream = new MemoryStream(result.CaptchaByteData);
+            string imageHeader = "data:image/png;base64,";
 
-            var response = req.CreateResponse(HttpStatusCode.OK);
-            response.Content = new StreamContent(captchaStream);
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue("image/png");
+            CaptchaModel model = new CaptchaModel();
+            model.Image = imageHeader + Convert.ToBase64String(result.CaptchaByteData);
 
             var hash = Cryptor.ComputeHashWithSalt(captchaCode, ClientId);
-            response.Content.Headers.Add("Captcha", hash);
+            model.Hash = hash;
+
+            MediaTypeFormatter formatter = new JsonMediaTypeFormatter
+            {
+                SerializerSettings =
+                    {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                    }
+            };
+
+            var response = req.CreateResponse(HttpStatusCode.OK, model, formatter, "application/json");
+
+            response.Content.Headers.Add("Access-Control-Allow-Origin", "*");
 
             return response;
         }
