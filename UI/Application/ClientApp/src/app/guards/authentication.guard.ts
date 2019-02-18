@@ -1,17 +1,17 @@
 import { Inject, Injectable } from '@angular/core';
-import { CanActivateChild } from '@angular/router';
+import { CanActivate } from '@angular/router';
 import { AuthorizationService } from '../services/authorization/authorization.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class AuthenticationGuard implements CanActivateChild {
+export class AuthenticationGuard implements CanActivate {
 
     constructor(
         @Inject(AuthorizationService) private authorizationService: AuthorizationService
     ) { }
 
-    canActivateChild(): boolean {
+    canActivate(): boolean {
         return this.authorizationService.isAuthenticated;
     }
 }

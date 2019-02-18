@@ -58,5 +58,8 @@ export class AuthorizationService {
     signup = (model: IUser) => this.http
         .post(`${this.baseUrl}/api/account/register`, model, { headers: { ALLOW_HTTP_ERROR_HEADER } })
 
-    signout = (): void => this.tokenService.clean();
+    signout = () => this.http
+        .get<IToken>(`${this.baseUrl}/api/account/signout`).pipe(
+            tap(this.tokenService.clean)
+        );
 }

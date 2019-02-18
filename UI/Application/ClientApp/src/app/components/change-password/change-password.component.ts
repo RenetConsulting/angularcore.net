@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { tap } from 'rxjs/operators';
+import { InputsErrorsBase } from '../../bases/inputs-errors/inputs-errors';
 import { PASSWORD_VALIDATORS } from '../../consts/password.validators';
 import { Messages } from '../../enums/messages';
 import { IChangePassword } from '../../interfaces/change.password';
@@ -15,15 +16,16 @@ import { MessageHandlerService } from '../../services/message.handler/message.ha
         './change-password.component.scss'
     ]
 })
-export class ChangePasswordComponent implements OnInit {
+export class ChangePasswordComponent extends InputsErrorsBase<IChangePassword> implements OnInit {
 
     formGroup: FormGroup;
-    errors: MapPick<IChangePassword, keyof IChangePassword, Array<string>>;
 
     constructor(
         @Inject(AccountService) private accountService: AccountService,
-        @Inject(MessageHandlerService) private messageHandlerService: MessageHandlerService,
-    ) { }
+        @Inject(MessageHandlerService) messageHandlerService: MessageHandlerService,
+    ) {
+        super(messageHandlerService);
+    }
 
     ngOnInit(): void {
         this.setFormGroup();
@@ -48,7 +50,7 @@ export class ChangePasswordComponent implements OnInit {
             this.accountService.changePassword(this.formGroup.value)
                 .pipe(
                     tap(() => this.formGroup.reset()))
-                .subscribe(() => this.messageHandlerService.handleSuccess(Messages.passwordHasChanged), e => this.errors = e.error);
+                .subscribe(() => this.messageHandlerService.handleSuccess(Messages.passwordHasChanged), this.handleInputsErrors);
         }
     }
 }

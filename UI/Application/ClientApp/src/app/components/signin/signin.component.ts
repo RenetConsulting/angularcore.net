@@ -1,10 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { InputsErrorsBase } from '../../bases/inputs-errors/inputs-errors';
 import { EMAIL_VALIDATORS } from '../../consts/email.validators';
 import { PASSWORD_VALIDATORS } from '../../consts/password.validators';
 import { IUser } from '../../interfaces/user';
 import { AuthorizationService } from '../../services/authorization/authorization.service';
+import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
 import { StorageService } from '../../services/storage/storage.service';
 
 @Component({
@@ -15,16 +17,18 @@ import { StorageService } from '../../services/storage/storage.service';
         './signin.component.scss'
     ]
 })
-export class SigninComponent implements OnInit {
+export class SigninComponent extends InputsErrorsBase<IUser> implements OnInit {
 
     formGroup: FormGroup;
-    errors: MapPick<IUser, keyof IUser, Array<string>>;
 
     constructor(
+        @Inject(MessageHandlerService) messageHandlerService: MessageHandlerService,
         @Inject(AuthorizationService) private authorizationService: AuthorizationService,
         @Inject(StorageService) private storageService: StorageService,
         @Inject(Router) private router: Router
-    ) { }
+    ) {
+        super(messageHandlerService);
+    }
 
     ngOnInit(): void {
         this.setFormGroup();
@@ -43,7 +47,7 @@ export class SigninComponent implements OnInit {
             this.errors = null;
             this.storageService.setStorage(this.formGroup.controls.isRemember.value);
             this.authorizationService.signin(this.formGroup.value)
-                .subscribe(() => this.router.navigate(['/']), e => this.errors = e.error);
+                .subscribe(() => this.router.navigate(['/']), this.handleInputsErrors);
         }
     }
 }
