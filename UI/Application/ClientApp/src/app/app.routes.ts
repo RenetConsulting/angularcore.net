@@ -13,14 +13,8 @@ export const ROUTES: Array<Route> = [
     { path: 'reset-password', loadChildren: './components/reset-password/reset-password.module#ResetPasswordModule' },
 
     /** private routes */
-    {
-        path: '',
-        canActivateChild: [AuthenticationGuard],
-        children: [
-            { path: 'counter', loadChildren: './components/counter/counter.module#CounterModule' },
-            { path: 'change-password', loadChildren: './components/change-password/change-password.module#ChangePasswordModule' }
-        ]
-    },
+    { path: 'counter', canActivate: [AuthenticationGuard], loadChildren: './components/counter/counter.module#CounterModule' },
+    { path: 'change-password', canActivate: [AuthenticationGuard], loadChildren: './components/change-password/change-password.module#ChangePasswordModule' },
 
     { path: '**', redirectTo: '/home' }
 ];

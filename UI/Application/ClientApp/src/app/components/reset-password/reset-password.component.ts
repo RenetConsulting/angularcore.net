@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators }
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { InputsErrorsBase } from '../../bases/inputs-errors/inputs-errors';
 import { EMAIL_VALIDATORS } from '../../consts/email.validators';
 import { PASSWORD_VALIDATORS } from '../../consts/password.validators';
 import { Messages } from '../../enums/messages';
@@ -18,17 +19,18 @@ import { MessageHandlerService } from '../../services/message.handler/message.ha
         './reset-password.component.scss'
     ]
 })
-export class ResetPasswordComponent implements OnInit, OnDestroy {
+export class ResetPasswordComponent extends InputsErrorsBase<IResetPassword> implements OnInit, OnDestroy {
 
     readonly subscription = new Subscription();
     formGroup: FormGroup;
-    errors: MapPick<IResetPassword, keyof IResetPassword, Array<string>>;
 
     constructor(
+        @Inject(MessageHandlerService) messageHandlerService: MessageHandlerService,
         @Inject(AccountService) private accountService: AccountService,
-        @Inject(MessageHandlerService) private messageHandlerService: MessageHandlerService,
         @Inject(ActivatedRoute) private activatedRoute: ActivatedRoute
-    ) { }
+    ) {
+        super(messageHandlerService);
+    }
 
     ngOnInit(): void {
         this.setFormGroup();
@@ -60,7 +62,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
             this.accountService.resetPassword(this.formGroup.value)
                 .pipe(
                     tap(() => this.formGroup.reset()))
-                .subscribe(() => this.messageHandlerService.handleSuccess(Messages.passwordHasChanged), e => this.errors = e.error);
+                .subscribe(() => this.messageHandlerService.handleSuccess(Messages.passwordHasChanged), this.handleInputsErrors);
         }
     }
 }

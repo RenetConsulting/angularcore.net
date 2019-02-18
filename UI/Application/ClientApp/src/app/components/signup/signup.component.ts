@@ -1,26 +1,30 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { InputsErrorsBase } from '../../bases/inputs-errors/inputs-errors';
 import { EMAIL_VALIDATORS } from '../../consts/email.validators';
 import { PASSWORD_VALIDATORS } from '../../consts/password.validators';
 import { Messages } from '../../enums/messages';
 import { IUser } from '../../interfaces/user';
 import { AuthorizationService } from '../../services/authorization/authorization.service';
+import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
 
 @Component({
     selector: 'signup',
     templateUrl: './signup.component.html',
     styleUrls: ['./signup.component.scss']
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent extends InputsErrorsBase<IUser> implements OnInit {
 
     formGroup: FormGroup;
-    errors: MapPick<IUser, keyof IUser, Array<string>>;
 
     constructor(
+        @Inject(MessageHandlerService) messageHandlerService: MessageHandlerService,
         @Inject(AuthorizationService) private authorizationService: AuthorizationService,
         @Inject(Router) private router: Router
-    ) { }
+    ) {
+        super(messageHandlerService);
+    }
 
     ngOnInit(): void {
         this.setFormGroup();
@@ -44,7 +48,7 @@ export class SignupComponent implements OnInit {
         if (this.formGroup.valid) {
             this.errors = null;
             this.authorizationService.signup(this.formGroup.value)
-                .subscribe(() => this.router.navigate(['/sign-in']), e => this.errors = e.error);
+                .subscribe(() => this.router.navigate(['/sign-in']), this.handleInputsErrors);
         }
     }
 }

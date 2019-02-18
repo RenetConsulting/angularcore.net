@@ -15,6 +15,7 @@ namespace Application.Controllers
     using Application.DataAccess.Entities;
     using Application.DataAccess.Enums;
     using Application.DataAccess.Repositories;
+    using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -25,11 +26,13 @@ namespace Application.Controllers
     public class AccountController : BaseController
     {
         private readonly ApplicationUserManager<ApplicationUser> userManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IMailClient mailClient;
 
         public AccountController(
             IGlobalRepository repository,
             ApplicationUserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             IOptions<AppSettings> appSettings,
             IMailClient mailClient,
             ILogger<AccountController> logger)
@@ -178,9 +181,11 @@ namespace Application.Controllers
         {
             try
             {
-                ApplicationUser user = await this.userManager.GetUserAsync(this.User).ConfigureAwait(false);
+                ApplicationUser user = await this.userManager.GetUserAsync(this.User)
+                    .ConfigureAwait(false);
 
-                string token = await this.userManager.GenerateUserTokenAsync(user);
+                string token = await this.userManager.GenerateTokenAsync(user)
+                    .ConfigureAwait(false);
 
                 return this.Ok(token);
             }
@@ -188,6 +193,23 @@ namespace Application.Controllers
             {
                 return this.BadRequest(ex.Message);
             }
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("SignOut")]
+        public async Task<IActionResult> SignOutAsync()
+        {
+            await this.HttpContext.SignOutAsync("Identity.Application")
+                .ConfigureAwait(false);
+
+            await this.HttpContext.SignOutAsync("Identity.External")
+                .ConfigureAwait(false);
+
+            await this.signInManager.SignOutAsync()
+                .ConfigureAwait(false);
+
+            return this.Ok();
         }
 
         internal async Task<ActionResult> SendEmailAsync(string emailTo, string subject, string message)
