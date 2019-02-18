@@ -181,9 +181,11 @@ namespace Application.Controllers
         {
             try
             {
-                ApplicationUser user = await this.userManager.GetUserAsync(this.User).ConfigureAwait(false);
+                ApplicationUser user = await this.userManager.GetUserAsync(this.User)
+                    .ConfigureAwait(false);
 
-                string token = await this.userManager.GenerateUserTokenAsync(user);
+                string token = await this.userManager.GenerateTokenAsync(user)
+                    .ConfigureAwait(false);
 
                 return this.Ok(token);
             }

@@ -87,12 +87,11 @@
             }
         }
 
-        // TODO: check
-        public async Task<string> GenerateUserTokenAsync(TUser user)
+        public async Task<string> GenerateTokenAsync(TUser user)
         {
             user = user ?? throw new InvalidCredentialException(UserNotFoundMessage);
 
-            return await this.GenerateUserTokenAsync(user);
+            return await this.Me.GeneratePasswordResetTokenAsync(user);
         }
 
         /// <summary>
