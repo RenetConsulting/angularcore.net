@@ -1,18 +1,17 @@
-using System;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Formatting;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.Azure.WebJobs.Host;
-using Newtonsoft.Json.Serialization;
-
 namespace CoreCaptcha
 {
+    using System;
+    using System.IO;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Net.Http.Formatting;
+    using System.Threading.Tasks;
+    using Microsoft.Azure.WebJobs;
+    using Microsoft.Azure.WebJobs.Extensions.Http;
+    using Microsoft.Azure.WebJobs.Host;
+    using Newtonsoft.Json.Serialization;
+
     public static class CaptchaCreate
     {
         public static readonly string ClientId = Environment.GetEnvironmentVariable("ClientId");
@@ -20,7 +19,7 @@ namespace CoreCaptcha
         private static readonly int DefaultHeight = 40;
 
         [FunctionName("CaptchaCreate")]
-        public static async Task<HttpResponseMessage> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)]HttpRequestMessage req, TraceWriter log)
+        public static async Task<HttpResponseMessage> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)]HttpRequestMessage req, ExecutionContext context, TraceWriter log)
         {
             log.Info("CaptchaGet HTTP trigger function processed a request.");
 
@@ -35,7 +34,7 @@ namespace CoreCaptcha
 
             Stream captchaStream = new MemoryStream(result.CaptchaByteData);
             string imageHeader = "data:image/png;base64,";
-            string soundHeader = "data:audio/x-wav;base64,";
+            string soundHeader = "data:audio/mp3;base64,";
 
             CaptchaModel model = new CaptchaModel();
             model.Image = imageHeader + Convert.ToBase64String(result.CaptchaByteData);
@@ -43,18 +42,10 @@ namespace CoreCaptcha
             var hash = Cryptor.ComputeHashWithSalt(captchaCode, ClientId);
             model.Hash = hash;
 
-            //CaptchaSound sound = new CaptchaSound();
-            //try
-            //{
-            //    var soundData = sound.GenerateCaptchaSound(captchaCode);
+            CaptchaSoundMp3 captchaSoundMp3 = new CaptchaSoundMp3();
+            byte[] soundData = await captchaSoundMp3.GenerateCaptchaSound(captchaCode, context.FunctionAppDirectory);
 
-            //    model.Sound = soundHeader + Convert.ToBase64String(soundData);
-            //}
-            //catch (Exception ex)
-            //{
-            //    log.Error(ex.Message, ex);
-            //    throw;
-            //}
+            model.Sound = soundHeader + Convert.ToBase64String(soundData);
 
             MediaTypeFormatter formatter = new JsonMediaTypeFormatter
             {
