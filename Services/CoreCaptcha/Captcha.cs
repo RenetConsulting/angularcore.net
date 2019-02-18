@@ -97,9 +97,10 @@
                 void DrawDisorderLine()
                 {
                     Pen linePen = new Pen(new SolidBrush(Color.Black), 3);
-                    for (int i = 0; i < rand.Next(3, 5); i++)
+                    for (int i = 0; i < rand.Next(5, 8); i++)
                     {
                         linePen.Color = GetRandomDeepColor();
+                        linePen.Width = (float)(rand.NextDouble() * 2.7);
 
                         Point startPoint = new Point(rand.Next(0, width), rand.Next(0, height));
                         Point endPoint = new Point(rand.Next(0, width), rand.Next(0, height));
