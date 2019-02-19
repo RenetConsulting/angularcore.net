@@ -47,6 +47,15 @@ namespace Application.Controllers
                     });
                 }
 
+                if (!user.EmailConfirmed)
+                {
+                    return this.BadRequest(new OpenIdConnectResponse
+                    {
+                        Error = OpenIdConnectConstants.Errors.AccessDenied,
+                        ErrorDescription = "Please confirm your email address."
+                    });
+                }
+
                 // Validate the username/password parameters and ensure the account is not locked out.
                 var result = await this.signInManager.CheckPasswordSignInAsync(user, request.Password, lockoutOnFailure: true);
                 if (!result.Succeeded)
@@ -61,11 +70,22 @@ namespace Application.Controllers
                     }
                     else
                     {
-                        return this.BadRequest(new OpenIdConnectResponse
+                        if (result.IsNotAllowed)
                         {
-                            Error = OpenIdConnectConstants.Errors.InvalidGrant,
-                            ErrorDescription = "The username/password couple is invalid."
-                        });
+                            return this.BadRequest(new OpenIdConnectResponse
+                            {
+                                Error = OpenIdConnectConstants.Errors.AccessDenied,
+                                ErrorDescription = "Access denied or not allowed."
+                            });
+                        }
+                        else
+                        {
+                            return this.BadRequest(new OpenIdConnectResponse
+                            {
+                                Error = OpenIdConnectConstants.Errors.InvalidGrant,
+                                ErrorDescription = "The username/password couple is invalid."
+                            });
+                        }
                     }
                 }
 
