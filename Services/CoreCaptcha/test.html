@@ -1,25 +1,28 @@
+<!DOCTYPE html>
 <html>
+<head>
+    <title>Capcha App</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+</head>
 <body>
 
     <img id='captcha' src="" />
     <button id="sound" onclick="javascript:snd.play();">Sound</button>
 
     <script>
-    //    let url = 'https://corecaptcha.azurewebsites.net/api/CaptchaCreate';
-    let url = 'http://localhost:7071/api/CaptchaCreate';
+        var url = 'https://corecaptcha.azurewebsites.net/api/CaptchaCreate';
+        //let url = 'http://localhost:7071/api/CaptchaCreate';
 
-    let snd = new Audio();
+        var snd = new Audio();
 
-    fetch(url)
-        .then(res => res.json())
-        .then((out) => {
-            document.getElementById('captcha').src = out.image;
-
-            snd.src = out.sound;
-
-            console.log('Checkout this JSON! ', out);
-        })
-        .catch(err => { throw err });
+        $.get(url)
+            .then(function(out) {
+                document.getElementById('captcha').src = out.image;
+                snd.src = out.sound;
+            })
+            .catch(function (err) { throw err });
 
     </script>
 </body>
