@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { HTTP_HEADERS } from '../../consts/http-headers';
-import { IConnectToken } from '../../interfaces/connect.token';
+import { IConnectToken } from '../../interfaces/connect-token';
 import { IToken } from '../../interfaces/token';
 import { IUser } from '../../interfaces/user';
 import { BASE_URL } from '../../tokens/base.url';

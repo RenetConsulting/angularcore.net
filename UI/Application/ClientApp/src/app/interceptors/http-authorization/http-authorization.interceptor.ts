@@ -4,10 +4,12 @@ import { EMPTY, Observable, of, Subject } from 'rxjs';
 import { catchError, concatMap } from 'rxjs/operators';
 import { HTTP_HEADER_NAMES } from '../../consts/http-header-names';
 import { AuthorizationService } from '../../services/authorization/authorization.service';
-import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
+import { MessageHandlerService } from '../../services/message-handler/message-handler.service';
 import { TokenService } from '../../services/token/token.service';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class HttpAuthorizationInterceptor implements HttpInterceptor {
 
     private subjects: Array<Subject<HttpRequest<any>>> = [];

@@ -11,8 +11,8 @@ import { LogoModule } from './components/logo/logo.module';
 import { MessagerModule } from './components/messager/messager.module';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { ErrorInterceptor } from './interceptors/error/error.interceptor';
-import { HttpAuthorizationInterceptor } from './interceptors/http.authorization/http.authorization.interceptor';
-import { NoneCacheInterceptor } from './interceptors/none.cache/none.cache.interceptor';
+import { HttpAuthorizationInterceptor } from './interceptors/http-authorization/http-authorization.interceptor';
+import { NoneCacheInterceptor } from './interceptors/none-cache/none-cache.interceptor';
 
 const MODULES = [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

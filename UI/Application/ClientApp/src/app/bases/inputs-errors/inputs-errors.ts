@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
+import { MessageHandlerService } from '../../services/message-handler/message-handler.service';
 import { OpenIdConnectBase } from '../open-id-connect/open-id-connect';
 
 export class InputsErrorsBase<InputPickType> {

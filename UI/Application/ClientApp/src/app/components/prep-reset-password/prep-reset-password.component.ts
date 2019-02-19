@@ -5,7 +5,7 @@ import { EMAIL_VALIDATORS } from '../../consts/email.validators';
 import { Messages } from '../../enums/messages';
 import { IUser } from '../../interfaces/user';
 import { AccountService } from '../../services/account/account.service';
-import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
+import { MessageHandlerService } from '../../services/message-handler/message-handler.service';
 
 /** Preparation to reset a password */
 @Component({

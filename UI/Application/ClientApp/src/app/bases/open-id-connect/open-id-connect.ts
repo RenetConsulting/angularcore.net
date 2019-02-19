@@ -1,4 +1,4 @@
-import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
+import { MessageHandlerService } from '../../services/message-handler/message-handler.service';
 
 export class OpenIdConnectBase {
 

@@ -7,9 +7,9 @@ import { InputsErrorsBase } from '../../bases/inputs-errors/inputs-errors';
 import { EMAIL_VALIDATORS } from '../../consts/email.validators';
 import { PASSWORD_VALIDATORS } from '../../consts/password.validators';
 import { Messages } from '../../enums/messages';
-import { IResetPassword } from '../../interfaces/reset.password';
+import { IResetPassword } from '../../interfaces/reset-password';
 import { AccountService } from '../../services/account/account.service';
-import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
+import { MessageHandlerService } from '../../services/message-handler/message-handler.service';
 
 @Component({
     selector: 'reset-password',

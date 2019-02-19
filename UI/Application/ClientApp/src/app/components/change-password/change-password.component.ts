@@ -4,9 +4,9 @@ import { tap } from 'rxjs/operators';
 import { InputsErrorsBase } from '../../bases/inputs-errors/inputs-errors';
 import { PASSWORD_VALIDATORS } from '../../consts/password.validators';
 import { Messages } from '../../enums/messages';
-import { IChangePassword } from '../../interfaces/change.password';
+import { IChangePassword } from '../../interfaces/change-password';
 import { AccountService } from '../../services/account/account.service';
-import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
+import { MessageHandlerService } from '../../services/message-handler/message-handler.service';
 
 @Component({
     selector: 'change-password',

@@ -3,8 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { ERROR_MESSAGE_DIALOG_CONFIG } from '../../consts/error.message.dialog.config';
-import { ErrorMessageDialogComponent } from '../../dialogs/error.message/error.message.dialog.component';
-import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
+import { ErrorMessageDialog } from '../../dialogs/error.message/error.message.dialog.component';
+import { MessageHandlerService } from '../../services/message-handler/message-handler.service';
 
 @Component({
     selector: 'messager',
@@ -30,7 +30,7 @@ export class MessagerComponent implements OnInit, OnDestroy {
     }
 
     openDialog = (value: string): void => {
-        const ref = this.matDialog.open(ErrorMessageDialogComponent, ERROR_MESSAGE_DIALOG_CONFIG);
+        const ref = this.matDialog.open(ErrorMessageDialog, ERROR_MESSAGE_DIALOG_CONFIG);
         ref.componentInstance.message = value;
     }
 

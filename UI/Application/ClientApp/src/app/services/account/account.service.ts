@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { HTTP_HEADERS } from '../../consts/http-headers';
-import { IChangePassword } from '../../interfaces/change.password';
+import { IChangePassword } from '../../interfaces/change-password';
 import { IUser } from '../../interfaces/user';
 import { BASE_URL } from '../../tokens/base.url';
 import { ToolsService } from '../tools/tools.service';
