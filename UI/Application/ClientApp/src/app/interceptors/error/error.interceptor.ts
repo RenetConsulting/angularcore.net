@@ -1,8 +1,8 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Inject, Injectable, Injector } from '@angular/core';
-import { EMPTY, Observable, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ALLOW_HTTP_ERROR_HEADER } from '../../consts/allow.http.error.header';
+import { HTTP_HEADER_NAMES } from '../../consts/http-header-names';
 import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
 
 @Injectable()
@@ -24,9 +24,9 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     handleError = (error: HttpErrorResponse, request: HttpRequest<any>) => {
         if (error instanceof HttpErrorResponse) {
-            if (!request.headers.has(ALLOW_HTTP_ERROR_HEADER) || error.status >= 500) {
+            if (!request.headers.has(HTTP_HEADER_NAMES.allowHttpError) || error.status >= 500) {
                 this.messageHandlerService.handleError(error.error);
-                return EMPTY;
+                return throwError(error);
             }
         }
         return throwError(error);

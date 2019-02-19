@@ -22,27 +22,27 @@ export class TokenService {
         return this._token && this._token.access_token && this._token.refresh_token ? this._token : null;
     }
 
-    get isValid(): boolean {
+    get valid(): boolean {
         const item = this.token;
         return item && item.access_token && !!item.refresh_token;
     }
 
-    get isExpired(): boolean {
+    get expired(): boolean {
         let result = false;
-        if (this.isValid) {
+        if (this.valid) {
             result = new Date().valueOf() > new Date(this.token.expired_at || 0).valueOf();
         }
         return result;
     }
 
-    get header(): string {
+    get header(): { [k: string]: string } | null {
         const item = this.token;
-        return this.isValid ? `${item.token_type} ${item.access_token}` : '';
+        return this.valid ? { authorization: `${item.token_type} ${item.access_token}` } : null;
     }
 
     setToken = (value: IToken) => {
         const token = { ...value };
-        if (token && token.access_token && token.refresh_token) {
+        if (token.access_token && token.refresh_token) {
             if (token.expires_in) {
                 token.expired_at = new Date(new Date().valueOf() + 1000 * token.expires_in).toISOString();
             }
@@ -53,7 +53,7 @@ export class TokenService {
 
     getValue = (key: keyof IToken): any => {
         const item = this.token;
-        return (key && item && key in item) ? item[key] : null;
+        return key && item && key in item ? item[key] : null;
     }
 
     clean = (): void => {

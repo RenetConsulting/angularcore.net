@@ -12,7 +12,7 @@ export class MessageHandlerService {
 
     constructor() { }
 
-    private checkError = (value: string): string => value && value.length < 1000 ? value : this.errorMessage500
+    private checkError = (value: string): string => value && value.length < 1000 ? value : this.errorMessage500;
 
     handleError = (value: string): void => this.errorSubject.next(this.checkError(value));
 

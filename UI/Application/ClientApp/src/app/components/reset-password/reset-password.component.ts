@@ -25,7 +25,7 @@ export class ResetPasswordComponent extends InputsErrorsBase<IResetPassword> imp
     formGroup: FormGroup;
 
     constructor(
-        @Inject(MessageHandlerService) messageHandlerService: MessageHandlerService,
+        @Inject(MessageHandlerService) private messageHandlerService: MessageHandlerService,
         @Inject(AccountService) private accountService: AccountService,
         @Inject(ActivatedRoute) private activatedRoute: ActivatedRoute
     ) {
@@ -62,7 +62,7 @@ export class ResetPasswordComponent extends InputsErrorsBase<IResetPassword> imp
             this.accountService.resetPassword(this.formGroup.value)
                 .pipe(
                     tap(() => this.formGroup.reset()))
-                .subscribe(() => this.messageHandlerService.handleSuccess(Messages.passwordHasChanged), this.handleInputsErrors);
+                .subscribe(() => this.messageHandlerService.handleSuccess(Messages.passwordHasChanged), this.handleError);
         }
     }
 }

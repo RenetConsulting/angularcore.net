@@ -22,7 +22,7 @@ export class ChangePasswordComponent extends InputsErrorsBase<IChangePassword> i
 
     constructor(
         @Inject(AccountService) private accountService: AccountService,
-        @Inject(MessageHandlerService) messageHandlerService: MessageHandlerService,
+        @Inject(MessageHandlerService) private messageHandlerService: MessageHandlerService,
     ) {
         super(messageHandlerService);
     }
@@ -50,7 +50,7 @@ export class ChangePasswordComponent extends InputsErrorsBase<IChangePassword> i
             this.accountService.changePassword(this.formGroup.value)
                 .pipe(
                     tap(() => this.formGroup.reset()))
-                .subscribe(() => this.messageHandlerService.handleSuccess(Messages.passwordHasChanged), this.handleInputsErrors);
+                .subscribe(() => this.messageHandlerService.handleSuccess(Messages.passwordHasChanged), this.handleError);
         }
     }
 }

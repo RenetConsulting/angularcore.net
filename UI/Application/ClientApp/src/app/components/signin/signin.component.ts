@@ -47,7 +47,7 @@ export class SigninComponent extends InputsErrorsBase<IUser> implements OnInit {
             this.errors = null;
             this.storageService.setStorage(this.formGroup.controls.isRemember.value);
             this.authorizationService.signin(this.formGroup.value)
-                .subscribe(() => this.router.navigate(['/']), this.handleInputsErrors);
+                .subscribe(() => this.router.navigate(['/']), this.handleError);
         }
     }
 }

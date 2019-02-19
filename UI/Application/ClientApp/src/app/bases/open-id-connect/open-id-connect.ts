@@ -1,14 +1,16 @@
-import { MessageHandlerService } from "../../services/message.handler/message.handler.service";
+import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
 
 export class OpenIdConnectBase {
 
     constructor(
-        public messageHandlerService: MessageHandlerService
+        private messageHandlerService: MessageHandlerService
     ) { }
 
     /** handler errors that belong {@link OpenIdConnect} */
-    handleUnexpectedError = (e): void => {
+    handleError = (e): void => {
         const error = e && e.error_description;
-        error && this.messageHandlerService.handleError(error);
+        if (error) {
+            this.messageHandlerService.handleError(error);
+        }
     }
 }

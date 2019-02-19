@@ -48,7 +48,7 @@ export class SignupComponent extends InputsErrorsBase<IUser> implements OnInit {
         if (this.formGroup.valid) {
             this.errors = null;
             this.authorizationService.signup(this.formGroup.value)
-                .subscribe(() => this.router.navigate(['/sign-in']), this.handleInputsErrors);
+                .subscribe(() => this.router.navigate(['/sign-in']), this.handleError);
         }
     }
 }
