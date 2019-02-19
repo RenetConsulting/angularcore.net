@@ -2,7 +2,7 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } fr
 import { Inject, Injectable, Injector } from '@angular/core';
 import { EMPTY, Observable, of, Subject } from 'rxjs';
 import { catchError, concatMap } from 'rxjs/operators';
-import { HTTP_HEADER_NAMES } from '../../consts/http-header-names';
+import { HTTP_HEADER_NAMES } from '../../enums/http-header-names';
 import { AuthorizationService } from '../../services/authorization/authorization.service';
 import { MessageHandlerService } from '../../services/message-handler/message-handler.service';
 import { TokenService } from '../../services/token/token.service';

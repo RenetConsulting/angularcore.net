@@ -2,7 +2,7 @@ import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest
 import { Inject, Injectable, Injector } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { HTTP_HEADER_NAMES } from '../../consts/http-header-names';
+import { HTTP_HEADER_NAMES } from '../../enums/http-header-names';
 import { MessageHandlerService } from '../../services/message-handler/message-handler.service';
 
 @Injectable({
