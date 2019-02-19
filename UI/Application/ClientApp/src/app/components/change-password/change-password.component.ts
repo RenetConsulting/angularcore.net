@@ -32,15 +32,15 @@ export class ChangePasswordComponent extends InputsErrorsBase<IChangePassword> i
     }
 
     matchPasswordValidator = (control: AbstractControl): ValidationErrors | null => {
-        return control.value === (this.formGroup && this.formGroup.controls.newPassword.value) ? null
+        return control.value === (this.formGroup && this.formGroup.controls.password.value) ? null
             : { errorMessage: Messages.passwordsDoNotMatch };
     }
 
     setFormGroup = (): void => {
         this.formGroup = new FormGroup({
             oldPassword: new FormControl('', [...PASSWORD_VALIDATORS]),
-            newPassword: new FormControl('', [...PASSWORD_VALIDATORS]),
-            confirmNewPassword: new FormControl('', [...PASSWORD_VALIDATORS, this.matchPasswordValidator]),
+            password: new FormControl('', [...PASSWORD_VALIDATORS]),
+            confirmPassword: new FormControl('', [...PASSWORD_VALIDATORS, this.matchPasswordValidator]),
         } as MapPick<IChangePassword, keyof IChangePassword, FormControl>);
     }
 
