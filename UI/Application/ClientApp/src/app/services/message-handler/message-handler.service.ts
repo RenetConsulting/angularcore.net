@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 })
 export class MessageHandlerService {
 
-    private readonly errorMessage500: string = 'Oops something went wrong! :[';
+    readonly errorMessage500: string = 'Oops something went wrong! :[';
     readonly errorSubject = new Subject<string>();
     readonly successSubject = new Subject<string>();
 
