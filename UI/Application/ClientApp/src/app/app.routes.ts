@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
-import { AuthenticationGuard } from './guards/authentication.guard';
+import { AuthenticationGuard } from './guards/authentication/authentication.guard';
 
 export const ROUTES: Array<Route> = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -13,8 +13,14 @@ export const ROUTES: Array<Route> = [
     { path: 'reset-password', loadChildren: './components/reset-password/reset-password.module#ResetPasswordModule' },
 
     /** private routes */
-    { path: 'counter', canActivate: [AuthenticationGuard], loadChildren: './components/counter/counter.module#CounterModule' },
-    { path: 'change-password', canActivate: [AuthenticationGuard], loadChildren: './components/change-password/change-password.module#ChangePasswordModule' },
+    {
+        path: 'counter', canActivate: [AuthenticationGuard],
+        loadChildren: './components/counter/counter.module#CounterModule'
+    },
+    {
+        path: 'change-password', canActivate: [AuthenticationGuard],
+        loadChildren: './components/change-password/change-password.module#ChangePasswordModule'
+    },
 
     { path: '**', redirectTo: '/home' }
 ];

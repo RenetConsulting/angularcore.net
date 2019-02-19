@@ -4,9 +4,9 @@ import { tap } from 'rxjs/operators';
 import { InputsErrorsBase } from '../../bases/inputs-errors/inputs-errors';
 import { PASSWORD_VALIDATORS } from '../../consts/password.validators';
 import { Messages } from '../../enums/messages';
-import { IChangePassword } from '../../interfaces/change.password';
+import { IChangePassword } from '../../interfaces/change-password';
 import { AccountService } from '../../services/account/account.service';
-import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
+import { MessageHandlerService } from '../../services/message-handler/message-handler.service';
 
 @Component({
     selector: 'change-password',
@@ -22,7 +22,7 @@ export class ChangePasswordComponent extends InputsErrorsBase<IChangePassword> i
 
     constructor(
         @Inject(AccountService) private accountService: AccountService,
-        @Inject(MessageHandlerService) messageHandlerService: MessageHandlerService,
+        @Inject(MessageHandlerService) private messageHandlerService: MessageHandlerService,
     ) {
         super(messageHandlerService);
     }
@@ -32,15 +32,15 @@ export class ChangePasswordComponent extends InputsErrorsBase<IChangePassword> i
     }
 
     matchPasswordValidator = (control: AbstractControl): ValidationErrors | null => {
-        return control.value === (this.formGroup && this.formGroup.controls.newPassword.value) ? null
+        return control.value === (this.formGroup && this.formGroup.controls.password.value) ? null
             : { errorMessage: Messages.passwordsDoNotMatch };
     }
 
     setFormGroup = (): void => {
         this.formGroup = new FormGroup({
             oldPassword: new FormControl('', [...PASSWORD_VALIDATORS]),
-            newPassword: new FormControl('', [...PASSWORD_VALIDATORS]),
-            confirmNewPassword: new FormControl('', [...PASSWORD_VALIDATORS, this.matchPasswordValidator]),
+            password: new FormControl('', [...PASSWORD_VALIDATORS]),
+            confirmPassword: new FormControl('', [...PASSWORD_VALIDATORS, this.matchPasswordValidator]),
         } as MapPick<IChangePassword, keyof IChangePassword, FormControl>);
     }
 
@@ -50,7 +50,7 @@ export class ChangePasswordComponent extends InputsErrorsBase<IChangePassword> i
             this.accountService.changePassword(this.formGroup.value)
                 .pipe(
                     tap(() => this.formGroup.reset()))
-                .subscribe(() => this.messageHandlerService.handleSuccess(Messages.passwordHasChanged), this.handleInputsErrors);
+                .subscribe(() => this.messageHandlerService.handleSuccess(Messages.passwordHasChanged), this.handleError);
         }
     }
 }

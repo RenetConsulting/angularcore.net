@@ -24,6 +24,6 @@ export class CounterComponent {
     }
 
     testError = () => {
-        this.http.get(`testError`).subscribe(console.log, console.log);
+        this.http.get(`testError`).subscribe();
     }
 }

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, Inject, Input, OnChange
 import { ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subscription } from 'rxjs';
-import { enterLeaveHOW } from '../../animations/enter.leave.how';
+import { enterLeaveHOW } from '../../animations/enter-leave-how';
 
 @Component({
     selector: 'control-input',

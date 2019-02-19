@@ -1,6 +1,6 @@
 import { Validators } from '@angular/forms';
-import { MaxLength } from '../enums/max.length';
-import { MinLength } from '../enums/min.length';
+import { MaxLength } from '../enums/max-length';
+import { MinLength } from '../enums/min-length';
 
 export const PASSWORD_VALIDATORS = [
     Validators.required,

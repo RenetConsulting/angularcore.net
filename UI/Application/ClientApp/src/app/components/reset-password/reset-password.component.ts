@@ -7,9 +7,9 @@ import { InputsErrorsBase } from '../../bases/inputs-errors/inputs-errors';
 import { EMAIL_VALIDATORS } from '../../consts/email.validators';
 import { PASSWORD_VALIDATORS } from '../../consts/password.validators';
 import { Messages } from '../../enums/messages';
-import { IResetPassword } from '../../interfaces/reset.password';
+import { IResetPassword } from '../../interfaces/reset-password';
 import { AccountService } from '../../services/account/account.service';
-import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
+import { MessageHandlerService } from '../../services/message-handler/message-handler.service';
 
 @Component({
     selector: 'reset-password',
@@ -25,7 +25,7 @@ export class ResetPasswordComponent extends InputsErrorsBase<IResetPassword> imp
     formGroup: FormGroup;
 
     constructor(
-        @Inject(MessageHandlerService) messageHandlerService: MessageHandlerService,
+        @Inject(MessageHandlerService) private messageHandlerService: MessageHandlerService,
         @Inject(AccountService) private accountService: AccountService,
         @Inject(ActivatedRoute) private activatedRoute: ActivatedRoute
     ) {
@@ -62,7 +62,7 @@ export class ResetPasswordComponent extends InputsErrorsBase<IResetPassword> imp
             this.accountService.resetPassword(this.formGroup.value)
                 .pipe(
                     tap(() => this.formGroup.reset()))
-                .subscribe(() => this.messageHandlerService.handleSuccess(Messages.passwordHasChanged), this.handleInputsErrors);
+                .subscribe(() => this.messageHandlerService.handleSuccess(Messages.passwordHasChanged), this.handleError);
         }
     }
 }

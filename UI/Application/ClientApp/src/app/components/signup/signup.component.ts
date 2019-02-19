@@ -7,7 +7,7 @@ import { PASSWORD_VALIDATORS } from '../../consts/password.validators';
 import { Messages } from '../../enums/messages';
 import { IUser } from '../../interfaces/user';
 import { AuthorizationService } from '../../services/authorization/authorization.service';
-import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
+import { MessageHandlerService } from '../../services/message-handler/message-handler.service';
 
 @Component({
     selector: 'signup',
@@ -48,7 +48,7 @@ export class SignupComponent extends InputsErrorsBase<IUser> implements OnInit {
         if (this.formGroup.valid) {
             this.errors = null;
             this.authorizationService.signup(this.formGroup.value)
-                .subscribe(() => this.router.navigate(['/sign-in']), this.handleInputsErrors);
+                .subscribe(() => this.router.navigate(['/sign-in']), this.handleError);
         }
     }
 }

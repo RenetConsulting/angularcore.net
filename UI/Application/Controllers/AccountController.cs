@@ -159,7 +159,7 @@ namespace Application.Controllers
                 return this.BadRequest(this.ModelState);
             }
 
-            IdentityResult result = await this.userManager.ChangeUserPasswordAsync(this.User, changePasswordModel.OldPassword, changePasswordModel.NewPassword, changePasswordModel.ConfirmNewPassword)
+            IdentityResult result = await this.userManager.ChangeUserPasswordAsync(this.User, changePasswordModel.OldPassword, changePasswordModel.Password, changePasswordModel.ConfirmPassword)
                     .ConfigureAwait(false);
 
             if (result.Succeeded)

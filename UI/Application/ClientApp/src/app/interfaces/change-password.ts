@@ -1,5 +1,5 @@
 export interface IChangePassword {
     oldPassword: string;
-    newPassword: string;
-    confirmNewPassword: string;
+    password: string;
+    confirmPassword: string;
 }

@@ -6,7 +6,7 @@ import { EMAIL_VALIDATORS } from '../../consts/email.validators';
 import { PASSWORD_VALIDATORS } from '../../consts/password.validators';
 import { IUser } from '../../interfaces/user';
 import { AuthorizationService } from '../../services/authorization/authorization.service';
-import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
+import { MessageHandlerService } from '../../services/message-handler/message-handler.service';
 import { StorageService } from '../../services/storage/storage.service';
 
 @Component({
@@ -47,7 +47,7 @@ export class SigninComponent extends InputsErrorsBase<IUser> implements OnInit {
             this.errors = null;
             this.storageService.setStorage(this.formGroup.controls.isRemember.value);
             this.authorizationService.signin(this.formGroup.value)
-                .subscribe(() => this.router.navigate(['/']), this.handleInputsErrors);
+                .subscribe(() => this.router.navigate(['/']), this.handleError);
         }
     }
 }

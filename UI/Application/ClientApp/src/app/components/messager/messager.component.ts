@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { ERROR_MESSAGE_DIALOG_CONFIG } from '../../consts/error.message.dialog.config';
 import { ErrorMessageDialogComponent } from '../../dialogs/error.message/error.message.dialog.component';
-import { MessageHandlerService } from '../../services/message.handler/message.handler.service';
+import { MessageHandlerService } from '../../services/message-handler/message-handler.service';
 
 @Component({
     selector: 'messager',
