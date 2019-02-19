@@ -70,8 +70,8 @@ namespace Application.Controllers
         }
 
         // GET api/Account/ResetPassword
-        [HttpGet]
         [AllowAnonymous]
+        [HttpGet]
         [Route("ResetPassword", Name = "ResetPassword")]
         public async Task<IActionResult> ResetPasswordAsync(string email)
         {

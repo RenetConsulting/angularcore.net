@@ -27,14 +27,10 @@ export class AuthorizationService {
     }
 
     get refreshRequest() {
-        const request: IConnectToken = {
-            scope: 'offline_access',
-            grant_type: 'refresh_token',
-            refresh_token: this.tokenService.getValue('refresh_token')
-        };
-        const body = this.toolsService.getQuery(request).replace(/^\?/, '');
-        return new HttpRequest('POST', `${this.baseUrl}/connect/token`, body, {
-            headers: new HttpHeaders({ ...HTTP_HEADERS.contentTypeUrlencoded, ...HTTP_HEADERS.allowHttpError }),
+        return new HttpRequest('GET', `${this.baseUrl}/api/Account/GenerateUserToken`, {
+            headers: new HttpHeaders({
+                ...HTTP_HEADERS.allowHttpError
+            }),
             responseType: 'json'
         });
     }
