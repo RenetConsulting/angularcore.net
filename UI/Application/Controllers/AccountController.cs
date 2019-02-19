@@ -26,13 +26,13 @@ namespace Application.Controllers
     public class AccountController : BaseController
     {
         private readonly ApplicationUserManager<ApplicationUser> userManager;
-        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly ApplicationSignInManager<ApplicationUser> signInManager;
         private readonly IMailClient mailClient;
 
         public AccountController(
             IGlobalRepository repository,
             ApplicationUserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
+            ApplicationSignInManager<ApplicationUser> signInManager,
             IOptions<AppSettings> appSettings,
             IMailClient mailClient,
             ILogger<AccountController> logger)
@@ -40,6 +40,7 @@ namespace Application.Controllers
         {
             this.userManager = userManager;
             this.mailClient = mailClient;
+            this.signInManager = signInManager;
         }
 
        // POST api/Account/Register

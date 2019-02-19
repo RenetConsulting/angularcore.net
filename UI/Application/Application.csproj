@@ -53,7 +53,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="stylecop.json" />
+    <Content Include="..\..\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
