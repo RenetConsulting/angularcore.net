@@ -23,5 +23,5 @@ describe('AuthenticationGuard', () => {
     });
     it('canActivate should return value of isAuthenticated', () => {
         expect(guard.canActivate()).toEqual(mockAuthorizationService.isAuthenticated);
-    })
+    });
 });
