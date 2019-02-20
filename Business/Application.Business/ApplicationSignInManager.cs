@@ -1,8 +1,4 @@
-﻿// <copyright file="ApplicationSignInManager.cs" company="RenetConsulting Inc.">
-// Copyright (c) RenetConsulting Inc.. All rights reserved.
-// </copyright>
-
-namespace Application.Services
+﻿namespace Application.Business
 {
     using System.Threading.Tasks;
     using Application.DataAccess.Entities;

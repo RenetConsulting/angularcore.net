@@ -8,26 +8,22 @@ namespace Application.Controllers
     using System.Threading.Tasks;
     using Application.Business;
     using Application.DataAccess.Entities;
-    using Application.DataAccess.Repositories;
     using AspNet.Security.OpenIdConnect.Extensions;
     using AspNet.Security.OpenIdConnect.Primitives;
     using AspNet.Security.OpenIdConnect.Server;
     using Microsoft.AspNetCore.Authentication;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using OpenIddict.Abstractions;
-    using OpenIddict.Core;
-    using OpenIddict.EntityFrameworkCore.Models;
     using OpenIddict.Mvc.Internal;
 
     public class AuthorizationController : Controller
     {
-        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly ApplicationSignInManager<ApplicationUser> signInManager;
 
         private readonly ApplicationUserManager<ApplicationUser> userManager;
 
         public AuthorizationController(
-            SignInManager<ApplicationUser> signInManager,
+            ApplicationSignInManager<ApplicationUser> signInManager,
             ApplicationUserManager<ApplicationUser> userManager)
             : base()
         {
@@ -51,6 +47,15 @@ namespace Application.Controllers
                     });
                 }
 
+                if (!user.EmailConfirmed)
+                {
+                    return this.BadRequest(new OpenIdConnectResponse
+                    {
+                        Error = OpenIdConnectConstants.Errors.AccessDenied,
+                        ErrorDescription = "Please confirm your email address."
+                    });
+                }
+
                 // Validate the username/password parameters and ensure the account is not locked out.
                 var result = await this.signInManager.CheckPasswordSignInAsync(user, request.Password, lockoutOnFailure: true);
                 if (!result.Succeeded)
@@ -65,11 +70,22 @@ namespace Application.Controllers
                     }
                     else
                     {
-                        return this.BadRequest(new OpenIdConnectResponse
+                        if (result.IsNotAllowed)
                         {
-                            Error = OpenIdConnectConstants.Errors.InvalidGrant,
-                            ErrorDescription = "The username/password couple is invalid."
-                        });
+                            return this.BadRequest(new OpenIdConnectResponse
+                            {
+                                Error = OpenIdConnectConstants.Errors.AccessDenied,
+                                ErrorDescription = "Access denied or not allowed."
+                            });
+                        }
+                        else
+                        {
+                            return this.BadRequest(new OpenIdConnectResponse
+                            {
+                                Error = OpenIdConnectConstants.Errors.InvalidGrant,
+                                ErrorDescription = "The username/password couple is invalid."
+                            });
+                        }
                     }
                 }
 

@@ -42,7 +42,7 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
                         concatMap(() => handler.handle(this.clone(request, this.tokenService.header))));
                 }
                 this.isProcessToken = true;
-                return handler.handle(this.authorizationService.refreshRequest).pipe(
+                return handler.handle(this.clone(this.authorizationService.refreshRequest, this.tokenService.header)).pipe(
                     concatMap(i => i instanceof HttpResponse ? this.concatRequests(request, handler) : of(i)),
                     catchError(this.handleError),
                 );

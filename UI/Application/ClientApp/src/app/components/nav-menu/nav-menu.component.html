@@ -1,25 +1,25 @@
 <header>
-    <nav class='navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white shadow-sm'>
-        <a class="navbar-brand w-auto" [routerLink]="['/']"> <logo cssClass="navbar-logo"></logo></a>
+    <nav class='navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-primary shadow-sm'>
+        <a class="navbar-brand w-auto text-white" [routerLink]="['/']"> <logo cssClass="navbar-logo"></logo></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-label="Toggle navigation" [attr.aria-expanded]="isExpanded" (click)="toggle()">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" [ngClass]='{"show": isExpanded}'>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item" [routerLinkActive]='["link-active"]'>
-                    <a class="nav-link" [routerLink]='["/counter"]'>Counter</a>
+                    <a class="nav-link text-white" [routerLink]='["/counter"]'>Counter</a>
                 </li>
                 <li *ngIf="isAuthenticated" class="nav-item" [routerLinkActive]='["link-active"]'>
-                    <a class="nav-link" [routerLink]='["/change-password"]'>Change Password</a>
+                    <a class="nav-link text-white" [routerLink]='["/change-password"]'>Change Password</a>
                 </li>
                 <li *ngIf="isAuthenticated" class="nav-item">
-                    <button mat-raised-button color="primary" type="button" (click)="signout()">Sign Out</button>
+                    <button mat-raised-button type="button" (click)="signout()">Sign Out</button>
                 </li>
                 <li *ngIf="!isAuthenticated" class="nav-item" [routerLinkActive]='["link-active"]'>
-                    <a class="nav-link" [routerLink]='["/sign-up"]'>Sign Up</a>
+                    <a class="nav-link text-white" [routerLink]='["/sign-up"]'>Sign Up</a>
                 </li>
                 <li *ngIf="!isAuthenticated" class="nav-item" [routerLinkActive]='["link-active"]'>
-                    <a class="nav-link" [routerLink]='["/sign-in"]'>Sign In</a>
+                    <a class="nav-link text-white" [routerLink]='["/sign-in"]'>Sign In</a>
                 </li>
             </ul>
         </div>

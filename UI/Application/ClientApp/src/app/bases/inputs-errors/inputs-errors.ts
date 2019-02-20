@@ -13,7 +13,7 @@ export class InputsErrorsBase<InputPickType> {
         this.openIdConnect = new OpenIdConnectBase(messageHandlerService);
     }
 
-    handleError = (httpError: HttpErrorResponse): void => {
+    handleError = (httpError?: HttpErrorResponse): void => {
         const error = httpError && httpError.error;
         this.errors = error;
         this.openIdConnect.handleError(error);

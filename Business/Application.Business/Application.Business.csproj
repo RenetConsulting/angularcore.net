@@ -20,7 +20,7 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
-    <PackageReference Include="Sendgrid" Version="9.8.0" />
+    <PackageReference Include="Sendgrid" Version="9.10.0" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
   </ItemGroup>
 
@@ -35,6 +35,10 @@
   <ItemGroup>
     <Compile Include="..\..\GlobalAssemblyInfo.cs" />
     <Compile Include="..\..\GlobalSuppressions.cs" Link="Properties\GlobalSuppressions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
   
 </Project>

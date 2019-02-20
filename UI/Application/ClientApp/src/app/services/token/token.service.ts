@@ -40,7 +40,7 @@ export class TokenService {
         return this.valid ? { authorization: `${item.token_type} ${item.access_token}` } : null;
     }
 
-    setToken = (value: IToken) => {
+    setToken = (value: IToken): void => {
         const token = { ...value };
         if (token.access_token && token.refresh_token) {
             if (token.expires_in) {
@@ -49,11 +49,6 @@ export class TokenService {
             this._token = { ...token };
             this.storageService.set(this.key, token);
         }
-    }
-
-    getValue = (key: keyof IToken): any => {
-        const item = this.token;
-        return key && item && key in item ? item[key] : null;
     }
 
     clean = (): void => {
