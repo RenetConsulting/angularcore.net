@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { HTTP_HEADERS } from '../../consts/http-headers';
 import { IChangePassword } from '../../interfaces/change-password';
-import { IUser } from '../../interfaces/user';
+import { IConfirmEmail } from '../../interfaces/confirm-email';
+import { IResetPassword } from '../../interfaces/reset-password';
 import { BASE_URL } from '../../tokens/base.url';
 import { ToolsService } from '../tools/tools.service';
 
@@ -23,12 +24,18 @@ export class AccountService {
     changePassword = (model: IChangePassword) => this.http
         .post(`${this.baseUrl}${this.url}/ChangePassword`, model, { headers: { ...HTTP_HEADERS.allowHttpError } })
 
-    resetPassword = (model: IUser) => this.http
+    resetPassword = (model: IResetPassword) => this.http
         .post(`${this.baseUrl}${this.url}/ResetPasswordFromMail`, model, { headers: { ...HTTP_HEADERS.allowHttpError } })
 
-    prepResetPassword = ({ email }: IUser) => {
+    prepResetPassword = ({ email }: Pick<IResetPassword, 'email'>) => {
         const body = this.toolsService.getQuery({ email });
         return this.http
             .get(`${this.baseUrl}${this.url}/ResetPassword${body}`);
+    }
+
+    confirmEmail = (model: IConfirmEmail) => {
+        const body = this.toolsService.getQuery(model);
+        return this.http
+            .get(`${this.baseUrl}${this.url}/ConfirmEmail${body}`);
     }
 }

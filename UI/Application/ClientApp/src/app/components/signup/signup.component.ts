@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { tap } from 'rxjs/operators';
 import { InputsErrorsBase } from '../../bases/inputs-errors/inputs-errors';
 import { EMAIL_VALIDATORS } from '../../consts/email.validators';
 import { PASSWORD_VALIDATORS } from '../../consts/password.validators';
@@ -19,7 +20,7 @@ export class SignupComponent extends InputsErrorsBase<IUser> implements OnInit {
     formGroup: FormGroup;
 
     constructor(
-        @Inject(MessageHandlerService) messageHandlerService: MessageHandlerService,
+        @Inject(MessageHandlerService) private messageHandlerService: MessageHandlerService,
         @Inject(AuthorizationService) private authorizationService: AuthorizationService,
         @Inject(Router) private router: Router
     ) {
@@ -48,6 +49,8 @@ export class SignupComponent extends InputsErrorsBase<IUser> implements OnInit {
         if (this.formGroup.valid) {
             this.errors = null;
             this.authorizationService.signup(this.formGroup.value)
+                .pipe(
+                    tap(() => this.messageHandlerService.handleSuccess(Messages.checkEmail)))
                 .subscribe(() => this.router.navigate(['/sign-in']), this.handleError);
         }
     }

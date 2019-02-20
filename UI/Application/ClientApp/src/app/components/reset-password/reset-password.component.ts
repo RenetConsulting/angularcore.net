@@ -27,14 +27,14 @@ export class ResetPasswordComponent extends InputsErrorsBase<IResetPassword> imp
     constructor(
         @Inject(MessageHandlerService) private messageHandlerService: MessageHandlerService,
         @Inject(AccountService) private accountService: AccountService,
-        @Inject(ActivatedRoute) private activatedRoute: ActivatedRoute
+        @Inject(ActivatedRoute) private route: ActivatedRoute
     ) {
         super(messageHandlerService);
     }
 
     ngOnInit(): void {
         this.setFormGroup();
-        this.subscription.add(this.activatedRoute.queryParams
+        this.subscription.add(this.route.queryParams
             .subscribe((i: Pick<IResetPassword, 'token'>) => this.formGroup.controls.token.reset(i.token)));
     }
 

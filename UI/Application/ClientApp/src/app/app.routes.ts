@@ -11,6 +11,7 @@ export const ROUTES: Array<Route> = [
     { path: 'sign-up', loadChildren: './components/signup/signup.module#SignupModule' },
     { path: 'prep-reset-password', loadChildren: './components/prep-reset-password/prep-reset-password.module#PrepResetPasswordModule' },
     { path: 'reset-password', loadChildren: './components/reset-password/reset-password.module#ResetPasswordModule' },
+    { path: 'confirm-email', loadChildren: './components/confirm-email/confirm-email.module#ConfirmEmailModule' },
 
     /** private routes */
     {
