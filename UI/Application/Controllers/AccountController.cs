@@ -4,14 +4,18 @@
 
 namespace Application.Controllers
 {
+    using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Net;
+    using System.Reflection;
     using System.Security.Authentication;
     using System.Threading.Tasks;
     using Application.Business;
     using Application.Business.Communications;
     using Application.Business.Helpers;
     using Application.Business.Models;
+    using Application.Business.Services;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Enums;
     using Application.DataAccess.Repositories;
@@ -184,14 +188,100 @@ namespace Application.Controllers
                 ApplicationUser user = await this.userManager.GetUserAsync(this.User)
                     .ConfigureAwait(false);
 
-                string token = await this.userManager.GenerateTokenAsync(user)
-                    .ConfigureAwait(false);
+                string token = await this.userManager.GenerateTokenAsync(user);
 
                 return this.Ok(token);
             }
             catch (InvalidCredentialException ex)
             {
                 return this.BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("ConfirmEmail")]
+        public async Task<IActionResult> ConfirmEmailAsync(string email, string token)
+        {
+            ApplicationUser user = await this.userManager.FindByEmailAsync(email).ConfigureAwait(false);
+
+            if (user != null)
+            {
+                if (user.EmailConfirmed)
+                {
+                    return this.BadRequest("Token in link is invalid.");
+                }
+
+                if (user.Email == email)
+                {
+                    IdentityResult result = await this.userManager.ConfirmEmailAsync(user, token).ConfigureAwait(false);
+
+                    IActionResult errorResult = this.GetErrorResult(result);
+
+                    if (errorResult != null)
+                    {
+                        return this.BadRequest(errorResult);
+                    }
+
+                    return this.Ok();
+                }
+                else
+                {
+                    return this.BadRequest("Email not confirmed.");
+                }
+            }
+            else
+            {
+                return this.BadRequest("This user not registered.");
+            }
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("EmailConfirmed", Name = "EmailConfirmed")]
+        public async Task<IActionResult> EmailConfirmedAsync(string email)
+        {
+            ApplicationUser user = await this.userManager.FindByEmailAsync(email).ConfigureAwait(false);
+            if (user != null)
+            {
+                if (user.EmailConfirmed)
+                {
+                    return this.Ok();
+                }
+                else
+                {
+                    return this.BadRequest("You still not confirmed your email address. Please, check for login.");
+                }
+            }
+            else
+            {
+                return this.BadRequest("This user not registered.");
+            }
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("ResendEmail", Name = "ResendEmail")]
+        public async Task<IActionResult> ResendEmailAsync(string email)
+        {
+            ApplicationUser user = await this.userManager.FindByEmailAsync(email).ConfigureAwait(false);
+
+            if (user != null)
+            {
+                if (!user.EmailConfirmed)
+                {
+                    await this.SendRegistrationMessageAsync(user, user.Id).ConfigureAwait(false);
+
+                    return this.Ok("New confirmation link sent to your email.");
+                }
+                else
+                {
+                    return this.BadRequest("User email is already confirmed.");
+                }
+            }
+            else
+            {
+                return this.BadRequest("User not registered.");
             }
         }
 
@@ -234,6 +324,31 @@ namespace Application.Controllers
             return returnCode;
         }
 
+        internal ErrorListModel GetErrorListModel(IEnumerable<IdentityError> errors)
+        {
+            ErrorListModel errorList = new ErrorListModel();
+
+            foreach (var error in errors)
+            {
+                ErrorMark errorType = ErrorMarks.GetErrorMark(error.Code);
+
+                if (errorType == ErrorMark.Email)
+                {
+                    errorList.Email.Add(error.Description);
+                }
+                else if (errorType == ErrorMark.Password)
+                {
+                    errorList.Password.Add(error.Description);
+                }
+                else if (errorType == ErrorMark.ConfirmPassword)
+                {
+                    errorList.ConfirmPassword.Add(error.Description);
+                }
+            }
+
+            return errorList;
+        }
+
         private IActionResult GetErrorResult(IdentityResult result)
         {
             if (result == null)
@@ -263,29 +378,37 @@ namespace Application.Controllers
             return null;
         }
 
-        private ErrorListModel GetErrorListModel(IEnumerable<IdentityError> errors)
+        private async Task<IActionResult> SendRegistrationMessageAsync(ApplicationUser user, string userId)
         {
-            ErrorListModel errorList = new ErrorListModel();
-
-            foreach (var error in errors)
+            try
             {
-                ErrorMark errorType = ErrorMarks.GetErrorMark(error.Code);
+                // pull template from resources
+                var assembly = Assembly.Load(new AssemblyName("Application"));
 
-                if (errorType == ErrorMark.Email)
+                const string resourceName = "ConfirmEmail.html";
+
+                string emailHtmlTamplate = string.Empty;
+
+                using (Stream stream = assembly.GetManifestResourceStream(resourceName))
                 {
-                    errorList.Email.Add(error.Description);
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        emailHtmlTamplate = reader.ReadToEnd();
+                    }
                 }
-                else if (errorType == ErrorMark.Password)
-                {
-                    errorList.Password.Add(error.Description);
-                }
-                else if (errorType == ErrorMark.ConfirmPassword)
-                {
-                    errorList.ConfirmPassword.Add(error.Description);
-                }
+
+                // update template with images and links
+                var emailToken = await this.userManager.GenerateEmailConfirmationTokenAsync(user).ConfigureAwait(false);
+                var url = this.AppSettings.SiteHost + "confirm-email?email=" + WebUtility.UrlEncode(user.Email) + "&token=" + WebUtility.UrlEncode(emailToken);
+
+                string emailHtml = string.Format(emailHtmlTamplate, user.Email, url, this.AppSettings.SiteHost);
+
+                return await this.SendEmailAsync(user.Email, this.AppSettings.EmailConfirmationSubject, emailHtml);
             }
-
-            return errorList;
+            catch
+            {
+                throw;
+            }
         }
     }
 }

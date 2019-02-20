@@ -18,6 +18,8 @@
 
         public string InfoToEmail { get; set; }
 
+        public string EmailConfirmationSubject { get; set; }
+
         public string SubjectToUser { get; set; }
 
         public string SubjectToWebsite { get; set; }

@@ -109,5 +109,32 @@
             Assert.NotNull(result);
             Assert.True(result.Succeeded);
         }
+
+        [Fact]
+        public async Task ChangeUserPasswordAsyncTest_Success()
+        {
+            ApplicationUserManager<ApplicationUser> userManager = new ApplicationUserManager<ApplicationUser>(this.mockStore.Object, null, null, null, null, null, null, null, null)
+            {
+                Me = this.mockIUserManager.Object
+            };
+
+            System.Security.Claims.ClaimsPrincipal userClaims = new System.Security.Claims.ClaimsPrincipal();
+            string oldPassword = "old pass";
+            string newPassword = "new pass";
+            string confirmNewPassword = "new pass";
+
+            IdentityResult identityResult = IdentityResult.Success;
+
+            ApplicationUser user = new ApplicationUser { UserName = "AAA", Id = "usrId" };
+
+            // Setup Moq
+            this.mockIUserManager.Setup(x => x.ChangePasswordAsync(user, oldPassword, newPassword))
+                .Returns(Task.FromResult(identityResult)).Verifiable();
+
+            var result = await userManager.ChangeUserPasswordAsync(userClaims, oldPassword, newPassword, confirmNewPassword);
+
+            Assert.NotNull(result);
+            Assert.Equal(identityResult.Succeeded, result.Succeeded);
+        }
     }
 }
