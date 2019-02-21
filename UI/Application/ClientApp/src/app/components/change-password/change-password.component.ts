@@ -3,7 +3,7 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors } from '@angu
 import { tap } from 'rxjs/operators';
 import { InputsErrorsBase } from '../../bases/inputs-errors/inputs-errors';
 import { PASSWORD_VALIDATORS } from '../../consts/password.validators';
-import { Messages } from '../../enums/messages';
+import { Messages } from '../../enums/messages.type';
 import { IChangePassword } from '../../interfaces/change-password';
 import { AccountService } from '../../services/account/account.service';
 import { MessageHandlerService } from '../../services/message-handler/message-handler.service';
