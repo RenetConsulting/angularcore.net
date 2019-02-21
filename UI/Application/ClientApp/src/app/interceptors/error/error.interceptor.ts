@@ -1,5 +1,5 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Inject, Injectable, Injector } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HTTP_HEADER_NAMES } from '../../enums/http-header-names.type';
@@ -10,13 +10,9 @@ import { MessageHandlerService } from '../../services/message-handler/message-ha
 })
 export class ErrorInterceptor implements HttpInterceptor {
 
-    private messageHandlerService: MessageHandlerService;
-
     constructor(
-        @Inject(Injector) injector: Injector
-    ) {
-        this.messageHandlerService = injector.get(MessageHandlerService);
-    }
+        @Inject(MessageHandlerService) private messageHandlerService: MessageHandlerService
+    ) { }
 
     intercept(request: HttpRequest<any>, handler: HttpHandler): Observable<HttpEvent<any>> {
         return handler.handle(request).pipe(

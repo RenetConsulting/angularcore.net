@@ -1,15 +1,18 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-counter-component',
     templateUrl: './counter.component.html'
 })
-export class CounterComponent {
+export class CounterComponent implements OnInit {
 
     constructor(
         @Inject(HttpClient) public http: HttpClient
     ) { }
+
+    ngOnInit(): void {
+    }
 
     public currentCount = 0;
 
@@ -17,8 +20,8 @@ export class CounterComponent {
         this.currentCount++;
     }
 
-    test = () => {
-        for (let i = 0; i < 5; i++) {
+    test = (length = 5) => {
+        for (let i = 0; i < length; i++) {
             this.http.get(`https://httpbin.org/get?test=${i}`).subscribe(console.log, console.log);
         }
     }

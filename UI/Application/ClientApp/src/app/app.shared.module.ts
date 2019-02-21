@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { Injector, NgModule, Provider } from '@angular/core';
+import { NgModule, Provider } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { ROUTES } from './app.routes';
@@ -12,6 +12,10 @@ import { ApiPrefixInterceptor } from './interceptors/api-prefix/api-prefix.inter
 import { ErrorInterceptor } from './interceptors/error/error.interceptor';
 import { HttpAuthorizationInterceptor } from './interceptors/http-authorization/http-authorization.interceptor';
 import { NoneCacheInterceptor } from './interceptors/none-cache/none-cache.interceptor';
+import { AuthorizationService } from './services/authorization/authorization.service';
+import { MessageHandlerService } from './services/message-handler/message-handler.service';
+import { TokenService } from './services/token/token.service';
+import { BASE_URL } from './tokens/base-url.token';
 
 const MODULES = [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -23,10 +27,13 @@ const MODULES = [
 ];
 
 const PROVIDERS: Array<Provider> = [
-    { provide: HTTP_INTERCEPTORS, useClass: HttpAuthorizationInterceptor, deps: [Injector], multi: true },
+    {
+        provide: HTTP_INTERCEPTORS, useClass: HttpAuthorizationInterceptor,
+        deps: [MessageHandlerService, AuthorizationService, TokenService], multi: true
+    },
     { provide: HTTP_INTERCEPTORS, useClass: NoneCacheInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, deps: [Injector], multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ApiPrefixInterceptor, deps: [Injector], multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, deps: [MessageHandlerService], multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ApiPrefixInterceptor, deps: [BASE_URL], multi: true }
 ];
 
 const COMPONENTS = [

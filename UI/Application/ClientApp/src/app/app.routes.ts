@@ -12,12 +12,9 @@ export const ROUTES: Array<Route> = [
     { path: 'prep-reset-password', loadChildren: './components/prep-reset-password/prep-reset-password.module#PrepResetPasswordModule' },
     { path: 'reset-password', loadChildren: './components/reset-password/reset-password.module#ResetPasswordModule' },
     { path: 'confirm-email', loadChildren: './components/confirm-email/confirm-email.module#ConfirmEmailModule' },
+    { path: 'counter', loadChildren: './components/counter/counter.module#CounterModule' },
 
     /** private routes */
-    {
-        path: 'counter', canActivate: [AuthenticationGuard],
-        loadChildren: './components/counter/counter.module#CounterModule'
-    },
     {
         path: 'change-password', canActivate: [AuthenticationGuard],
         loadChildren: './components/change-password/change-password.module#ChangePasswordModule'

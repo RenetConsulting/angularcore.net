@@ -1,5 +1,5 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
-import { Inject, Injectable, Injector } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { EMPTY, Observable, of, Subject } from 'rxjs';
 import { catchError, concatMap } from 'rxjs/operators';
 import { HTTP_HEADER_NAMES } from '../../enums/http-header-names.type';
@@ -13,35 +13,25 @@ import { TokenService } from '../../services/token/token.service';
 export class HttpAuthorizationInterceptor implements HttpInterceptor {
 
     private subjects: Array<Subject<HttpRequest<any>>> = [];
-    private isProcessToken: boolean;
-    private authorizationService: AuthorizationService;
-    private tokenService: TokenService;
-    private messageHandlerService: MessageHandlerService;
+    private loading: boolean;
 
     constructor(
-        @Inject(Injector) injector: Injector
-    ) {
-        /**
-         * the bug fix for next error:
-         * Cannot instantiate cyclic dependency! InjectionToken_HTTP_INTERCEPTORS ('[ERROR ->]'):
-         * in NgModule AppServerModule in ./AppServerModule@-1:-1
-         */
-        this.authorizationService = injector.get(AuthorizationService);
-        this.messageHandlerService = injector.get(MessageHandlerService);
-        this.tokenService = injector.get(TokenService);
-    }
+        @Inject(MessageHandlerService) private messageHandlerService: MessageHandlerService,
+        @Inject(AuthorizationService) private authorizationService: AuthorizationService,
+        @Inject(TokenService) private tokenService: TokenService,
+    ) { }
 
     /** on each branch make sure that header is fresh */
     intercept(request: HttpRequest<any>, handler: HttpHandler): Observable<HttpEvent<any>> {
         if (this.tokenService.valid && !request.headers.has(HTTP_HEADER_NAMES.allowAnonymous)) {
             if (this.tokenService.expired && !request.headers.has(HTTP_HEADER_NAMES.allowExpiredToken)) {
-                if (this.isProcessToken) {
+                if (this.loading) {
                     const subject = new Subject<HttpRequest<any>>();
                     this.subjects.push(subject);
                     return subject.pipe(
                         concatMap(() => handler.handle(this.clone(request, this.tokenService.header))));
                 }
-                this.isProcessToken = true;
+                this.loading = true;
                 return handler.handle(this.clone(this.authorizationService.refreshRequest, this.tokenService.header)).pipe(
                     concatMap(i => i instanceof HttpResponse ? this.concatRequests(request, handler) : of(i)),
                     catchError(this.handleError),
@@ -59,14 +49,14 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
     concatRequests = (request: HttpRequest<any>, handler: HttpHandler) => (): Observable<HttpEvent<any>> => {
         this.subjects.forEach(i => { i.next(null); });
         this.subjects.length = 0;
-        this.isProcessToken = false;
+        this.loading = false;
         return handler.handle(this.clone(request, this.tokenService.header));
     }
 
     handleError = (error): Observable<any> => {
         this.subjects.forEach(i => i.complete());
         this.subjects.length = 0;
-        this.isProcessToken = false;
+        this.loading = false;
         this.messageHandlerService.handleError(error.error && error.error.error_description);
         return EMPTY;
     }
