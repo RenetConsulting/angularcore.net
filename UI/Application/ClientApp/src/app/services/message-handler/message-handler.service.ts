@@ -16,7 +16,7 @@ export class MessageHandlerService {
     private checkError = (value: string): string => value && value.length < 1000 ? value : this.errorMessage500;
 
     handleError = (value: IError): void =>
-        this.errorSubject.next({ ...value, error_description: this.checkError(value && value.error_description) });
+        this.errorSubject.next({ ...value, error_description: this.checkError(value && value.error_description) })
 
     handleSuccess = (value: string): void => value && this.successSubject.next(value);
 }

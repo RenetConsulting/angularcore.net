@@ -69,7 +69,7 @@
       true,
       "single"
     ],
-    "variable-name": [ true, "ban-keywords", "check-format", "allow-leading-underscore" ],
+    "variable-name": [ true, "ban-keywords", "check-format", "allow-snake-case", "allow-leading-underscore" ],
     "trailing-comma": false,
     "no-output-on-prefix": true,
     "use-input-property-decorator": true,
