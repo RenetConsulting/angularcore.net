@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { ERROR_MESSAGE_DIALOG_CONFIG } from '../../consts/error.message.dialog.config';
-import { ErrorMessageDialogComponent } from '../../dialogs/error.message/error.message.dialog.component';
+import { ErrorMessageDialogComponent } from '../../dialogs/error-message-dialog/error-message-dialog.component';
 import { IError } from '../../interfaces/error';
 import { MessageHandlerService } from '../../services/message-handler/message-handler.service';
 
