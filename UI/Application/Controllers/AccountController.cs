@@ -7,9 +7,11 @@ namespace Application.Controllers
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Net;
     using System.Reflection;
     using System.Security.Authentication;
+    using System.Security.Claims;
     using System.Threading.Tasks;
     using Application.Business;
     using Application.Business.Communications;
@@ -283,6 +285,23 @@ namespace Application.Controllers
             {
                 return this.BadRequest("User not registered.");
             }
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("GenerateLocalToken")]
+        public async Task<IActionResult> GenerateLocalTokenAsync()
+        {
+            ExternalLoginInfo info = await this.signInManager
+                .GetExternalLoginInfoAsync()
+                .ConfigureAwait(false);
+
+            string accessToken = info.AuthenticationTokens.SingleOrDefault(i => i.Name == "access_token").Value;
+            string expiresAt = info.AuthenticationTokens.SingleOrDefault(i => i.Name == "expires_at").Value;
+            string tokeType = info.AuthenticationTokens.SingleOrDefault(i => i.Name == "token_type").Value;
+            string refreshtoken = info.AuthenticationTokens.SingleOrDefault(i => i.Name == "refresh_token").Value;
+
+            return this.Ok(new ExternalAccessData { AccessToken = accessToken, TokenType = tokeType, ExpiresAt = expiresAt, RefreshToken = refreshtoken });
         }
 
         [AllowAnonymous]
