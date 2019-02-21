@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { ERROR_MESSAGE_DIALOG_CONFIG } from '../../consts/error.message.dialog.config';
 import { ErrorMessageDialogComponent } from '../../dialogs/error.message/error.message.dialog.component';
+import { IError } from '../../interfaces/error';
 import { MessageHandlerService } from '../../services/message-handler/message-handler.service';
 
 @Component({
@@ -29,9 +30,9 @@ export class MessagerComponent implements OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
 
-    openDialog = (value: string): void => {
+    openDialog = (value: IError): void => {
         const ref = this.matDialog.open(ErrorMessageDialogComponent, ERROR_MESSAGE_DIALOG_CONFIG);
-        ref.componentInstance.message = value;
+        ref.componentInstance.item = value;
     }
 
     openSnackBar = (value: string) => this.matSnackBar.open(value, 'Close');

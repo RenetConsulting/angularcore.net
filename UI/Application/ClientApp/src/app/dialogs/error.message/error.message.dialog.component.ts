@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { IError } from '../../interfaces/error';
 
 @Component({
     selector: 'error-message-dialog',
@@ -8,7 +9,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 })
 export class ErrorMessageDialogComponent {
 
-    @Input() message: string;
+    @Input() item: IError;
 
     constructor() { }
 }

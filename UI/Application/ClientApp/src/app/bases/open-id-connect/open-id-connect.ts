@@ -1,3 +1,4 @@
+import { IError } from '../../interfaces/error';
 import { MessageHandlerService } from '../../services/message-handler/message-handler.service';
 
 export class OpenIdConnectBase {
@@ -6,11 +7,9 @@ export class OpenIdConnectBase {
         private messageHandlerService: MessageHandlerService
     ) { }
 
-    /** handler errors that belong {@link OpenIdConnect} */
-    handleError = (e): void => {
-        const error = e && e.error_description;
-        if (error) {
-            this.messageHandlerService.handleError(error);
+    handleError = (e: IError): void => {
+        if (e && e.error_description) {
+            this.messageHandlerService.handleError(e);
         }
     }
 }
