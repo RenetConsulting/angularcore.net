@@ -4,7 +4,7 @@ import { HTTP_HEADERS } from '../../consts/http-headers';
 import { IChangePassword } from '../../interfaces/change-password';
 import { IConfirmEmail } from '../../interfaces/confirm-email';
 import { IResetPassword } from '../../interfaces/reset-password';
-import { BASE_URL } from '../../tokens/base.url';
+import { BASE_URL } from '../../tokens/base-url.token';
 import { ToolsService } from '../tools/tools.service';
 
 @Injectable({

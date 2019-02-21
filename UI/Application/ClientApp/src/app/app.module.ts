@@ -3,7 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import 'hammerjs';
 import { AppSharedModule } from './app.shared.module';
 import { AppComponent } from './components/app/app.component';
-import { IS_BROWSER } from './tokens/is.browser';
+import { IS_BROWSER } from './tokens/is-browser.token';
 
 @NgModule({
     imports: [BrowserAnimationsModule, AppSharedModule],

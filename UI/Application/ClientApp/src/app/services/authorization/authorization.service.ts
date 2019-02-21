@@ -6,7 +6,7 @@ import { HTTP_HEADERS } from '../../consts/http-headers';
 import { IConnectToken } from '../../interfaces/connect-token';
 import { IToken } from '../../interfaces/token';
 import { IUser } from '../../interfaces/user';
-import { BASE_URL } from '../../tokens/base.url';
+import { BASE_URL } from '../../tokens/base-url.token';
 import { TokenService } from '../token/token.service';
 import { ToolsService } from '../tools/tools.service';
 

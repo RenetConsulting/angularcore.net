@@ -3,7 +3,7 @@ import { NgModule, Provider } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { SNACK_BAR_MESSAGER_OPTIONS } from '../../consts/snack.bar.messager.options';
-import { ErrorMessageDialogModule } from '../../dialogs/error.message/error.message.dialog.module';
+import { ErrorMessageDialogModule } from '../../dialogs/error-message-dialog/error-message-dialog.module';
 import { MessagerComponent } from './messager.component';
 
 const MODULES = [

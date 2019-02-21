@@ -5,7 +5,7 @@ import { provideModuleMap } from '@nguniversal/module-map-ngfactory-loader';
 import { createServerRenderer } from 'aspnet-prerendering';
 import 'reflect-metadata';
 import 'zone.js/dist/zone-node';
-import { BASE_URL } from './app/tokens/base.url';
+import { BASE_URL } from './app/tokens/base-url.token';
 export { AppServerModule } from './app/app.server.module';
 
 enableProdMode();
