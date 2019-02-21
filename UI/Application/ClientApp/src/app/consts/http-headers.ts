@@ -1,4 +1,4 @@
-import { HTTP_HEADER_NAMES } from '../enums/http-header-names';
+import { HTTP_HEADER_NAMES } from '../enums/http-header-names.type';
 
 export const HTTP_HEADERS = {
     allowAnonymous: { [HTTP_HEADER_NAMES.allowAnonymous]: 'true' },

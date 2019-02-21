@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { EMAIL_VALIDATORS } from '../../consts/email.validators';
-import { Messages } from '../../enums/messages';
+import { Messages } from '../../enums/messages.type';
 import { IConfirmEmail } from '../../interfaces/confirm-email';
 import { AccountService } from '../../services/account/account.service';
 import { MessageHandlerService } from '../../services/message-handler/message-handler.service';
