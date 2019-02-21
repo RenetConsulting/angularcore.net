@@ -3,13 +3,13 @@ import { Router } from '@angular/router';
 import { AuthorizationService } from '../../services/authorization/authorization.service';
 
 @Component({
-    selector: 'app-nav-menu',
-    templateUrl: './nav-menu.component.html',
-    styleUrls: ['./nav-menu.component.scss']
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss']
 })
-export class NavMenuComponent {
+export class HeaderComponent {
 
-    isExpanded = false;
+    expanded = false;
 
     constructor(
         @Inject(Router) private router: Router,
@@ -17,11 +17,11 @@ export class NavMenuComponent {
     ) { }
 
     collapse = (): void => {
-        this.isExpanded = false;
+        this.expanded = false;
     }
 
     toggle = (): void => {
-        this.isExpanded = !this.isExpanded;
+        this.expanded = !this.expanded;
     }
 
     signout = (): void => {

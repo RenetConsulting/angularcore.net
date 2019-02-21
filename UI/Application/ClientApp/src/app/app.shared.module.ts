@@ -1,15 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Injector, NgModule, Provider } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { ROUTES } from './app.routes';
 import { AppComponent } from './components/app/app.component';
+import { HeaderModule } from './components/header/header.module';
 import { HomeComponent } from './components/home/home.component';
-import { LogoModule } from './components/logo/logo.module';
 import { MessagerModule } from './components/messager/messager.module';
-import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { ErrorInterceptor } from './interceptors/error/error.interceptor';
 import { HttpAuthorizationInterceptor } from './interceptors/http-authorization/http-authorization.interceptor';
 import { NoneCacheInterceptor } from './interceptors/none-cache/none-cache.interceptor';
@@ -20,8 +18,7 @@ const MODULES = [
     HttpClientModule,
     MessagerModule,
     RouterModule.forRoot(ROUTES),
-    LogoModule,
-    MatButtonModule
+    HeaderModule
 ];
 
 const PROVIDERS: Array<Provider> = [
@@ -32,7 +29,6 @@ const PROVIDERS: Array<Provider> = [
 
 const COMPONENTS = [
     AppComponent,
-    NavMenuComponent,
     HomeComponent
 ];
 
