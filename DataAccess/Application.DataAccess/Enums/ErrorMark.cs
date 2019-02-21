@@ -8,6 +8,8 @@
 
         Password = 2,
 
-        ConfirmPassword = 3
+        ConfirmPassword = 3,
+
+        OldPassword = 4
     }
 }

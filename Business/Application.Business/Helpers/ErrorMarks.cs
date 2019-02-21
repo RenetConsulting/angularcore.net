@@ -16,6 +16,8 @@
                     return ErrorMark.Email;
 
                 case nameof(errorType.PasswordMismatch):
+                    return ErrorMark.OldPassword;
+
                 case nameof(errorType.UserAlreadyHasPassword):
                 case nameof(errorType.PasswordTooShort):
                 case nameof(errorType.PasswordRequiresUniqueChars):

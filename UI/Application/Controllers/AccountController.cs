@@ -347,13 +347,17 @@ namespace Application.Controllers
         {
             ErrorListModel errorList = new ErrorListModel();
 
-            foreach (var error in errors)
+            foreach (IdentityError error in errors)
             {
                 ErrorMark errorType = ErrorMarks.GetErrorMark(error.Code);
 
                 if (errorType == ErrorMark.Email)
                 {
                     errorList.Email.Add(error.Description);
+                }
+                else if (errorType == ErrorMark.OldPassword)
+                {
+                    errorList.OldPassword.Add(error.Description);
                 }
                 else if (errorType == ErrorMark.Password)
                 {

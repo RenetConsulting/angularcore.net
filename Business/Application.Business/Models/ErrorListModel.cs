@@ -8,12 +8,16 @@
         {
             this.Email = new List<string>();
 
+            this.OldPassword = new List<string>();
+
             this.Password = new List<string>();
 
             this.ConfirmPassword = new List<string>();
         }
 
         public List<string> Email { get; set; }
+
+        public List<string> OldPassword { get; set; }
 
         public List<string> Password { get; set; }
 
