@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy } from '@angular/compiler/src/core';
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { IError } from '../../interfaces/error';
 
 @Component({
