@@ -38,4 +38,10 @@ export class AccountService {
         return this.http
             .get(`${this.baseUrl}${this.url}/ConfirmEmail${body}`);
     }
+
+    resendConfirmation = (email: string) => {
+        const body = this.toolsService.getQuery({ email });
+        return this.http
+            .get(`${this.baseUrl}${this.url}/ResendEmail${body}`);
+    }
 }
