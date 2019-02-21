@@ -418,7 +418,7 @@ namespace Application.Controllers
 
                 // update template with images and links
                 var emailToken = await this.userManager.GenerateEmailConfirmationTokenAsync(user).ConfigureAwait(false);
-                var url = this.AppSettings.SiteHost + "confirm-email?email=" + WebUtility.UrlEncode(user.Email) + "&token=" + WebUtility.UrlEncode(emailToken);
+                var url = this.AppSettings.SiteHost + "ConfirmEmail?email=" + WebUtility.UrlEncode(user.Email) + "&token=" + WebUtility.UrlEncode(emailToken);
 
                 string emailHtml = string.Format(emailHtmlTamplate, user.Email, url, this.AppSettings.SiteHost);
 
