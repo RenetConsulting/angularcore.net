@@ -6,7 +6,6 @@ import { HTTP_HEADERS } from '../../consts/http-headers';
 import { IConnectToken } from '../../interfaces/connect-token';
 import { IToken } from '../../interfaces/token';
 import { IUser } from '../../interfaces/user';
-import { BASE_URL } from '../../tokens/base-url.token';
 import { TokenService } from '../token/token.service';
 import { ToolsService } from '../tools/tools.service';
 
@@ -16,18 +15,17 @@ import { ToolsService } from '../tools/tools.service';
 export class AuthorizationService {
 
     constructor(
-        @Inject(BASE_URL) private baseUrl: string,
         @Inject(HttpClient) private http: HttpClient,
         @Inject(TokenService) private tokenService: TokenService,
         @Inject(ToolsService) private toolsService: ToolsService,
     ) { }
 
-    get isAuthenticated(): boolean {
+    get authorized(): boolean {
         return this.tokenService.valid;
     }
 
     get refreshRequest() {
-        return new HttpRequest('GET', `${this.baseUrl}/api/Account/GenerateUserToken`, {
+        return new HttpRequest('GET', `/api/Account/GenerateUserToken`, {
             headers: new HttpHeaders({
                 ...HTTP_HEADERS.allowHttpError
             }),
@@ -45,7 +43,7 @@ export class AuthorizationService {
             }
         };
         return this.http
-            .post<IToken>(`${this.baseUrl}/connect/token`, body, options).pipe(
+            .post<IToken>(`/connect/token`, body, options).pipe(
                 tap(this.tokenService.setToken)
             );
     }
@@ -58,10 +56,10 @@ export class AuthorizationService {
     }, { ...HTTP_HEADERS.allowHttpError })
 
     signup = (model: IUser) => this.http
-        .post(`${this.baseUrl}/api/account/register`, model, { headers: { ...HTTP_HEADERS.allowHttpError } })
+        .post(`/api/account/register`, model, { headers: { ...HTTP_HEADERS.allowHttpError } })
 
     signout = () => this.http
-        .get<IToken>(`${this.baseUrl}/api/account/signout`, { headers: { ...HTTP_HEADERS.allowExpiredToken } }).pipe(
+        .get<IToken>(`/api/account/signout`, { headers: { ...HTTP_HEADERS.allowExpiredToken } }).pipe(
             tap(this.tokenService.clean)
         )
 }

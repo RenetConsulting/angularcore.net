@@ -12,6 +12,6 @@ export class AuthenticationGuard implements CanActivate {
     ) { }
 
     canActivate(): boolean {
-        return this.authorizationService.isAuthenticated;
+        return this.authorizationService.authorized;
     }
 }

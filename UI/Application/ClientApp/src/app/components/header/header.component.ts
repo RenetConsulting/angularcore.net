@@ -29,7 +29,7 @@ export class HeaderComponent {
             .subscribe(() => this.router.navigate(['/sign-in']));
     }
 
-    get isAuthenticated(): boolean {
-        return this.authorizationService.isAuthenticated;
+    get authorized(): boolean {
+        return this.authorizationService.authorized;
     }
 }

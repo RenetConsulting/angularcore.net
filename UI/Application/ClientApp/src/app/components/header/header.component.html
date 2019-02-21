@@ -9,16 +9,16 @@
                 <li class="nav-item" [routerLinkActive]='["link-active"]'>
                     <a class="nav-link text-white" [routerLink]='["/counter"]'>Counter</a>
                 </li>
-                <li *ngIf="isAuthenticated" class="nav-item" [routerLinkActive]='["link-active"]'>
+                <li *ngIf="authorized" class="nav-item" [routerLinkActive]='["link-active"]'>
                     <a class="nav-link text-white" [routerLink]='["/change-password"]'>Change Password</a>
                 </li>
-                <li *ngIf="isAuthenticated" class="nav-item">
+                <li *ngIf="authorized" class="nav-item">
                     <button mat-raised-button type="button" (click)="signout()">Sign Out</button>
                 </li>
-                <li *ngIf="!isAuthenticated" class="nav-item" [routerLinkActive]='["link-active"]'>
+                <li *ngIf="!authorized" class="nav-item" [routerLinkActive]='["link-active"]'>
                     <a class="nav-link text-white" [routerLink]='["/sign-up"]'>Sign Up</a>
                 </li>
-                <li *ngIf="!isAuthenticated" class="nav-item" [routerLinkActive]='["link-active"]'>
+                <li *ngIf="!authorized" class="nav-item" [routerLinkActive]='["link-active"]'>
                     <a class="nav-link text-white" [routerLink]='["/sign-in"]'>Sign In</a>
                 </li>
             </ul>

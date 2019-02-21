@@ -6,7 +6,7 @@ describe('AuthenticationGuard', () => {
 
     let guard: AuthenticationGuard;
 
-    const mockAuthorizationService = { isAuthenticated: true } as AuthorizationService;
+    const mockAuthorizationService = { authorized: true } as AuthorizationService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -22,6 +22,6 @@ describe('AuthenticationGuard', () => {
         expect(guard).toBeTruthy();
     });
     it('canActivate should return value of isAuthenticated', () => {
-        expect(guard.canActivate()).toEqual(mockAuthorizationService.isAuthenticated);
+        expect(guard.canActivate()).toEqual(mockAuthorizationService.authorized);
     });
 });
