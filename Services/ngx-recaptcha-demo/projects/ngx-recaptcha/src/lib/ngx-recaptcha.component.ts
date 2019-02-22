@@ -59,9 +59,17 @@ export class NgxRecaptchaComponent implements OnInit, OnDestroy {
 
     private pause = () => this.audio && this.audio.pause();
 
+    private setAudio = (src: string): void => {
+        if (typeof Audio !== 'undefined') {
+            this.audio = new Audio(src);
+        }
+    }
+
+    private emitDecodedCaptcha = (captcha: string): void => this.resolved.emit({ captcha, hash: this.captcha && this.captcha.hash });
+
     toggleAudio = () => this.paused ? this.play() : this.pause();
 
-    getCaptcha = () => {
+    getCaptcha = (): void => {
         if (this.http && this.url) {
             this.reset();
             this.http.get<IEncodedCaptcha>(this.url)
@@ -69,16 +77,8 @@ export class NgxRecaptchaComponent implements OnInit, OnDestroy {
         }
     }
 
-    setAudio = (src: string): void => {
-        if (typeof Audio !== 'undefined') {
-            this.audio = new Audio(src);
-        }
-    }
-
     reset = (): void => {
         this.pause();
         this.captcha = null;
     }
-
-    emitDecodedCaptcha = (captcha: string): void => this.resolved.emit({ captcha, hash: this.captcha && this.captcha.hash });
 }
