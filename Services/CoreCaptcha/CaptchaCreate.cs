@@ -36,8 +36,10 @@ namespace CoreCaptcha
             string imageHeader = "data:image/png;base64,";
             string soundHeader = "data:audio/mp3;base64,";
 
-            CaptchaModel model = new CaptchaModel();
-            model.Image = imageHeader + Convert.ToBase64String(result.CaptchaByteData);
+            CaptchaModel model = new CaptchaModel
+            {
+                Image = imageHeader + Convert.ToBase64String(result.CaptchaByteData)
+            };
 
             var hash = Cryptor.ComputeHashWithSalt(captchaCode, ClientId);
             model.Hash = hash;

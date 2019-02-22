@@ -13,9 +13,9 @@ namespace Application.Business.Test
 
     public class ApplicationUserManagerFixture
     {
-        private Mock<IApplicationUserManager<ApplicationUser>> mockIUserManager;
+        private readonly Mock<IApplicationUserManager<ApplicationUser>> mockIUserManager;
 
-        private Mock<IUserStore<ApplicationUser>> mockStore;
+        private readonly Mock<IUserStore<ApplicationUser>> mockStore;
 
         public ApplicationUserManagerFixture()
         {
