@@ -20,7 +20,7 @@ export class ResetPasswordEffects {
     @Effect() resetPassword = this.actions.pipe(
         ofType<ResetPassword>(ResetPasswordTypes.RESET_PASSWORD_REQUEST),
         mergeMap(x => this.accountService.resetPassword(x.payload.value).pipe(
-            tap(()=> x.payload.reset()),
+            tap(() => x.payload.reset()),
             mapTo(new ResetPasswordSuccess()),
             catchError(e => of(new ResetPasswordError(e.error)))
         ))

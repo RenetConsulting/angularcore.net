@@ -1,11 +1,11 @@
-import { IUser } from "../../../interfaces/user";
-import { SigninTypes } from "../signin/types";
-import { SignupActionsUnion } from "./actions";
-import { SignupTypes } from "./types";
+import { IUser } from '../../../interfaces/user';
+import { SigninTypes } from '../signin/types';
+import { SignupActionsUnion } from './actions';
+import { SignupTypes } from './types';
 
 export interface SignupState {
-    user?: IUser
-    error?
+    user?: IUser;
+    error?;
 }
 
 const INITIAL_STATE: SignupState = {};

@@ -1,12 +1,12 @@
-import { ResetPasswordActionsUnion } from "./actions";
-import { ResetPasswordTypes } from "./types";
+import { ResetPasswordActionsUnion } from './actions';
+import { ResetPasswordTypes } from './types';
 
 export interface ResetPasswordState {
-    error?
+    error?;
 }
 
 export interface ResetPasswordStore {
-    resetPassword: ResetPasswordState
+    resetPassword: ResetPasswordState;
 }
 
 const INITIAL_STATE: ResetPasswordState = {};

@@ -20,7 +20,7 @@ export class ChangePasswordEffects {
     @Effect() changePassword = this.actions.pipe(
         ofType<ChangePassword>(ChangePasswordTypes.CHANGE_PASSWORD_REQUEST),
         mergeMap(x => this.accountService.changePassword(x.payload.value).pipe(
-            tap(()=> x.payload.reset()),
+            tap(() => x.payload.reset()),
             mapTo(new ChangePasswordSuccess()),
             catchError(e => of(new ChangePasswordError(e.error)))
         ))

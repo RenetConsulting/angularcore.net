@@ -6,11 +6,10 @@ import { MessagerState } from './components/messager/reducer';
 
 export interface RootStore {
     messager: MessagerState;
-    signin: SigninState
-    signup: SignupState
+    signin: SigninState;
+    signup: SignupState;
 }
 
-// console.log all actions
 export function logger(reducer: ActionReducer<RootStore>): ActionReducer<RootStore> {
     return (state: RootStore, action: any): any => {
         const result = reducer(state, action);
@@ -19,7 +18,6 @@ export function logger(reducer: ActionReducer<RootStore>): ActionReducer<RootSto
         console.log('action', action);
         console.log('next state', result);
         console.groupEnd();
-
         return result;
     };
 }

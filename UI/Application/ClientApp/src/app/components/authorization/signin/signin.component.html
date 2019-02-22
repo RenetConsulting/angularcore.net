@@ -6,13 +6,8 @@
                 <control-input placeholder="Email" type="email" formControlName="email" [errorMessages]="errors?.email"></control-input>
                 <control-input placeholder="Password" type="password" formControlName="password" [errorMessages]="errors?.password"></control-input>
                 <div class="d-flex justify-content-between py-3">
-                    <div>
-                        <mat-checkbox formControlName="isRemember">Remember me</mat-checkbox>
-                    </div>
-                    <div>
-                        <a class="text-center d-block text-primary font-italic" [routerLink]="['/prep-reset-password']">Reset Password</a>
-                    </div>
-
+                    <div><mat-checkbox formControlName="isRemember">Remember me</mat-checkbox></div>
+                    <div><a class="text-center d-block text-primary font-italic" [routerLink]="['/prep-reset-password']">Reset Password</a></div>
                 </div>
                 <div class="d-flex justify-content-center my-4">
                     <button class="py-3 px-5 text-30 rounded-10" mat-raised-button color="primary" [class.disabled]="formGroup.invalid" type="submit">Sign in</button>

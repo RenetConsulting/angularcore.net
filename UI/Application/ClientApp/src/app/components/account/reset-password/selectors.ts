@@ -1,5 +1,5 @@
-import { createSelector } from "@ngrx/store";
-import { ResetPasswordState, ResetPasswordStore } from "./reducer";
+import { createSelector } from '@ngrx/store';
+import { ResetPasswordState, ResetPasswordStore } from './reducer';
 
 const getModule = (state: ResetPasswordStore) => state.resetPassword;
 

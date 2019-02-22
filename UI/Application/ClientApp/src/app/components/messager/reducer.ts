@@ -1,6 +1,6 @@
-import { ErrorActionsUnion } from "../../actions/error.actions";
-import { IError } from "../../interfaces/error";
-import { ErrorTypes } from "../../types/error.types";
+import { ErrorActionsUnion } from '../../actions/error.actions';
+import { IError } from '../../interfaces/error';
+import { ErrorTypes } from '../../types/error.types';
 
 export interface MessagerState {
     error?: IError;

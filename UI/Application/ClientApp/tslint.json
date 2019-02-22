@@ -20,7 +20,7 @@
       true,
       {
         "limit": 140,
-        "ignore-pattern": "^import "
+        "ignore-pattern": "^import | path:.+?loadChildren:.+?"
       }
     ],
     "member-access": false,

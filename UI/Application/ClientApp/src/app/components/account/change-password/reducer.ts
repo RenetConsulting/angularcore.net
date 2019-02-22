@@ -1,12 +1,12 @@
-import { ChangePasswordActionsUnion } from "./actions";
-import { ChangePasswordTypes } from "./types";
+import { ChangePasswordActionsUnion } from './actions';
+import { ChangePasswordTypes } from './types';
 
 export interface ChangePasswordState {
-    error?
+    error?;
 }
 
 export interface ChangePasswordStore {
-    changePassword: ChangePasswordState
+    changePassword: ChangePasswordState;
 }
 
 const INITIAL_STATE: ChangePasswordState = {};

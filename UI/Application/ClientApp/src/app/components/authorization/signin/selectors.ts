@@ -1,6 +1,6 @@
-import { createSelector } from "@ngrx/store";
-import { RootStore } from "../../../reducers";
-import { SigninState } from "./reducer";
+import { createSelector } from '@ngrx/store';
+import { RootStore } from '../../../reducers';
+import { SigninState } from './reducer';
 
 const getModule = (state: RootStore) => state.signin;
 

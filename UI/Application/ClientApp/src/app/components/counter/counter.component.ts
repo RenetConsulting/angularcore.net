@@ -11,10 +11,10 @@ export class CounterComponent implements OnInit {
         @Inject(HttpClient) public http: HttpClient
     ) { }
 
+    public currentCount = 0;
+
     ngOnInit(): void {
     }
-
-    public currentCount = 0;
 
     public incrementCounter() {
         this.currentCount++;
