@@ -1,28 +1,36 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 import { EMAIL_VALIDATORS } from '../../../consts/email.validators';
 import { PASSWORD_VALIDATORS } from '../../../consts/password.validators';
 import { MessagesType } from '../../../enums/messages.type';
 import { IUser } from '../../../interfaces/user';
-import { AuthorizationService } from '../../../services/authorization/authorization.service';
+import { RootStore } from '../../../reducers';
+import { Signup } from './actions';
+import { selectSignupError } from './selectors';
 
-/// MessagesType.checkEmail
 @Component({
     selector: 'signup',
     templateUrl: './signup.component.html',
 })
 export class SignupComponent implements OnInit {
 
+    readonly subscription = new Subscription();
     formGroup: FormGroup;
+    errors: MapPick<IUser, keyof IUser, Array<string>>;
 
     constructor(
-        @Inject(AuthorizationService) private authorizationService: AuthorizationService,
-        @Inject(Router) private router: Router
+        @Inject(Store) private store: Store<RootStore>
     ) { }
 
     ngOnInit(): void {
         this.setFormGroup();
+        this.subscription.add(this.store.select(selectSignupError).subscribe(i => this.errors = i));
+    }
+
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
     }
 
     matchPasswordValidator = (control: AbstractControl): ValidationErrors | null => {
@@ -41,8 +49,7 @@ export class SignupComponent implements OnInit {
 
     submit = (): void => {
         if (this.formGroup.valid) {
-            this.authorizationService.signup(this.formGroup.value)
-                .subscribe(() => this.router.navigate(['/sign-in']));
+            this.store.dispatch(new Signup(this.formGroup));
         }
     }
 }

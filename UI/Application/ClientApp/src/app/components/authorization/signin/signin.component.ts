@@ -2,11 +2,13 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { EMAIL_VALIDATORS } from '../../../consts/email.validators';
 import { PASSWORD_VALIDATORS } from '../../../consts/password.validators';
 import { IUser } from '../../../interfaces/user';
+import { RootStore } from '../../../reducers';
+import { selectSignupUser } from '../signup/selectors';
 import { Signin } from './actions';
-import { SigninStore } from './reducer';
 import { selectSigninError } from './selectors';
 
 @Component({
@@ -20,11 +22,12 @@ export class SigninComponent implements OnInit, OnDestroy {
     errors: MapPick<IUser, keyof IUser, Array<string>>;
 
     constructor(
-        @Inject(Store) private store: Store<SigninStore>
+        @Inject(Store) private store: Store<RootStore>
     ) { }
 
     ngOnInit(): void {
         this.setFormGroup();
+        this.subscription.add(this.store.select(selectSignupUser).pipe(filter(i => !!i)).subscribe(i => this.formGroup.reset(i)));
         this.subscription.add(this.store.select(selectSigninError).subscribe(i => this.errors = i));
     }
 

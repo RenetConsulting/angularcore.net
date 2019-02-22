@@ -1,11 +1,13 @@
 import { ActionReducer, MetaReducer } from '@ngrx/store';
 import { environment } from '../environments/environment';
-import { SigninStore } from './components/authorization/signin/reducer';
+import { SigninState } from './components/authorization/signin/reducer';
+import { SignupState } from './components/authorization/signup/reducer';
 //import { messagerReducer, MessagerState } from './components/messager/reducer';
 
 export interface RootStore {
     //messager: MessagerState;
-    signin: SigninStore
+    signin: SigninState
+    signup: SignupState
 }
 
 // console.log all actions

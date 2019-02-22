@@ -1,7 +1,8 @@
 import { createSelector } from "@ngrx/store";
-import { SigninState, SigninStore } from "./reducer";
+import { RootStore } from "../../../reducers";
+import { SigninState } from "./reducer";
 
-const getModule = (state: SigninStore) => state.signin;
+const getModule = (state: RootStore) => state.signin;
 
 const getError = (state: SigninState) => state.error;
 

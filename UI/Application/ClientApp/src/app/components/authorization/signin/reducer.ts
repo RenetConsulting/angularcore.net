@@ -7,10 +7,6 @@ export interface SigninState {
     error?
 }
 
-export interface SigninStore {
-    signin: SigninState
-}
-
 const INITIAL_STATE: SigninState = {};
 
 export function signinReducer(state = INITIAL_STATE, action: SigninActionsUnion): SigninState {
