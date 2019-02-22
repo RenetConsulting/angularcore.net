@@ -1,5 +1,5 @@
-﻿// <copyright file="Startup.cs" company="RenetConsulting Inc.">
-// Copyright (c) RenetConsulting Inc.. All rights reserved.
+﻿// <copyright file="Startup.cs" company="Renet Consulting, Inc">
+// Copyright (c) Renet Consulting, Inc. All rights reserved.
 // </copyright>
 
 namespace Application

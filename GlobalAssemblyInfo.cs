@@ -1,4 +1,9 @@
-﻿using System.Reflection;
+﻿// <copyright file="GlobalAssemblyInfo.cs" company="Renet Consulting, Inc">
+// Copyright (c) Renet Consulting, Inc. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+
+using System.Reflection;
 
 [assembly: AssemblyCompany("Renet Consulting, Inc.")]
 [assembly: AssemblyTrademark("™ Renet Consulting, Inc.")]

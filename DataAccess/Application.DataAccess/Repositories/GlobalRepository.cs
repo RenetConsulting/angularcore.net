@@ -1,4 +1,9 @@
-﻿namespace Application.DataAccess.Repositories
+﻿// <copyright file="GlobalRepository.cs" company="Renet Consulting, Inc">
+// Copyright (c) Renet Consulting, Inc. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+
+namespace Application.DataAccess.Repositories
 {
     using System;
     using System.Diagnostics.CodeAnalysis;

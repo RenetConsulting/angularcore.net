@@ -34,6 +34,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AdditionalFiles Include="..\..\stylecop.json" Link="Properties\stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\..\StyleCop.Analyzers.ruleset" Link="Properties\StyleCop.Analyzers.ruleset" />
   </ItemGroup>
 

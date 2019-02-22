@@ -51,6 +51,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AdditionalFiles Include="..\..\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Application.DataAccess\Application.DataAccess.csproj" />
   </ItemGroup>
 

@@ -1,17 +1,16 @@
-﻿// <copyright file="AccountController.cs" company="RenetConsulting Inc.">
-// Copyright (c) RenetConsulting Inc.. All rights reserved.
+﻿// <copyright file="AccountController.cs" company="Renet Consulting, Inc">
+// Copyright (c) Renet Consulting, Inc. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
 namespace Application.Controllers
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Net;
     using System.Reflection;
     using System.Security.Authentication;
-    using System.Security.Claims;
     using System.Threading.Tasks;
     using Application.Business;
     using Application.Business.Communications;
