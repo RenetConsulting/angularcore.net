@@ -11,7 +11,6 @@ import { ToolsService } from '../tools/tools.service';
 })
 export class AccountService {
 
-    /** the URL of a controller */
     readonly url = '/api/account';
 
     constructor(
@@ -22,8 +21,11 @@ export class AccountService {
     changePassword = (model: IChangePassword) => this.http
         .post(`${this.url}/ChangePassword`, model, { headers: { ...HTTP_HEADERS.allowHttpError } })
 
-    resetPassword = (model: IResetPassword) => this.http
-        .post(`${this.url}/ResetPasswordFromMail`, model, { headers: { ...HTTP_HEADERS.allowHttpError } })
+    confirmEmail = (model: IConfirmEmail) => {
+        const body = this.toolsService.getQuery(model);
+        return this.http
+            .get(`${this.url}/ConfirmEmail${body}`);
+    }
 
     prepResetPassword = (email: string) => {
         const body = this.toolsService.getQuery({ email });
@@ -31,11 +33,9 @@ export class AccountService {
             .get(`${this.url}/ResetPassword${body}`);
     }
 
-    confirmEmail = (model: IConfirmEmail) => {
-        const body = this.toolsService.getQuery(model);
-        return this.http
-            .get(`${this.url}/ConfirmEmail${body}`);
-    }
+    resetPassword = (model: IResetPassword) => this.http
+        .post(`${this.url}/ResetPasswordFromMail`, model, { headers: { ...HTTP_HEADERS.allowHttpError } })
+
 
     resendConfirmation = (email: string) => {
         const body = this.toolsService.getQuery({ email });

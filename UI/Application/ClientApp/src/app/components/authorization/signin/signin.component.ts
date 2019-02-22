@@ -1,28 +1,35 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 import { EMAIL_VALIDATORS } from '../../../consts/email.validators';
 import { PASSWORD_VALIDATORS } from '../../../consts/password.validators';
 import { IUser } from '../../../interfaces/user';
-import { AuthorizationService } from '../../../services/authorization/authorization.service';
-import { StorageService } from '../../../services/storage/storage.service';
+import { Signin } from './actions';
+import { SigninStore } from './reducer';
+import { selectSigninError } from './selectors';
 
 @Component({
     selector: 'signin',
     templateUrl: './signin.component.html',
 })
-export class SigninComponent implements OnInit {
+export class SigninComponent implements OnInit, OnDestroy {
 
+    readonly subscription = new Subscription();
     formGroup: FormGroup;
+    errors: MapPick<IUser, keyof IUser, Array<string>>;
 
     constructor(
-        @Inject(AuthorizationService) private authorizationService: AuthorizationService,
-        @Inject(StorageService) private storageService: StorageService,
-        @Inject(Router) private router: Router
+        @Inject(Store) private store: Store<SigninStore>
     ) { }
 
     ngOnInit(): void {
         this.setFormGroup();
+        this.subscription.add(this.store.select(selectSigninError).subscribe(i => this.errors = i));
+    }
+
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
     }
 
     setFormGroup = (): void => {
@@ -35,9 +42,7 @@ export class SigninComponent implements OnInit {
 
     submit = (): void => {
         if (this.formGroup.valid) {
-            this.storageService.setStorage(this.formGroup.controls.isRemember.value);
-            this.authorizationService.signin(this.formGroup.value)
-                .subscribe(() => this.router.navigate(['/']));
+            this.store.dispatch(new Signin(this.formGroup));
         }
     }
 }

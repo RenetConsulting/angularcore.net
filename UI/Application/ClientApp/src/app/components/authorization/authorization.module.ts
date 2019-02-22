@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
 import { AuthorizationRoutingModule } from './authorization-routing.module';
 
-@NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
+const MODULES = [
     AuthorizationRoutingModule
-  ]
+];
+
+@NgModule({
+    imports: [
+        ...MODULES
+    ],
 })
 export class AuthorizationModule { }
