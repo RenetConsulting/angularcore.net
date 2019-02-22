@@ -24,7 +24,7 @@ export function signupReducer(state = INITIAL_STATE, action: SignupActionsUnion)
             return INITIAL_STATE;
         }
         case SignupTypes.SIGNUP_ERROR: {
-            return { error: { ...action.error } };
+            return { ...state, error: { ...action.error } };
         }
         default: {
             return state;

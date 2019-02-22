@@ -20,7 +20,7 @@ export function signinReducer(state = INITIAL_STATE, action: SigninActionsUnion)
             return { ...state, error: null };
         }
         case SigninTypes.SIGNIN_ERROR: {
-            return { error: { ...action.error } };
+            return { ...state, error: { ...action.error } };
         }
         default: {
             return state;

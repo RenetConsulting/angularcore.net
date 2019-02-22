@@ -20,7 +20,7 @@ export class ResendConfirmationComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit(): void {
-        this.subscription.add(this.store.select(selectSigninUser).subscribe(i => this.email = i.email));
+        this.subscription.add(this.store.select(selectSigninUser).subscribe(i => this.email = i && i.email));
     }
 
     ngOnDestroy(): void {
