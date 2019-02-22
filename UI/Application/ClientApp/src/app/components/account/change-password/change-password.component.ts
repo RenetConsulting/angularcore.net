@@ -16,8 +16,8 @@ import { selectChangePasswordError } from './selectors';
 export class ChangePasswordComponent implements OnInit, OnDestroy {
 
     readonly subscription = new Subscription();
-    errors: MapPick<IChangePassword, keyof IChangePassword, Array<string>>;
     formGroup: FormGroup;
+    errors: MapPick<IChangePassword, keyof IChangePassword, Array<string>>;
 
     constructor(
         @Inject(Store) private store: Store<ChangePasswordStore>

@@ -18,8 +18,8 @@ import { selectResetPasswordError } from './selectors';
 export class ResetPasswordComponent implements OnInit, OnDestroy {
 
     readonly subscription = new Subscription();
-    errors: MapPick<IResetPassword, keyof IResetPassword, Array<string>>;
     formGroup: FormGroup;
+    errors: MapPick<IResetPassword, keyof IResetPassword, Array<string>>;
 
     constructor(
         @Inject(Store) private store: Store<ResetPasswordStore>,

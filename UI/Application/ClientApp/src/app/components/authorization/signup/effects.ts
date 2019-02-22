@@ -2,10 +2,11 @@ import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, mapTo, mergeMap, tap } from 'rxjs/operators';
-import { SetSuccessMessage } from '../../../actions/error.actions';
+import { catchError, filter, map, mapTo, mergeMap, tap } from 'rxjs/operators';
+import { SetError, SetSuccessMessage } from '../../../actions/error.actions';
 import { MessagesType } from '../../../enums/messages.type';
 import { AuthorizationService } from '../../../services/authorization/authorization.service';
+import { filterError } from '../../../utils/filter.error';
 import { Signup, SignupError, SignupSuccess } from './actions';
 import { SignupTypes } from './types';
 
@@ -31,5 +32,11 @@ export class SignupEffects {
         ofType<SignupSuccess>(SignupTypes.SIGNUP_SUCCESS),
         tap(() => this.router.navigate(['/sign-in'])),
         mergeMap(() => of(new SetSuccessMessage(MessagesType.checkEmail)))
+    );
+
+    @Effect() signupError = this.actions.pipe(
+        ofType<SignupError>(SignupTypes.SIGNUP_ERROR),
+        filter(filterError),
+        map(e => new SetError(e.error))
     );
 }

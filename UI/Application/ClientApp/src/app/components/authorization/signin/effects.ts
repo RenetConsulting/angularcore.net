@@ -2,9 +2,11 @@ import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { EMPTY, of } from 'rxjs';
-import { catchError, mapTo, mergeMap, tap } from 'rxjs/operators';
+import { catchError, filter, map, mapTo, mergeMap, tap } from 'rxjs/operators';
+import { SetError } from '../../../actions/error.actions';
 import { AuthorizationService } from '../../../services/authorization/authorization.service';
 import { StorageService } from '../../../services/storage/storage.service';
+import { filterError } from '../../../utils/filter.error';
 import { Signin, SigninError, SigninSuccess } from './actions';
 import { SigninTypes } from './types';
 
@@ -32,5 +34,11 @@ export class SigninEffects {
         ofType<SigninSuccess>(SigninTypes.SIGNIN_SUCCESS),
         tap(() => this.router.navigate(['/'])),
         mergeMap(() => EMPTY)
+    );
+
+    @Effect() signinError = this.actions.pipe(
+        ofType<SigninError>(SigninTypes.SIGNIN_ERROR),
+        filter(filterError),
+        map(e => new SetError(e.error))
     );
 }
