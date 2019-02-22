@@ -4,6 +4,7 @@ import { IDecodedCaptcha } from './decoded.captcha';
 import { NgxRecaptchaComponent } from './ngx-recaptcha.component';
 
 @Directive({
+    // tslint:disable-next-line
     selector: 'ngx-recaptcha[formControlName],ngx-recaptcha[formControl],ngx-recaptcha[ngModel]',
     providers: [
         { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => NgxRecaptchaDirective), multi: true }

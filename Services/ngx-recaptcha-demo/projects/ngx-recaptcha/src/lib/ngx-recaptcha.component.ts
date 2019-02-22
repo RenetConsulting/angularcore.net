@@ -13,7 +13,7 @@ import { IEncodedCaptcha } from './encoded.captcha';
 export class NgxRecaptchaComponent implements OnInit, OnDestroy {
 
     @Input() url: string;
-    @Output() resolved = new EventEmitter<IDecodedCaptcha>();
+    @Output() readonly resolved = new EventEmitter<IDecodedCaptcha>();
     readonly subscription = new Subscription();
     readonly formControl = new FormControl();
     audio?: HTMLAudioElement;

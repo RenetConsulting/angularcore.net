@@ -1,5 +1,5 @@
 export interface IEncodedCaptcha {
-    image: string
-    sound: string
-    hash: string
+    image: string;
+    sound: string;
+    hash: string;
 }

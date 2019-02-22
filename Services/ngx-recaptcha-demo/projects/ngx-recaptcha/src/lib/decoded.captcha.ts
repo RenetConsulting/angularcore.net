@@ -1,4 +1,4 @@
 export interface IDecodedCaptcha {
-    captcha: string
-    hash: string
+    captcha: string;
+    hash: string;
 }
