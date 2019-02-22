@@ -3,6 +3,9 @@
         <h1><i class="fas fa-exclamation-circle"></i></h1>
     </div>
     <div class="p-2 flex-grow-1">{{item?.error_description}}</div>
+    <ng-container [ngSwitch]="item?.code">
+        <resend-confirmation *ngSwitchCase="1001"></resend-confirmation>
+    </ng-container>
 </div>
 <div mat-dialog-actions class="d-flex justify-content-end">
     <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>

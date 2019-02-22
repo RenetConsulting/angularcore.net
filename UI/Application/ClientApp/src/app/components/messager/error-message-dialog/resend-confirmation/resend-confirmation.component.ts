@@ -1,10 +1,10 @@
-import { Component, Inject } from '@angular/core';
-import { AccountService } from '../../services/account/account.service';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { AccountService } from '../../../account/account.service';
 
 @Component({
-    selector: 'app-resend-confirmation',
+    selector: 'resend-confirmation',
     templateUrl: './resend-confirmation.component.html',
-    styleUrls: ['./resend-confirmation.component.scss']
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ResendConfirmationComponent {
 

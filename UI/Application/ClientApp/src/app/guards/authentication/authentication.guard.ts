@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-import { AuthorizationService } from '../../services/authorization/authorization.service';
+import { AccessService } from '../services/access.service';
 
 @Injectable({
     providedIn: 'root'
@@ -8,10 +8,10 @@ import { AuthorizationService } from '../../services/authorization/authorization
 export class AuthenticationGuard implements CanActivate {
 
     constructor(
-        @Inject(AuthorizationService) private authorizationService: AuthorizationService
+        @Inject(AccessService) private accessService: AccessService
     ) { }
 
     canActivate(): boolean {
-        return this.authorizationService.authorized;
+        return this.accessService.authorized;
     }
 }
