@@ -5,7 +5,10 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:lib": "ng build ngx-recaptcha",
     "test": "ng test",
+    "test:lib": "ng test ngx-recaptcha --watch=false",
+    "test:lib:watch": "ng test ngx-recaptcha",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
