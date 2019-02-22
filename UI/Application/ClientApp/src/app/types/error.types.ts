@@ -1,6 +1,5 @@
 export enum ErrorTypes {
-    SET_ERROR = 'SET_ERROR',
-    PUSH_ERROR = 'PUSH_ERROR',
-    SET_SUCCESS_MESSAGE = 'SET_SUCCESS_MESSAGE',
-    RESET = 'RESET',
+    SET_ERROR = '[Error]SET_ERROR',
+    PUSH_ERROR = '[Error]PUSH_ERROR',
+    SET_SUCCESS_MESSAGE = '[Error]SET_SUCCESS_MESSAGE',
 }

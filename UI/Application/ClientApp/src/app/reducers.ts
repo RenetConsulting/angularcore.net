@@ -2,10 +2,10 @@ import { ActionReducer, MetaReducer } from '@ngrx/store';
 import { environment } from '../environments/environment';
 import { SigninState } from './components/authorization/signin/reducer';
 import { SignupState } from './components/authorization/signup/reducer';
-//import { messagerReducer, MessagerState } from './components/messager/reducer';
+import { MessagerState } from './components/messager/reducer';
 
 export interface RootStore {
-    //messager: MessagerState;
+    messager: MessagerState;
     signin: SigninState
     signup: SignupState
 }
@@ -26,6 +26,4 @@ export function logger(reducer: ActionReducer<RootStore>): ActionReducer<RootSto
 
 export const metaReducers: MetaReducer<any>[] = !environment.production ? [logger] : null;
 
-export const REDUCERS = {
-    //messager: messagerReducer
-};
+export const REDUCERS = {};

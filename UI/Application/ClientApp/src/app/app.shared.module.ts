@@ -4,21 +4,20 @@ import { NgModule, Provider } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
-import { environment } from '../environments/environment';
+import { Store, StoreModule } from '@ngrx/store';
 import { ROUTES } from './app.routes';
 import { AccountModule } from './components/account/account.module';
 import { AppComponent } from './components/app/app.component';
 import { AuthorizationModule } from './components/authorization/authorization.module';
 import { HeaderModule } from './components/header/header.module';
 import { HomeComponent } from './components/home/home.component';
+import { MessagerModule } from './components/messager/messager.module';
 import { ApiPrefixInterceptor } from './interceptors/api-prefix/api-prefix.interceptor';
 import { ErrorInterceptor } from './interceptors/error/error.interceptor';
 import { HttpAuthorizationInterceptor } from './interceptors/http-authorization/http-authorization.interceptor';
 import { NoneCacheInterceptor } from './interceptors/none-cache/none-cache.interceptor';
 import { metaReducers, REDUCERS } from './reducers';
 import { AuthorizationService } from './services/authorization/authorization.service';
-import { MessageHandlerService } from './services/message-handler/message-handler.service';
 import { TokenService } from './services/token/token.service';
 import { BASE_URL } from './tokens/base-url.token';
 
@@ -27,20 +26,21 @@ const MODULES = [
     CommonModule,
     HttpClientModule,
     RouterModule.forRoot(ROUTES),
-    StoreModule.forRoot(REDUCERS, { metaReducers: !environment.production ? metaReducers : null }),
+    StoreModule.forRoot(REDUCERS, { metaReducers }),
     EffectsModule.forRoot([]),
     HeaderModule,
+    MessagerModule,
     AccountModule,
-    AuthorizationModule
+    AuthorizationModule,
 ];
 
 const PROVIDERS: Array<Provider> = [
     {
         provide: HTTP_INTERCEPTORS, useClass: HttpAuthorizationInterceptor,
-        deps: [MessageHandlerService, AuthorizationService, TokenService], multi: true
+        deps: [Store, AuthorizationService, TokenService], multi: true
     },
     { provide: HTTP_INTERCEPTORS, useClass: NoneCacheInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, deps: [MessageHandlerService], multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, deps: [Store], multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ApiPrefixInterceptor, deps: [BASE_URL], multi: true }
 ];
 

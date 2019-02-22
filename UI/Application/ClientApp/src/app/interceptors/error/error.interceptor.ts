@@ -1,9 +1,11 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { SetError } from '../../actions/error.actions';
 import { HTTP_HEADER_NAMES } from '../../enums/http-header-names.type';
-import { MessageHandlerService } from '../../services/message-handler/message-handler.service';
+import { RootStore } from '../../reducers';
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +13,7 @@ import { MessageHandlerService } from '../../services/message-handler/message-ha
 export class ErrorInterceptor implements HttpInterceptor {
 
     constructor(
-        @Inject(MessageHandlerService) private messageHandlerService: MessageHandlerService
+        @Inject(Store) private store: Store<RootStore>
     ) { }
 
     intercept(request: HttpRequest<any>, handler: HttpHandler): Observable<HttpEvent<any>> {
@@ -23,7 +25,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     handleError = (error: HttpErrorResponse, request: HttpRequest<any>) => {
         if (error instanceof HttpErrorResponse) {
             if (!request.headers.has(HTTP_HEADER_NAMES.allowHttpError) || error.status >= 500) {
-                this.messageHandlerService.handleError(error.error);
+                this.store.dispatch(new SetError(error.error));
                 return throwError(error);
             }
         }
