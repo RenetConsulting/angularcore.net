@@ -134,6 +134,41 @@
           }
         }
       }
+    },
+    "ngx-recaptcha": {
+      "root": "projects/ngx-recaptcha",
+      "sourceRoot": "projects/ngx-recaptcha/src",
+      "projectType": "library",
+      "prefix": "ngx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/ngx-recaptcha/tsconfig.lib.json",
+            "project": "projects/ngx-recaptcha/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-recaptcha/src/test.ts",
+            "tsConfig": "projects/ngx-recaptcha/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-recaptcha/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ngx-recaptcha/tsconfig.lib.json",
+              "projects/ngx-recaptcha/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "ngx-recaptcha-demo"

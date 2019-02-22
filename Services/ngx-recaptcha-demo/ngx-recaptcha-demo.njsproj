@@ -24,6 +24,12 @@
     <Content Include="angular.json" />
     <Content Include="package-lock.json" />
     <Content Include="package.json" />
+    <Content Include="projects\ngx-recaptcha\ng-package.json" />
+    <Content Include="projects\ngx-recaptcha\package.json" />
+    <Content Include="projects\ngx-recaptcha\README.md" />
+    <Content Include="projects\ngx-recaptcha\tsconfig.lib.json" />
+    <Content Include="projects\ngx-recaptcha\tsconfig.spec.json" />
+    <Content Include="projects\ngx-recaptcha\tslint.json" />
     <Content Include="tsconfig.json" />
     <Content Include="tslint.json" />
     <Content Include="README.md" />
@@ -34,6 +40,13 @@
     <Content Include="src\tsconfig.app.json" />
     <Content Include="src\tsconfig.spec.json" />
     <Content Include="src\tslint.json" />
+    <TypeScriptCompile Include="projects\ngx-recaptcha\src\lib\ngx-recaptcha.component.spec.ts" />
+    <TypeScriptCompile Include="projects\ngx-recaptcha\src\lib\ngx-recaptcha.component.ts" />
+    <TypeScriptCompile Include="projects\ngx-recaptcha\src\lib\ngx-recaptcha.module.ts" />
+    <TypeScriptCompile Include="projects\ngx-recaptcha\src\lib\ngx-recaptcha.service.spec.ts" />
+    <TypeScriptCompile Include="projects\ngx-recaptcha\src\lib\ngx-recaptcha.service.ts" />
+    <TypeScriptCompile Include="projects\ngx-recaptcha\src\public_api.ts" />
+    <TypeScriptCompile Include="projects\ngx-recaptcha\src\test.ts" />
     <TypeScriptCompile Include="src\main.ts" />
     <TypeScriptCompile Include="src\polyfills.ts" />
     <TypeScriptCompile Include="src\test.ts" />
@@ -50,10 +63,17 @@
   <ItemGroup>
     <Folder Include="e2e" />
     <Folder Include="e2e\src" />
+    <Folder Include="projects\" />
+    <Folder Include="projects\ngx-recaptcha\" />
+    <Folder Include="projects\ngx-recaptcha\src\" />
+    <Folder Include="projects\ngx-recaptcha\src\lib\" />
     <Folder Include="src" />
     <Folder Include="src\app" />
     <Folder Include="src\assets" />
     <Folder Include="src\environments" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="projects\ngx-recaptcha\karma.conf.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <!--Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them.-->
