@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 import { IDecodedCaptcha } from './decoded.captcha';
 import { IEncodedCaptcha } from './encoded.captcha';
 
+/** TODO: split formControl and ngControl */
+/** TODO: use only IEncodedCaptcha for formControl */
 @Component({
     selector: 'ngx-core-captcha',
     templateUrl: './core-captcha.component.html',
