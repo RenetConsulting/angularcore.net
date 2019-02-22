@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxRecaptchaModule } from 'projects/ngx-recaptcha/src/public_api';
+import { CoreCaptchaModule } from 'projects/core-captcha/src/public_api';
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -15,7 +15,7 @@ import { AppComponent } from './app.component';
       BrowserAnimationsModule,
       HttpClientModule,
       ReactiveFormsModule,
-      NgxRecaptchaModule,
+      CoreCaptchaModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ngx-recaptcha-demo": {
+    "core-captcha-demo": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ngx-recaptcha-demo",
+            "outputPath": "dist/core-captcha-demo",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -62,18 +62,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ngx-recaptcha-demo:build"
+            "browserTarget": "core-captcha-demo:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ngx-recaptcha-demo:build:production"
+              "browserTarget": "core-captcha-demo:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ngx-recaptcha-demo:build"
+            "browserTarget": "core-captcha-demo:build"
           }
         },
         "test": {
@@ -107,7 +107,7 @@
         }
       }
     },
-    "ngx-recaptcha-demo-e2e": {
+    "core-captcha-demo-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -116,11 +116,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "ngx-recaptcha-demo:serve"
+            "devServerTarget": "core-captcha-demo:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "ngx-recaptcha-demo:serve:production"
+              "devServerTarget": "core-captcha-demo:serve:production"
             }
           }
         },
@@ -135,33 +135,33 @@
         }
       }
     },
-    "ngx-recaptcha": {
-      "root": "projects/ngx-recaptcha",
-      "sourceRoot": "projects/ngx-recaptcha/src",
+    "core-captcha": {
+      "root": "projects/core-captcha",
+      "sourceRoot": "projects/core-captcha/src",
       "projectType": "library",
       "prefix": "ngx",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/ngx-recaptcha/tsconfig.lib.json",
-            "project": "projects/ngx-recaptcha/ng-package.json"
+            "tsConfig": "projects/core-captcha/tsconfig.lib.json",
+            "project": "projects/core-captcha/ng-package.json"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/ngx-recaptcha/src/test.ts",
-            "tsConfig": "projects/ngx-recaptcha/tsconfig.spec.json",
-            "karmaConfig": "projects/ngx-recaptcha/karma.conf.js"
+            "main": "projects/core-captcha/src/test.ts",
+            "tsConfig": "projects/core-captcha/tsconfig.spec.json",
+            "karmaConfig": "projects/core-captcha/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/ngx-recaptcha/tsconfig.lib.json",
-              "projects/ngx-recaptcha/tsconfig.spec.json"
+              "projects/core-captcha/tsconfig.lib.json",
+              "projects/core-captcha/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -171,5 +171,5 @@
       }
     }
   },
-  "defaultProject": "ngx-recaptcha-demo"
+  "defaultProject": "core-captcha-demo"
 }

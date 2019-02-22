@@ -8,7 +8,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class AppComponent {
 
-    readonly title = 'ngx-recaptcha-demo';
+    readonly title = 'core-captcha-demo';
     readonly url = 'https://corecaptcha.azurewebsites.net/api/CaptchaCreate';
     readonly toggled: boolean;
     readonly formGroup = new FormGroup({ captcha: new FormControl() });

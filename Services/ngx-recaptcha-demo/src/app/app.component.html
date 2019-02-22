@@ -23,8 +23,8 @@
 </button>
 <div>
     <form *ngIf="toggled" [formGroup]="formGroup">
-        <ngx-recaptcha [url]="url" formControlName="captcha" (resolved)="resolved($event)"></ngx-recaptcha>
+        <ngx-core-captcha [url]="url" formControlName="captcha" (resolved)="resolved($event)"></ngx-core-captcha>
     </form>
-    <ngx-recaptcha [url]="url" *ngIf="!toggled" (resolved)="resolved($event)"></ngx-recaptcha>
+    <ngx-core-captcha [url]="url" *ngIf="!toggled" (resolved)="resolved($event)"></ngx-core-captcha>
 </div>
 

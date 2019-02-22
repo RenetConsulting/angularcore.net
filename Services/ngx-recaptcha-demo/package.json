@@ -1,14 +1,14 @@
 {
-  "name": "ngx-recaptcha-demo",
+  "name": "core-captcha-demo",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build:lib": "ng build ngx-recaptcha",
+    "build:lib": "ng build core-captcha",
     "test": "ng test",
-    "test:lib": "ng test ngx-recaptcha --watch=false",
-    "test:lib:watch": "ng test ngx-recaptcha",
+    "test:lib": "ng test core-captcha --watch=false",
+    "test:lib:watch": "ng test core-captcha",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },

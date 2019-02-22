@@ -1,11 +1,11 @@
 {
-  "name": "@renet-consulting/ngx-recaptcha",
+  "name": "@renet-consulting/core-captcha",
   "version": "0.0.1",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
   "homepage": "https://github.com/RenetConsulting/angularcore.net",
-  "description": "reCaptcha for automatization deployments on Azure",
+  "description": "CoreCaptcha for automatization deployments on Azure",
   "bugs": {
     "url": "https://github.com/RenetConsulting/angularcore.net/issues"
   },

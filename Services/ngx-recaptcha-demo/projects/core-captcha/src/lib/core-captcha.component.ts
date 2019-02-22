@@ -6,11 +6,11 @@ import { IDecodedCaptcha } from './decoded.captcha';
 import { IEncodedCaptcha } from './encoded.captcha';
 
 @Component({
-    selector: 'ngx-recaptcha',
-    templateUrl: './ngx-recaptcha.component.html',
-    styleUrls: ['./ngx-recaptcha.component.scss']
+    selector: 'ngx-core-captcha',
+    templateUrl: './core-captcha.component.html',
+    styleUrls: ['./core-captcha.component.scss']
 })
-export class NgxRecaptchaComponent implements OnInit, OnDestroy {
+export class CoreCaptchaComponent implements OnInit, OnDestroy {
 
     @Input() url: string;
     @Output() readonly resolved = new EventEmitter<IDecodedCaptcha>();

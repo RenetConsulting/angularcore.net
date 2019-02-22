@@ -1,18 +1,18 @@
 import { ContentChild, Directive, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { CoreCaptchaComponent } from './core-captcha.component';
 import { IDecodedCaptcha } from './decoded.captcha';
-import { NgxRecaptchaComponent } from './ngx-recaptcha.component';
 
 @Directive({
     // tslint:disable-next-line
-    selector: 'ngx-recaptcha[formControlName],ngx-recaptcha[formControl],ngx-recaptcha[ngModel]',
+    selector: 'ngx-core-captcha[formControlName],ngx-core-captcha[formControl],ngx-core-captcha[ngModel]',
     providers: [
-        { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => NgxRecaptchaDirective), multi: true }
+        { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => CoreCaptchaDirective), multi: true }
     ],
 })
-export class NgxRecaptchaDirective implements ControlValueAccessor {
+export class CoreCaptchaDirective implements ControlValueAccessor {
 
-    @ContentChild(NgxRecaptchaComponent) readonly host: NgxRecaptchaComponent;
+    @ContentChild(CoreCaptchaComponent) readonly host: CoreCaptchaComponent;
     onChange: (value: IDecodedCaptcha) => void;
     onTouched: () => void;
 

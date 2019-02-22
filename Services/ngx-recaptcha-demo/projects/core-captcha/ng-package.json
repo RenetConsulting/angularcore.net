@@ -1,6 +1,6 @@
 {
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "../../dist/ngx-recaptcha",
+  "dest": "../../dist/core-captcha",
   "lib": {
     "entryFile": "src/public_api.ts"
   }

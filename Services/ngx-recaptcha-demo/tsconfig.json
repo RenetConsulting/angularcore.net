@@ -21,11 +21,11 @@
       "dom"
     ],
     "paths": {
-      "ngx-recaptcha": [
-        "dist/ngx-recaptcha"
+      "core-captcha": [
+        "dist/core-captcha"
       ],
-      "ngx-recaptcha/*": [
-        "dist/ngx-recaptcha/*"
+      "core-captcha/*": [
+        "dist/core-captcha/*"
       ]
     }
   }
