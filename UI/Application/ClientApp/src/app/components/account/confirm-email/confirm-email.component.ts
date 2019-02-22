@@ -1,18 +1,15 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { EMAIL_VALIDATORS } from '../../consts/email.validators';
-import { Messages } from '../../enums/messages.type';
-import { IConfirmEmail } from '../../interfaces/confirm-email';
-import { AccountService } from '../../services/account/account.service';
-import { MessageHandlerService } from '../../services/message-handler/message-handler.service';
+import { EMAIL_VALIDATORS } from '../../../consts/email.validators';
+import { IConfirmEmail } from '../../../interfaces/confirm-email';
+import { ConfirmEmail } from './actions';
 
 @Component({
     selector: 'confirm-email',
     templateUrl: './confirm-email.component.html',
-    styleUrls: ['../signup/signup.component.scss']
 })
 export class ConfirmEmailComponent implements OnInit, OnDestroy {
 
@@ -20,15 +17,14 @@ export class ConfirmEmailComponent implements OnInit, OnDestroy {
     formGroup: FormGroup;
 
     constructor(
-        @Inject(AccountService) private accountService: AccountService,
-        @Inject(MessageHandlerService) private messageHandlerService: MessageHandlerService,
+        @Inject(Store) private store: Store<null>,
         @Inject(ActivatedRoute) private route: ActivatedRoute,
     ) { }
 
     ngOnInit(): void {
         this.setFormGroup();
-        this.subscription.add(this.route.queryParams
-            .subscribe((i: Pick<IConfirmEmail, 'token'>) => this.formGroup.controls.token.reset(i.token)));
+        this.subscription.add(this.route.queryParams.subscribe((i: Pick<IConfirmEmail, 'token'>) =>
+            this.formGroup.controls.token.reset(i.token)));
     }
 
     ngOnDestroy(): void {
@@ -44,10 +40,7 @@ export class ConfirmEmailComponent implements OnInit, OnDestroy {
 
     submit = (): void => {
         if (this.formGroup.valid) {
-            this.accountService.confirmEmail(this.formGroup.value)
-                .pipe(
-                    tap(() => this.formGroup.reset()))
-                .subscribe(() => this.messageHandlerService.handleSuccess(Messages.emailConfirmed));
+            this.store.dispatch(new ConfirmEmail(this.formGroup));
         }
     }
 }

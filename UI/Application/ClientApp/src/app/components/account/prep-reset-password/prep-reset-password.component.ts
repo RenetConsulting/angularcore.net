@@ -1,28 +1,20 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { tap } from 'rxjs/operators';
-import { EMAIL_VALIDATORS } from '../../consts/email.validators';
-import { Messages } from '../../enums/messages.type';
-import { IUser } from '../../interfaces/user';
-import { AccountService } from '../../services/account/account.service';
-import { MessageHandlerService } from '../../services/message-handler/message-handler.service';
+import { Store } from '@ngrx/store';
+import { EMAIL_VALIDATORS } from '../../../consts/email.validators';
+import { IUser } from '../../../interfaces/user';
+import { PrepResetPassword } from './actions';
 
-/** Preparation to reset a password */
 @Component({
     selector: 'prep-reset-password',
     templateUrl: './prep-reset-password.component.html',
-    styleUrls: [
-        '../signup/signup.component.scss',
-        './prep-reset-password.component.scss'
-    ]
 })
 export class PrepResetPasswordComponent implements OnInit {
 
     formGroup: FormGroup;
 
     constructor(
-        @Inject(AccountService) private accountService: AccountService,
-        @Inject(MessageHandlerService) private messageHandlerService: MessageHandlerService
+        @Inject(Store) private store: Store<null>
     ) { }
 
     ngOnInit(): void {
@@ -37,10 +29,7 @@ export class PrepResetPasswordComponent implements OnInit {
 
     submit = (): void => {
         if (this.formGroup.valid) {
-            this.accountService.prepResetPassword(this.formGroup.value)
-                .pipe(
-                    tap(() => this.formGroup.reset()))
-                .subscribe(() => this.messageHandlerService.handleSuccess(Messages.checkEmail));
+            this.store.dispatch(new PrepResetPassword(this.formGroup));
         }
     }
 }

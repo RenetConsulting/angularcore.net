@@ -1,39 +1,40 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
-import { tap } from 'rxjs/operators';
-import { InputsErrorsBase } from '../../bases/inputs-errors/inputs-errors';
-import { PASSWORD_VALIDATORS } from '../../consts/password.validators';
-import { Messages } from '../../enums/messages.type';
-import { IChangePassword } from '../../interfaces/change-password';
-import { AccountService } from '../../services/account/account.service';
-import { MessageHandlerService } from '../../services/message-handler/message-handler.service';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { PASSWORD_VALIDATORS } from '../../../consts/password.validators';
+import { MessagesType } from '../../../enums/messages.type';
+import { IChangePassword } from '../../../interfaces/change-password';
+import { ChangePassword } from './actions';
+import { ChangePasswordStore } from './reducer';
+import { selectChangePasswordError } from './selectors';
 
 @Component({
     selector: 'change-password',
     templateUrl: './change-password.component.html',
-    styleUrls: [
-        '../signup/signup.component.scss',
-        './change-password.component.scss'
-    ]
 })
-export class ChangePasswordComponent extends InputsErrorsBase<IChangePassword> implements OnInit {
+export class ChangePasswordComponent implements OnInit, OnDestroy {
 
+    readonly subscription = new Subscription();
+    errors: MapPick<IChangePassword, keyof IChangePassword, Array<string>>;
     formGroup: FormGroup;
 
     constructor(
-        @Inject(AccountService) private accountService: AccountService,
-        @Inject(MessageHandlerService) private messageHandlerService: MessageHandlerService,
-    ) {
-        super(messageHandlerService);
-    }
+        @Inject(Store) private store: Store<ChangePasswordStore>
+    ) { }
 
     ngOnInit(): void {
         this.setFormGroup();
+        this.subscription.add(this.store.select(selectChangePasswordError).subscribe(i => this.errors = i));
+    }
+
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
     }
 
     matchPasswordValidator = (control: AbstractControl): ValidationErrors | null => {
         return control.value === (this.formGroup && this.formGroup.controls.password.value) ? null
-            : { errorMessage: Messages.passwordsDoNotMatch };
+            : { errorMessage: MessagesType.passwordsDoNotMatch };
     }
 
     setFormGroup = (): void => {
@@ -46,11 +47,7 @@ export class ChangePasswordComponent extends InputsErrorsBase<IChangePassword> i
 
     submit = (): void => {
         if (this.formGroup.valid) {
-            this.errors = null;
-            this.accountService.changePassword(this.formGroup.value)
-                .pipe(
-                    tap(() => this.formGroup.reset()))
-                .subscribe(() => this.messageHandlerService.handleSuccess(Messages.passwordHasChanged), this.handleError);
+            this.store.dispatch(new ChangePassword(this.formGroup));
         }
     }
 }

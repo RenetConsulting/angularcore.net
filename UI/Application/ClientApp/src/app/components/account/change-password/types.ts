@@ -1,0 +1,5 @@
+export enum ChangePasswordTypes {
+    CHANGE_PASSWORD_REQUEST = '[ChangePassword]CHANGE_PASSWORD_REQUEST',
+    CHANGE_PASSWORD_SUCCESS = '[ChangePassword]CHANGE_PASSWORD_SUCCESS',
+    CHANGE_PASSWORD_ERROR = '[ChangePassword]CHANGE_PASSWORD_ERROR',
+}

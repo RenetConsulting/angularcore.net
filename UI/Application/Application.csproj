@@ -57,6 +57,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\src\app\types\" />
     <Folder Include="ClientApp\src\app\services\access\" />
   </ItemGroup>
 

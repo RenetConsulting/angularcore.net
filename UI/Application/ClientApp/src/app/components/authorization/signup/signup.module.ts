@@ -4,8 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
-import { ControlInputModule } from '../control-input/control-input.module';
-import { SocialMediaModule } from '../social-media/social-media.module';
+import { ControlInputModule } from '../../control-input/control-input.module';
+import { SocialMediaModule } from '../../social-media/social-media.module';
 import { SignupRoutingModule } from './signup-routing.module';
 import { SignupComponent } from './signup.component';
 

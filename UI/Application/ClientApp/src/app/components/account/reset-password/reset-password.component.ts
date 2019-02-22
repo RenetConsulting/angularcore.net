@@ -1,41 +1,36 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { InputsErrorsBase } from '../../bases/inputs-errors/inputs-errors';
-import { EMAIL_VALIDATORS } from '../../consts/email.validators';
-import { PASSWORD_VALIDATORS } from '../../consts/password.validators';
-import { Messages } from '../../enums/messages.type';
-import { IResetPassword } from '../../interfaces/reset-password';
-import { AccountService } from '../../services/account/account.service';
-import { MessageHandlerService } from '../../services/message-handler/message-handler.service';
+import { EMAIL_VALIDATORS } from '../../../consts/email.validators';
+import { PASSWORD_VALIDATORS } from '../../../consts/password.validators';
+import { MessagesType } from '../../../enums/messages.type';
+import { IResetPassword } from '../../../interfaces/reset-password';
+import { ResetPassword } from './actions';
+import { ResetPasswordStore } from './reducer';
+import { selectResetPasswordError } from './selectors';
 
 @Component({
     selector: 'reset-password',
     templateUrl: './reset-password.component.html',
-    styleUrls: [
-        '../signup/signup.component.scss',
-        './reset-password.component.scss'
-    ]
 })
-export class ResetPasswordComponent extends InputsErrorsBase<IResetPassword> implements OnInit, OnDestroy {
+export class ResetPasswordComponent implements OnInit, OnDestroy {
 
     readonly subscription = new Subscription();
+    errors: MapPick<IResetPassword, keyof IResetPassword, Array<string>>;
     formGroup: FormGroup;
 
     constructor(
-        @Inject(MessageHandlerService) private messageHandlerService: MessageHandlerService,
-        @Inject(AccountService) private accountService: AccountService,
+        @Inject(Store) private store: Store<ResetPasswordStore>,
         @Inject(ActivatedRoute) private route: ActivatedRoute
-    ) {
-        super(messageHandlerService);
-    }
+    ) {}
 
     ngOnInit(): void {
         this.setFormGroup();
-        this.subscription.add(this.route.queryParams
-            .subscribe((i: Pick<IResetPassword, 'token'>) => this.formGroup.controls.token.reset(i.token)));
+        this.subscription.add(this.route.queryParams.subscribe((i: Pick<IResetPassword, 'token'>) =>
+            this.formGroup.controls.token.reset(i.token)));
+        this.subscription.add(this.store.select(selectResetPasswordError).subscribe(i => this.errors = i));
     }
 
     ngOnDestroy(): void {
@@ -44,7 +39,7 @@ export class ResetPasswordComponent extends InputsErrorsBase<IResetPassword> imp
 
     matchPasswordValidator = (control: AbstractControl): ValidationErrors | null => {
         return control.value === (this.formGroup && this.formGroup.controls.password.value) ? null
-            : { errorMessage: Messages.passwordsDoNotMatch };
+            : { errorMessage: MessagesType.passwordsDoNotMatch };
     }
 
     setFormGroup = (): void => {
@@ -58,11 +53,7 @@ export class ResetPasswordComponent extends InputsErrorsBase<IResetPassword> imp
 
     submit = (): void => {
         if (this.formGroup.valid) {
-            this.errors = null;
-            this.accountService.resetPassword(this.formGroup.value)
-                .pipe(
-                    tap(() => this.formGroup.reset()))
-                .subscribe(() => this.messageHandlerService.handleSuccess(Messages.passwordHasChanged), this.handleError);
+            this.store.dispatch(new ResetPassword(this.formGroup));
         }
     }
 }

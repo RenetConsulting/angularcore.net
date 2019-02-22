@@ -1,8 +1,9 @@
 import { ActionReducer, MetaReducer } from '@ngrx/store';
-import * as Messager from './core/messager/reducer';
+import { environment } from '../environments/environment';
+//import { messagerReducer, MessagerState } from './components/messager/reducer';
 
 export interface RootStore {
-    messager: Messager.State;
+    //messager: MessagerState;
 }
 
 // console.log all actions
@@ -19,8 +20,8 @@ export function logger(reducer: ActionReducer<RootStore>): ActionReducer<RootSto
     };
 }
 
-export const metaReducers: MetaReducer<any>[] = [logger];
+export const metaReducers: MetaReducer<any>[] = !environment.production ? [logger] : null;
 
 export const REDUCERS = {
-    messager: Messager.reducer
+    //messager: messagerReducer
 };

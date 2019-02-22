@@ -25,7 +25,7 @@ export class AccountService {
     resetPassword = (model: IResetPassword) => this.http
         .post(`${this.url}/ResetPasswordFromMail`, model, { headers: { ...HTTP_HEADERS.allowHttpError } })
 
-    prepResetPassword = ({ email }: Pick<IResetPassword, 'email'>) => {
+    prepResetPassword = (email: string) => {
         const body = this.toolsService.getQuery({ email });
         return this.http
             .get(`${this.url}/ResetPassword${body}`);

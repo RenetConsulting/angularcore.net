@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { MessageHandlerService } from '../../services/message-handler/message-handler.service';
+import { Store } from '@ngrx/store';
+import { RootStore } from '../../reducers';
 import { OpenIdConnectBase } from '../open-id-connect/open-id-connect';
 
 export class InputsErrorsBase<InputPickType> {
@@ -8,9 +9,9 @@ export class InputsErrorsBase<InputPickType> {
     private openIdConnect: OpenIdConnectBase;
 
     constructor(
-        messageHandlerService: MessageHandlerService
+        store: Store<RootStore>
     ) {
-        this.openIdConnect = new OpenIdConnectBase(messageHandlerService);
+        this.openIdConnect = new OpenIdConnectBase(store);
     }
 
     handleError = (httpError?: HttpErrorResponse): void => {
