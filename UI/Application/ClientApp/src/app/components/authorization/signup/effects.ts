@@ -31,7 +31,7 @@ export class SignupEffects {
     @Effect() signupSuccess = this.actions.pipe(
         ofType<SignupSuccess>(SignupTypes.SIGNUP_SUCCESS),
         tap(() => this.router.navigate(['/sign-in'])),
-        mergeMap(() => of(new SetSuccessMessage(MessagesType.checkEmail)))
+        mapTo(new SetSuccessMessage(MessagesType.checkEmail))
     );
 
     @Effect() signupError = this.actions.pipe(

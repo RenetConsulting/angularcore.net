@@ -10,7 +10,7 @@ export interface RootStore {
     signup: SignupState;
 }
 
-export function logger(reducer: ActionReducer<RootStore>): ActionReducer<RootStore> {
+function logger(reducer: ActionReducer<RootStore>): ActionReducer<RootStore> {
     return (state: RootStore, action: any): any => {
         const result = reducer(state, action);
         console.groupCollapsed(action.type);
