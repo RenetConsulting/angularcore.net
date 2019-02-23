@@ -1,4 +1,4 @@
-import { ContentChild, Directive, forwardRef } from '@angular/core';
+import { ContentChild, Directive, forwardRef, HostListener } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CoreCaptchaComponent } from './core-captcha.component';
 import { IDecodedCaptcha } from './decoded.captcha';
@@ -18,9 +18,18 @@ export class CoreCaptchaDirective implements ControlValueAccessor {
 
     constructor() { }
 
+    @HostListener('resolved', ['$event']) resolve = (model: IDecodedCaptcha): void => {
+        if (this.onChange) {
+            this.onChange(model);
+        }
+        if (this.onTouched) {
+            this.onTouched();
+        }
+    }
+
     writeValue(value: string): void {
         if (!value && this.host) {
-            this.host.reset();
+            this.host.destroy();
         }
     }
 

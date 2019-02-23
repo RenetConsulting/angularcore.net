@@ -11,9 +11,13 @@ export class AppComponent {
     readonly title = 'core-captcha-demo';
     readonly url = 'https://corecaptcha.azurewebsites.net/api/CaptchaCreate';
     readonly toggled: boolean;
-    readonly formGroup = new FormGroup({ captcha: new FormControl() });
+    readonly formGroup = new FormGroup({ captcha: new FormControl('Bob') });
 
-    constructor() { }
+    constructor() {
+        console.log(this.formGroup.value);
+    }
 
-    resolved = console.log;
+    resolved = (e) => {
+        console.log(e, this.formGroup.value);
+    }
 }

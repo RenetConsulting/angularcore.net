@@ -5,8 +5,6 @@ import { Subscription } from 'rxjs';
 import { IDecodedCaptcha } from './decoded.captcha';
 import { IEncodedCaptcha } from './encoded.captcha';
 
-/** TODO: split formControl and ngControl */
-/** TODO: use only IEncodedCaptcha for formControl */
 @Component({
     selector: 'ngx-core-captcha',
     templateUrl: './core-captcha.component.html',
@@ -34,20 +32,16 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy {
             this.ngControl.control.markAsTouched();
             this.ngControl.control.updateValueAndValidity();
         }));
-        this.subscription.add(this.control.valueChanges.subscribe(this.emitDecodedCaptcha));
+        this.subscription.add(this.formControl.valueChanges.subscribe(this.emitDecodedCaptcha));
     }
 
     ngOnDestroy(): void {
-        this.reset();
+        this.destroy();
         this.subscription.unsubscribe();
     }
 
     get paused() {
         return this.audio && this.audio.paused;
-    }
-
-    get control() {
-        return this.ngControl && this.ngControl.control || this.formControl;
     }
 
     private setCaptcha = (model: IEncodedCaptcha): void => {
@@ -73,14 +67,14 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy {
 
     getCaptcha = (): void => {
         if (this.http && this.url) {
-            this.reset();
-            this.http.get<IEncodedCaptcha>(this.url)
-                .subscribe(this.setCaptcha);
+            this.destroy();
+            this.http.get<IEncodedCaptcha>(this.url).subscribe(this.setCaptcha);
         }
     }
 
-    reset = (): void => {
+    destroy = (): void => {
         this.pause();
         this.captcha = null;
+        this.formControl.reset();
     }
 }
