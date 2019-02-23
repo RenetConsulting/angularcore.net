@@ -34,7 +34,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{7B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreCaptcha", "Services\CoreCaptcha\CoreCaptcha.csproj", "{53BC1D85-6445-4557-8531-2F93A56DC6CC}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "core-captcha", "Services\core-captcha-demo\core-captcha.njsproj", "{F95BA1EA-07C7-49AE-87D7-7D8013E08408}"
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "core-captcha-demo", "Services\core-captcha-demo\core-captcha-demo.njsproj", "{F95BA1EA-07C7-49AE-87D7-7D8013E08408}"
+EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "ngx-link-stylesheet-demo", "Services\ngx-link-stylesheet-demo\ngx-link-stylesheet-demo.njsproj", "{95AE8594-E0E1-47BF-9F11-B6D70B1A0E83}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +85,12 @@ Global
 		{F95BA1EA-07C7-49AE-87D7-7D8013E08408}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F95BA1EA-07C7-49AE-87D7-7D8013E08408}.TestingProduction|Any CPU.ActiveCfg = Release|Any CPU
 		{F95BA1EA-07C7-49AE-87D7-7D8013E08408}.TestingProduction|Any CPU.Build.0 = Release|Any CPU
+		{95AE8594-E0E1-47BF-9F11-B6D70B1A0E83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95AE8594-E0E1-47BF-9F11-B6D70B1A0E83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95AE8594-E0E1-47BF-9F11-B6D70B1A0E83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95AE8594-E0E1-47BF-9F11-B6D70B1A0E83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95AE8594-E0E1-47BF-9F11-B6D70B1A0E83}.TestingProduction|Any CPU.ActiveCfg = Release|Any CPU
+		{95AE8594-E0E1-47BF-9F11-B6D70B1A0E83}.TestingProduction|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,6 +103,7 @@ Global
 		{3F3851A4-98EF-4B69-A7D7-02C78DCC71B4} = {1F3672DE-1B48-4C20-8551-C214405F2B09}
 		{53BC1D85-6445-4557-8531-2F93A56DC6CC} = {7B798BEB-8EF8-4459-8F62-02C6A7E72BD3}
 		{F95BA1EA-07C7-49AE-87D7-7D8013E08408} = {7B798BEB-8EF8-4459-8F62-02C6A7E72BD3}
+		{95AE8594-E0E1-47BF-9F11-B6D70B1A0E83} = {7B798BEB-8EF8-4459-8F62-02C6A7E72BD3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B08C599-CF94-4BC6-9D7F-F7DC85331814}
