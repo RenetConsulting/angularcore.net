@@ -9,6 +9,7 @@ namespace Application.Controllers
     using System.Net.Http;
     using System.Threading.Tasks;
     using Application.Business;
+    using Application.Business.Helpers;
     using Application.DataAccess.Entities;
     using AspNet.Security.OpenIdConnect.Extensions;
     using AspNet.Security.OpenIdConnect.Primitives;
@@ -35,34 +36,7 @@ namespace Application.Controllers
 
         [HttpPost("~/connect/token")]
         [Produces("application/json")]
-        public async Task<IActionResult> Exchange([ModelBinder(typeof(OpenIddictMvcBinder))] OpenIdConnectRequest request, string hash, string captcha)
-        {
-            return await this.Exchange(request);
-
-            // For now ignore Captcha validation
-            if (!string.IsNullOrEmpty(hash) && !string.IsNullOrEmpty(captcha))
-            {
-                // Validate Captcha
-                using (HttpClient client = new HttpClient())
-                {
-                    string captchaValidate = string.Format("http://localhost:7071/api/CaptchaValidate?hash={0}&captcha={1}&clientId={2}", hash, captcha, "12345");
-
-                    HttpResponseMessage response = await client.GetAsync(captchaValidate);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return await this.Exchange(request);
-                    }
-                }
-            }
-
-            return this.BadRequest(new OpenIdConnectResponse
-            {
-                Error = OpenIdConnectConstants.Errors.InvalidRequest,
-                ErrorDescription = "Invalid Captcha."
-            });
-        }
-
+        [CoreCaptcha]
         public async Task<IActionResult> Exchange([ModelBinder(typeof(OpenIddictMvcBinder))] OpenIdConnectRequest request)
         {
             if (request.IsPasswordGrantType())
