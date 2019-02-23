@@ -11,6 +11,7 @@ namespace Application
     using System.Threading.Tasks;
     using Application.Business;
     using Application.Business.Communications;
+    using Application.Business.Helpers;
     using Application.DataAccess;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Repositories;
@@ -193,6 +194,7 @@ namespace Application
             string apiKey = this.Configuration["AppSettings:SendGridKey"];
             services.AddScoped<ISendGridClient>(f => new SendGridClient(apiKey));
             services.AddScoped<IMailClient, MailClient>();
+            services.AddScoped<CoreCaptchaFilter>();
 
             services.AddTransient<IPrincipal>(
                 provider => provider.GetService<IHttpContextAccessor>()?.HttpContext?.User);

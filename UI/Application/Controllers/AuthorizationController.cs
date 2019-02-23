@@ -34,9 +34,9 @@ namespace Application.Controllers
             this.userManager = userManager;
         }
 
+        [ServiceFilter(typeof(CoreCaptchaFilter))]
         [HttpPost("~/connect/token")]
         [Produces("application/json")]
-        [CoreCaptcha]
         public async Task<IActionResult> Exchange([ModelBinder(typeof(OpenIddictMvcBinder))] OpenIdConnectRequest request)
         {
             if (request.IsPasswordGrantType())
