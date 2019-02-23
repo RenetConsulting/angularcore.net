@@ -1,0 +1,13 @@
+@mixin header-theme($theme) {
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+
+    app-header {
+        display: block; /** By default an Angular element doesnt have any styles, that is why it is flattened */
+        color: mat-color($primary, default-contrast);
+        background: mat-color($primary);
+    }
+}

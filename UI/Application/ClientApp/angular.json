@@ -25,7 +25,17 @@
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              {
+                "input": "src/themes/deeppurple-amber.scss",
+                "lazy": true,
+                "bundleName": "assets/deeppurple-amber"
+              },
+              {
+                "input": "src/themes/purple-green.scss",
+                "lazy": true,
+                "bundleName": "assets/purple-green"
+              }
             ],
             "scripts": []
           },

@@ -1,0 +1,7 @@
+<button mat-button [matMenuTriggerFor]="menuRef">fill-drip</button>
+<mat-menu #menuRef="matMenu">
+    <button mat-menu-item *ngFor="let item of items" [style.background]="item.primary" (click)="setTheme(item.name)">
+        {{item.name}}
+        <span *ngIf="selected?.name === item.name">(active)</span>
+    </button>
+</mat-menu>
