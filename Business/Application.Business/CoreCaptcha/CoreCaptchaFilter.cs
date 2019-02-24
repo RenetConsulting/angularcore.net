@@ -8,24 +8,38 @@ namespace Application.Business.CoreCaptcha
     using System;
     using System.Linq;
     using System.Net.Http;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
     using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.Logging;
 
-    public class CoreCaptchaFilter : IResourceFilter
+    public class CoreCaptchaFilter : IAsyncResourceFilter
     {
         private const string ErrorCode = "InvalidCoreCaptcha";
         private readonly IConfiguration config;
+        private readonly ILogger<CoreCaptchaFilter> logger;
+        private readonly CoreCaptchaSettings coreCaptchaSettings;
 
-        public CoreCaptchaFilter(IConfiguration config)
+        public CoreCaptchaFilter(IConfiguration config, ILogger<CoreCaptchaFilter> logger)
         {
             this.Hash = "hash";
             this.Captcha = "captcha";
             this.config = config;
+            this.logger = logger;
+
             if (this.config != null)
             {
-                this.ValidateUrl = this.config.GetValue<string>("CoreCaptcha:ValidateUrl");
-                this.ClientId = this.config.GetValue<string>("CoreCaptcha:ClientId");
+                this.coreCaptchaSettings = this.config.GetSection("CoreCaptcha").Get<CoreCaptchaSettings>();
+            }
+
+            if (this.coreCaptchaSettings == null ||
+                string.IsNullOrEmpty(this.coreCaptchaSettings.ValidateUrl) ||
+                string.IsNullOrEmpty(this.coreCaptchaSettings.ClientId))
+            {
+                string error = "Missing or invalid CoreCaptcha configuration.";
+                logger.LogCritical(error);
+                throw new ApplicationException(error);
             }
         }
 
@@ -33,15 +47,7 @@ namespace Application.Business.CoreCaptcha
 
         public virtual string Captcha { get; set; }
 
-        public virtual string ValidateUrl { get; set; }
-
-        public virtual string ClientId { get; set; }
-
-        public void OnResourceExecuted(ResourceExecutedContext context)
-        {
-        }
-
-        public void OnResourceExecuting(ResourceExecutingContext context)
+        public async Task OnResourceExecutionAsync(ResourceExecutingContext context, ResourceExecutionDelegate next)
         {
             var req = context.HttpContext.Request;
             string hash = string.Empty;
@@ -70,13 +76,14 @@ namespace Application.Business.CoreCaptcha
                 // Validate Captcha
                 using (HttpClient client = new HttpClient())
                 {
-                    string captchaValidate = string.Format(this.ValidateUrl + "?hash={0}&captcha={1}&clientId={2}", hash, captcha, this.ClientId);
+                    string captchaValidate = string.Format(this.coreCaptchaSettings.ValidateUrl + "?hash={0}&captcha={1}&clientId={2}", hash, captcha, this.coreCaptchaSettings.ClientId);
 
                     try
                     {
-                        HttpResponseMessage response = client.GetAsync(captchaValidate).Result;
+                        HttpResponseMessage response = await client.GetAsync(captchaValidate);
                         if (response.IsSuccessStatusCode)
                         {
+                            await next();
                             return;
                         }
                         else
@@ -86,7 +93,9 @@ namespace Application.Business.CoreCaptcha
                     }
                     catch (Exception ex)
                     {
-                        if (ex is HttpRequestException || ex is AggregateException)
+                        this.logger.LogError(ex, ex.Message);
+
+                        if (ex is HttpRequestException || ex is AggregateException || ex is InvalidOperationException)
                         {
                             context.Result = new BadRequestObjectResult(new { error = ErrorCode, errorDescription = "Unable to validate Captcha" });
                             return;
