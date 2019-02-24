@@ -11,7 +11,7 @@ namespace Application
     using System.Threading.Tasks;
     using Application.Business;
     using Application.Business.Communications;
-    using Application.Business.Helpers;
+    using Application.Business.CoreCaptcha;
     using Application.DataAccess;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Repositories;

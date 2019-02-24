@@ -6,10 +6,9 @@
 namespace Application.Controllers
 {
     using System.Linq;
-    using System.Net.Http;
     using System.Threading.Tasks;
     using Application.Business;
-    using Application.Business.Helpers;
+    using Application.Business.CoreCaptcha;
     using Application.DataAccess.Entities;
     using AspNet.Security.OpenIdConnect.Extensions;
     using AspNet.Security.OpenIdConnect.Primitives;
