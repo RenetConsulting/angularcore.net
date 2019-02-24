@@ -33,7 +33,7 @@ namespace Application.Controllers
             this.userManager = userManager;
         }
 
-        [ServiceFilter(typeof(CoreCaptchaFilter))]
+        //[ServiceFilter(typeof(CoreCaptchaFilter))]
         [HttpPost("~/connect/token")]
         [Produces("application/json")]
         public async Task<IActionResult> Exchange([ModelBinder(typeof(OpenIddictMvcBinder))] OpenIdConnectRequest request)
