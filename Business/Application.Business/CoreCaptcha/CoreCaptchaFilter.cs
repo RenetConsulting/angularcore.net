@@ -13,6 +13,7 @@ namespace Application.Business.CoreCaptcha
     using Microsoft.AspNetCore.Mvc.Filters;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
 
     public class CoreCaptchaFilter : IAsyncResourceFilter
     {
@@ -21,17 +22,18 @@ namespace Application.Business.CoreCaptcha
         private readonly ILogger<CoreCaptchaFilter> logger;
         private readonly CoreCaptchaSettings coreCaptchaSettings;
 
-        public CoreCaptchaFilter(IConfiguration config, ILogger<CoreCaptchaFilter> logger)
+        public CoreCaptchaFilter(
+            IConfiguration config,
+            ILogger<CoreCaptchaFilter> logger,
+            IOptions<CoreCaptchaSettings> settings,
+            string hash = "hash",
+            string captcha = "captcha")
         {
-            this.Hash = "hash";
-            this.Captcha = "captcha";
+            this.coreCaptchaSettings = settings.Value;
+            this.Hash = hash;
+            this.Captcha = captcha;
             this.config = config;
             this.logger = logger;
-
-            if (this.config != null)
-            {
-                this.coreCaptchaSettings = this.config.GetSection("CoreCaptcha").Get<CoreCaptchaSettings>();
-            }
 
             if (this.coreCaptchaSettings == null ||
                 string.IsNullOrEmpty(this.coreCaptchaSettings.ValidateUrl) ||
@@ -73,36 +75,53 @@ namespace Application.Business.CoreCaptcha
             }
             else
             {
-                // Validate Captcha
-                using (HttpClient client = new HttpClient())
+                bool isValid = false;
+
+                try
                 {
-                    string captchaValidate = string.Format(this.coreCaptchaSettings.ValidateUrl + "?hash={0}&captcha={1}&clientId={2}", hash, captcha, this.coreCaptchaSettings.ClientId);
+                    isValid = await this.CaptchaValidate(hash, captcha);
+                }
+                catch (Exception)
+                {
+                    context.Result = new BadRequestObjectResult(new { error = ErrorCode, errorDescription = "Unable to validate Captcha" });
+                    return;
+                }
 
-                    try
+                if (isValid)
+                {
+                    await next();
+                    return;
+                }
+                else
+                {
+                    context.Result = new BadRequestObjectResult(new { error = ErrorCode, errorDescription = "Invalid Captcha" });
+                }
+            }
+        }
+
+        public async Task<bool> CaptchaValidate(string hash, string captcha)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                string captchaValidate = string.Format(this.coreCaptchaSettings.ValidateUrl + "?hash={0}&captcha={1}&clientId={2}", hash, captcha, this.coreCaptchaSettings.ClientId);
+
+                try
+                {
+                    HttpResponseMessage response = await client.GetAsync(captchaValidate);
+                    if (response.IsSuccessStatusCode)
                     {
-                        HttpResponseMessage response = await client.GetAsync(captchaValidate);
-                        if (response.IsSuccessStatusCode)
-                        {
-                            await next();
-                            return;
-                        }
-                        else
-                        {
-                            context.Result = new BadRequestObjectResult(new { error = ErrorCode, errorDescription = "Invalid Captcha" });
-                        }
+                        return true;
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        this.logger.LogError(ex, ex.Message);
-
-                        if (ex is HttpRequestException || ex is AggregateException || ex is InvalidOperationException)
-                        {
-                            context.Result = new BadRequestObjectResult(new { error = ErrorCode, errorDescription = "Unable to validate Captcha" });
-                            return;
-                        }
-
-                        throw;
+                        return false;
                     }
+                }
+                catch (Exception ex)
+                {
+                    this.logger.LogError(ex, ex.Message);
+
+                    throw;
                 }
             }
         }

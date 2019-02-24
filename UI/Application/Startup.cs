@@ -28,6 +28,7 @@ namespace Application
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
     using Microsoft.Net.Http.Headers;
     using OpenIddict.Abstractions;
     using SendGrid;
@@ -194,7 +195,16 @@ namespace Application
             string apiKey = this.Configuration["AppSettings:SendGridKey"];
             services.AddScoped<ISendGridClient>(f => new SendGridClient(apiKey));
             services.AddScoped<IMailClient, MailClient>();
-            services.AddScoped<CoreCaptchaFilter>();
+
+            services.Configure<CoreCaptchaSettings>(this.Configuration.GetSection("CoreCaptcha"));
+
+            // The simple call: services.AddScoped<CoreCaptchaFilter>();
+            services.AddScoped(f => new CoreCaptchaFilter(
+                f.GetService<IConfiguration>(),
+                f.GetService<ILogger<CoreCaptchaFilter>>(),
+                f.GetService<IOptions<CoreCaptchaSettings>>(),
+                hash: "hash",
+                captcha: "captcha"));
 
             services.AddTransient<IPrincipal>(
                 provider => provider.GetService<IHttpContextAccessor>()?.HttpContext?.User);
