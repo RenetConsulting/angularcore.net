@@ -1,8 +1,12 @@
-<div *ngIf="captcha">
+<div class="p-5" *ngIf="captcha">
     <img [src]="captcha?.image" />
-    <button type="button" (click)="getCaptcha()">O</button>
-    <button type="button" (click)="toggleAudio()">O</button>
-    <mat-form-field>
-        <input placeholder="Please input captcha signs" matInput [formControl]="formControl">
-    </mat-form-field>
+    <div class="b-block">
+        <button class="btn btn-link btn-lg px-0 text-secondary" type="button" (click)="getCaptcha()"><i class="fas fa-redo-alt"></i></button>
+        <button class="btn btn-link btn-lg text-secondary" type="button" (click)="toggleAudio()"><i class="fas fa-headphones"></i></button>
+    </div>
+    <div class="d-block">
+        <mat-form-field>
+            <input placeholder="Please input captcha signs" matInput [formControl]="formControl">
+        </mat-form-field>
+    </div>
 </div>
