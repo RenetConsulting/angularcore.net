@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { EMPTY, of } from 'rxjs';
 import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
-import { SetError } from '../../../actions/error.actions';
+import { SetError } from '../../../actions/message.actions';
 import { AuthorizationService } from '../../../services/authorization/authorization.service';
 import { StorageService } from '../../../services/storage/storage.service';
 import { TokenService } from '../../../services/token/token.service';

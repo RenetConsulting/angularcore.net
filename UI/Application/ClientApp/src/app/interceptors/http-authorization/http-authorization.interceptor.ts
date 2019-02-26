@@ -1,9 +1,10 @@
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
+import { HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { EMPTY, Observable, of, Subject } from 'rxjs';
 import { catchError, concatMap } from 'rxjs/operators';
+import { HTTP_HEADERS } from '../../consts/http-headers';
 import { HTTP_HEADER_NAMES } from '../../enums/http-header-names.type';
-import { AuthorizationService } from '../../services/authorization/authorization.service';
+import { IToken } from '../../interfaces/token';
 import { TokenService } from '../../services/token/token.service';
 
 @Injectable({
@@ -15,9 +16,15 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
     private loading: boolean;
 
     constructor(
-        @Inject(AuthorizationService) private authorizationService: AuthorizationService,
         @Inject(TokenService) private tokenService: TokenService,
     ) { }
+
+    get refreshRequest() {
+        return new HttpRequest('GET', `/connect/token/refresh`, {
+            headers: new HttpHeaders({ ...HTTP_HEADERS.allowHttpError }),
+            responseType: 'json'
+        });
+    }
 
     /** on each branch make sure that header is fresh */
     intercept(request: HttpRequest<any>, handler: HttpHandler): Observable<HttpEvent<any>> {
@@ -30,8 +37,8 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
                         concatMap(() => handler.handle(this.clone(request, this.tokenService.header))));
                 }
                 this.loading = true;
-                return handler.handle(this.clone(this.authorizationService.refreshRequest, this.tokenService.header)).pipe(
-                    concatMap(i => i instanceof HttpResponse ? this.concatRequests(request, handler) : of(i)),
+                return handler.handle(this.clone(this.refreshRequest, this.tokenService.header)).pipe(
+                    concatMap(i => i instanceof HttpResponse ? this.concatRequests(request, handler, i.body) : of(i)),
                     catchError(this.handleError),
                 );
             }
@@ -44,10 +51,11 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
         }
     }
 
-    concatRequests = (request: HttpRequest<any>, handler: HttpHandler) => (): Observable<HttpEvent<any>> => {
+    concatRequests = (request: HttpRequest<any>, handler: HttpHandler, token: IToken) => (): Observable<HttpEvent<any>> => {
         this.subjects.forEach(i => { i.next(null); });
         this.subjects.length = 0;
         this.loading = false;
+        this.tokenService.setToken(token);
         return handler.handle(this.clone(request, this.tokenService.header));
     }
 

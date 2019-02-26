@@ -1,6 +1,8 @@
 import { Component, Inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthorizationService } from '../../services/authorization/authorization.service';
+import { Store } from '@ngrx/store';
+import { Signout } from '../../actions/authorization.actions';
+import { RootStore } from '../../reducers';
+import { AccessService } from '../../services/access/access.service';
 
 @Component({
     selector: 'app-header',
@@ -12,8 +14,8 @@ export class HeaderComponent {
     expanded = false;
 
     constructor(
-        @Inject(Router) private router: Router,
-        @Inject(AuthorizationService) private authorizationService: AuthorizationService,
+        @Inject(Store) private store: Store<RootStore>,
+        @Inject(AccessService) private accessService: AccessService,
     ) { }
 
     collapse = (): void => {
@@ -25,11 +27,10 @@ export class HeaderComponent {
     }
 
     signout = (): void => {
-        this.authorizationService.signout()
-            .subscribe(() => this.router.navigate(['/sign-in']));
+        this.store.dispatch(new Signout());
     }
 
     get authorized(): boolean {
-        return this.authorizationService.authorized;
+        return this.accessService.authorized;
     }
 }
