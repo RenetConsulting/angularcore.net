@@ -1,11 +1,8 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { EMPTY, Observable, of, Subject } from 'rxjs';
 import { catchError, concatMap } from 'rxjs/operators';
-import { SetError } from '../../actions/error.actions';
 import { HTTP_HEADER_NAMES } from '../../enums/http-header-names.type';
-import { RootStore } from '../../reducers';
 import { AuthorizationService } from '../../services/authorization/authorization.service';
 import { TokenService } from '../../services/token/token.service';
 
@@ -18,7 +15,6 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
     private loading: boolean;
 
     constructor(
-        @Inject(Store) private store: Store<RootStore>,
         @Inject(AuthorizationService) private authorizationService: AuthorizationService,
         @Inject(TokenService) private tokenService: TokenService,
     ) { }
@@ -55,11 +51,11 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
         return handler.handle(this.clone(request, this.tokenService.header));
     }
 
-    handleError = (error): Observable<any> => {
+    /** the error handles by {@link ErrorInterceptor} */
+    handleError = (): Observable<any> => {
         this.subjects.forEach(i => i.complete());
         this.subjects.length = 0;
         this.loading = false;
-        this.store.dispatch(new SetError(error.error));
         return EMPTY;
     }
 

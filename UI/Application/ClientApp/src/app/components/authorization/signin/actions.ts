@@ -1,5 +1,6 @@
 import { FormGroup } from '@angular/forms';
 import { Action } from '@ngrx/store';
+import { IToken } from '../../../interfaces/token';
 import { SigninTypes } from './types';
 
 export class Signin implements Action {
@@ -8,6 +9,10 @@ export class Signin implements Action {
 }
 export class SigninSuccess implements Action {
     readonly type = SigninTypes.SIGNIN_SUCCESS;
+    constructor(
+        readonly payload: FormGroup,
+        readonly success: IToken
+    ) { }
 }
 export class SigninError implements Action {
     readonly type = SigninTypes.SIGNIN_ERROR;

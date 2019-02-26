@@ -25,10 +25,8 @@ export class AuthorizationService {
     }
 
     get refreshRequest() {
-        return new HttpRequest('GET', `/api/Account/GenerateUserToken`, {
-            headers: new HttpHeaders({
-                ...HTTP_HEADERS.allowHttpError
-            }),
+        return new HttpRequest('GET', `/connect/token/refresh`, {
+            headers: new HttpHeaders({ ...HTTP_HEADERS.allowHttpError }),
             responseType: 'json'
         });
     }
@@ -42,10 +40,7 @@ export class AuthorizationService {
                 ...header
             }
         };
-        return this.http
-            .post<IToken>(`/connect/token`, body, options).pipe(
-                tap(this.tokenService.setToken)
-            );
+        return this.http.post<IToken>(`/connect/token`, body, options);
     }
 
     signin = (model: IUser) => this.getToken({

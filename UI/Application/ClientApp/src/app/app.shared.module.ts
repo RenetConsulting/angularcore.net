@@ -37,7 +37,7 @@ const MODULES = [
 const PROVIDERS: Array<Provider> = [
     {
         provide: HTTP_INTERCEPTORS, useClass: HttpAuthorizationInterceptor,
-        deps: [Store, AuthorizationService, TokenService], multi: true
+        deps: [AuthorizationService, TokenService], multi: true
     },
     { provide: HTTP_INTERCEPTORS, useClass: NoneCacheInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, deps: [Store], multi: true },
