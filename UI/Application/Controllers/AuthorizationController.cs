@@ -6,14 +6,18 @@
 namespace Application.Controllers
 {
     using System.Linq;
+    using System.Security.Authentication;
     using System.Threading.Tasks;
     using Application.Business;
     using Application.Business.CoreCaptcha;
+    using Application.Business.Models;
     using Application.DataAccess.Entities;
     using AspNet.Security.OpenIdConnect.Extensions;
     using AspNet.Security.OpenIdConnect.Primitives;
     using AspNet.Security.OpenIdConnect.Server;
     using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using OpenIddict.Abstractions;
     using OpenIddict.Mvc.Internal;
@@ -103,6 +107,34 @@ namespace Application.Controllers
                 Error = OpenIdConnectConstants.Errors.UnsupportedGrantType,
                 ErrorDescription = "The specified grant type is not supported."
             });
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("~/connect/token/refresh")]
+        public async Task<IActionResult> GenerateUserRefreshTokenAsync()
+        {
+            try
+            {
+                ExternalLoginInfo info = await this.signInManager
+               .GetExternalLoginInfoAsync()
+               .ConfigureAwait(false);
+
+                string accessToken = info.AuthenticationTokens.SingleOrDefault(i => i.Name == "access_token").Value;
+                string expiresAt = info.AuthenticationTokens.SingleOrDefault(i => i.Name == "expires_at").Value;
+                string tokeType = info.AuthenticationTokens.SingleOrDefault(i => i.Name == "token_type").Value;
+                string refreshtoken = info.AuthenticationTokens.SingleOrDefault(i => i.Name == "refresh_token").Value;
+
+                return this.Ok(new ExternalAccessData { AccessToken = accessToken, TokenType = tokeType, ExpiresAt = expiresAt, RefreshToken = refreshtoken });
+            }
+            catch (InvalidCredentialException ex)
+            {
+                return this.BadRequest(new OpenIdConnectResponse
+                {
+                    Error = OpenIdConnectConstants.Errors.InvalidToken,
+                    ErrorDescription = ex.Message
+                });
+            }
         }
 
         private async Task<AuthenticationTicket> CreateTicketAsync(

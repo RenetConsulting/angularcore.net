@@ -179,26 +179,6 @@ namespace Application.Controllers
             }
         }
 
-        [Authorize]
-        [HttpGet]
-        [Route("GenerateUserToken")]
-        public async Task<IActionResult> GenerateUserTokenAsync()
-        {
-            try
-            {
-                ApplicationUser user = await this.userManager.GetUserAsync(this.User)
-                    .ConfigureAwait(false);
-
-                string token = await this.userManager.GenerateTokenAsync(user);
-
-                return this.Ok(token);
-            }
-            catch (InvalidCredentialException ex)
-            {
-                return this.BadRequest(ex.Message);
-            }
-        }
-
         [HttpGet]
         [AllowAnonymous]
         [Route("ConfirmEmail")]
@@ -284,23 +264,6 @@ namespace Application.Controllers
             {
                 return this.BadRequest("User not registered.");
             }
-        }
-
-        [Authorize]
-        [HttpGet]
-        [Route("GenerateLocalToken")]
-        public async Task<IActionResult> GenerateLocalTokenAsync()
-        {
-            ExternalLoginInfo info = await this.signInManager
-                .GetExternalLoginInfoAsync()
-                .ConfigureAwait(false);
-
-            string accessToken = info.AuthenticationTokens.SingleOrDefault(i => i.Name == "access_token").Value;
-            string expiresAt = info.AuthenticationTokens.SingleOrDefault(i => i.Name == "expires_at").Value;
-            string tokeType = info.AuthenticationTokens.SingleOrDefault(i => i.Name == "token_type").Value;
-            string refreshtoken = info.AuthenticationTokens.SingleOrDefault(i => i.Name == "refresh_token").Value;
-
-            return this.Ok(new ExternalAccessData { AccessToken = accessToken, TokenType = tokeType, ExpiresAt = expiresAt, RefreshToken = refreshtoken });
         }
 
         [AllowAnonymous]
