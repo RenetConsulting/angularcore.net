@@ -19,6 +19,7 @@ import { HttpAuthorizationInterceptor } from './interceptors/http-authorization/
 import { NoneCacheInterceptor } from './interceptors/none-cache/none-cache.interceptor';
 import { metaReducers, REDUCERS } from './reducers';
 import { TokenService } from './services/token/token.service';
+import { ToolsService } from './services/tools/tools.service';
 import { BASE_URL } from './tokens/base-url.token';
 
 const MODULES = [
@@ -35,7 +36,7 @@ const MODULES = [
 ];
 
 const PROVIDERS: Array<Provider> = [
-    { provide: HTTP_INTERCEPTORS, useClass: HttpAuthorizationInterceptor, deps: [TokenService], multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpAuthorizationInterceptor, deps: [TokenService, ToolsService], multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: NoneCacheInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, deps: [Store], multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ApiPrefixInterceptor, deps: [BASE_URL], multi: true }

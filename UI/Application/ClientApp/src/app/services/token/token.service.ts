@@ -7,8 +7,8 @@ import { StorageService } from '../storage/storage.service';
 })
 export class TokenService {
 
-    /** the key for token */
-    private readonly key: string = 'token.tm';
+    /** the key for storage */
+    private readonly key: string = 'token';
     private _token: IToken;
 
     constructor(
@@ -38,6 +38,11 @@ export class TokenService {
     get header(): { [k: string]: string } | null {
         const item = this.token;
         return this.valid ? { authorization: `${item.token_type} ${item.access_token}` } : null;
+    }
+
+    get = <Key extends keyof IToken>(key: Key): IToken[Key] => {
+        const item = this.token;
+        return item && item[key];
     }
 
     setToken = (value: IToken): void => {
