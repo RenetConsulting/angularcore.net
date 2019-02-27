@@ -1,7 +1,7 @@
 import { HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { EMPTY, Observable, of, Subject } from 'rxjs';
-import { catchError, concatMap, mergeMap } from 'rxjs/operators';
+import { catchError, finalize, mergeMap } from 'rxjs/operators';
 import { HTTP_HEADERS } from '../../consts/http-headers';
 import { HTTP_HEADER_NAMES } from '../../enums/http-header-names.type';
 import { IConnectToken } from '../../interfaces/connect-token';
@@ -32,7 +32,6 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
         const body = this.toolsService.getQuery(item).replace(/^\?/, '');
         return new HttpRequest('POST', `/connect/token`, body, {
             headers: new HttpHeaders({ ...HTTP_HEADERS.contentTypeUrlencoded }),
-            responseType: 'json',
         });
     }
 
@@ -44,39 +43,40 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
                     const subject = new Subject<HttpRequest<any>>();
                     this.subjects.push(subject);
                     return subject.pipe(
-                        concatMap(() => handler.handle(this.clone(request, this.tokenService.header))));
+                        mergeMap(() => handler.handle(this.setAuthorization(request))));
                 }
                 this.loading = true;
                 return handler.handle(this.refreshRequest).pipe(
-                    mergeMap(i => i instanceof HttpResponse ? this.concatRequests(request, handler, i.body) : of(i)),
+                    mergeMap(i => i instanceof HttpResponse ? this.handleSuccess(request, handler, i.body) : of(i)),
                     catchError(this.handleError),
+                    finalize(this.handleFinalize)
                 );
             }
             else {
-                return handler.handle(this.clone(request, this.tokenService.header));
+                return handler.handle(this.setAuthorization(request));
             }
         }
         else {
-            return handler.handle(this.clone(request));
+            return handler.handle(request);
         }
     }
 
-    concatRequests = (request: HttpRequest<any>, handler: HttpHandler, token: IToken): Observable<HttpEvent<any>> => {
-        this.subjects.forEach(i => i.next(null));
-        this.subjects.length = 0;
-        this.loading = false;
+    handleSuccess = (request: HttpRequest<any>, handler: HttpHandler, token: IToken): Observable<HttpEvent<any>> => {
         this.tokenService.setToken(token);
-        return handler.handle(this.clone(request, this.tokenService.header));
+        this.subjects.forEach(i => i.next(null));
+        return handler.handle(this.setAuthorization(request));
     }
 
     /** the error handles by {@link ErrorInterceptor} */
-    handleError = (): Observable<any> => {
+    handleError = (): Observable<any> => EMPTY;
+
+    handleFinalize = (): void => {
         this.subjects.forEach(i => i.complete());
         this.subjects.length = 0;
         this.loading = false;
-        return EMPTY;
     }
 
-    clone = (request: HttpRequest<any>, headers?: { [key: string]: string }): HttpRequest<any> =>
-        request ? request.clone({ setHeaders: { ...headers } }) : request
+    setAuthorization = (request: HttpRequest<any>): HttpRequest<any> => {
+        return request ? request.clone({ setHeaders: this.tokenService.header }) : request
+    }
 }
