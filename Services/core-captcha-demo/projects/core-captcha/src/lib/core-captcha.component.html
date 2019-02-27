@@ -1,12 +1,15 @@
-<div class="p-5" *ngIf="captcha">
+<div class="mt-3 bg-light rounded p-5 mb-5" *ngIf="captcha">
     <img [src]="captcha?.image" />
+    <div class="d-block mt-3">
+        <mat-form-field class="d-block">
+            <input placeholder="Please input captcha signs" matInput [formControl]="formControl">
+        </mat-form-field>
+    </div>
     <div class="b-block">
         <button class="btn btn-link btn-lg px-0 text-secondary" type="button" (click)="getCaptcha()"><i class="fas fa-redo-alt"></i></button>
         <button class="btn btn-link btn-lg text-secondary" type="button" (click)="toggleAudio()"><i class="fas fa-headphones"></i></button>
     </div>
-    <div class="d-block">
-        <mat-form-field>
-            <input placeholder="Please input captcha signs" matInput [formControl]="formControl">
-        </mat-form-field>
+    <div class="d-flex justify-content-center">
+        <button class="btn btn-primary btn-lg shadow" type="button">Submit</button>
     </div>
 </div>
