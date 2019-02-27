@@ -16,11 +16,10 @@ export class TokenService {
     ) { }
 
     private get token(): IToken {
-        //if (!this._token) {
-        //    this._token = this.storageService.get(this.key);
-        //}
-        //return this._token && this._token.access_token && this._token.refresh_token ? this._token : null;
-        return this.storageService.get(this.key);
+        if (!this._token) {
+            this._token = this.storageService.get(this.key);
+        }
+        return this._token && this._token.access_token && this._token.refresh_token ? this._token : null;
     }
 
     get valid(): boolean {
