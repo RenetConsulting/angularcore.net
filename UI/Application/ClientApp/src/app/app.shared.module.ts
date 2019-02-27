@@ -12,13 +12,14 @@ import { AuthorizationModule } from './components/authorization/authorization.mo
 import { HeaderModule } from './components/header/header.module';
 import { HomeComponent } from './components/home/home.component';
 import { MessagerModule } from './components/messager/messager.module';
+import { AuthorizationEffects } from './effects/authorization.effects';
 import { ApiPrefixInterceptor } from './interceptors/api-prefix/api-prefix.interceptor';
 import { ErrorInterceptor } from './interceptors/error/error.interceptor';
 import { HttpAuthorizationInterceptor } from './interceptors/http-authorization/http-authorization.interceptor';
 import { NoneCacheInterceptor } from './interceptors/none-cache/none-cache.interceptor';
 import { metaReducers, REDUCERS } from './reducers';
-import { AuthorizationService } from './services/authorization/authorization.service';
 import { TokenService } from './services/token/token.service';
+import { ToolsService } from './services/tools/tools.service';
 import { BASE_URL } from './tokens/base-url.token';
 
 const MODULES = [
@@ -27,7 +28,7 @@ const MODULES = [
     HttpClientModule,
     RouterModule.forRoot(ROUTES),
     StoreModule.forRoot(REDUCERS, { metaReducers }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([AuthorizationEffects]),
     HeaderModule,
     MessagerModule,
     AccountModule,
@@ -35,10 +36,7 @@ const MODULES = [
 ];
 
 const PROVIDERS: Array<Provider> = [
-    {
-        provide: HTTP_INTERCEPTORS, useClass: HttpAuthorizationInterceptor,
-        deps: [Store, AuthorizationService, TokenService], multi: true
-    },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpAuthorizationInterceptor, deps: [TokenService, ToolsService], multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: NoneCacheInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, deps: [Store], multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ApiPrefixInterceptor, deps: [BASE_URL], multi: true }

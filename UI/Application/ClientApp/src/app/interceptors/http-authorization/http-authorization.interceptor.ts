@@ -1,13 +1,13 @@
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
+import { HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { EMPTY, Observable, of, Subject } from 'rxjs';
-import { catchError, concatMap } from 'rxjs/operators';
-import { SetError } from '../../actions/error.actions';
+import { catchError, concatMap, mergeMap } from 'rxjs/operators';
+import { HTTP_HEADERS } from '../../consts/http-headers';
 import { HTTP_HEADER_NAMES } from '../../enums/http-header-names.type';
-import { RootStore } from '../../reducers';
-import { AuthorizationService } from '../../services/authorization/authorization.service';
+import { IConnectToken } from '../../interfaces/connect-token';
+import { IToken } from '../../interfaces/token';
 import { TokenService } from '../../services/token/token.service';
+import { ToolsService } from '../../services/tools/tools.service';
 
 @Injectable({
     providedIn: 'root'
@@ -18,10 +18,23 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
     private loading: boolean;
 
     constructor(
-        @Inject(Store) private store: Store<RootStore>,
-        @Inject(AuthorizationService) private authorizationService: AuthorizationService,
         @Inject(TokenService) private tokenService: TokenService,
+        @Inject(ToolsService) private toolsService: ToolsService,
     ) { }
+
+    get refreshRequest() {
+        const refresh_token = this.tokenService.get('refresh_token');
+        const item: IConnectToken = {
+            grant_type: 'refresh_token',
+            scope: 'offline_access',
+            refresh_token,
+        };
+        const body = this.toolsService.getQuery(item).replace(/^\?/, '');
+        return new HttpRequest('POST', `/connect/token`, body, {
+            headers: new HttpHeaders({ ...HTTP_HEADERS.contentTypeUrlencoded }),
+            responseType: 'json',
+        });
+    }
 
     /** on each branch make sure that header is fresh */
     intercept(request: HttpRequest<any>, handler: HttpHandler): Observable<HttpEvent<any>> {
@@ -34,8 +47,8 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
                         concatMap(() => handler.handle(this.clone(request, this.tokenService.header))));
                 }
                 this.loading = true;
-                return handler.handle(this.clone(this.authorizationService.refreshRequest, this.tokenService.header)).pipe(
-                    concatMap(i => i instanceof HttpResponse ? this.concatRequests(request, handler) : of(i)),
+                return handler.handle(this.refreshRequest).pipe(
+                    mergeMap(i => i instanceof HttpResponse ? this.concatRequests(request, handler, i.body) : of(i)),
                     catchError(this.handleError),
                 );
             }
@@ -48,18 +61,19 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
         }
     }
 
-    concatRequests = (request: HttpRequest<any>, handler: HttpHandler) => (): Observable<HttpEvent<any>> => {
-        this.subjects.forEach(i => { i.next(null); });
+    concatRequests = (request: HttpRequest<any>, handler: HttpHandler, token: IToken): Observable<HttpEvent<any>> => {
+        this.subjects.forEach(i => i.next(null));
         this.subjects.length = 0;
         this.loading = false;
+        this.tokenService.setToken(token);
         return handler.handle(this.clone(request, this.tokenService.header));
     }
 
-    handleError = (error): Observable<any> => {
+    /** the error handles by {@link ErrorInterceptor} */
+    handleError = (): Observable<any> => {
         this.subjects.forEach(i => i.complete());
         this.subjects.length = 0;
         this.loading = false;
-        this.store.dispatch(new SetError(error.error));
         return EMPTY;
     }
 

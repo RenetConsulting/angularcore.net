@@ -1,13 +1,12 @@
-import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { HTTP_HEADERS } from '../../consts/http-headers';
 import { IConnectToken } from '../../interfaces/connect-token';
 import { IToken } from '../../interfaces/token';
 import { IUser } from '../../interfaces/user';
-import { TokenService } from '../token/token.service';
-import { ToolsService } from '../tools/tools.service';
+import { TokenService } from '../../services/token/token.service';
+import { ToolsService } from '../../services/tools/tools.service';
 
 @Injectable({
     providedIn: 'root'
@@ -20,40 +19,23 @@ export class AuthorizationService {
         @Inject(ToolsService) private toolsService: ToolsService,
     ) { }
 
-    get authorized(): boolean {
-        return this.tokenService.valid;
-    }
-
-    get refreshRequest() {
-        return new HttpRequest('GET', `/api/Account/GenerateUserToken`, {
-            headers: new HttpHeaders({
-                ...HTTP_HEADERS.allowHttpError
-            }),
-            responseType: 'json'
-        });
-    }
-
-    private getToken = (request: IConnectToken, header?: { [key: string]: string }): Observable<IToken> => {
-        const body = this.toolsService.getQuery(request).replace(/^\?/, '');
+    signin = (model: IUser) => {
+        const item: IConnectToken = {
+            scope: 'offline_access',
+            grant_type: 'password',
+            password: model.password,
+            username: model.email
+        };
+        const body = this.toolsService.getQuery(item).replace(/^\?/, '');
         const options = {
             headers: {
                 ...HTTP_HEADERS.contentTypeUrlencoded,
                 ...HTTP_HEADERS.allowAnonymous,
-                ...header
+                ...HTTP_HEADERS.allowHttpError
             }
         };
-        return this.http
-            .post<IToken>(`/connect/token`, body, options).pipe(
-                tap(this.tokenService.setToken)
-            );
+        return this.http.post<IToken>(`/connect/token`, body, options);
     }
-
-    signin = (model: IUser) => this.getToken({
-        scope: 'offline_access',
-        grant_type: 'password',
-        password: model.password,
-        username: model.email
-    }, { ...HTTP_HEADERS.allowHttpError })
 
     signup = (model: IUser) => this.http
         .post(`/api/account/register`, model, { headers: { ...HTTP_HEADERS.allowHttpError } })

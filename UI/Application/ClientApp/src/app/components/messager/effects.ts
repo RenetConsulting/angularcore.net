@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { map } from 'rxjs/operators';
-import { PushError, SetError } from '../../actions/error.actions';
+import { PushError, SetError } from '../../actions/message.actions';
 import { MessagesType } from '../../enums/messages.type';
 import { IError } from '../../interfaces/error';
-import { ErrorTypes } from '../../types/error.types';
+import { MessageTypes } from '../../types/message.types';
 
 @Injectable()
 export class MessagerEffects {
@@ -14,7 +14,7 @@ export class MessagerEffects {
     ) { }
 
     @Effect() error = this.actions.pipe(
-        ofType<SetError>(ErrorTypes.SET_ERROR),
+        ofType<SetError>(MessageTypes.SET_ERROR),
         map(i => i.payload),
         map(i => this.mapError(i)),
         map(i => new PushError(i))

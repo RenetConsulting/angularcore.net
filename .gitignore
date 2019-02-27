@@ -290,3 +290,4 @@ __pycache__/
 # Code Coverage
 [Cc]overage
 [Cc]overage.xml
+npm-debug.log.*
