@@ -47,10 +47,8 @@ namespace Application.Controllers
             this.signInManager = signInManager;
         }
 
-       // POST api/Account/Register
-       [AllowAnonymous]
-       [HttpPost]
-       [Route("Register")]
+        // POST api/account/register
+        [HttpPost("register")]
         public async Task<IActionResult> RegisterAsync(UserModel userModel)
         {
             if (!this.ModelState.IsValid)
@@ -73,10 +71,8 @@ namespace Application.Controllers
             }
         }
 
-        // GET api/Account/ResetPassword
-        [AllowAnonymous]
-        [HttpGet]
-        [Route("ResetPassword", Name = "ResetPassword")]
+        // GET api/password/send/token
+        [HttpGet("password/send/token")]
         public async Task<IActionResult> ResetPasswordAsync(string email)
         {
             string token = string.Empty;
@@ -109,9 +105,7 @@ namespace Application.Controllers
         }
 
         // POST api/Account/ResetPasswordFromMail
-        [AllowAnonymous]
-        [Route("ResetPasswordFromMail", Name = "ResetPasswordFromMail")]
-        [HttpPost]
+        [HttpPost("password/reset")]
         public async Task<IActionResult> ResetPasswordFromMailAsync([FromBody] ResetPasswordFromMailModel resetPasswordFromMailModel)
         {
             ActionResult returnCode = this.Ok();
@@ -155,8 +149,7 @@ namespace Application.Controllers
         }
 
         [Authorize]
-        [Route("ChangePassword")]
-        [HttpPost]
+        [HttpPost("password/change")]
         public async Task<IActionResult> ChangePasswordAsync([FromBody]ChangePasswordModel changePasswordModel)
         {
             if (!this.ModelState.IsValid)
@@ -179,9 +172,7 @@ namespace Application.Controllers
             }
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-        [Route("ConfirmEmail")]
+        [HttpGet("email/confirm")]
         public async Task<IActionResult> ConfirmEmailAsync(string email, string token)
         {
             ApplicationUser user = await this.userManager.FindByEmailAsync(email).ConfigureAwait(false);
@@ -217,32 +208,7 @@ namespace Application.Controllers
             }
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-        [Route("EmailConfirmed", Name = "EmailConfirmed")]
-        public async Task<IActionResult> EmailConfirmedAsync(string email)
-        {
-            ApplicationUser user = await this.userManager.FindByEmailAsync(email).ConfigureAwait(false);
-            if (user != null)
-            {
-                if (user.EmailConfirmed)
-                {
-                    return this.Ok();
-                }
-                else
-                {
-                    return this.BadRequest("You still not confirmed your email address. Please, check for login.");
-                }
-            }
-            else
-            {
-                return this.BadRequest("This user not registered.");
-            }
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        [Route("ResendEmail", Name = "ResendEmail")]
+        [HttpGet("email/send/token")]
         public async Task<IActionResult> ResendEmailAsync(string email)
         {
             ApplicationUser user = await this.userManager.FindByEmailAsync(email).ConfigureAwait(false);

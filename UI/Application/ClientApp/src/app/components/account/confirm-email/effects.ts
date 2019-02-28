@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { of } from 'rxjs';
+import { EMPTY } from 'rxjs';
 import { catchError, mapTo, mergeMap, tap } from 'rxjs/operators';
-import { SetError, SetSuccessMessage } from '../../../actions/message.actions';
+import { SetSuccessMessage } from '../../../actions/message.actions';
 import { MessagesType } from '../../../enums/messages.type';
 import { AccountService } from '../../../services/account/account.service';
 import { ConfirmEmail, ConfirmEmailSuccess } from './actions';
@@ -21,7 +21,7 @@ export class ConfirmEmailEffects {
         mergeMap(x => this.accountService.confirmEmail(x.payload.value).pipe(
             tap(() => x.payload.reset()),
             mapTo(new ConfirmEmailSuccess()),
-            catchError(e => of(new SetError(e.error)))
+            catchError(() => EMPTY)
         ))
     );
 

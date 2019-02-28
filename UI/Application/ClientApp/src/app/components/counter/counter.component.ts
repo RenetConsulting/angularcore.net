@@ -27,15 +27,17 @@ export class CounterComponent implements OnInit {
     }
 
     testError = () => {
-        this.http.get(`testError`).subscribe();
+        this.http.get(`/testError`).subscribe();
     }
 
     refresh = (): void => {
         if (typeof localStorage !== 'undefined') {
             var key = 'token'
             var token = JSON.parse(localStorage.getItem(key))
-            token.expired_at = Date.now();
-            localStorage.setItem(key, JSON.stringify(token))
+            if (token) {
+                token.expired_at = Date.now();
+                localStorage.setItem(key, JSON.stringify(token))
+            }
         }
         this.test();
     }

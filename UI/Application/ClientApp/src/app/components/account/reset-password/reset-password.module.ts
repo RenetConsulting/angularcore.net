@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { metaReducers } from '../../../reducers';
@@ -16,6 +17,7 @@ const MODULES = [
     ResetPasswordRoutingModule,
     ReactiveFormsModule,
     MatButtonModule,
+    MatCardModule,
     ControlInputModule,
     StoreModule.forRoot({ resetPassword: resetPasswordReducer }, { metaReducers }),
     EffectsModule.forRoot([ResetPasswordEffects]),
@@ -26,11 +28,7 @@ const COMPONENTS = [
 ];
 
 @NgModule({
-    imports: [
-        ...MODULES
-    ],
-    declarations: [
-        ...COMPONENTS
-    ]
+    imports: [...MODULES],
+    declarations: [...COMPONENTS]
 })
 export class ResetPasswordModule { }
