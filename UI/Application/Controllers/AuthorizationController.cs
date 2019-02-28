@@ -56,7 +56,7 @@ namespace Application.Controllers
             });
         }
 
-        [HttpGet("~/connect/signout")]
+        [HttpDelete("~/connect/signout")]
         public async Task<IActionResult> SignOutAsync()
         {
             await this.HttpContext.SignOutAsync("Identity.Application")
