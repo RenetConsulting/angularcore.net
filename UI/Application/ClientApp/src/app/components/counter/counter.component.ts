@@ -37,5 +37,6 @@ export class CounterComponent implements OnInit {
             token.expired_at = Date.now();
             localStorage.setItem(key, JSON.stringify(token))
         }
+        this.test();
     }
 }
