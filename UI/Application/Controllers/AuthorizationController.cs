@@ -5,19 +5,15 @@
 
 namespace Application.Controllers
 {
+    using System;
     using System.Linq;
-    using System.Security.Authentication;
     using System.Threading.Tasks;
     using Application.Business;
-    using Application.Business.CoreCaptcha;
-    using Application.Business.Models;
     using Application.DataAccess.Entities;
     using AspNet.Security.OpenIdConnect.Extensions;
     using AspNet.Security.OpenIdConnect.Primitives;
     using AspNet.Security.OpenIdConnect.Server;
     using Microsoft.AspNetCore.Authentication;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using OpenIddict.Abstractions;
     using OpenIddict.Mvc.Internal;
@@ -40,11 +36,11 @@ namespace Application.Controllers
         // [ServiceFilter(typeof(CoreCaptchaFilter))]
         [HttpPost("~/connect/token")]
         [Produces("application/json")]
-        public async Task<IActionResult> Exchange([ModelBinder(typeof(OpenIddictMvcBinder))] OpenIdConnectRequest request)
+        public async Task<IActionResult> ExchangeAsync([ModelBinder(typeof(OpenIddictMvcBinder))] OpenIdConnectRequest request)
         {
             if (request.IsPasswordGrantType())
             {
-                return await this.PasswordGrantType(request);
+                return await this.PasswordGrantTypeAsync(request);
             }
 
             // grant_type=refresh_token&refresh_token=tGzv3JOkF0XG5Qx2TlKWIA
@@ -60,7 +56,7 @@ namespace Application.Controllers
             });
         }
 
-        internal async Task<IActionResult> PasswordGrantType([ModelBinder(typeof(OpenIddictMvcBinder))] OpenIdConnectRequest request)
+        internal async Task<IActionResult> PasswordGrantTypeAsync([ModelBinder(typeof(OpenIddictMvcBinder))] OpenIdConnectRequest request)
         {
             var user = await this.userManager.FindByNameAsync(request.Username);
             if (user == null)
@@ -122,36 +118,47 @@ namespace Application.Controllers
 
         internal async Task<IActionResult> RefreshTokenGrantType([ModelBinder(typeof(OpenIddictMvcBinder))] OpenIdConnectRequest request)
         {
-            // Retrieve the claims principal stored in the refresh token.
-            var info = await this.HttpContext.AuthenticateAsync(OpenIdConnectServerDefaults.AuthenticationScheme).ConfigureAwait(false);
+            try
+            {
+                // Retrieve the claims principal stored in the refresh token.
+                var info = await this.HttpContext.AuthenticateAsync(OpenIdConnectServerDefaults.AuthenticationScheme).ConfigureAwait(false);
 
-            // Retrieve the user profile corresponding to the refresh token.
-            var user = await this.userManager.GetUserAsync(info.Principal).ConfigureAwait(false);
+                // Retrieve the user profile corresponding to the refresh token.
+                var user = await this.userManager.GetUserAsync(info.Principal).ConfigureAwait(false);
 
-            if (user == null)
+                if (user == null)
+                {
+                    return this.BadRequest(new OpenIdConnectResponse
+                    {
+                        Error = OpenIdConnectConstants.Errors.InvalidGrant,
+                        ErrorDescription = "The refresh token is no longer valid."
+                    });
+                }
+
+                // Ensure the user is still allowed to sign in.
+                if (!await this.signInManager.CanSignInAsync(user).ConfigureAwait(false))
+                {
+                    return this.BadRequest(new OpenIdConnectResponse
+                    {
+                        Error = OpenIdConnectConstants.Errors.InvalidGrant,
+                        ErrorDescription = "The user is no longer allowed to sign in."
+                    });
+                }
+
+                // Create a new authentication ticket, but reuse the properties stored
+                // in the refresh token, including the scopes originally granted.
+                var ticket = await this.CreateTicketAsync(request, user, info.Properties).ConfigureAwait(false);
+
+                return this.SignIn(ticket.Principal, ticket.Properties, ticket.AuthenticationScheme);
+            }
+            catch (Exception ex)
             {
                 return this.BadRequest(new OpenIdConnectResponse
                 {
                     Error = OpenIdConnectConstants.Errors.InvalidGrant,
-                    ErrorDescription = "The refresh token is no longer valid."
+                    ErrorDescription = ex.Message
                 });
             }
-
-            // Ensure the user is still allowed to sign in.
-            if (!await this.signInManager.CanSignInAsync(user).ConfigureAwait(false))
-            {
-                return this.BadRequest(new OpenIdConnectResponse
-                {
-                    Error = OpenIdConnectConstants.Errors.InvalidGrant,
-                    ErrorDescription = "The user is no longer allowed to sign in."
-                });
-            }
-
-            // Create a new authentication ticket, but reuse the properties stored
-            // in the refresh token, including the scopes originally granted.
-            var ticket = await this.CreateTicketAsync(request, user, info.Properties).ConfigureAwait(false);
-
-            return this.SignIn(ticket.Principal, ticket.Properties, ticket.AuthenticationScheme);
         }
 
         private async Task<AuthenticationTicket> CreateTicketAsync(
