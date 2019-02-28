@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { EffectsModule } from '@ngrx/effects';
 import { ControlInputModule } from '../../control-input/control-input.module';
 import { PrepResetPasswordEffects } from './effects';
@@ -13,6 +14,7 @@ const MODULES = [
     PrepResetPasswordRoutingModule,
     ReactiveFormsModule,
     MatButtonModule,
+    MatCardModule,
     ControlInputModule,
     EffectsModule.forRoot([PrepResetPasswordEffects]),
 ];
