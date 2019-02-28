@@ -30,7 +30,7 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
             refresh_token,
         };
         const body = this.toolsService.getQuery(item).replace(/^\?/, '');
-        return new HttpRequest('POST', `/connect/token`, body, {
+        return new HttpRequest('POST', `/connect/refresh`, body, {
             headers: new HttpHeaders({ ...HTTP_HEADERS.contentTypeUrlencoded }),
         });
     }

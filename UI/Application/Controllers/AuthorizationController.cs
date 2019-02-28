@@ -56,6 +56,23 @@ namespace Application.Controllers
             });
         }
 
+        [HttpPost("~/connect/refresh")]
+        [Produces("application/json")]
+        public async Task<IActionResult> RefreshTokenAsync([ModelBinder(typeof(OpenIddictMvcBinder))] OpenIdConnectRequest request)
+        {
+            // grant_type=refresh_token&refresh_token=tGzv3JOkF0XG5Qx2TlKWIA
+            if (request.IsRefreshTokenGrantType())
+            {
+                return await this.RefreshTokenGrantTypeAsync(request);
+            }
+
+            return this.BadRequest(new OpenIdConnectResponse
+            {
+                Error = OpenIdConnectConstants.Errors.UnsupportedGrantType,
+                ErrorDescription = "The specified grant type is not supported."
+            });
+        }
+
         internal async Task<IActionResult> PasswordGrantTypeAsync([ModelBinder(typeof(OpenIddictMvcBinder))] OpenIdConnectRequest request)
         {
             var user = await this.userManager.FindByNameAsync(request.Username);

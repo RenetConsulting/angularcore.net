@@ -159,6 +159,10 @@ namespace Application
                     // Enable the authorization, logout, token and userinfo endpoints.
                     options.EnableTokenEndpoint("/connect/token");
 
+                    // Enable endpoint for refresh token (there are only few methods can fit to refresh token: EnableUserinfoEndpoint and EnableLogoutEndpoint)
+                    // in other case there will be an error 500, endpoint EnableTokenEndpoint we can't use because it might have a captcha decorator
+                    options.EnableLogoutEndpoint("/connect/refresh");
+
                     // Note: the Mvc.Client sample only uses the code flow and the password flow, but you
                     // can enable the other flows if you need to support implicit or client credentials.
                     options.AllowPasswordFlow()
