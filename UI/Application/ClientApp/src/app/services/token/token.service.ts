@@ -9,17 +9,18 @@ export class TokenService {
 
     /** the key for storage */
     private readonly key: string = 'token';
-    private _token: IToken;
+    /*private */_token: IToken;
 
     constructor(
         @Inject(StorageService) private storageService: StorageService
     ) { }
 
     private get token(): IToken {
-        if (!this._token) {
-            this._token = this.storageService.get(this.key);
-        }
-        return this._token && this._token.access_token && this._token.refresh_token ? this._token : null;
+        return this._token = this.storageService.get(this.key);
+        //if (!this._token) {
+        //    this._token = this.storageService.get(this.key);
+        //}
+        //return this._token && this._token.access_token && this._token.refresh_token ? this._token : null;
     }
 
     get valid(): boolean {
