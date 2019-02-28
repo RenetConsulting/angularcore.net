@@ -24,11 +24,7 @@ const COMPONENTS = [
 ];
 
 @NgModule({
-    imports: [
-        ...MODULES
-    ],
-    declarations: [
-        ...COMPONENTS
-    ]
+    imports: [...MODULES],
+    declarations: [...COMPONENTS]
 })
 export class ConfirmEmailModule { }
