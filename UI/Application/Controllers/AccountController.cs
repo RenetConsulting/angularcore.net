@@ -266,23 +266,6 @@ namespace Application.Controllers
             }
         }
 
-        [AllowAnonymous]
-        [HttpGet]
-        [Route("SignOut")]
-        public async Task<IActionResult> SignOutAsync()
-        {
-            await this.HttpContext.SignOutAsync("Identity.Application")
-                .ConfigureAwait(false);
-
-            await this.HttpContext.SignOutAsync("Identity.External")
-                .ConfigureAwait(false);
-
-            await this.signInManager.SignOutAsync()
-                .ConfigureAwait(false);
-
-            return this.Ok();
-        }
-
         internal async Task<ActionResult> SendEmailAsync(string emailTo, string subject, string message)
         {
             ActionResult returnCode = this.Ok();
