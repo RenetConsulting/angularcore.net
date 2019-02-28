@@ -19,27 +19,26 @@ export class AccountService {
     ) { }
 
     changePassword = (model: IChangePassword) => this.http
-        .post(`${this.url}/ChangePassword`, model, { headers: { ...HTTP_HEADERS.allowHttpError } })
-
-    confirmEmail = (model: IConfirmEmail) => {
-        const body = this.toolsService.getQuery(model);
-        return this.http
-            .get(`${this.url}/ConfirmEmail${body}`);
-    }
+        .post(`${this.url}/password/change`, model, { headers: { ...HTTP_HEADERS.allowHttpError } })
 
     prepResetPassword = (email: string) => {
         const body = this.toolsService.getQuery({ email });
         return this.http
-            .get(`${this.url}/ResetPassword${body}`);
+            .get(`${this.url}/password/send/token${body}`);
     }
 
     resetPassword = (model: IResetPassword) => this.http
-        .post(`${this.url}/ResetPasswordFromMail`, model, { headers: { ...HTTP_HEADERS.allowHttpError } })
+        .post(`${this.url}/password/reset`, model, { headers: { ...HTTP_HEADERS.allowHttpError } })
 
+    confirmEmail = (model: IConfirmEmail) => {
+        const body = this.toolsService.getQuery(model);
+        return this.http
+            .get(`${this.url}/email/confirm${body}`);
+    }
 
     resendConfirmation = (email: string) => {
         const body = this.toolsService.getQuery({ email });
         return this.http
-            .get(`${this.url}/ResendEmail${body}`);
+            .get(`${this.url}/email/send/token${body}`);
     }
 }
