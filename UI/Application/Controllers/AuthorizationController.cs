@@ -59,6 +59,7 @@ namespace Application.Controllers
         internal async Task<IActionResult> PasswordGrantTypeAsync([ModelBinder(typeof(OpenIddictMvcBinder))] OpenIdConnectRequest request)
         {
             var user = await this.userManager.FindByNameAsync(request.Username);
+
             if (user == null)
             {
                 return this.BadRequest(new OpenIdConnectResponse
@@ -79,6 +80,7 @@ namespace Application.Controllers
 
             // Validate the username/password parameters and ensure the account is not locked out.
             var result = await this.signInManager.CheckPasswordSignInAsync(user, request.Password, lockoutOnFailure: true);
+
             if (!result.Succeeded)
             {
                 if (result.IsLockedOut)
@@ -155,7 +157,6 @@ namespace Application.Controllers
             {
                 return this.BadRequest(new OpenIdConnectResponse
                 {
-                    Error = OpenIdConnectConstants.Errors.InvalidGrant,
                     ErrorDescription = ex.Message
                 });
             }
