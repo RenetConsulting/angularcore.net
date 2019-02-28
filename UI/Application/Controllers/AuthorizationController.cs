@@ -73,6 +73,21 @@ namespace Application.Controllers
             });
         }
 
+        [HttpGet("~/connect/signout")]
+        public async Task<IActionResult> SignOutAsync()
+        {
+            await this.HttpContext.SignOutAsync("Identity.Application")
+                .ConfigureAwait(false);
+
+            await this.HttpContext.SignOutAsync("Identity.External")
+                .ConfigureAwait(false);
+
+            await this.signInManager.SignOutAsync()
+                .ConfigureAwait(false);
+
+            return this.Ok();
+        }
+
         internal async Task<IActionResult> PasswordGrantTypeAsync([ModelBinder(typeof(OpenIddictMvcBinder))] OpenIdConnectRequest request)
         {
             var user = await this.userManager.FindByNameAsync(request.Username);

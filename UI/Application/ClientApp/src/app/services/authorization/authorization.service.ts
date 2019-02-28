@@ -41,7 +41,7 @@ export class AuthorizationService {
         .post(`/api/account/register`, model, { headers: { ...HTTP_HEADERS.allowHttpError } })
 
     signout = () => this.http
-        .get<IToken>(`/api/account/signout`, { headers: { ...HTTP_HEADERS.allowExpiredToken } }).pipe(
+        .get<IToken>(`/connect/signout`, { headers: { ...HTTP_HEADERS.allowExpiredToken } }).pipe(
             tap(this.tokenService.clean)
         )
 }
