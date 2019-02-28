@@ -10,6 +10,7 @@ namespace Application.Controllers
     using System.Threading.Tasks;
     using Application.Business;
     using Application.DataAccess.Entities;
+    using Application.DataAccess.Enums;
     using AspNet.Security.OpenIdConnect.Extensions;
     using AspNet.Security.OpenIdConnect.Primitives;
     using AspNet.Security.OpenIdConnect.Server;
@@ -89,7 +90,8 @@ namespace Application.Controllers
                 return this.BadRequest(new OpenIdConnectResponse
                 {
                     Error = OpenIdConnectConstants.Errors.AccessDenied,
-                    ErrorDescription = "Please confirm your email address."
+                    ErrorDescription = "Please confirm your email address.",
+                    Code = ((int)ErrorNumbers.ConfirmEmail).ToString()
                 });
             }
 
