@@ -46,7 +46,7 @@ namespace Application.Controllers
             // grant_type=refresh_token&refresh_token=tGzv3JOkF0XG5Qx2TlKWIA
             if (request.IsRefreshTokenGrantType())
             {
-                return await this.RefreshTokenGrantType(request);
+                return await this.RefreshTokenGrantTypeAsync(request);
             }
 
             return this.BadRequest(new OpenIdConnectResponse
@@ -116,7 +116,7 @@ namespace Application.Controllers
             return this.SignIn(ticket.Principal, ticket.Properties, ticket.AuthenticationScheme);
         }
 
-        internal async Task<IActionResult> RefreshTokenGrantType([ModelBinder(typeof(OpenIddictMvcBinder))] OpenIdConnectRequest request)
+        internal async Task<IActionResult> RefreshTokenGrantTypeAsync([ModelBinder(typeof(OpenIddictMvcBinder))] OpenIdConnectRequest request)
         {
             try
             {
