@@ -1,0 +1,11 @@
+@import '../app/styles/blue.palette.scss';
+@import './app.mixin.scss';
+
+/** here is an example of creating custom mixin of a theme https://stackblitz.com/edit/angular-material-custom-background?file=theme.scss */
+$primary: mat-palette($mat-blue-palette);
+$accent: mat-palette($mat-green, A200, A100, A400);
+$theme: mat-light-theme($primary, $accent);
+
+@include mat-core();
+@include angular-material-theme($theme);
+@include app-theme($theme);

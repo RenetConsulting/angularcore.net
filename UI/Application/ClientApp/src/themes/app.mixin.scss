@@ -1,7 +1,9 @@
-@import '../../../node_modules/@angular/material/theming';
-@import '../components/header/_header-theme';
+@import '../../node_modules/@angular/material/theming';
+@import '../app/components/app/theme';
+@import '../app/components/header/theme';
+@import '../app/components/logo/theme';
 
-// Styles for the docs app that are based on the current theme.
+/** Mixin to combine styles for all components */
 @mixin app-theme($theme) {
     $primary: map-get($theme, primary);
     $accent: map-get($theme, accent);
@@ -10,5 +12,7 @@
     $foreground: map-get($theme, foreground);
     $next-theme: mat-palette($mat-red);
 
+    @include app-root-theme($theme);
     @include header-theme($theme);
+    @include logo-theme($theme);
 }
