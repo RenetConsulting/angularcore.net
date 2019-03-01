@@ -3,6 +3,9 @@
   "Values": {
     "AzureWebJobsStorage": "",
     "AzureWebJobsDashboard": "",
-    "ClientId": "12345" 
+    "ClientId": "12345"
+  },
+  "Host": {
+    "LocalHttpPort": 44301
   }
 }

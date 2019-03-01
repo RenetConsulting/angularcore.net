@@ -23,7 +23,7 @@ namespace CoreCaptcha
         private static readonly int DefaultHeight = 40;
 
         [FunctionName("CaptchaCreate")]
-        public static async Task<HttpResponseMessage> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)]HttpRequestMessage req, ExecutionContext context, TraceWriter log)
+        public static async Task<HttpResponseMessage> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "options", Route = null)]HttpRequestMessage req, ExecutionContext context, TraceWriter log)
         {
             log.Info("CaptchaGet HTTP trigger function processed a request.");
 
@@ -34,7 +34,6 @@ namespace CoreCaptcha
             var captchaCode = CSCaptchaCodeASPNETCore.Captcha.GenerateCaptchaCode(5);
 
             var result = CSCaptchaCodeASPNETCore.Captcha.GenerateCaptchaImage(width, height, captchaCode);
-
 
             Stream captchaStream = new MemoryStream(result.CaptchaByteData);
             string imageHeader = "data:image/png;base64,";
@@ -64,6 +63,9 @@ namespace CoreCaptcha
             var response = req.CreateResponse(HttpStatusCode.OK, model, formatter, "application/json");
 
             response.Content.Headers.Add("Access-Control-Allow-Origin", "*");
+            response.Content.Headers.Add("Access-Control-Allow-Credentials", "true");
+            response.Content.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
+            response.Content.Headers.Add("Access-Control-Allow-Headers", "Origin, Content-Type, Pragma, Cache-Control");
 
             return response;
         }
