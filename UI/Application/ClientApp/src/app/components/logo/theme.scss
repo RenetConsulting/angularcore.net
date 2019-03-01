@@ -9,6 +9,12 @@
     logo {
         .brand {
             background: mat-color($background, card);
+            h1 {
+                color: mat-color($primary);
+            }
+            span {
+                color: mat-color($foreground, text);
+            }
         }
     }
 }

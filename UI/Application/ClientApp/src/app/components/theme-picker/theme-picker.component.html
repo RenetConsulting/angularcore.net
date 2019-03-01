@@ -1,4 +1,4 @@
-<button mat-button [matMenuTriggerFor]="menuRef">fill-drip</button>
+<button mat-button [matMenuTriggerFor]="menuRef"><i class="fas fa-fill-drip h3 mb-0"></i></button>
 <mat-menu #menuRef="matMenu">
     <button mat-menu-item *ngFor="let item of items" [style.background]="item.primary" (click)="setTheme(item.name)">
         {{item.name}}

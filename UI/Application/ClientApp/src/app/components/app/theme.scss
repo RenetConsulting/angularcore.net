@@ -12,6 +12,11 @@
     app-root {
         main {
             background: if($is-dark-theme, $background-dark, $background-light);
+            color: mat-color($foreground, text);
+
+            a, code {
+                color: mat-color($primary);
+            }
         }
     }
 }
