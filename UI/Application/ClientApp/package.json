@@ -38,7 +38,7 @@
     "@ngrx/store": "^7.3.0",
     "@ngrx/store-devtools": "^7.3.0",
     "@nguniversal/module-map-ngfactory-loader": "^7.0.2",
-    "@renet-consulting/core-captcha": "0.0.2",
+    "@renet-consulting/core-captcha": "0.0.3",
     "@renet-consulting/ngx-link-stylesheet": "0.0.1",
     "aspnet-prerendering": "^3.0.1",
     "bootstrap": "^4.3.1",
