@@ -137,5 +137,14 @@ namespace Application.Business
 
             return await this.Me.ChangePasswordAsync(user, oldPassword, newPassword);
         }
+
+        public async Task<string> GenerateEmailTokenAsync(string userId)
+        {
+            TUser user = await this.Me.FindByIdAsync(userId);
+
+            string result = await this.Me.GenerateEmailConfirmationTokenAsync(user);
+
+            return result;
+        }
     }
 }
