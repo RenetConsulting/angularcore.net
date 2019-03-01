@@ -9,13 +9,14 @@ namespace Application.Business.CoreCaptcha
     using System.Linq;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
 
-    public class CoreCaptchaFilter : IAsyncResourceFilter
+    public class CoreCaptchaFilter : IAsyncResourceFilter, ICoreCaptcha
     {
         private const string ErrorCode = "InvalidCoreCaptcha";
         private readonly IConfiguration config;
@@ -51,23 +52,7 @@ namespace Application.Business.CoreCaptcha
 
         public async Task OnResourceExecutionAsync(ResourceExecutingContext context, ResourceExecutionDelegate next)
         {
-            var req = context.HttpContext.Request;
-            string hash = string.Empty;
-            string captcha = string.Empty;
-
-            if (req.HasFormContentType)
-            {
-                hash = req.Form[this.Hash].FirstOrDefault();
-                captcha = req.Form[this.Captcha].FirstOrDefault();
-            }
-            else
-            {
-                if (req.QueryString.HasValue)
-                {
-                    hash = req.Query[this.Hash].FirstOrDefault();
-                    captcha = req.Query[this.Captcha].FirstOrDefault();
-                }
-            }
+            this.CaptchaDataFromRequest(context.HttpContext.Request, out string hash, out string captcha);
 
             if (string.IsNullOrEmpty(hash) || string.IsNullOrEmpty(captcha))
             {
@@ -99,8 +84,20 @@ namespace Application.Business.CoreCaptcha
             }
         }
 
+        public async Task<bool> CaptchaValidate(HttpRequest request)
+        {
+            this.CaptchaDataFromRequest(request, out string hash, out string captcha);
+
+            return await this.CaptchaValidate(hash, captcha);
+        }
+
         public async Task<bool> CaptchaValidate(string hash, string captcha)
         {
+            if (string.IsNullOrEmpty(hash) || string.IsNullOrEmpty(captcha))
+            {
+                return false;
+            }
+
             using (HttpClient client = new HttpClient())
             {
                 string captchaValidate = string.Format(this.coreCaptchaSettings.ValidateUrl + "?hash={0}&captcha={1}&clientId={2}", hash, captcha, this.coreCaptchaSettings.ClientId);
@@ -122,6 +119,25 @@ namespace Application.Business.CoreCaptcha
                     this.logger.LogError(ex, ex.Message);
 
                     throw;
+                }
+            }
+        }
+
+        internal void CaptchaDataFromRequest(HttpRequest req, out string hash, out string captcha)
+        {
+            hash = string.Empty;
+            captcha = string.Empty;
+            if (req.HasFormContentType)
+            {
+                hash = req.Form[this.Hash].FirstOrDefault();
+                captcha = req.Form[this.Captcha].FirstOrDefault();
+            }
+            else
+            {
+                if (req.QueryString.HasValue)
+                {
+                    hash = req.Query[this.Hash].FirstOrDefault();
+                    captcha = req.Query[this.Captcha].FirstOrDefault();
                 }
             }
         }

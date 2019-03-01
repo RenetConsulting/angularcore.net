@@ -9,6 +9,7 @@ namespace Application.Controllers
     using System.Linq;
     using System.Threading.Tasks;
     using Application.Business;
+    using Application.Business.CoreCaptcha;
     using Application.DataAccess.Entities;
     using AspNet.Security.OpenIdConnect.Extensions;
     using AspNet.Security.OpenIdConnect.Primitives;
@@ -24,13 +25,17 @@ namespace Application.Controllers
 
         private readonly ApplicationUserManager<ApplicationUser> userManager;
 
+        private readonly ICoreCaptcha coreCaptcha;
+
         public AuthorizationController(
             ApplicationSignInManager<ApplicationUser> signInManager,
-            ApplicationUserManager<ApplicationUser> userManager)
+            ApplicationUserManager<ApplicationUser> userManager,
+            ICoreCaptcha coreCaptcha)
             : base()
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
+            this.coreCaptcha = coreCaptcha;
         }
 
         // [ServiceFilter(typeof(CoreCaptchaFilter))]
@@ -43,23 +48,6 @@ namespace Application.Controllers
                 return await this.PasswordGrantTypeAsync(request);
             }
 
-            // grant_type=refresh_token&refresh_token=tGzv3JOkF0XG5Qx2TlKWIA
-            if (request.IsRefreshTokenGrantType())
-            {
-                return await this.RefreshTokenGrantTypeAsync(request);
-            }
-
-            return this.BadRequest(new OpenIdConnectResponse
-            {
-                Error = OpenIdConnectConstants.Errors.UnsupportedGrantType,
-                ErrorDescription = "The specified grant type is not supported."
-            });
-        }
-
-        [HttpPost("~/connect/refresh")]
-        [Produces("application/json")]
-        public async Task<IActionResult> RefreshTokenAsync([ModelBinder(typeof(OpenIddictMvcBinder))] OpenIdConnectRequest request)
-        {
             // grant_type=refresh_token&refresh_token=tGzv3JOkF0XG5Qx2TlKWIA
             if (request.IsRefreshTokenGrantType())
             {
@@ -88,6 +76,20 @@ namespace Application.Controllers
             return this.Ok();
         }
 
+        [HttpPost("~/connect/logout")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LogoutAsync()
+        {
+            // Ask ASP.NET Core Identity to delete the local and external cookies created
+            // when the user agent is redirected from the external identity provider
+            // after a successful authentication flow (e.g Google or Facebook).
+            await this.signInManager.SignOutAsync();
+
+            // Returning a SignOutResult will ask OpenIddict to redirect the user agent
+            // to the post_logout_redirect_uri specified by the client application.
+            return this.SignOut(OpenIdConnectServerDefaults.AuthenticationScheme);
+        }
+
         internal async Task<IActionResult> PasswordGrantTypeAsync([ModelBinder(typeof(OpenIddictMvcBinder))] OpenIdConnectRequest request)
         {
             var user = await this.userManager.FindByNameAsync(request.Username);
@@ -108,6 +110,19 @@ namespace Application.Controllers
                     Error = OpenIdConnectConstants.Errors.AccessDenied,
                     ErrorDescription = "Please confirm your email address."
                 });
+            }
+
+            if (user.AccessFailedCount > 0)
+            {
+                // validate captcha
+                if (!await this.coreCaptcha.CaptchaValidate(this.Request))
+                {
+                    return this.BadRequest(new OpenIdConnectResponse
+                    {
+                        Error = "InvalidCoreCaptcha",
+                        ErrorDescription = "Invalid or missing CoreCaptcha"
+                    });
+                }
             }
 
             // Validate the username/password parameters and ensure the account is not locked out.
@@ -158,6 +173,9 @@ namespace Application.Controllers
                 var info = await this.HttpContext.AuthenticateAsync(OpenIdConnectServerDefaults.AuthenticationScheme).ConfigureAwait(false);
 
                 // Retrieve the user profile corresponding to the refresh token.
+                // Note: if you want to automatically invalidate the refresh token
+                // when the user password/roles change, use the following line instead:
+                // var user = _signInManager.ValidateSecurityStampAsync(info.Principal);
                 var user = await this.userManager.GetUserAsync(info.Principal).ConfigureAwait(false);
 
                 if (user == null)

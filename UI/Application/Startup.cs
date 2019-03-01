@@ -161,7 +161,7 @@ namespace Application
 
                     // Enable endpoint for refresh token (there are only few methods can fit to refresh token: EnableUserinfoEndpoint and EnableLogoutEndpoint)
                     // in other case there will be an error 500, endpoint EnableTokenEndpoint we can't use because it might have a captcha decorator
-                    options.EnableLogoutEndpoint("/connect/refresh");
+                    // ---options.EnableLogoutEndpoint("/connect/logout"); // This end point for logoff. Should be Post or Get
 
                     // Note: the Mvc.Client sample only uses the code flow and the password flow, but you
                     // can enable the other flows if you need to support implicit or client credentials.
@@ -202,13 +202,17 @@ namespace Application
 
             services.Configure<CoreCaptchaSettings>(this.Configuration.GetSection("CoreCaptcha"));
 
-            // The simple call: services.AddScoped<CoreCaptchaFilter>();
-            services.AddScoped(f => new CoreCaptchaFilter(
-                f.GetService<IConfiguration>(),
-                f.GetService<ILogger<CoreCaptchaFilter>>(),
-                f.GetService<IOptions<CoreCaptchaSettings>>(),
-                hash: "hash",
-                captcha: "captcha"));
+            // The simple call:
+            // services.AddScoped(f => new CoreCaptchaFilter(
+            //    f.GetService<IConfiguration>(),
+            //    f.GetService<ILogger<CoreCaptchaFilter>>(),
+            //    f.GetService<IOptions<CoreCaptchaSettings>>(),
+            //    hash: "hash",
+            //    captcha: "captcha"));
+            // This call required for the decorator [ServiceFilter(typeof(CoreCaptchaFilter))]
+            services.AddScoped<CoreCaptchaFilter>();
+
+            services.AddScoped<ICoreCaptcha, CoreCaptchaFilter>();
 
             services.AddTransient<IPrincipal>(
                 provider => provider.GetService<IHttpContextAccessor>()?.HttpContext?.User);
