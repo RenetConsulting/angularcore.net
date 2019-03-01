@@ -38,7 +38,6 @@ namespace Application.Controllers
             this.coreCaptcha = coreCaptcha;
         }
 
-        // [ServiceFilter(typeof(CoreCaptchaFilter))]
         [HttpPost("~/connect/token")]
         [Produces("application/json")]
         public async Task<IActionResult> ExchangeAsync([ModelBinder(typeof(OpenIddictMvcBinder))] OpenIdConnectRequest request)

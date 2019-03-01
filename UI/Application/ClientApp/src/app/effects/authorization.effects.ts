@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { of } from 'rxjs';
+import { EMPTY } from 'rxjs';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { Signout } from '../actions/authorization.actions';
-import { SetError, SetSuccessMessage } from '../actions/message.actions';
+import { SetSuccessMessage } from '../actions/message.actions';
 import { AuthorizationService } from '../services/authorization/authorization.service';
 import { TokenService } from '../services/token/token.service';
 import { AuthorizationTypes } from '../types/authorization.types';
@@ -25,7 +25,7 @@ export class AuthorizationEffects {
             tap(this.tokenService.clean),
             tap(() => this.router.navigate(['/sign-in'])),
             map(() => new SetSuccessMessage("Signout successfuly.")),
-            catchError(e => of(new SetError(e.error)))
+            catchError(() => EMPTY)
         ))
     );
 }
