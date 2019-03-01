@@ -1,7 +1,7 @@
 import { ContentChild, Directive, forwardRef, HostListener } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CoreCaptchaComponent } from './core-captcha.component';
-import { IDecodedCaptcha } from './decoded.captcha';
+import { IDecodedCaptcha } from './decoded-captcha';
 
 @Directive({
     // tslint:disable-next-line

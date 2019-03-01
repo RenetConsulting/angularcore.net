@@ -3,9 +3,10 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, OnChan
 import { FormControl, FormGroupDirective, NgControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { IDecodedCaptcha } from './decoded.captcha';
-import { IEncodedCaptcha } from './encoded.captcha';
-import { NGX_CORE_CAPTCHA_URL } from './tokens';
+import { ICoreCaptchaOptions } from './core-captcha-options';
+import { IDecodedCaptcha } from './decoded-captcha';
+import { IEncodedCaptcha } from './encoded-captcha';
+import { NGX_CORE_CAPTCHA_OPTIONS } from './tokens';
 
 @Component({
     selector: 'ngx-core-captcha',
@@ -16,8 +17,8 @@ import { NGX_CORE_CAPTCHA_URL } from './tokens';
 export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
 
     @Input() url?: string;
-    @Input() width?: string;
-    @Input() height?: string;
+    @Input() width?: number;
+    @Input() height?: number;
     @Output() readonly resolved = new EventEmitter<IDecodedCaptcha>();
     readonly subscription = new Subscription();
     readonly formControl = new FormControl();
@@ -25,18 +26,20 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
     captchaAsync: Observable<IEncodedCaptcha>;
 
     constructor(
-        @Inject(NGX_CORE_CAPTCHA_URL) url: string,
+        @Inject(NGX_CORE_CAPTCHA_OPTIONS) options: ICoreCaptchaOptions,
         @Inject(HttpClient) private http: HttpClient,
         @Optional() @Self() @Inject(NgControl) private ngControl?: NgControl,
         @Optional() @Inject(FormGroupDirective) private parentFormGroup?: FormGroupDirective,
     ) {
-        this.url = url;
+        if (options) {
+            this.height = options.height;
+            this.url = options.url;
+            this.width = options.width;
+        }
     }
 
-    ngOnChanges(e): void {
-        if (e.url) {
-            this.setCaptchaAsync();
-        }
+    ngOnChanges(): void {
+        this.setCaptchaAsync();
     }
 
     ngOnInit(): void {
