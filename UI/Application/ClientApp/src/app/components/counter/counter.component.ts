@@ -39,6 +39,5 @@ export class CounterComponent implements OnInit {
                 localStorage.setItem(key, JSON.stringify(token))
             }
         }
-        this.test();
     }
 }
