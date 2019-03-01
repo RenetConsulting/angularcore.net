@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Optional, Output, Self } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnChanges, OnDestroy, OnInit, Optional, Output, Self } from '@angular/core';
 import { FormControl, FormGroupDirective, NgControl } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { IDecodedCaptcha } from './decoded.captcha';
 import { IEncodedCaptcha } from './encoded.captcha';
 
@@ -10,14 +11,16 @@ import { IEncodedCaptcha } from './encoded.captcha';
     templateUrl: './core-captcha.component.html',
     styleUrls: ['./core-captcha.component.scss']
 })
-export class CoreCaptchaComponent implements OnInit, OnDestroy {
+export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
 
     @Input() url: string;
+    @Input() width: string;
+    @Input() height: string;
     @Output() readonly resolved = new EventEmitter<IDecodedCaptcha>();
     readonly subscription = new Subscription();
     readonly formControl = new FormControl();
-    audio?: HTMLAudioElement;
     captcha?: IEncodedCaptcha;
+    captchaAsync: Observable<IEncodedCaptcha>;
 
     constructor(
         @Inject(HttpClient) private http: HttpClient,
@@ -25,8 +28,13 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy {
         @Optional() @Inject(FormGroupDirective) private parentFormGroup?: FormGroupDirective,
     ) { }
 
+    ngOnChanges(e): void {
+        if (e.url) {
+            this.setCaptchaAsync();
+        }
+    }
+
     ngOnInit(): void {
-        this.getCaptcha();
         this.subscription.add(this.parentFormGroup && this.parentFormGroup.ngSubmit.subscribe(() => {
             this.ngControl.control.markAsDirty();
             this.ngControl.control.markAsTouched();
@@ -40,41 +48,23 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
 
-    get paused() {
-        return this.audio && this.audio.paused;
-    }
-
-    private setCaptcha = (model: IEncodedCaptcha): void => {
-        if (model) {
-            this.captcha = model;
-            this.setAudio(model.sound);
-        }
-    }
-
-    private play = () => this.audio && this.audio.play();
-
-    private pause = () => this.audio && this.audio.pause();
-
-    private setAudio = (src: string): void => {
-        if (typeof Audio !== 'undefined') {
-            this.audio = new Audio(src);
-        }
-    }
-
     private emitDecodedCaptcha = (captcha: string): void => this.resolved.emit({ captcha, hash: this.captcha && this.captcha.hash });
 
-    toggleAudio = () => this.paused ? this.play() : this.pause();
-
-    getCaptcha = (): void => {
-        if (this.http && this.url) {
+    setCaptchaAsync = () => {
+        if (this.url) {
             this.destroy();
-            this.http.get<IEncodedCaptcha>(this.url).subscribe(this.setCaptcha);
+            const query = this.width && this.height ? `?width=${this.width}&height=${this.height}` : '';
+            this.captchaAsync = this.http.get<IEncodedCaptcha>(`${this.url}${query}`).pipe(
+                tap(i => this.captcha = i)
+            );
         }
     }
 
+    refresh = (): void => this.setCaptchaAsync();
+
     destroy = (): void => {
-        this.pause();
         this.captcha = null;
+        this.captchaAsync = null;
         this.formControl.reset();
     }
 }
