@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, Inject, Input, OnChanges, OnDestroy, OnInit, Optional, Output, Self } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, OnChanges, OnDestroy, OnInit, Optional, Output, Self } from '@angular/core';
 import { FormControl, FormGroupDirective, NgControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -10,7 +10,8 @@ import { NGX_CORE_CAPTCHA_URL } from './tokens';
 @Component({
     selector: 'ngx-core-captcha',
     templateUrl: './core-captcha.component.html',
-    styleUrls: ['./core-captcha.component.scss']
+    styleUrls: ['./core-captcha.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
 
@@ -30,7 +31,6 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
         @Optional() @Inject(FormGroupDirective) private parentFormGroup?: FormGroupDirective,
     ) {
         this.url = url;
-        this.setCaptchaAsync();
     }
 
     ngOnChanges(e): void {
@@ -40,6 +40,7 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     ngOnInit(): void {
+        this.setCaptchaAsync();
         this.subscription.add(this.parentFormGroup && this.parentFormGroup.ngSubmit.subscribe(() => {
             this.ngControl.control.markAsDirty();
             this.ngControl.control.markAsTouched();
@@ -55,7 +56,7 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
 
     private emitDecodedCaptcha = (captcha: string): void => this.resolved.emit({ captcha, hash: this.captcha && this.captcha.hash });
 
-    setCaptchaAsync = () => {
+    setCaptchaAsync = (): void => {
         if (this.url) {
             this.destroy();
             const query = this.width && this.height ? `?width=${this.width}&height=${this.height}` : '';

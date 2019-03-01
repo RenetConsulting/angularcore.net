@@ -10,6 +10,7 @@ export class AppComponent {
 
     readonly title = 'core-captcha-demo';
     readonly formGroup = new FormGroup({ captcha: new FormControl('Bob') });
+    url = 'https://corecaptcha.azurewebsites.net/api/CaptchaCreate';
     toggled: boolean;
 
     constructor() {
