@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ErrorMessageDialogComponent } from './error-message-dialog.component';
 import { ResendConfirmationModule } from './resend-confirmation/resend-confirmation.module';
 
@@ -13,7 +12,6 @@ const MODULES = [
     MatButtonModule,
     RouterModule,
     ResendConfirmationModule,
-    FontAwesomeModule
 ];
 
 const COMPONENTS = [

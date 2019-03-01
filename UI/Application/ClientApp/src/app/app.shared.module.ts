@@ -3,9 +3,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule, Provider } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { EffectsModule } from '@ngrx/effects';
 import { Store, StoreModule } from '@ngrx/store';
 import { ROUTES } from './app.routes';
@@ -36,7 +33,6 @@ const MODULES = [
     MessagerModule,
     AccountModule,
     AuthorizationModule,
-    FontAwesomeModule
 ];
 
 const PROVIDERS: Array<Provider> = [
@@ -62,8 +58,4 @@ const COMPONENTS = [
         ...COMPONENTS
     ]
 })
-export class AppSharedModule {
-    constructor() {
-        library.add(faExclamationCircle);
-    }
-}
+export class AppSharedModule { }
