@@ -77,6 +77,6 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
     }
 
     setAuthorization = (request: HttpRequest<any>): HttpRequest<any> => {
-        return request ? request.clone({ setHeaders: this.tokenService.header }) : request
+        return request ? request.clone({ setHeaders: this.tokenService.header }) : request;
     }
 }

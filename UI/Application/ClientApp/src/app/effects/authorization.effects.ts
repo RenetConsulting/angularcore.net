@@ -24,7 +24,7 @@ export class AuthorizationEffects {
         mergeMap(() => this.authorizationService.signout().pipe(
             tap(this.tokenService.clean),
             tap(() => this.router.navigate(['/sign-in'])),
-            map(() => new SetSuccessMessage("Signout successfuly.")),
+            map(() => new SetSuccessMessage('Signout successfuly.')),
             catchError(() => EMPTY)
         ))
     );

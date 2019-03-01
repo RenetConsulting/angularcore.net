@@ -2,6 +2,7 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { CORE_CAPTCHA_URL } from '../../../consts/core-captcha.url';
 import { EMAIL_VALIDATORS } from '../../../consts/email.validators';
 import { PASSWORD_VALIDATORS } from '../../../consts/password.validators';
 import { MessagesType } from '../../../enums/messages.type';
@@ -17,6 +18,7 @@ import { selectSignupError } from './selectors';
 export class SignupComponent implements OnInit, OnDestroy {
 
     readonly subscription = new Subscription();
+    readonly coreCaptchaUrl = CORE_CAPTCHA_URL;
     formGroup: FormGroup;
     errors: MapPick<IUser, keyof IUser, Array<string>>;
 
@@ -44,6 +46,7 @@ export class SignupComponent implements OnInit, OnDestroy {
             password: new FormControl('', [...PASSWORD_VALIDATORS]),
             confirmPassword: new FormControl('', [...PASSWORD_VALIDATORS, this.matchPasswordValidator]),
             readTerms: new FormControl(false, [Validators.requiredTrue]),
+            captcha: new FormControl(null, [Validators.required])
         } as MapPick<IUser, keyof IUser, FormControl>);
     }
 

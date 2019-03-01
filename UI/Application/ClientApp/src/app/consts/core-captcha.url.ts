@@ -1,0 +1,1 @@
+export const CORE_CAPTCHA_URL = 'https://corecaptcha.azurewebsites.net/api/CaptchaCreate';

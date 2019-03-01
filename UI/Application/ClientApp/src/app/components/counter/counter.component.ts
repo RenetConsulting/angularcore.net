@@ -32,11 +32,11 @@ export class CounterComponent implements OnInit {
 
     refresh = (): void => {
         if (typeof localStorage !== 'undefined') {
-            var key = 'token'
-            var token = JSON.parse(localStorage.getItem(key))
+            const key = 'token';
+            const token = JSON.parse(localStorage.getItem(key));
             if (token) {
                 token.expired_at = Date.now();
-                localStorage.setItem(key, JSON.stringify(token))
+                localStorage.setItem(key, JSON.stringify(token));
             }
         }
     }

@@ -23,6 +23,7 @@ export class AuthorizationService {
             password: model.password,
             username: model.email
         };
+        const query = this.toolsService.getQuery(model.captcha);
         const body = this.toolsService.getQuery(item).replace(/^\?/, '');
         const options = {
             headers: {
@@ -31,12 +32,15 @@ export class AuthorizationService {
                 ...HTTP_HEADERS.allowHttpError
             }
         };
-        return this.http.post<IToken>(`/connect/token`, body, options);
+        return this.http.post<IToken>(`/connect/token${query}`, body, options);
     }
 
-    signup = (model: IUser) => this.http
-        .post(`/api/account/register`, model, { headers: { ...HTTP_HEADERS.allowHttpError } })
+    signup = (model: IUser) => {
+        const query = this.toolsService.getQuery(model.captcha);
+        return this.http
+            .post(`/api/account/register${query}`, model, { headers: { ...HTTP_HEADERS.allowHttpError } });
+    }
 
     signout = () => this.http
-        .delete(`/connect/signout`, { headers: { ...HTTP_HEADERS.allowExpiredToken } });
+        .delete(`/connect/signout`, { headers: { ...HTTP_HEADERS.allowExpiredToken } })
 }

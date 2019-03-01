@@ -2,11 +2,11 @@ import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { NgxLinkStylesheetService } from '@renet-consulting/ngx-link-stylesheet';
 
 export interface ITheme {
-    primary?: string
-    accent?: string
-    name?: string
-    isDark?: boolean,
-    isDefault?: boolean
+    primary?: string;
+    accent?: string;
+    name?: string;
+    isDark?: boolean;
+    isDefault?: boolean;
 }
 
 /** TODO: add save */

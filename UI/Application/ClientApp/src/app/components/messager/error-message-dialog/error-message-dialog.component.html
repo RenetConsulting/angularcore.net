@@ -2,9 +2,11 @@
     <div class="p-2 mat-error">
         <i class="fas fa-exclamation-circle"></i>
     </div>
-    <div class="p-2 flex-grow-1">{{item?.error_description}}</div>
-    <div [ngSwitch]="item?.code">
-        <resend-confirmation *ngSwitchCase="1001"></resend-confirmation>
+    <div class="p-2 flex-grow-1">
+        {{item?.error_description}}
+        <div [ngSwitch]="item?.code">
+            <resend-confirmation *ngSwitchCase="1001"></resend-confirmation>
+        </div>
     </div>
 </div>
 <div mat-dialog-actions class="d-flex justify-content-end">

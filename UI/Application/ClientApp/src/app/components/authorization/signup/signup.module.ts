@@ -7,6 +7,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { CoreCaptchaModule } from '@renet-consulting/core-captcha';
 import { ControlInputModule } from '../../control-input/control-input.module';
 import { SocialMediaModule } from '../../social-media/social-media.module';
 import { SignupEffects } from './effects';
@@ -24,6 +25,7 @@ const MODULES = [
     MatCheckboxModule,
     MatInputModule,
     MatCardModule,
+    CoreCaptchaModule,
     StoreModule.forFeature('signup', signupReducer),
     EffectsModule.forRoot([SignupEffects]),
 ];

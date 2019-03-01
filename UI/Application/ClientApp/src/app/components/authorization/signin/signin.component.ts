@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { CORE_CAPTCHA_URL } from '../../../consts/core-captcha.url';
 import { EMAIL_VALIDATORS } from '../../../consts/email.validators';
 import { PASSWORD_VALIDATORS } from '../../../consts/password.validators';
 import { IUser } from '../../../interfaces/user';
@@ -18,6 +19,7 @@ import { selectSigninError } from './selectors';
 export class SigninComponent implements OnInit, OnDestroy {
 
     readonly subscription = new Subscription();
+    readonly coreCaptchaUrl = CORE_CAPTCHA_URL;
     formGroup: FormGroup;
     errors: MapPick<IUser, keyof IUser, Array<string>>;
 
@@ -40,6 +42,7 @@ export class SigninComponent implements OnInit, OnDestroy {
             email: new FormControl('', [...EMAIL_VALIDATORS]),
             password: new FormControl('', [...PASSWORD_VALIDATORS]),
             isRemember: new FormControl(false),
+            captcha: new FormControl()
         } as MapPick<IUser, keyof IUser, FormControl>);
     }
 

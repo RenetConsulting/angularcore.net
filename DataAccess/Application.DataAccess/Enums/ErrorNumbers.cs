@@ -9,6 +9,8 @@ namespace Application.DataAccess.Enums
     {
         None = 0,
 
-        ConfirmEmail = 1001
+        ConfirmEmail = 1001,
+
+        CoreCaptcha = 1002
     }
 }

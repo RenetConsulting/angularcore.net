@@ -8,11 +8,11 @@ const MODULES = [
     CommonModule,
     MatMenuModule,
     MatButtonModule
-]
+];
 
 const COMPONENTS = [
     ThemePickerComponent
-]
+];
 
 @NgModule({
     declarations: [...COMPONENTS],

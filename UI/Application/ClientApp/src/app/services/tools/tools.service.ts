@@ -18,6 +18,6 @@ export class ToolsService {
             });
             return strParams.length ? `?${strParams.join('&')}` : '';
         }
-        return null;
+        return '';
     }
 }
