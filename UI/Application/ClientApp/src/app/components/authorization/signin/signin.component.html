@@ -6,7 +6,7 @@
                 <control-input placeholder="Email" type="email" formControlName="email" [errorMessages]="errors?.email"></control-input>
                 <control-input placeholder="Password" type="password" formControlName="password" [errorMessages]="errors?.password"></control-input>
                 <ng-container [ngSwitch]="errors?.code">
-                    <ngx-core-captcha *ngSwitchCase="1002" formControlName="captcha"></ngx-core-captcha>
+                    <ngx-core-captcha class="mt-3" *ngSwitchCase="1002" formControlName="captcha"></ngx-core-captcha>
                 </ng-container>
                 <div class="d-flex justify-content-between py-3">
                     <div><mat-checkbox formControlName="isRemember">Remember me</mat-checkbox></div>
