@@ -9,7 +9,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class AppComponent {
 
     readonly title = 'core-captcha-demo';
-    readonly url = 'https://corecaptcha.azurewebsites.net/api/CaptchaCreate';
     readonly formGroup = new FormGroup({ captcha: new FormControl('Bob') });
     toggled: boolean;
 

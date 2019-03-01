@@ -54,6 +54,7 @@
     <TypeScriptCompile Include="projects\core-captcha\src\lib\core-captcha.module.ts" />
     <TypeScriptCompile Include="projects\core-captcha\src\lib\decoded.captcha.ts" />
     <TypeScriptCompile Include="projects\core-captcha\src\lib\encoded.captcha.ts" />
+    <TypeScriptCompile Include="projects\core-captcha\src\lib\tokens.ts" />
     <TypeScriptCompile Include="projects\core-captcha\src\public_api.ts" />
     <TypeScriptCompile Include="projects\core-captcha\src\test.ts" />
     <TypeScriptCompile Include="src\main.ts" />

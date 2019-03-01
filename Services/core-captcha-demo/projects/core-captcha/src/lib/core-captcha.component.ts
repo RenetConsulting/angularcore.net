@@ -5,6 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { IDecodedCaptcha } from './decoded.captcha';
 import { IEncodedCaptcha } from './encoded.captcha';
+import { NGX_CORE_CAPTCHA_URL } from './tokens';
 
 @Component({
     selector: 'ngx-core-captcha',
@@ -13,9 +14,9 @@ import { IEncodedCaptcha } from './encoded.captcha';
 })
 export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
 
-    @Input() url: string;
-    @Input() width: string;
-    @Input() height: string;
+    @Input() url?: string;
+    @Input() width?: string;
+    @Input() height?: string;
     @Output() readonly resolved = new EventEmitter<IDecodedCaptcha>();
     readonly subscription = new Subscription();
     readonly formControl = new FormControl();
@@ -23,10 +24,14 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
     captchaAsync: Observable<IEncodedCaptcha>;
 
     constructor(
+        @Inject(NGX_CORE_CAPTCHA_URL) url: string,
         @Inject(HttpClient) private http: HttpClient,
         @Optional() @Self() @Inject(NgControl) private ngControl?: NgControl,
         @Optional() @Inject(FormGroupDirective) private parentFormGroup?: FormGroupDirective,
-    ) { }
+    ) {
+        this.url = url;
+        this.setCaptchaAsync();
+    }
 
     ngOnChanges(e): void {
         if (e.url) {

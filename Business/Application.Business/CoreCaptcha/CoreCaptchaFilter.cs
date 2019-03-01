@@ -127,17 +127,17 @@ namespace Application.Business.CoreCaptcha
         {
             hash = string.Empty;
             captcha = string.Empty;
-            if (req.HasFormContentType)
+            if (req.QueryString.HasValue)
             {
-                hash = req.Form[this.Hash].FirstOrDefault();
-                captcha = req.Form[this.Captcha].FirstOrDefault();
+                hash = req.Query[this.Hash].FirstOrDefault();
+                captcha = req.Query[this.Captcha].FirstOrDefault();
             }
             else
             {
-                if (req.QueryString.HasValue)
+                if (req.HasFormContentType)
                 {
-                    hash = req.Query[this.Hash].FirstOrDefault();
-                    captcha = req.Query[this.Captcha].FirstOrDefault();
+                    hash = req.Form[this.Hash].FirstOrDefault();
+                    captcha = req.Form[this.Captcha].FirstOrDefault();
                 }
             }
         }

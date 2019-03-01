@@ -8,7 +8,6 @@ import { CoreCaptchaAudioComponent } from './core-captcha-audio/core-captcha-aud
 import { CoreCaptchaComponent } from './core-captcha.component';
 import { CoreCaptchaDirective } from './core-captcha.directive';
 
-/** TODO: add provider to NGX_CORE_CAPTCHA_URL */
 @NgModule({
     declarations: [CoreCaptchaComponent, CoreCaptchaDirective, CoreCaptchaAudioComponent],
     imports: [CommonModule, ReactiveFormsModule, MatInputModule, MatCardModule, MatProgressSpinnerModule],
