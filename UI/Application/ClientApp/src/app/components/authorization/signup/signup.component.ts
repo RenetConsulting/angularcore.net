@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
@@ -16,12 +16,6 @@ import { selectSignupError } from './selectors';
 })
 export class SignupComponent implements OnInit, OnDestroy {
 
-    @ViewChild("d") set qwe(v) {
-        if (v) {
-            console.log(v.url, v.setCaptchaAsync, v);
-        }
-        window['test'] = v;
-    }
     readonly subscription = new Subscription();
     formGroup: FormGroup;
     errors: MapPick<IUser, keyof IUser, Array<string>>;
