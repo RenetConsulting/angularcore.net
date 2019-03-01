@@ -217,9 +217,9 @@ namespace Application.Controllers
             {
                 if (!user.EmailConfirmed)
                 {
-                    await this.SendRegistrationMessageAsync(user, user.Id).ConfigureAwait(false);
+                    await this.SendRegistrationMessageAsync(email, user.Id).ConfigureAwait(false);
 
-                    return this.Ok("New confirmation link sent to your email.");
+                    return this.Ok();
                 }
                 else
                 {
@@ -312,32 +312,33 @@ namespace Application.Controllers
             return null;
         }
 
-        private async Task<IActionResult> SendRegistrationMessageAsync(ApplicationUser user, string userId)
+        private async Task<IActionResult> SendRegistrationMessageAsync(string userEmail, string userId)
         {
             try
             {
                 // pull template from resources
                 var assembly = Assembly.Load(new AssemblyName("Application"));
 
-                const string resourceName = "ConfirmEmail.html";
+                // TODO: Uncoment when template will create
+                // const string resourceName = "ConfirmEmail.html";
 
-                string emailHtmlTamplate = string.Empty;
+                // string emailHtmlTamplate = string.Empty;
 
-                using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-                {
-                    using (StreamReader reader = new StreamReader(stream))
-                    {
-                        emailHtmlTamplate = reader.ReadToEnd();
-                    }
-                }
+                // using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+                // {
+                //    using (StreamReader reader = new StreamReader(stream))
+                //    {
+                //        emailHtmlTamplate = reader.ReadToEnd();
+                //    }
+                // }
 
                 // update template with images and links
-                var emailToken = await this.userManager.GenerateEmailConfirmationTokenAsync(user).ConfigureAwait(false);
-                var url = this.AppSettings.SiteHost + "ConfirmEmail?email=" + WebUtility.UrlEncode(user.Email) + "&token=" + WebUtility.UrlEncode(emailToken);
+                var emailToken = await this.userManager.GenerateEmailTokenAsync(userId).ConfigureAwait(false);
+                var url = this.AppSettings.SiteHost + "ConfirmEmail?email=" + WebUtility.UrlEncode(userEmail) + "&token=" + WebUtility.UrlEncode(emailToken);
 
-                string emailHtml = string.Format(emailHtmlTamplate, user.Email, url, this.AppSettings.SiteHost);
+                string emailHtml = string.Format(/*emailHtmlTamplate,*/ userEmail, url, this.AppSettings.SiteHost);
 
-                return await this.SendEmailAsync(user.Email, this.AppSettings.EmailConfirmationSubject, emailHtml);
+                return await this.SendEmailAsync(userEmail, this.AppSettings.EmailConfirmationSubject, emailHtml);
             }
             catch
             {

@@ -159,6 +159,9 @@ namespace Application
                     // Enable the authorization, logout, token and userinfo endpoints.
                     options.EnableTokenEndpoint("/connect/token");
 
+                    // This end point for logoff. Should be Post or Get
+                    options.EnableLogoutEndpoint("/connect/logout");
+
                     // Note: the Mvc.Client sample only uses the code flow and the password flow, but you
                     // can enable the other flows if you need to support implicit or client credentials.
                     options.AllowPasswordFlow()
@@ -198,13 +201,17 @@ namespace Application
 
             services.Configure<CoreCaptchaSettings>(this.Configuration.GetSection("CoreCaptcha"));
 
-            // The simple call: services.AddScoped<CoreCaptchaFilter>();
-            services.AddScoped(f => new CoreCaptchaFilter(
-                f.GetService<IConfiguration>(),
-                f.GetService<ILogger<CoreCaptchaFilter>>(),
-                f.GetService<IOptions<CoreCaptchaSettings>>(),
-                hash: "hash",
-                captcha: "captcha"));
+            // The simple call:
+            // services.AddScoped(f => new CoreCaptchaFilter(
+            //    f.GetService<IConfiguration>(),
+            //    f.GetService<ILogger<CoreCaptchaFilter>>(),
+            //    f.GetService<IOptions<CoreCaptchaSettings>>(),
+            //    hash: "hash",
+            //    captcha: "captcha"));
+            // This call required for the decorator [ServiceFilter(typeof(CoreCaptchaFilter))]
+            services.AddScoped<CoreCaptchaFilter>();
+
+            services.AddScoped<ICoreCaptcha, CoreCaptchaFilter>();
 
             services.AddTransient<IPrincipal>(
                 provider => provider.GetService<IHttpContextAccessor>()?.HttpContext?.User);

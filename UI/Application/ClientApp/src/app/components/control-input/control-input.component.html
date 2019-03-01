@@ -8,7 +8,9 @@
 </mat-error>
 
 <mat-error [@enterLeaveHOW]="messagesAnimationState">
-    <div *ngFor="let item of errorMessages" class="error mb-1"><i class="fas fa-exclamation-circle"></i> {{item}}</div>
+    <div *ngFor="let item of errorMessages" class="error mb-1">
+        <fa-icon [icon]="['fas', 'exclamation-circle']"></fa-icon> {{item}}
+    </div>
 </mat-error>
 
 <mat-hint *ngIf="maxlength" [@enterLeaveHOW]="matHintAnimationState">

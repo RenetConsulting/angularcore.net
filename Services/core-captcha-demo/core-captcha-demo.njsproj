@@ -29,6 +29,7 @@
     <Content Include="projects\core-captcha\ng-package.json" />
     <Content Include="projects\core-captcha\package.json" />
     <Content Include="projects\core-captcha\README.md" />
+    <Content Include="projects\core-captcha\src\lib\core-captcha-audio\core-captcha-audio.component.html" />
     <Content Include="projects\core-captcha\src\lib\core-captcha.component.html" />
     <Content Include="projects\core-captcha\src\lib\core-captcha.component.scss" />
     <Content Include="projects\core-captcha\tsconfig.lib.json" />
@@ -44,6 +45,8 @@
     <Content Include="src\tsconfig.app.json" />
     <Content Include="src\tsconfig.spec.json" />
     <Content Include="src\tslint.json" />
+    <TypeScriptCompile Include="projects\core-captcha\src\lib\core-captcha-audio\core-captcha-audio.component.spec.ts" />
+    <TypeScriptCompile Include="projects\core-captcha\src\lib\core-captcha-audio\core-captcha-audio.component.ts" />
     <TypeScriptCompile Include="projects\core-captcha\src\lib\core-captcha.component.spec.ts" />
     <TypeScriptCompile Include="projects\core-captcha\src\lib\core-captcha.component.ts" />
     <TypeScriptCompile Include="projects\core-captcha\src\lib\core-captcha.directive.spec.ts" />
@@ -73,6 +76,7 @@
     <Folder Include="projects\core-captcha\" />
     <Folder Include="projects\core-captcha\src\" />
     <Folder Include="projects\core-captcha\src\lib\" />
+    <Folder Include="projects\core-captcha\src\lib\core-captcha-audio\" />
     <Folder Include="src" />
     <Folder Include="src\app" />
     <Folder Include="src\assets" />

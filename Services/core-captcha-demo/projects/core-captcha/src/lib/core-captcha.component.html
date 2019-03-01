@@ -1,15 +1,22 @@
-<div class="mt-3 bg-light rounded p-5 mb-5" *ngIf="captcha">
-    <img [src]="captcha?.image" />
-    <div class="d-block mt-3">
-        <mat-form-field class="d-block">
-            <input placeholder="Please input captcha signs" matInput [formControl]="formControl">
-        </mat-form-field>
+<mat-card class="mt-3 p-5 mb-5">
+    <div *ngIf="captchaAsync | async as item; else loadingRef">
+        <img class="rounded" [src]="item?.image" />
+        <div class="d-block mt-3">
+            <mat-form-field class="d-block">
+                <input autocomplete="off" placeholder="Please input captcha signs" matInput [formControl]="formControl">
+            </mat-form-field>
+        </div>
+        <div class="b-block">
+            <button class="btn btn-link btn-lg px-0 text-secondary" type="button" (click)="refresh()">
+                <fa-icon [icon]="['fas', 'redo-alt']"></fa-icon>
+            </button>
+            <ngx-core-captcha-audio [sound]="item?.sound"></ngx-core-captcha-audio>
+        </div>
     </div>
-    <div class="b-block">
-        <button class="btn btn-link btn-lg px-0 text-secondary" type="button" (click)="getCaptcha()"><i class="fas fa-redo-alt"></i></button>
-        <button class="btn btn-link btn-lg text-secondary" type="button" (click)="toggleAudio()"><i class="fas fa-headphones"></i></button>
-    </div>
+</mat-card>
+
+<ng-template #loadingRef>
     <div class="d-flex justify-content-center">
-        <button class="btn btn-primary btn-lg shadow" type="button">Submit</button>
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
     </div>
-</div>
+</ng-template>
