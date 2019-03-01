@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, OnChanges, OnDestroy, OnInit, Optional, Output, Self } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Inject, Input, OnChanges, OnDestroy, OnInit, Optional, Output, Self } from '@angular/core';
 import { FormControl, FormGroupDirective, NgControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -20,6 +20,7 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
     @Input() width?: number;
     @Input() height?: number;
     @Output() readonly resolved = new EventEmitter<IDecodedCaptcha>();
+    @HostBinding('class.d-block') readonly dBlock = true;
     readonly subscription = new Subscription();
     readonly formControl = new FormControl();
     captcha?: IEncodedCaptcha;

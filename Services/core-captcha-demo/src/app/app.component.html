@@ -26,11 +26,11 @@
                 <button class="btn btn-primary btn-lg shadow" type="button" (click)="toggled = !toggled">
                     <i class="fas fa-bars"></i> toggle
                 </button>
-                <div class="mt-3 mb-5">
+                <div>
                     <form *ngIf="toggled" [formGroup]="formGroup">
-                        <ngx-core-captcha formControlName="captcha" (resolved)="resolved($event)"></ngx-core-captcha>
+                        <ngx-core-captcha class="mt-3 mb-5" formControlName="captcha" (resolved)="resolved($event)"></ngx-core-captcha>
                     </form>
-                    <ngx-core-captcha *ngIf="!toggled" (resolved)="resolved($event)"></ngx-core-captcha>
+                    <ngx-core-captcha class="mt-3 mb-5" *ngIf="!toggled" (resolved)="resolved($event)"></ngx-core-captcha>
                 </div>
             </div>
             <div class="col-md-3"></div>
