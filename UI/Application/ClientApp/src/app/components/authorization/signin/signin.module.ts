@@ -6,7 +6,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { CoreCaptchaModule } from '@renet-consulting/core-captcha';
+import { CoreCaptchaModule, NGX_CORE_CAPTCHA_URL } from '@renet-consulting/core-captcha';
+import { CORE_CAPTCHA_URL } from '../../../consts/core-captcha.url';
 import { ControlInputModule } from '../../control-input/control-input.module';
 import { SocialMediaModule } from '../../social-media/social-media.module';
 import { SigninEffects } from './effects';
@@ -32,12 +33,13 @@ const COMPONENTS = [
     SigninComponent
 ];
 
+const PROVIDERS = [
+    { provide: NGX_CORE_CAPTCHA_URL, useValue: CORE_CAPTCHA_URL }
+];
+
 @NgModule({
-    imports: [
-        ...MODULES
-    ],
-    declarations: [
-        ...COMPONENTS
-    ]
+    imports: [...MODULES],
+    declarations: [...COMPONENTS],
+    providers: [...PROVIDERS]
 })
 export class SigninModule { }

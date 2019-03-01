@@ -6,7 +6,7 @@
                 <control-input placeholder="Email" type="email" formControlName="email" [errorMessages]="errors?.email"></control-input>
                 <control-input placeholder="Password" type="password" formControlName="password" [errorMessages]="errors?.password"></control-input>
                 <control-input placeholder="Confirmation Password" type="password" formControlName="confirmPassword" [errorMessages]="errors?.confirmPassword"></control-input>
-                <ngx-core-captcha [url]="coreCaptchaUrl" formControlName="captcha"></ngx-core-captcha>
+                <ngx-core-captcha #d formControlName="captcha"></ngx-core-captcha>
                 <mat-form-field class="w-100 my-3">
                     <input matInput formControlName="readTerms" hidden="hidden">
                     <mat-checkbox formControlName="readTerms">I have read <ng-template [ngTemplateOutlet]="termsRef"></ng-template>.</mat-checkbox>

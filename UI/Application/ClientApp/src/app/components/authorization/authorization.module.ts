@@ -6,8 +6,6 @@ const MODULES = [
 ];
 
 @NgModule({
-    imports: [
-        ...MODULES
-    ],
+    imports: [...MODULES],
 })
 export class AuthorizationModule { }

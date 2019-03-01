@@ -1,8 +1,7 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { CORE_CAPTCHA_URL } from '../../../consts/core-captcha.url';
 import { EMAIL_VALIDATORS } from '../../../consts/email.validators';
 import { PASSWORD_VALIDATORS } from '../../../consts/password.validators';
 import { MessagesType } from '../../../enums/messages.type';
@@ -17,8 +16,13 @@ import { selectSignupError } from './selectors';
 })
 export class SignupComponent implements OnInit, OnDestroy {
 
+    @ViewChild("d") set qwe(v) {
+        if (v) {
+            console.log(v.url, v.setCaptchaAsync, v);
+        }
+        window['test'] = v;
+    }
     readonly subscription = new Subscription();
-    readonly coreCaptchaUrl = CORE_CAPTCHA_URL;
     formGroup: FormGroup;
     errors: MapPick<IUser, keyof IUser, Array<string>>;
 
