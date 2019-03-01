@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CoreCaptcha": {
+      "commandName": "Project",
+      "commandLineArgs": "host start --pause-on-error  --useHttps"
+    }
+  }
+}
