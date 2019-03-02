@@ -121,8 +121,7 @@ namespace Application.Controllers
                     return this.BadRequest(new OpenIdConnectResponse
                     {
                         Error = "InvalidCoreCaptcha",
-                        ErrorDescription = "Invalid or missing CoreCaptcha",
-                        Code = ((int)ErrorNumbers.CoreCaptcha).ToString()
+                        ErrorDescription = "Invalid or missing CoreCaptcha"
                     });
                 }
             }
