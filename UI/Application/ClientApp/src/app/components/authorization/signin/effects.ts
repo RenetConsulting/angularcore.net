@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { EMPTY, of } from 'rxjs';
 import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
-import { SetError } from '../../../actions/message.actions';
+import { ErrorRequest } from '../../../actions/message.actions';
 import { AuthorizationService } from '../../../services/authorization/authorization.service';
 import { StorageService } from '../../../services/storage/storage.service';
 import { TokenService } from '../../../services/token/token.service';
@@ -42,6 +42,6 @@ export class SigninEffects {
     @Effect() signinError = this.actions.pipe(
         ofType<SigninError>(SigninTypes.SIGNIN_ERROR),
         filter(filterError),
-        map(e => new SetError(e.error))
+        map(e => new ErrorRequest(e.error))
     );
 }

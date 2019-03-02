@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { EMPTY } from 'rxjs';
 import { catchError, mapTo, mergeMap, tap } from 'rxjs/operators';
-import { SetSuccessMessage } from '../../../actions/message.actions';
+import { MessageRequest } from '../../../actions/message.actions';
 import { MessagesType } from '../../../enums/messages.type';
 import { AccountService } from '../../../services/account/account.service';
 import { PrepResetPassword, PrepResetPasswordSuccess } from './actions';
@@ -27,6 +27,6 @@ export class PrepResetPasswordEffects {
 
     @Effect() prepResetPasswordSuccess = this.actions.pipe(
         ofType<PrepResetPasswordSuccess>(PrepResetPasswordTypes.PREP_RESET_PASSWORD_SUCCESS),
-        mapTo(new SetSuccessMessage(MessagesType.checkEmail))
+        mapTo(new MessageRequest(MessagesType.checkEmail))
     );
 }

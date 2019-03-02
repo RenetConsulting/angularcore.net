@@ -7,7 +7,7 @@ import { IError } from '../../interfaces/error';
 import { RootStore } from '../../reducers';
 import { DIALOG_CONFIG } from './dialog.config';
 import { ErrorMessageDialogComponent } from './error-message-dialog/error-message-dialog.component';
-import { selectError, selectSuccessMessage } from './selectors';
+import { selectError, selectMessage } from './selectors';
 import { SNACK_BAR_CONFIG } from './snack-bar.config';
 
 @Component({
@@ -27,7 +27,7 @@ export class MessagerComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.subscription.add(this.store.select(selectError).subscribe(this.openDialog));
-        this.subscription.add(this.store.select(selectSuccessMessage).subscribe(this.openSnackBar));
+        this.subscription.add(this.store.select(selectMessage).subscribe(this.openSnackBar));
     }
 
     ngOnDestroy(): void {

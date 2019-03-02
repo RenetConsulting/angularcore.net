@@ -4,7 +4,7 @@ import { MessageTypes } from '../../types/message.types';
 
 export interface MessagerState {
     error?: IError;
-    successMessage?: string;
+    message?: string;
 }
 
 export const INITIAL_STATE: MessagerState = {};
@@ -13,11 +13,17 @@ export function messagerReducer(state = INITIAL_STATE, action: MessageActionsUni
 
     switch (action.type) {
 
-        case MessageTypes.PUSH_ERROR: {
-            return { error: { ...action.payload } };
+        case MessageTypes.ERROR_REQUEST: {
+            return { ...state, error: null };
         }
-        case MessageTypes.SET_SUCCESS_MESSAGE: {
-            return { successMessage: action.payload };
+        case MessageTypes.ERROR_SUCCESS: {
+            return { ...state, error: { ...action.payload } };
+        }
+        case MessageTypes.MESSAGE_REQUEST: {
+            return { ...state, message: null };
+        }
+        case MessageTypes.MESSAGE_SUCCESS: {
+            return { ...state, message: action.payload };
         }
         default: {
             return state;

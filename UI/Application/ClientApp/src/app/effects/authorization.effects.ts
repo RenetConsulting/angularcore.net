@@ -4,7 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { EMPTY } from 'rxjs';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { Signout } from '../actions/authorization.actions';
-import { SetSuccessMessage } from '../actions/message.actions';
+import { MessageRequest } from '../actions/message.actions';
 import { AuthorizationService } from '../services/authorization/authorization.service';
 import { TokenService } from '../services/token/token.service';
 import { AuthorizationTypes } from '../types/authorization.types';
@@ -24,7 +24,7 @@ export class AuthorizationEffects {
         mergeMap(() => this.authorizationService.signout().pipe(
             tap(this.tokenService.clean),
             tap(() => this.router.navigate(['/sign-in'])),
-            map(() => new SetSuccessMessage('Signout successfuly.')),
+            map(() => new MessageRequest('Signout successfuly.')),
             catchError(() => EMPTY)
         ))
     );

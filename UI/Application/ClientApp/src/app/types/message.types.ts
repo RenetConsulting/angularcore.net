@@ -1,5 +1,6 @@
 export enum MessageTypes {
-    SET_ERROR = '[Message]SET_ERROR',
-    PUSH_ERROR = '[Message]PUSH_ERROR',
-    SET_SUCCESS_MESSAGE = '[Message]SET_SUCCESS_MESSAGE',
+    ERROR_REQUEST = '[Message]ERROR_REQUEST',
+    ERROR_SUCCESS = '[Message]ERROR_SUCCESS',
+    MESSAGE_REQUEST = '[Message]MESSAGE_REQUEST',
+    MESSAGE_SUCCESS = '[Message]MESSAGE_SUCCESS',
 }

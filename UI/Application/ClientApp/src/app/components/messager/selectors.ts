@@ -6,8 +6,8 @@ const getMessager = (i: RootStore) => i.messager;
 
 const getError = (i: MessagerState) => i.error;
 
-const getSuccessMessage = (i: MessagerState) => i.successMessage;
+const getMessage = (i: MessagerState) => i.message;
 
 export const selectError = createSelector(getMessager, getError);
 
-export const selectSuccessMessage = createSelector(getMessager, getSuccessMessage);
+export const selectMessage = createSelector(getMessager, getMessage);
