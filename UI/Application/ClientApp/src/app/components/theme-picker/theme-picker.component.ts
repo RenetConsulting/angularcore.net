@@ -1,51 +1,43 @@
-import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { NgxLinkStylesheetService } from '@renet-consulting/ngx-link-stylesheet';
+import { tap } from 'rxjs/operators';
+import { RootStore } from '../../reducers';
+import { SetTheme } from './actions';
+import { selectItems, selectTheme } from './selectors';
+import { ITheme } from './theme';
 
-export interface ITheme {
-    primary?: string;
-    accent?: string;
-    name?: string;
-    isDark?: boolean;
-    isDefault?: boolean;
-}
-
-/** TODO: add save */
-/** TODO: add ngrx */
-/** TODO: move interface to a separate file */
 @Component({
     selector: 'theme-picker',
     templateUrl: './theme-picker.component.html',
     styleUrls: ['./theme-picker.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [NgxLinkStylesheetService]
 })
-export class ThemePickerComponent implements OnInit {
+export class ThemePickerComponent {
 
     readonly cssClass = 'link-theme';
-    readonly items: Array<ITheme> = [
-        { name: 'default', isDefault: true, },
-        { primary: '#673AB7', accent: '#FFC107', name: 'deeppurple-amber.theme', isDark: false, },
-        { primary: '#9C27B0', accent: '#4CAF50', name: 'purple-green.theme', isDark: true, },
-    ];
-    selected: ITheme;
+    readonly items = this.store.select(selectItems);
+    selected = this.store.select(selectTheme).pipe(
+        tap(i => this.setSelected(i)));
 
     constructor(
-        @Inject(NgxLinkStylesheetService) private linkStylesheetService: NgxLinkStylesheetService
+        @Inject(Store) private store: Store<RootStore>,
+        @Inject(NgxLinkStylesheetService) private stylesheetService: NgxLinkStylesheetService
     ) { }
 
-    ngOnInit(): void {
-        this.setTheme(this.items.find(i => i.isDefault).name);
+    setTheme = (name: string): void => {
+        this.store.dispatch(new SetTheme(name));
     }
 
-    setTheme = (name: string): void => {
-        const item = this.items.find(i => i.name === name);
+    setSelected = (item: ITheme): void => {
         if (item) {
-            this.selected = item;
             if (item.isDefault) {
-                this.linkStylesheetService.deleteLink(this.cssClass);
+                this.stylesheetService.deleteLink(this.cssClass);
             }
             else {
-                this.linkStylesheetService.updateLink(this.cssClass, `assets/${item.name}.css`);
+                this.stylesheetService.updateLink(this.cssClass, `assets/${item.name}.css`);
             }
         }
     }

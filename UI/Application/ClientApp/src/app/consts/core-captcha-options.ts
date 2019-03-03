@@ -1,4 +1,4 @@
-import { ICoreCaptchaOptions } from "@renet-consulting/core-captcha";
+import { ICoreCaptchaOptions } from '@renet-consulting/core-captcha';
 
 /** Azure url https://corecaptcha.azurewebsites.net/api/CaptchaCreate */
 export const CORE_CAPTCHA_OPTIONS: ICoreCaptchaOptions = {

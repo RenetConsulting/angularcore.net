@@ -12,6 +12,7 @@ import { AuthorizationModule } from './components/authorization/authorization.mo
 import { HeaderModule } from './components/header/header.module';
 import { HomeComponent } from './components/home/home.component';
 import { MessagerModule } from './components/messager/messager.module';
+import { ThemeEffects } from './components/theme-picker/effects';
 import { AuthorizationEffects } from './effects/authorization.effects';
 import { ApiPrefixInterceptor } from './interceptors/api-prefix/api-prefix.interceptor';
 import { ErrorInterceptor } from './interceptors/error/error.interceptor';
@@ -28,7 +29,7 @@ const MODULES = [
     HttpClientModule,
     RouterModule.forRoot(ROUTES),
     StoreModule.forRoot(REDUCERS, { metaReducers }),
-    EffectsModule.forRoot([AuthorizationEffects]),
+    EffectsModule.forRoot([AuthorizationEffects, ThemeEffects]),
     HeaderModule,
     MessagerModule,
     AccountModule,

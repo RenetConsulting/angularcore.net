@@ -1,7 +1,7 @@
 <button mat-button [matMenuTriggerFor]="menuRef"><i class="fas fa-fill-drip h3 mb-0"></i></button>
 <mat-menu #menuRef="matMenu">
-    <button mat-menu-item *ngFor="let item of items" [style.background]="item.primary" (click)="setTheme(item.name)">
+    <button mat-menu-item *ngFor="let item of items | async" [style.background]="item.primary" (click)="setTheme(item.name)">
         {{item.name}}
-        <span *ngIf="selected?.name === item.name">(active)</span>
+        <span *ngIf="(selected | async)?.name === item.name">(active)</span>
     </button>
 </mat-menu>
