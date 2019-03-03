@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { Actions, Effect, ofType, ROOT_EFFECTS_INIT } from '@ngrx/effects';
-import { map, tap } from 'rxjs/operators';
+import { first, map, tap } from 'rxjs/operators';
 import { StorageService } from '../../services/storage/storage.service';
 import { SetTheme } from './actions';
 import { ThemeTypes } from './types';
@@ -17,6 +17,7 @@ export class ThemeEffects {
 
     @Effect() init = this.actions.pipe(
         ofType(ROOT_EFFECTS_INIT),
+        first(),
         map(() => this.storageService.get(this.key)),
         map(i => new SetTheme(i))
     );
