@@ -7,6 +7,8 @@ import { BASE_URL } from '../../../../tokens/base-url.token';
 
 declare const window;
 
+/** TODO: center the dialog */
+/** TODO: test changes */
 @Component({
     selector: 'signin-external',
     templateUrl: './signin-external.component.html',
