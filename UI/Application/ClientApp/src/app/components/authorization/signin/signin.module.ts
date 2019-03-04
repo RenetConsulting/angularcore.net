@@ -12,6 +12,7 @@ import { ControlInputModule } from '../../control-input/control-input.module';
 import { SocialMediaModule } from '../../social-media/social-media.module';
 import { SigninEffects } from './effects';
 import { signinReducer } from './reducer';
+import { SigninExternalModule } from './signin-external/signin-external.module';
 import { SigninRoutingModule } from './signin-routing.module';
 import { SigninComponent } from './signin.component';
 
@@ -25,6 +26,7 @@ const MODULES = [
     MatCheckboxModule,
     MatCardModule,
     CoreCaptchaModule,
+    SigninExternalModule,
     StoreModule.forFeature('signin', signinReducer),
     EffectsModule.forRoot([SigninEffects]),
 ];
