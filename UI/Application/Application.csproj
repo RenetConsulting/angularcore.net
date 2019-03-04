@@ -11,6 +11,7 @@
     <!-- Set this to true if you enable server-side prerendering -->
     <BuildServerSideRenderer>true</BuildServerSideRenderer>
     <Configurations>Debug;Release;TestingProduction</Configurations>
+    <UserSecretsId>68af3fd4-95d0-42fd-bdab-34766dea176a</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
