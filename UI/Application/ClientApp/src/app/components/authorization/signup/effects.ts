@@ -30,7 +30,7 @@ export class SignupEffects {
 
     @Effect() signupSuccess = this.actions.pipe(
         ofType<SignupSuccess>(SignupTypes.SIGNUP_SUCCESS),
-        tap(() => this.router.navigate(['/sign-in'])),
+        tap(() => this.router.navigate(['/signin'])),
         mapTo(new MessageRequest(MessagesType.checkEmail))
     );
 

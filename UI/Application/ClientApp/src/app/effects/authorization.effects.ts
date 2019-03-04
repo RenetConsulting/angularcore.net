@@ -23,7 +23,7 @@ export class AuthorizationEffects {
         ofType<Signout>(AuthorizationTypes.SIGNOUT),
         mergeMap(() => this.authorizationService.signout().pipe(
             tap(this.tokenService.clean),
-            tap(() => this.router.navigate(['/sign-in'])),
+            tap(() => this.router.navigate(['/signin'])),
             map(() => new MessageRequest('Signout successfuly.')),
             catchError(() => EMPTY)
         ))
