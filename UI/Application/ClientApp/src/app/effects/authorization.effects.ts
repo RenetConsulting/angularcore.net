@@ -13,10 +13,10 @@ import { AuthorizationTypes } from '../types/authorization.types';
 export class AuthorizationEffects {
 
     constructor(
-        @Inject(Actions) public actions: Actions,
-        @Inject(AuthorizationService) public authorizationService: AuthorizationService,
-        @Inject(TokenService) public tokenService: TokenService,
-        @Inject(Router) public router: Router,
+        @Inject(Actions) private actions: Actions,
+        @Inject(AuthorizationService) private authorizationService: AuthorizationService,
+        @Inject(TokenService) private tokenService: TokenService,
+        @Inject(Router) private router: Router,
     ) { }
 
     @Effect() signout = this.actions.pipe(
