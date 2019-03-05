@@ -7,7 +7,7 @@ import { EMAIL_VALIDATORS } from '../../../consts/email.validators';
 import { PASSWORD_VALIDATORS } from '../../../consts/password.validators';
 import { MessagesType } from '../../../enums/messages.type';
 import { IResetPassword } from '../../../interfaces/reset-password';
-import { ResetPassword } from './actions';
+import { ResetError, ResetPassword } from './actions';
 import { ResetPasswordStore } from './reducer';
 import { selectResetPasswordError } from './selectors';
 
@@ -34,6 +34,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        this.store.dispatch(new ResetError());
         this.subscription.unsubscribe();
     }
 

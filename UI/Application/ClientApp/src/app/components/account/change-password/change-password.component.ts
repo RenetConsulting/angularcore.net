@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { PASSWORD_VALIDATORS } from '../../../consts/password.validators';
 import { MessagesType } from '../../../enums/messages.type';
 import { IChangePassword } from '../../../interfaces/change-password';
-import { ChangePassword } from './actions';
+import { ChangePassword, ResetError } from './actions';
 import { ChangePasswordStore } from './reducer';
 import { selectChangePasswordError } from './selectors';
 
@@ -29,6 +29,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        this.store.dispatch(new ResetError());
         this.subscription.unsubscribe();
     }
 
