@@ -8,7 +8,6 @@ import { BASE_URL } from '../../tokens/base-url.token';
 })
 export class ApiPrefixInterceptor implements HttpInterceptor {
 
-
     constructor(
         @Inject(BASE_URL) private baseUrl: string
     ) { }

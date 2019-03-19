@@ -14,6 +14,7 @@ export class CounterComponent implements OnInit {
     public currentCount = 0;
 
     ngOnInit(): void {
+        this.test(1)
     }
 
     public incrementCounter() {
@@ -22,7 +23,7 @@ export class CounterComponent implements OnInit {
 
     test = (length = 2) => {
         for (let i = 0; i < length; i++) {
-            this.http.get(`https://httpbin.org/get?test=${i}`).subscribe(console.log, console.log);
+            this.http.get(`https://httpbin.org/get?test=${i}`).subscribe(console.log, console.warn);
         }
     }
 
