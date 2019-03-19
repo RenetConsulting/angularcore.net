@@ -47,6 +47,7 @@ namespace Application
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("secrets.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
@@ -191,7 +192,14 @@ namespace Application
 
             // Register the OAuth2 validation handler.
             services.AddAuthentication(options => options.DefaultAuthenticateScheme = OAuthValidationDefaults.AuthenticationScheme)
-                .AddOAuthValidation();
+                .AddOAuthValidation()
+
+                // Add Facebook support
+                .AddFacebook(opts =>
+                {
+                    opts.AppId = this.Configuration["Authorization:Facebook:AppId"];
+                    opts.AppSecret = this.Configuration["Authorization:Facebook:AppSecret"];
+                });
 
             // Resolve dependencies
             services.AddScoped<IGlobalRepository, GlobalRepository>();
