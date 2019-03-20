@@ -7,9 +7,11 @@ namespace Application.Controllers
 {
     using System;
     using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
     using Application.Business;
     using Application.Business.CoreCaptcha;
+    using Application.Business.Helpers;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Enums;
     using AspNet.Security.OpenIdConnect.Extensions;
@@ -94,99 +96,72 @@ namespace Application.Controllers
         [HttpGet("ExternalLoginCallback")]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
         {
-            if (!string.IsNullOrEmpty(remoteError))
+            try
             {
-                // TODO: handle external provider errors
-                throw new Exception(string.Format("External Provider error: {0}", remoteError));
-            }
+                if (!string.IsNullOrEmpty(remoteError))
+                {
+                    // TODO: handle external provider errors
+                    throw new Exception(string.Format("External Provider error: {0}", remoteError));
+                }
 
-            // Extract the login info obtained from the External Provider
-            var info = await this.signInManager.GetExternalLoginInfoAsync();
-            if (info == null)
-            {
-                // if there's none, emit an error
-                throw new Exception("ERROR: No login info available.");
-            }
+                // Extract the login info obtained from the External Provider
+                var info = await this.signInManager.GetExternalLoginInfoAsync();
+                if (info == null)
+                {
+                    throw new Exception("ERROR: No login info available.");
+                }
 
-            // Check if this user already registered himself with this external provider before 
-            var user = await this.userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);/*
-            if (user == null)
-            {
-                // If we reach this point, it means that this user never tried to logged in
-                // using this external provider. However, it could have used other providers
-                // and /or have a local account.
-
-                // We can find out if that's the case by looking for his e-mail address.
-                // Retrieve the 'emailaddress' claim
-                var emailKey = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress";
-                var email = info.Principal.FindFirst(emailKey).Value;
-
-                // Lookup if there's an username with this e-mail address in the Db
-                user = await this.userManager.FindByEmailAsync(email);
-                
+                // Check if this user already registered himself with this external provider before
+                ApplicationUser user = await this.userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
                 if (user == null)
                 {
-                    // No user has been found: register a new user
-                    // using the info retrieved from the provider
-                    DateTime now = DateTime.Now;
+                    string email = info.Principal.FindFirst(ClaimTypes.Email).Value;
 
-                    // Create a unique username using the 'nameidentifier' claim
-                    var idKey = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
-                    var username = string.Format("{0}{1}{2}", info.LoginProvider, info.Principal.FindFirst(idKey).Value, Guid.NewGuid().ToString("N"));
-                    user = new ApplicationUser()
+                    user = await this.userManager.FindByEmailAsync(email);
+
+                    if (user == null)
                     {
-                        SecurityStamp = Guid.NewGuid().ToString(),
-                        UserName = username,
-                        Email = email
-                    };
+                        DateTime now = DateTime.Now;
 
-                    // Add the user to the Db with a random password
-                    await this.userManager.CreateAsync(user, DataHelper.GenerateRandomPassword());
+                        // Create a unique username using the 'nameidentifier' claim
+                        var username = string.Format("{0}{1}{2}", info.LoginProvider, info.Principal.FindFirst(ClaimTypes.NameIdentifier).Value, Guid.NewGuid().ToString("N"));
+                        user = new ApplicationUser()
+                        {
+                            SecurityStamp = Guid.NewGuid().ToString(),
+                            UserName = username,
+                            Email = email,
+                            EmailConfirmed = true,
+                            LockoutEnabled = false
+                        };
 
-                    // Assign the user to the 'RegisteredUser' role.
-                    await this.userManager.AddToRoleAsync(user, "RegisteredUser");
+                        await this.userManager.CreateAsync(user, DataHelper.GenerateRandomPassword());
+                    }
 
-                    // Remove Lockout and E-Mail confirmation
-                    user.EmailConfirmed = true;
-                    user.LockoutEnabled = false;
-
-                    // Persist everything into the Db
-                    await DbContext.SaveChangesAsync();
+                    // Register this external provider to the user
+                    var ir = await this.userManager.AddLoginAsync(user, info);
+                    if (!ir.Succeeded)
+                    {
+                        throw new Exception("Authentication error");
+                    }
                 }
 
-                // Register this external provider to the user
-                var ir = await this.userManager.AddLoginAsync(user, info);
-                if (ir.Succeeded)
-                {
-                    // Persist everything into the Db
-                    DbContext.SaveChanges();
-                }
-                else
-                {
-                    throw new Exception("Authentication error");
-                }
+                string accessToken = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                // TODO: Ask about return value
+                // output a <SCRIPT> tag to call a JS function
+                // registered into the parent window global scope
+                return this.Content(
+                    "<script type=\"text/javascript\">" +
+                    "window.opener.externalProviderLogin(" +
+                    JsonConvert.SerializeObject(accessToken /* JsonSettings */) +
+                    ");" +
+                    "window.close();" +
+                    "</script>", "text/html");
             }
-
-            // create the refresh token
-            var rt = CreateRefreshToken("TestMakerFree", user.Id);
-
-            // add the new refresh token to the DB
-            DbContext.Tokens.Add(rt);
-            DbContext.SaveChanges();
-
-            // create & return the access token
-            var t = CreateAccessToken(user.Id, rt.Value);
-            
-            // output a <SCRIPT> tag to call a JS function
-            // registered into the parent window global scope
-            return Content(
-                "<script type=\"text/javascript\">" +
-                "window.opener.externalProviderLogin(" +
-                JsonConvert.SerializeObject(t, JsonSettings) +
-                ");" +
-                "window.close();" +
-                "</script>", "text/html");*/
-            return null;
+            catch (Exception ex)
+            {
+                return this.BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("~/connect/signout")]
