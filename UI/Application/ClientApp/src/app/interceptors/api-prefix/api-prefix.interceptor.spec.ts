@@ -1,12 +1,20 @@
 import { TestBed } from '@angular/core/testing';
+import { BASE_URL } from '../../tokens/base-url.token';
+import { ApiPrefixInterceptor } from './api-prefix.interceptor';
 
-import { ApiPrefixService } from './api-prefix.service';
+describe('ApiPrefixInterceptor', () => {
 
-describe('ApiPrefixService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+    let service: ApiPrefixInterceptor;
+    const baseUrl = '';
 
-  it('should be created', () => {
-    const service: ApiPrefixService = TestBed.get(ApiPrefixService);
-    expect(service).toBeTruthy();
-  });
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            providers: [{ provide: BASE_URL, useValue: baseUrl }]
+        })
+        service = TestBed.get(ApiPrefixInterceptor);
+    });
+
+    it('should be created', () => {
+        expect(service).toBeTruthy();
+    });
 });

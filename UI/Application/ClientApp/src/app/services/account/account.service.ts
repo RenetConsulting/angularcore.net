@@ -22,23 +22,23 @@ export class AccountService {
         .post(`${this.url}/password/change`, model, { headers: { ...HTTP_HEADERS.allowHttpError } })
 
     prepResetPassword = (email: string) => {
-        const body = this.toolsService.getQuery({ email });
+        const query = this.toolsService.getQuery({ email });
         return this.http
-            .get(`${this.url}/password/send/token${body}`);
+            .get(`${this.url}/password/send/token${query}`);
     }
 
     resetPassword = (model: IResetPassword) => this.http
         .post(`${this.url}/password/reset`, model, { headers: { ...HTTP_HEADERS.allowHttpError } })
 
     confirmEmail = (model: IConfirmEmail) => {
-        const body = this.toolsService.getQuery(model);
+        const query = this.toolsService.getQuery(model);
         return this.http
-            .get(`${this.url}/email/confirm${body}`);
+            .get(`${this.url}/email/confirm${query}`);
     }
 
     resendConfirmation = (email: string) => {
-        const body = this.toolsService.getQuery({ email });
+        const query = this.toolsService.getQuery({ email });
         return this.http
-            .get(`${this.url}/email/send/token${body}`);
+            .get(`${this.url}/email/send/token${query}`);
     }
 }
