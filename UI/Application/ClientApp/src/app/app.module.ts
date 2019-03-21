@@ -12,7 +12,7 @@ const BASE_URL_FACTORY = () => {
         return `${window.location.protocol}//${window.location.hostname}${port}`;
     }
     return '';
-}
+};
 
 @NgModule({
     imports: [BrowserAnimationsModule, AppSharedModule],

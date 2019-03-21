@@ -1,8 +1,8 @@
-//import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-//import { ThemePickerComponent } from './theme-picker.component';
+// import { ThemePickerComponent } from './theme-picker.component';
 
-//describe('ThemePickerComponent', () => {
+// describe('ThemePickerComponent', () => {
 //    let component: ThemePickerComponent;
 //    let fixture: ComponentFixture<ThemePickerComponent>;
 
@@ -22,4 +22,4 @@
 //    it('should create', () => {
 //        expect(component).toBeTruthy();
 //    });
-//});
+// });

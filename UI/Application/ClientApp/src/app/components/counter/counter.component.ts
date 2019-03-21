@@ -14,7 +14,7 @@ export class CounterComponent implements OnInit {
     public currentCount = 0;
 
     ngOnInit(): void {
-        this.test(1)
+        this.test(1);
     }
 
     public incrementCounter() {

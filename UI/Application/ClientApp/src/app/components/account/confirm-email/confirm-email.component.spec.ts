@@ -1,8 +1,8 @@
-//import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-//import { ConfirmEmailComponent } from './confirm-email.component';
+// import { ConfirmEmailComponent } from './confirm-email.component';
 
-//describe('ConfirmEmailComponent', () => {
+// describe('ConfirmEmailComponent', () => {
 //    let component: ConfirmEmailComponent;
 //    let fixture: ComponentFixture<ConfirmEmailComponent>;
 
@@ -22,4 +22,4 @@
 //    it('should create', () => {
 //        expect(component).toBeTruthy();
 //    });
-//});
+// });

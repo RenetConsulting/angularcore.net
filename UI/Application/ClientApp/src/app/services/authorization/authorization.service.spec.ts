@@ -15,13 +15,13 @@ describe('AuthorizationService', () => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
             providers: [{ provide: ToolsService, useValue: jasmine.createSpyObj('ToolsService', ['getQuery']) }]
-        })
+        });
         service = TestBed.get(AuthorizationService);
         toolsService = TestBed.get(ToolsService);
         httpTestingController = TestBed.get(HttpTestingController);
     });
 
-    afterEach(() => httpTestingController.verify())
+    afterEach(() => httpTestingController.verify());
 
     it('should be created', () => {
         expect(service).toBeTruthy();

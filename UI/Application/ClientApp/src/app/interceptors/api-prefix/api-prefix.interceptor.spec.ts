@@ -10,7 +10,7 @@ describe('ApiPrefixInterceptor', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [{ provide: BASE_URL, useValue: baseUrl }]
-        })
+        });
         service = TestBed.get(ApiPrefixInterceptor);
     });
 

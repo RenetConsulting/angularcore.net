@@ -8,7 +8,7 @@ describe('AccessService', () => {
     let tokenService: TokenService;
 
     beforeEach(() => {
-        TestBed.configureTestingModule({})
+        TestBed.configureTestingModule({});
         service = TestBed.get(AccessService);
         tokenService = TestBed.get(TokenService);
     });
@@ -18,7 +18,7 @@ describe('AccessService', () => {
     });
     it('should be created', () => {
         const value = true;
-        Object.defineProperty(tokenService, 'valid', { get: () => value })
+        Object.defineProperty(tokenService, 'valid', { get: () => value });
         expect(service.authorized).toEqual(value);
     });
 });
