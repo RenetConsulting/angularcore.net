@@ -7,40 +7,28 @@ import { SESSION_STORAGE } from '../../tokens/session-storage.token';
 })
 export class StorageService {
 
+    /** key - is remember user */
+    private readonly key = 'storage.iru';
     private storage;
-    private readonly storageTypeKey = 'storage.iru';
 
     constructor(
-        @Inject(LOCAL_STORAGE) private localSorage,
-        @Inject(SESSION_STORAGE) private sessionSorage
+        @Inject(LOCAL_STORAGE) private localStorage,
+        @Inject(SESSION_STORAGE) private sessionStorage
     ) {
-        this.setStorage(this.get(this.storageTypeKey, this.localSorage));
+        this.setStorage(this.get(this.key, this.localStorage));
     }
 
-    private getItem = (key: string, storage = this.storage): string => {
-        return storage && storage.getItem(key);
+    private getItem = (key: string, storage = this.storage): string => storage && storage.getItem(key);
+
+    private setItem = (key: string, value: string, storage = this.storage): void => storage && storage.setItem(key, value);
+
+    /** @param value - is a type of storage that we must use */
+    setStorage = (value: boolean): void => {
+        this.set(this.key, value, this.localStorage);
+        this.storage = value ? this.localStorage : this.sessionStorage;
     }
 
-    private setItem = (key: string, value: string, storage = this.storage): void => {
-        if (storage) {
-            storage.setItem(key, value);
-        }
-    }
-
-    /**
-     * by default, the storage must be local storage unless a user logins with another Browser
-     * @param isLocalSorage - is a type of storage that we must use
-     */
-    setStorage = (isLocalSorage: boolean = true): void => {
-        this.set(this.storageTypeKey, isLocalSorage, this.localSorage);
-        this.storage = isLocalSorage ? this.localSorage : this.sessionSorage;
-    }
-
-    remove = (key: string, storage = this.storage): void => {
-        if (storage) {
-            storage.removeItem(key);
-        }
-    }
+    remove = (key: string, storage = this.storage): void => storage && storage.removeItem(key);
 
     get = (key: string, storage = this.storage): any => {
         if (storage) {
