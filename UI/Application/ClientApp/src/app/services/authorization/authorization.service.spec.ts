@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { HTTP_HEADER_NAMES } from '../../enums/http-header-names.type';
@@ -6,11 +5,10 @@ import { IUser } from '../../interfaces/user';
 import { ToolsService } from '../tools/tools.service';
 import { AuthorizationService } from './authorization.service';
 
-fdescribe('AuthorizationService', () => {
+describe('AuthorizationService', () => {
 
     let service: AuthorizationService;
     let toolsService: { getQuery: jasmine.Spy };
-    let httpClient: HttpClient;
     let httpTestingController: HttpTestingController;
 
     beforeEach(() => {
@@ -20,10 +18,7 @@ fdescribe('AuthorizationService', () => {
         })
         service = TestBed.get(AuthorizationService);
         toolsService = TestBed.get(ToolsService);
-        httpClient = TestBed.get(HttpClient);
         httpTestingController = TestBed.get(HttpTestingController);
-
-        toolsService; httpClient;
     });
 
     afterEach(() => httpTestingController.verify())

@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { HTTP_HEADER_NAMES } from '../../enums/http-header-names.type';
@@ -9,7 +8,6 @@ describe('AccountService', () => {
 
     let service: AccountService;
     let toolsService: { getQuery: jasmine.Spy };
-    let httpClient: HttpClient;
     let httpTestingController: HttpTestingController;
 
     beforeEach(() => {
@@ -19,10 +17,7 @@ describe('AccountService', () => {
         })
         service = TestBed.get(AccountService);
         toolsService = TestBed.get(ToolsService);
-        httpClient = TestBed.get(HttpClient);
         httpTestingController = TestBed.get(HttpTestingController);
-
-        toolsService; httpClient;
     });
 
     afterEach(() => httpTestingController.verify())
