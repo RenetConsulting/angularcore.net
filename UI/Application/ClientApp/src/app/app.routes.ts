@@ -7,6 +7,7 @@ export const ROUTES: Array<Route> = [
     /** public routes */
     { path: 'home', component: HomeComponent },
     { path: 'counter', loadChildren: './components/counter/counter.module#CounterModule' },
+    { path: 'settings', loadChildren: './components/settings/settings.module#SettingsModule' },
 
     { path: '**', redirectTo: '/home' }
 ];

@@ -24,6 +24,7 @@ export class ControlInputComponent implements ControlValueAccessor, OnChanges, O
     @Input() maxlength: number;
     /** custom error messages */
     @Input() errorMessages: Array<string>;
+    @Input() inputMask;
     readonly subscription = new Subscription();
     disabled: boolean;
     onChange: (i) => any | null;
