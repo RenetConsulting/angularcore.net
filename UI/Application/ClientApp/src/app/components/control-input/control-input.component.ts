@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Inject, Input, OnChanges, OnDestroy, OnInit, Optional, Self, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnChanges, OnDestroy, OnInit, Optional, Self, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subscription } from 'rxjs';
@@ -14,7 +14,6 @@ import { EnterLeaveAnimation } from '../../animations/enter-leave.animation';
 })
 export class ControlInputComponent implements ControlValueAccessor, OnChanges, OnInit, OnDestroy {
 
-    @ViewChild('inputRef') _inputRef: ElementRef;
     @ViewChild(MatFormFieldControl) fieldControl: MatFormFieldControl<any>;
     @Input() placeholder: string;
     @Input() readonly: boolean;
@@ -24,7 +23,6 @@ export class ControlInputComponent implements ControlValueAccessor, OnChanges, O
     @Input() maxlength: number;
     /** custom error messages */
     @Input() errorMessages: Array<string>;
-    @Input() inputMask;
     readonly subscription = new Subscription();
     disabled: boolean;
     onChange: (i) => any | null;

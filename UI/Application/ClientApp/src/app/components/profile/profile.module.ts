@@ -5,20 +5,20 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { EffectsModule } from '@ngrx/effects';
 import { ControlInputModule } from '../control-input/control-input.module';
-import { SettingsEffects } from './effects';
-import { SettingsRoutingModule } from './settings-routing.module';
-import { SettingsComponent } from './settings.component';
+import { ProfileEffects } from './effects';
+import { ProfileRoutingModule } from './profile-routing.module';
+import { ProfileComponent } from './profile.component';
 
 @NgModule({
-    declarations: [SettingsComponent],
+    declarations: [ProfileComponent],
     imports: [
         CommonModule,
-        SettingsRoutingModule,
+        ProfileRoutingModule,
         ReactiveFormsModule,
         MatButtonModule,
         MatCardModule,
         ControlInputModule,
-        EffectsModule.forFeature([SettingsEffects])
+        EffectsModule.forFeature([ProfileEffects]),
     ],
 })
-export class SettingsModule { }
+export class ProfileModule { }

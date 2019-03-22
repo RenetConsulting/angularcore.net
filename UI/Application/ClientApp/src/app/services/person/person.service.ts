@@ -13,5 +13,7 @@ export class PersonService {
         @Inject(HttpClient) private http: HttpClient
     ) { }
 
-    update = (model: IPerson) => this.http.post<null>(`${this.url}`, model);
+    getProfile = () => this.http.get<IPerson>(`${this.url}/profile`);
+
+    update = (model: IPerson) => this.http.put<null>(`${this.url}`, model);
 }

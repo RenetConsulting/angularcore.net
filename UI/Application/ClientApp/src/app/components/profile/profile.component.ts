@@ -1,21 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { MessagesType } from '../../enums/messages.type';
 import { IPerson } from '../../interfaces/person';
+import { RootStore } from '../../reducers';
+import { GetProfileRequest, UpdateProfileRequest } from './actions';
+import { selectProfile } from './selectors';
 
 @Component({
-    selector: 'app-settings',
-    templateUrl: './settings.component.html',
-    styleUrls: ['./settings.component.scss']
+    selector: 'app-profile',
+    templateUrl: './profile.component.html',
 })
-export class SettingsComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
 
+    readonly subscription = new Subscription();
     formGroup: FormGroup;
+    phoneError: string;
 
-    constructor() { }
+    constructor(
+        @Inject(Store) private store: Store<RootStore>
+    ) { }
 
     ngOnInit() {
         this.setFormGroup();
+        this.subscription.add(this.store.select(selectProfile).pipe(filter(i => !!i)).subscribe(i => this.formGroup.reset(i)));
+        this.store.dispatch(new GetProfileRequest());
+    }
+
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
     }
 
     maskValidator = (control: AbstractControl): ValidationErrors | null => {
@@ -39,7 +54,7 @@ export class SettingsComponent implements OnInit {
 
     submit = (): void => {
         if (this.formGroup.valid) {
-            console.error("TODO: create")
+            this.store.dispatch(new UpdateProfileRequest(this.formGroup));
         }
     }
 }

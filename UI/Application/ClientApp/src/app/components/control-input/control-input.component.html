@@ -1,5 +1,5 @@
 <mat-form-field class="w-100 mt-3">
-    <input #inputRef matInput [mask]="inputMask" [type]="type" (validator)="setError($event)" [required]="required" [minlength]="minlength" [maxlength]="maxlength"
+    <input matInput [type]="type" (validator)="setError($event)" [required]="required" [minlength]="minlength" [maxlength]="maxlength"
            [readonly]="readonly" [placeholder]="placeholder" [formControl]="ngControl.control">
 </mat-form-field>
 

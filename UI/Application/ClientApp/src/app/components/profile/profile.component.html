@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row d-flex justify-content-center align-items-center pt-5">
             <mat-card class="col-md-8 shadow-sm p-5 mb-5 rounded-10">
-                <h1 class="text-center">Settings</h1>
+                <h1 class="text-center">Profile</h1>
                 <form [formGroup]="formGroup" (ngSubmit)="submit()">
                     <div class="row">
                         <control-input class="col" placeholder="First Name" formControlName="firstName" maxlength="250"></control-input>
@@ -12,7 +12,7 @@
                         <control-input class="col" placeholder="Email" formControlName="email" maxlength="150"></control-input>
                     </div>
                     <div class="row">
-                        <control-input class="col" type="tel" placeholder="US Phone" inputMask="(000) 000-0000" formControlName="phone"></control-input>
+                        <control-input class="col" type="tel" placeholder="US Phone" formControlName="phone" maxlength="12"></control-input>
                     </div>
                     <div class="row">
                         <control-input class="col-md-8" placeholder="Address" formControlName="address" maxlength="150"></control-input>
