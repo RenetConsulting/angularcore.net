@@ -195,10 +195,10 @@ namespace Application
                 .AddOAuthValidation()
 
                 // Add Facebook support
-                .AddFacebook(opts =>
+                .AddFacebook(options =>
                 {
-                    opts.AppId = this.Configuration["Authorization:Facebook:AppId"];
-                    opts.AppSecret = this.Configuration["Authorization:Facebook:AppSecret"];
+                    options.AppId = this.Configuration["AppSettings:FacebookAppId"];
+                    options.AppSecret = this.Configuration["AppSettings:FacebookAppSecret"];
                 });
 
             // Resolve dependencies
