@@ -3,16 +3,16 @@
            [readonly]="readonly" [placeholder]="placeholder" [formControl]="ngControl.control">
 </mat-form-field>
 
-<mat-error [@enterLeaveHOW]="matErrorAnimationState">
+<mat-error [@enterLeave]="matErrorAnimationState">
     <div *ngIf="matError" class="error mb-1">{{matError}}</div>
 </mat-error>
 
-<mat-error [@enterLeaveHOW]="messagesAnimationState">
+<mat-error [@enterLeave]="messagesAnimationState">
     <div *ngFor="let item of errorMessages" class="error mb-1">
         <i class="fas fa-exclamation-circle"></i> {{item}}
     </div>
 </mat-error>
 
-<mat-hint *ngIf="maxlength" [@enterLeaveHOW]="matHintAnimationState">
+<mat-hint *ngIf="maxlength" [@enterLeave]="matHintAnimationState">
     <div *ngIf="!matError" class="mt-1">{{ngControl.control.value?.length || 0}}/{{maxlength}}</div>
 </mat-hint>

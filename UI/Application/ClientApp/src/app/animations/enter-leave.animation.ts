@@ -10,7 +10,7 @@ const initStyle = {
  * about duration read at https://material.io/design/motion/speed.html#duration
  * about easing read at https://material.io/design/motion/speed.html#easing
  */
-export const enterLeaveHOW = trigger('enterLeaveHOW', [
+export const EnterLeaveAnimation = trigger('enterLeave', [
     transition(':enter, * => void', []),
     transition(':increment', [
         query(':enter', [

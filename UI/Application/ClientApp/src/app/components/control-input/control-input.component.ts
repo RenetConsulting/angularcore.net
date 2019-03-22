@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, Inject, Input, OnChange
 import { ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subscription } from 'rxjs';
-import { enterLeaveHOW } from '../../animations/enter-leave-how.animation';
+import { EnterLeaveAnimation } from '../../animations/enter-leave.animation';
 
 @Component({
     selector: 'control-input',
@@ -10,7 +10,7 @@ import { enterLeaveHOW } from '../../animations/enter-leave-how.animation';
     styleUrls: ['./control-input.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: [enterLeaveHOW]
+    animations: [EnterLeaveAnimation]
 })
 export class ControlInputComponent implements ControlValueAccessor, OnChanges, OnInit, OnDestroy {
 
