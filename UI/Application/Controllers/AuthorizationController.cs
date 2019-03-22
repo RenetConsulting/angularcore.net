@@ -65,7 +65,7 @@ namespace Application.Controllers
         }
 
         [HttpGet("~/connect/token/external/{provider}")]
-        public async Task<IActionResult> ExternalLoginAsync(string provider, string returnUrl = null)
+        public IActionResult ExternalLogin(string provider, string returnUrl = null)
         {
             try
             {
@@ -111,6 +111,8 @@ namespace Application.Controllers
                     throw new Exception("ERROR: No login info available.");
                 }
 
+                ExternalLoginInfo externalLoginInfo = new ExternalLoginInfo();
+
                 // Check if this user already registered himself with this external provider before
                 ApplicationUser user = await this.userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
                 if (user == null)
@@ -145,15 +147,16 @@ namespace Application.Controllers
                     }
                 }
 
-                string accessToken = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
+                externalLoginInfo.AccessToken = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                // TODO: Ask about return value
+                JsonSerializerSettings jsonSettings = new JsonSerializerSettings();
+
                 // output a <SCRIPT> tag to call a JS function
                 // registered into the parent window global scope
                 return this.Content(
                     "<script type=\"text/javascript\">" +
                     "window.opener.externalProviderLogin(" +
-                    JsonConvert.SerializeObject(accessToken /* JsonSettings */) +
+                    JsonConvert.SerializeObject(externalLoginInfo, jsonSettings) +
                     ");" +
                     "window.close();" +
                     "</script>", "text/html");
