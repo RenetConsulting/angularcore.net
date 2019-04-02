@@ -18,6 +18,8 @@ namespace Application.Controllers
     using AspNet.Security.OpenIdConnect.Primitives;
     using AspNet.Security.OpenIdConnect.Server;
     using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
     using OpenIddict.Abstractions;
@@ -64,17 +66,33 @@ namespace Application.Controllers
             });
         }
 
+        [AllowAnonymous]
         [HttpGet("~/connect/token/external/{provider}")]
         public async Task<IActionResult> ExternalLoginAsync(string provider, string returnUrl = null)
         {
             try
             {
-                switch (provider.ToLower())
+                ExternalLoginInfo info = await this.signInManager.GetExternalLoginInfoAsync().ConfigureAwait(false);
+
+                if (info != null)
                 {
-                    case "facebook":
+                    if (string.Equals(info.LoginProvider, provider))
+                    {
+                        // There was a successful external log in from the same log in provider.
+                        // Skip challenging and redirect to next step.
+                        return this.RedirectToAction(
+                            nameof(this.ExternalLoginCallbackAsync),
+                            "Authorization",
+                            new { provider, returnUrl });
+                    }
+                }
+
+                switch (provider)
+                {
+                    case "Facebook":
                         // Redirect the request to the external provider.
                         var redirectUrl = this.Url.Action(
-                            nameof(this.ExternalLoginCallback),
+                            nameof(this.ExternalLoginCallbackAsync),
                             "Authorization",
                             new { returnUrl });
                         var properties = this.signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
@@ -93,8 +111,9 @@ namespace Application.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("ExternalLoginCallback")]
-        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
+        public async Task<IActionResult> ExternalLoginCallbackAsync(string returnUrl = null, string remoteError = null)
         {
             try
             {
@@ -110,6 +129,8 @@ namespace Application.Controllers
                 {
                     throw new Exception("ERROR: No login info available.");
                 }
+
+                ExternalLoginInfoHelper externalLoginInfo = new ExternalLoginInfoHelper();
 
                 // Check if this user already registered himself with this external provider before
                 ApplicationUser user = await this.userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
@@ -145,15 +166,16 @@ namespace Application.Controllers
                     }
                 }
 
-                string accessToken = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
+                externalLoginInfo.AccessToken = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                // TODO: Ask about return value
+                JsonSerializerSettings jsonSettings = new JsonSerializerSettings();
+
                 // output a <SCRIPT> tag to call a JS function
                 // registered into the parent window global scope
                 return this.Content(
                     "<script type=\"text/javascript\">" +
                     "window.opener.externalProviderLogin(" +
-                    JsonConvert.SerializeObject(accessToken /* JsonSettings */) +
+                    JsonConvert.SerializeObject(externalLoginInfo, jsonSettings) +
                     ");" +
                     "window.close();" +
                     "</script>", "text/html");
