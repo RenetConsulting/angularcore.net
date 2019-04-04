@@ -47,7 +47,7 @@ export class SigninExternalComponent implements OnInit {
 
     private signin = (auth: IToken): void => {
         this.zone.run(() => {
-            console.log('External Login successful!');
+            console.log('External Login successful!', auth);
             this.tokenService.setToken(auth);
             this.router.navigate(['']);
         });
