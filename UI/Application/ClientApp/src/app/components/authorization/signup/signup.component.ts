@@ -44,7 +44,7 @@ export class SignupComponent implements OnInit, OnDestroy {
             password: new FormControl('', [...PASSWORD_VALIDATORS]),
             confirmPassword: new FormControl('', [...PASSWORD_VALIDATORS, this.matchPasswordValidator]),
             readTerms: new FormControl(false, [Validators.requiredTrue]),
-            captcha: new FormControl(null, [Validators.required])
+            captcha: new FormControl(null/*, [Validators.required]*/)
         } as MapPick<IUser, keyof IUser, FormControl>);
     }
 

@@ -28,7 +28,7 @@ const COMPONENTS = [
 ];
 
 @NgModule({
+    declarations: [...COMPONENTS],
     imports: [...MODULES],
-    declarations: [...COMPONENTS]
 })
 export class ResetPasswordModule { }

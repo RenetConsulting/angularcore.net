@@ -17,14 +17,8 @@ const COMPONENTS = [
 ];
 
 @NgModule({
-    imports: [
-        ...MODULES
-    ],
-    exports: [
-        ...COMPONENTS
-    ],
-    declarations: [
-        ...COMPONENTS
-    ]
+    declarations: [...COMPONENTS],
+    imports: [...MODULES],
+    exports: [...COMPONENTS],
 })
 export class ControlInputModule { }

@@ -41,6 +41,7 @@ export class AuthorizationService {
             .post(`/api/account/register${query}`, model, { headers: { ...HTTP_HEADERS.allowHttpError } });
     }
 
+    /** the front-end side should post an expired token to the back-end side */
     signout = () => this.http
         .delete(`/connect/signout`, { headers: { ...HTTP_HEADERS.allowExpiredToken } })
 }

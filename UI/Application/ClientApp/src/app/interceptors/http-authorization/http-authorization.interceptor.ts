@@ -1,7 +1,7 @@
 import { HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { EMPTY, Observable, of, Subject } from 'rxjs';
-import { catchError, finalize, mergeMap } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
+import { finalize, mergeMap } from 'rxjs/operators';
 import { HTTP_HEADERS } from '../../consts/http-headers';
 import { HTTP_HEADER_NAMES } from '../../enums/http-header-names.type';
 import { IConnectToken } from '../../interfaces/connect-token';
@@ -48,7 +48,6 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
                 this.loading = true;
                 return handler.handle(this.refreshRequest).pipe(
                     mergeMap(i => i instanceof HttpResponse ? this.handleSuccess(request, handler, i.body) : of(i)),
-                    catchError(this.handleError),
                     finalize(this.handleFinalize)
                 );
             }
@@ -66,9 +65,6 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
         this.subjects.forEach(i => i.next(null));
         return handler.handle(this.setAuthorization(request));
     }
-
-    /** the error handles by {@link ErrorInterceptor} */
-    handleError = (): Observable<any> => EMPTY;
 
     handleFinalize = (): void => {
         this.subjects.forEach(i => i.complete());

@@ -13,5 +13,8 @@ export class ChangePasswordError implements Action {
     readonly type = ChangePasswordTypes.CHANGE_PASSWORD_ERROR;
     constructor(readonly error) { }
 }
+export class ResetError implements Action {
+    readonly type = ChangePasswordTypes.RESET_ERROR;
+}
 
-export type ChangePasswordActionsUnion = ChangePassword | ChangePasswordSuccess | ChangePasswordError;
+export type ChangePasswordActionsUnion = ChangePassword | ChangePasswordSuccess | ChangePasswordError | ResetError;
