@@ -1,13 +1,13 @@
 import { Component, Inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Signout } from '~/actions/authorization.actions';
 import { RootStore } from '~/reducers';
 import { AccessService } from '~/services/access/access.service';
+import { Signout } from '../authorization/actions';
 
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
-    styleUrls: ['./header.component.scss']
+    styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
 

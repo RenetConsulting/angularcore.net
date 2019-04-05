@@ -1,7 +1,7 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { share } from 'rxjs/operators';
 import { EMAIL_VALIDATORS } from '~/consts/email.validators';
 import { PASSWORD_VALIDATORS } from '~/consts/password.validators';
 import { MessagesType } from '~/enums/messages.type';
@@ -13,12 +13,12 @@ import { selectSignupError } from './selectors';
 @Component({
     selector: 'signup',
     templateUrl: './signup.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SignupComponent implements OnInit, OnDestroy {
+export class SignupComponent implements OnInit {
 
-    readonly subscription = new Subscription();
+    readonly errors = this.store.select(selectSignupError).pipe(share());
     formGroup: FormGroup;
-    errors: MapPick<IUser, keyof IUser, Array<string>>;
 
     constructor(
         @Inject(Store) private store: Store<RootStore>
@@ -26,11 +26,6 @@ export class SignupComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.setFormGroup();
-        this.subscription.add(this.store.select(selectSignupError).subscribe(i => this.errors = i));
-    }
-
-    ngOnDestroy(): void {
-        this.subscription.unsubscribe();
     }
 
     matchPasswordValidator = (control: AbstractControl): ValidationErrors | null => {
