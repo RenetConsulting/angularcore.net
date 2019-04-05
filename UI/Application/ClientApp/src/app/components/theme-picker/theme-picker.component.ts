@@ -19,8 +19,7 @@ export class ThemePickerComponent {
 
     readonly cssClass = 'link-theme';
     readonly items = this.store.select(selectItems);
-    selected = this.store.select(selectTheme).pipe(
-        tap(i => this.setSelected(i)));
+    readonly selected = this.store.select(selectTheme).pipe(tap(i => this.setSelected(i)));
 
     constructor(
         @Inject(Store) private store: Store<RootStore>,

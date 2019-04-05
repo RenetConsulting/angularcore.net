@@ -7,10 +7,6 @@ export interface ResetPasswordState {
     error?;
 }
 
-export interface ResetPasswordStore {
-    resetPassword: ResetPasswordState;
-}
-
 const INITIAL_STATE: ResetPasswordState = {};
 
 export function resetPasswordReducer(state = INITIAL_STATE, action: ResetPasswordActionsUnion | RootUnion): ResetPasswordState {

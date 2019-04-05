@@ -1,7 +1,8 @@
 import { createSelector } from '@ngrx/store';
-import { ResetPasswordState, ResetPasswordStore } from './reducer';
+import { RootStore } from '~/reducers';
+import { ResetPasswordState } from './reducer';
 
-const getModule = (state: ResetPasswordStore) => state.resetPassword;
+const getModule = (state: RootStore) => state.resetPassword;
 
 const getError = (state: ResetPasswordState) => state.error;
 

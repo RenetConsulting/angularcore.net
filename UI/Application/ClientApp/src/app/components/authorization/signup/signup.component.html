@@ -3,9 +3,9 @@
         <mat-card class="col-md-6 shadow-sm p-5 mb-5 rounded-10">
             <h2 class="text-center">Sign up</h2>
             <form [formGroup]="formGroup" (ngSubmit)="submit()">
-                <control-input placeholder="Email" type="email" formControlName="email" [errorMessages]="errors?.email"></control-input>
-                <control-input placeholder="Password" type="password" formControlName="password" [errorMessages]="errors?.password"></control-input>
-                <control-input placeholder="Confirmation Password" type="password" formControlName="confirmPassword" [errorMessages]="errors?.confirmPassword"></control-input>
+                <control-input placeholder="Email" type="email" formControlName="email" [errorMessages]="(errors | async)?.email"></control-input>
+                <control-input placeholder="Password" type="password" formControlName="password" [errorMessages]="(errors | async)?.password"></control-input>
+                <control-input placeholder="Confirmation Password" type="password" formControlName="confirmPassword" [errorMessages]="(errors | async)?.confirmPassword"></control-input>
                 <ngx-core-captcha class="mt-3" formControlName="captcha"></ngx-core-captcha>
                 <mat-form-field class="w-100 my-3">
                     <input matInput formControlName="readTerms" hidden="hidden">
