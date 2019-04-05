@@ -1,7 +1,7 @@
-import { FormGroup } from "@angular/forms";
-import { Action } from "@ngrx/store";
-import { IPerson } from "../../interfaces/person";
-import { ProfileTypes } from "./types";
+import { FormGroup } from '@angular/forms';
+import { Action } from '@ngrx/store';
+import { IPerson } from '~/interfaces/person';
+import { ProfileTypes } from './types';
 
 export class UpdateProfileRequest implements Action {
     readonly type = ProfileTypes.UPDATE_PROFILE_REQUEST;

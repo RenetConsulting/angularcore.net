@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import { RootStore } from '../../reducers';
+import { RootStore } from '~/reducers';
 import { MessagerState } from './reducer';
 
 const getMessager = (i: RootStore) => i.messager;

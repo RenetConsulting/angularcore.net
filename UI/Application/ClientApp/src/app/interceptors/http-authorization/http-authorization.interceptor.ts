@@ -2,12 +2,12 @@ import { HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest, Http
 import { Inject, Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
 import { finalize, mergeMap } from 'rxjs/operators';
-import { HTTP_HEADERS } from '../../consts/http-headers';
-import { HTTP_HEADER_NAMES } from '../../enums/http-header-names.type';
-import { IConnectToken } from '../../interfaces/connect-token';
-import { IToken } from '../../interfaces/token';
-import { TokenService } from '../../services/token/token.service';
-import { ToolsService } from '../../services/tools/tools.service';
+import { HTTP_HEADERS } from '~/consts/http-headers';
+import { HTTP_HEADER_NAMES } from '~/enums/http-header-names.type';
+import { IConnectToken } from '~/interfaces/connect-token';
+import { IToken } from '~/interfaces/token';
+import { TokenService } from '~/services/token/token.service';
+import { ToolsService } from '~/services/tools/tools.service';
 
 @Injectable({
     providedIn: 'root'

@@ -15,17 +15,9 @@ export function changePasswordReducer(state = INITIAL_STATE, action: ChangePassw
 
     switch (action.type) {
 
-        case ChangePasswordTypes.CHANGE_PASSWORD_REQUEST: {
-            return INITIAL_STATE;
-        }
-        case ChangePasswordTypes.CHANGE_PASSWORD_ERROR: {
-            return { error: { ...action.error } };
-        }
-        case ChangePasswordTypes.RESET_ERROR: {
-            return { error: null };
-        }
-        default: {
-            return state;
-        }
+        case ChangePasswordTypes.CHANGE_PASSWORD_REQUEST: return INITIAL_STATE;
+        case ChangePasswordTypes.CHANGE_PASSWORD_ERROR: return { error: { ...action.error } };
+        case ChangePasswordTypes.RESET_ERROR: return { error: null };
+        default: return state;
     }
 }

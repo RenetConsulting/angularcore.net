@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { IToken } from '../../interfaces/token';
+import { IToken } from '~/interfaces/token';
 import { StorageService } from '../storage/storage.service';
 
 @Injectable({

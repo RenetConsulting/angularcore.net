@@ -3,8 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { EMAIL_VALIDATORS } from '../../../consts/email.validators';
-import { IConfirmEmail } from '../../../interfaces/confirm-email';
+import { EMAIL_VALIDATORS } from '~/consts/email.validators';
+import { IConfirmEmail } from '~/interfaces/confirm-email';
 import { ConfirmEmail } from './actions';
 
 @Component({

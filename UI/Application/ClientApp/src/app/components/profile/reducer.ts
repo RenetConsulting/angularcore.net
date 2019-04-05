@@ -1,4 +1,4 @@
-import { IPerson } from '../../interfaces/person';
+import { IPerson } from '~/interfaces/person';
 import { ProfileUnion } from './actions';
 import { ProfileTypes } from './types';
 
@@ -13,17 +13,9 @@ export function profileReducer(state = INITIAL_STATE, action: ProfileUnion): Pro
 
     switch (action.type) {
 
-        case ProfileTypes.UPDATE_PROFILE_REQUEST: {
-            return { profile: { ...action.payload.value } };
-        }
-        case ProfileTypes.UPDATE_PROFILE_SUCCESS: {
-            return { ...state, error: null };
-        }
-        case ProfileTypes.UPDATE_PROFILE_ERROR: {
-            return { ...state, error: { ...action.error } };
-        }
-        default: {
-            return state;
-        }
+        case ProfileTypes.UPDATE_PROFILE_REQUEST: return { profile: { ...action.payload.value } };
+        case ProfileTypes.UPDATE_PROFILE_SUCCESS: return { ...state, error: null };
+        case ProfileTypes.UPDATE_PROFILE_ERROR: return { ...state, error: { ...action.error } };
+        default: return state;
     }
 }

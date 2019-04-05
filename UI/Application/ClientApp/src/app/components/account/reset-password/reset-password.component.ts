@@ -3,10 +3,10 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators }
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { EMAIL_VALIDATORS } from '../../../consts/email.validators';
-import { PASSWORD_VALIDATORS } from '../../../consts/password.validators';
-import { MessagesType } from '../../../enums/messages.type';
-import { IResetPassword } from '../../../interfaces/reset-password';
+import { EMAIL_VALIDATORS } from '~/consts/email.validators';
+import { PASSWORD_VALIDATORS } from '~/consts/password.validators';
+import { MessagesType } from '~/enums/messages.type';
+import { IResetPassword } from '~/interfaces/reset-password';
 import { ResetError, ResetPassword } from './actions';
 import { ResetPasswordStore } from './reducer';
 import { selectResetPasswordError } from './selectors';

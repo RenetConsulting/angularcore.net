@@ -1,14 +1,14 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { HTTP_HEADER_NAMES } from '../../enums/http-header-names.type';
-import { IUser } from '../../interfaces/user';
+import { HTTP_HEADER_NAMES } from '~/enums/http-header-names.type';
+import { IUser } from '~/interfaces/user';
 import { ToolsService } from '../tools/tools.service';
 import { AuthorizationService } from './authorization.service';
 
 describe('AuthorizationService', () => {
 
     let service: AuthorizationService;
-    let toolsService: { getQuery: jasmine.Spy };
+    let toolsService: jasmine.SpyObj<ToolsService>;
     let httpTestingController: HttpTestingController;
 
     beforeEach(() => {

@@ -1,6 +1,6 @@
-import { MessageActionsUnion } from '../../actions/message.actions';
-import { IError } from '../../interfaces/error';
-import { MessageTypes } from '../../types/message.types';
+import { MessageActionsUnion } from '~/actions/message.actions';
+import { IError } from '~/interfaces/error';
+import { MessageTypes } from '~/types/message.types';
 
 export interface MessagerState {
     error?: IError;
@@ -13,20 +13,10 @@ export function messagerReducer(state = INITIAL_STATE, action: MessageActionsUni
 
     switch (action.type) {
 
-        case MessageTypes.ERROR_REQUEST: {
-            return { ...state, error: null };
-        }
-        case MessageTypes.ERROR_SUCCESS: {
-            return { ...state, error: { ...action.payload } };
-        }
-        case MessageTypes.MESSAGE_REQUEST: {
-            return { ...state, message: null };
-        }
-        case MessageTypes.MESSAGE_SUCCESS: {
-            return { ...state, message: action.payload };
-        }
-        default: {
-            return state;
-        }
+        case MessageTypes.ERROR_REQUEST: return { ...state, error: null };
+        case MessageTypes.ERROR_SUCCESS: return { ...state, error: { ...action.payload } };
+        case MessageTypes.MESSAGE_REQUEST: return { ...state, message: null };
+        case MessageTypes.MESSAGE_SUCCESS: return { ...state, message: action.payload };
+        default: return state;
     }
 }

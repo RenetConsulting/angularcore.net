@@ -1,4 +1,4 @@
-import { IUser } from '../../../interfaces/user';
+import { IUser } from '~/interfaces/user';
 import { SigninTypes } from '../signin/types';
 import { SignupActionsUnion } from './actions';
 import { SignupTypes } from './types';
@@ -14,20 +14,10 @@ export function signupReducer(state = INITIAL_STATE, action: SignupActionsUnion)
 
     switch (action.type) {
 
-        case SignupTypes.SIGNUP_REQUEST: {
-            return { user: { ...action.payload.value } };
-        }
-        case SignupTypes.SIGNUP_SUCCESS: {
-            return { ...state, error: null };
-        }
-        case SigninTypes.SIGNIN_SUCCESS: {
-            return INITIAL_STATE;
-        }
-        case SignupTypes.SIGNUP_ERROR: {
-            return { ...state, error: { ...action.error } };
-        }
-        default: {
-            return state;
-        }
+        case SignupTypes.SIGNUP_REQUEST: return { user: { ...action.payload.value } };
+        case SignupTypes.SIGNUP_SUCCESS: return { ...state, error: null };
+        case SigninTypes.SIGNIN_SUCCESS: return INITIAL_STATE;
+        case SignupTypes.SIGNUP_ERROR: return { ...state, error: { ...action.error } };
+        default: return state;
     }
 }

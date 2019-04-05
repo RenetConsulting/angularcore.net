@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, filter, map, mapTo, mergeMap, tap } from 'rxjs/operators';
-import { ErrorRequest, MessageRequest } from '../../../actions/message.actions';
-import { MessagesType } from '../../../enums/messages.type';
-import { AuthorizationService } from '../../../services/authorization/authorization.service';
-import { filterError } from '../../../utils/filter.error';
+import { ErrorRequest, MessageRequest } from '~/actions/message.actions';
+import { MessagesType } from '~/enums/messages.type';
+import { AuthorizationService } from '~/services/authorization/authorization.service';
+import { filterError } from '~/utils/filter.error';
 import { Signup, SignupError, SignupSuccess } from './actions';
 import { SignupTypes } from './types';
 
