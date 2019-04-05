@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -10,6 +10,7 @@ import { ConfirmEmail } from './actions';
 @Component({
     selector: 'confirm-email',
     templateUrl: './confirm-email.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConfirmEmailComponent implements OnInit, OnDestroy {
 
@@ -23,8 +24,7 @@ export class ConfirmEmailComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.setFormGroup();
-        this.subscription.add(this.route.queryParams.subscribe((i: Pick<IConfirmEmail, 'token'>) =>
-            this.formGroup.controls.token.reset(i.token)));
+        this.subscription.add(this.route.queryParams.subscribe((i: Pick<IConfirmEmail, 'token'>) => this.setToken(i.token)));
     }
 
     ngOnDestroy(): void {
@@ -37,6 +37,8 @@ export class ConfirmEmailComponent implements OnInit, OnDestroy {
             token: new FormControl('', [Validators.required]),
         } as MapPick<IConfirmEmail, keyof IConfirmEmail, FormControl>);
     }
+
+    setToken = (value: string): void => this.formGroup.controls.token.patchValue(value);
 
     submit = (): void => {
         if (this.formGroup.valid) {
