@@ -2,12 +2,13 @@ import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { EMPTY } from 'rxjs';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
-import { Signout } from '../actions/authorization.actions';
+import { catchError, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { Reset } from '~/actions/root.actions';
+import { Signout } from '~/components/authorization/actions';
+import { AuthorizationTypes } from '~/components/authorization/types';
 import { MessageRequest } from '../actions/message.actions';
 import { AuthorizationService } from '../services/authorization/authorization.service';
 import { TokenService } from '../services/token/token.service';
-import { AuthorizationTypes } from '../types/authorization.types';
 
 @Injectable()
 export class AuthorizationEffects {
@@ -24,8 +25,11 @@ export class AuthorizationEffects {
         mergeMap(() => this.authorizationService.signout().pipe(
             tap(this.tokenService.clean),
             tap(() => this.router.navigate(['/signin'])),
-            map(() => new MessageRequest('Signout successfuly.')),
+            switchMap(() => [
+                new MessageRequest('You has signed out successfully.'),
+                new Reset()
+            ]),
             catchError(() => EMPTY)
-        ))
+        )),
     );
 }
