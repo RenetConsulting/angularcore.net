@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation } from '@
 import { Store } from '@ngrx/store';
 import { NgxLinkStylesheetService } from '@renet-consulting/ngx-link-stylesheet';
 import { tap } from 'rxjs/operators';
-import { RootStore } from '../../reducers';
+import { RootStore } from '~/reducers';
 import { SetTheme } from './actions';
 import { selectItems, selectTheme } from './selectors';
 import { ITheme } from './theme';

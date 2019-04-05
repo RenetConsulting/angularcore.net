@@ -6,27 +6,15 @@ import { LogoModule } from '../logo/logo.module';
 import { ThemePickerModule } from '../theme-picker/theme-picker.module';
 import { HeaderComponent } from './header.component';
 
-const MODULES = [
-    CommonModule,
-    LogoModule,
-    MatButtonModule,
-    RouterModule,
-    ThemePickerModule
-];
-
-const COMPONENTS = [
-    HeaderComponent
-];
-
 @NgModule({
+    declarations: [HeaderComponent],
+    exports: [HeaderComponent],
     imports: [
-        ...MODULES
+        CommonModule,
+        LogoModule,
+        MatButtonModule,
+        RouterModule,
+        ThemePickerModule
     ],
-    declarations: [
-        ...COMPONENTS
-    ],
-    exports: [
-        ...COMPONENTS
-    ]
 })
 export class HeaderModule { }

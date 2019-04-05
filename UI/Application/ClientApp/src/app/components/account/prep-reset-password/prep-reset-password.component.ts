@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { EMAIL_VALIDATORS } from '../../../consts/email.validators';
-import { IUser } from '../../../interfaces/user';
+import { EMAIL_VALIDATORS } from '~/consts/email.validators';
+import { IUser } from '~/interfaces/user';
 import { PrepResetPassword } from './actions';
 
 @Component({

@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { BASE_URL } from '../../tokens/base-url.token';
+import { BASE_URL } from '~/tokens/base-url.token';
 import { ApiPrefixInterceptor } from './api-prefix.interceptor';
 
 describe('ApiPrefixInterceptor', () => {

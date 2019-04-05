@@ -5,25 +5,13 @@ import { EffectsModule } from '@ngrx/effects';
 import { ResendConfirmationEffects } from './effects';
 import { ResendConfirmationComponent } from './resend-confirmation.component';
 
-const MODULES = [
-    CommonModule,
-    MatButtonModule,
-    EffectsModule.forFeature([ResendConfirmationEffects])
-];
-
-const COMPONENTS = [
-    ResendConfirmationComponent
-];
-
 @NgModule({
+    exports: [ResendConfirmationComponent],
+    declarations: [ResendConfirmationComponent],
     imports: [
-        ...MODULES
-    ],
-    declarations: [
-        ...COMPONENTS
-    ],
-    exports: [
-        ...COMPONENTS
+        CommonModule,
+        MatButtonModule,
+        EffectsModule.forFeature([ResendConfirmationEffects])
     ],
 })
 export class ResendConfirmationModule { }

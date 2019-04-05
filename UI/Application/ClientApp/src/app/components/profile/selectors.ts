@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import { RootStore } from '../../reducers';
+import { RootStore } from '~/reducers';
 import { ProfileState } from './reducer';
 
 const getModule = (state: RootStore) => state.persons;

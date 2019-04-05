@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { HTTP_HEADERS } from '../../consts/http-headers';
-import { IConnectToken } from '../../interfaces/connect-token';
-import { IToken } from '../../interfaces/token';
-import { IUser } from '../../interfaces/user';
-import { ToolsService } from '../../services/tools/tools.service';
+import { HTTP_HEADERS } from '~/consts/http-headers';
+import { IConnectToken } from '~/interfaces/connect-token';
+import { IToken } from '~/interfaces/token';
+import { IUser } from '~/interfaces/user';
+import { ToolsService } from '~/services/tools/tools.service';
 
 @Injectable({
     providedIn: 'root'

@@ -3,24 +3,12 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ValidatorDirective } from './validator.directive';
 
-const MODULES = [
-    CommonModule,
-    ReactiveFormsModule
-];
-
-export const DIRECTIVES = [
-    ValidatorDirective
-];
-
 @NgModule({
+    declarations: [ValidatorDirective],
+    exports: [ValidatorDirective],
     imports: [
-        ...MODULES
+        CommonModule,
+        ReactiveFormsModule
     ],
-    exports: [
-        ...DIRECTIVES
-    ],
-    declarations: [
-        ...DIRECTIVES
-    ]
 })
 export class ValidatorModule { }

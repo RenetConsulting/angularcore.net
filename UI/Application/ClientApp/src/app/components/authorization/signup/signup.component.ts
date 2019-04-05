@@ -2,11 +2,11 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { EMAIL_VALIDATORS } from '../../../consts/email.validators';
-import { PASSWORD_VALIDATORS } from '../../../consts/password.validators';
-import { MessagesType } from '../../../enums/messages.type';
-import { IUser } from '../../../interfaces/user';
-import { RootStore } from '../../../reducers';
+import { EMAIL_VALIDATORS } from '~/consts/email.validators';
+import { PASSWORD_VALIDATORS } from '~/consts/password.validators';
+import { MessagesType } from '~/enums/messages.type';
+import { IUser } from '~/interfaces/user';
+import { RootStore } from '~/reducers';
 import { Signup } from './actions';
 import { selectSignupError } from './selectors';
 

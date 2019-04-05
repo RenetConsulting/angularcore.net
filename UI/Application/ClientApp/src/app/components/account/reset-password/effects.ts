@@ -2,10 +2,10 @@ import { Inject, Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, filter, map, mapTo, mergeMap, tap } from 'rxjs/operators';
-import { ErrorRequest, MessageRequest } from '../../../actions/message.actions';
-import { MessagesType } from '../../../enums/messages.type';
-import { AccountService } from '../../../services/account/account.service';
-import { filterError } from '../../../utils/filter.error';
+import { ErrorRequest, MessageRequest } from '~/actions/message.actions';
+import { MessagesType } from '~/enums/messages.type';
+import { AccountService } from '~/services/account/account.service';
+import { filterError } from '~/utils/filter.error';
 import { ResetPassword, ResetPasswordError, ResetPasswordSuccess } from './actions';
 import { ResetPasswordTypes } from './types';
 

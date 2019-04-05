@@ -6,20 +6,14 @@ import { StoreModule } from '@ngrx/store';
 import { themeReducer } from './reducer';
 import { ThemePickerComponent } from './theme-picker.component';
 
-const MODULES = [
-    CommonModule,
-    MatMenuModule,
-    MatButtonModule,
-    StoreModule.forFeature('theme', themeReducer)
-];
-
-const COMPONENTS = [
-    ThemePickerComponent
-];
-
 @NgModule({
-    declarations: [...COMPONENTS],
-    exports: [...COMPONENTS],
-    imports: [...MODULES],
+    declarations: [ThemePickerComponent],
+    exports: [ThemePickerComponent],
+    imports: [
+        CommonModule,
+        MatMenuModule,
+        MatButtonModule,
+        StoreModule.forFeature('theme', themeReducer)
+    ],
 })
 export class ThemePickerModule { }

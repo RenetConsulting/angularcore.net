@@ -2,9 +2,9 @@ import { Inject, Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { EMPTY } from 'rxjs';
 import { catchError, mapTo, mergeMap, tap } from 'rxjs/operators';
-import { MessageRequest } from '../../../actions/message.actions';
-import { MessagesType } from '../../../enums/messages.type';
-import { AccountService } from '../../../services/account/account.service';
+import { MessageRequest } from '~/actions/message.actions';
+import { MessagesType } from '~/enums/messages.type';
+import { AccountService } from '~/services/account/account.service';
 import { ConfirmEmail, ConfirmEmailSuccess } from './actions';
 import { ConfirmEmailTypes } from './types';
 

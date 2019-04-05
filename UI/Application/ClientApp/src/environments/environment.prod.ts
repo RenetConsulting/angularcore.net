@@ -1,3 +1,5 @@
+/** PRODUCTION */
 export const environment = {
-  production: true
+    production: true,
+    metaReducers: []
 };

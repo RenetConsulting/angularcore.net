@@ -3,9 +3,9 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators }
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { MessagesType } from '../../enums/messages.type';
-import { IPerson } from '../../interfaces/person';
-import { RootStore } from '../../reducers';
+import { MessagesType } from '~/enums/messages.type';
+import { IPerson } from '~/interfaces/person';
+import { RootStore } from '~/reducers';
 import { GetProfileRequest, UpdateProfileRequest } from './actions';
 import { selectProfile } from './selectors';
 

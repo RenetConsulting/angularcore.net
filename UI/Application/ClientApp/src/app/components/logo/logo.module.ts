@@ -2,23 +2,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { LogoComponent } from './logo.component';
 
-const MODULES = [
-    CommonModule
-];
-
-const COMPONENTS = [
-    LogoComponent
-];
-
 @NgModule({
+    declarations: [LogoComponent],
+    exports: [LogoComponent],
     imports: [
-        ...MODULES
+        CommonModule
     ],
-    declarations: [
-        ...COMPONENTS
-    ],
-    exports: [
-        ...COMPONENTS
-    ]
 })
 export class LogoModule { }
