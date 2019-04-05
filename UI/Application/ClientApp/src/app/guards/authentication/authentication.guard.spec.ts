@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { AccessService } from '../../services/access/access.service';
+import { AccessService } from '~/services/access/access.service';
 import { AuthenticationGuard } from './authentication.guard';
 
 describe('AuthenticationGuard', () => {

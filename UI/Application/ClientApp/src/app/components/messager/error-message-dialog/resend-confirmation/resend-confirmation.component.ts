@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { RootStore } from '../../../../reducers';
-import { selectSigninUser } from '../../../authorization/signin/selectors';
+import { selectSigninUser } from '~/components/authorization/signin/selectors';
+import { RootStore } from '~/reducers';
 import { ResendConfirmation } from './actions';
 
 @Component({

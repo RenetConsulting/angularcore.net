@@ -9,28 +9,16 @@ import { ErrorMessageDialogModule } from './error-message-dialog/error-message-d
 import { MessagerComponent } from './messager.component';
 import { messagerReducer } from './reducer';
 
-const MODULES = [
-    CommonModule,
-    MatSnackBarModule,
-    ErrorMessageDialogModule,
-    MatDialogModule,
-    StoreModule.forFeature('messager', messagerReducer),
-    EffectsModule.forFeature([MessagerEffects]),
-];
-
-const COMPONENTS = [
-    MessagerComponent
-];
-
 @NgModule({
+    declarations: [MessagerComponent],
+    exports: [MessagerComponent],
     imports: [
-        ...MODULES
+        CommonModule,
+        MatSnackBarModule,
+        ErrorMessageDialogModule,
+        MatDialogModule,
+        StoreModule.forFeature('messager', messagerReducer),
+        EffectsModule.forFeature([MessagerEffects]),
     ],
-    exports: [
-        ...COMPONENTS
-    ],
-    declarations: [
-        ...COMPONENTS
-    ]
 })
 export class MessagerModule { }

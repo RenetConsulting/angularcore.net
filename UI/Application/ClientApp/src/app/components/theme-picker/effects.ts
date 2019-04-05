@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { Actions, Effect, ofType, ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import { first, map, tap } from 'rxjs/operators';
-import { StorageService } from '../../services/storage/storage.service';
+import { StorageService } from '~/services/storage/storage.service';
 import { SetTheme } from './actions';
 import { ThemeTypes } from './types';
 

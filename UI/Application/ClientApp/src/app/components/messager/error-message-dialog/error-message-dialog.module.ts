@@ -6,30 +6,16 @@ import { RouterModule } from '@angular/router';
 import { ErrorMessageDialogComponent } from './error-message-dialog.component';
 import { ResendConfirmationModule } from './resend-confirmation/resend-confirmation.module';
 
-const MODULES = [
-    CommonModule,
-    MatDialogModule,
-    MatButtonModule,
-    RouterModule,
-    ResendConfirmationModule,
-];
-
-const COMPONENTS = [
-    ErrorMessageDialogComponent
-];
-
 @NgModule({
+    declarations: [ErrorMessageDialogComponent],
+    exports: [ErrorMessageDialogComponent],
+    entryComponents: [ErrorMessageDialogComponent],
     imports: [
-        ...MODULES
+        CommonModule,
+        MatDialogModule,
+        MatButtonModule,
+        RouterModule,
+        ResendConfirmationModule,
     ],
-    exports: [
-        ...COMPONENTS
-    ],
-    declarations: [
-        ...COMPONENTS
-    ],
-    entryComponents: [
-        ...COMPONENTS
-    ]
 })
 export class ErrorMessageDialogModule { }

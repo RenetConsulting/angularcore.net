@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { IError } from '../../../interfaces/error';
+import { IError } from '~/interfaces/error';
 
 @Component({
     selector: 'error-message-dialog',

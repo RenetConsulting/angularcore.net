@@ -8,6 +8,7 @@ import { IS_BROWSER } from './tokens/is-browser.token';
 
 const BASE_URL_FACTORY = () => {
     if (typeof window !== 'undefined') {
+        /** IE bug fix */
         const port = window.location.port ? `:${window.location.port}` : '';
         return `${window.location.protocol}//${window.location.hostname}${port}`;
     }

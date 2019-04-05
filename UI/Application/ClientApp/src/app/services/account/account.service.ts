@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { HTTP_HEADERS } from '../../consts/http-headers';
-import { IChangePassword } from '../../interfaces/change-password';
-import { IConfirmEmail } from '../../interfaces/confirm-email';
-import { IResetPassword } from '../../interfaces/reset-password';
+import { HTTP_HEADERS } from '~/consts/http-headers';
+import { IChangePassword } from '~/interfaces/change-password';
+import { IConfirmEmail } from '~/interfaces/confirm-email';
+import { IResetPassword } from '~/interfaces/reset-password';
 import { ToolsService } from '../tools/tools.service';
 
 @Injectable({

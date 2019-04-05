@@ -5,13 +5,11 @@ import { CounterRoutingModule } from './counter-routing.module';
 import { CounterComponent } from './counter.component';
 
 @NgModule({
+    declarations: [CounterComponent],
     imports: [
         CommonModule,
         CounterRoutingModule,
         MatButtonModule
     ],
-    declarations: [
-        CounterComponent
-    ]
 })
 export class CounterModule { }

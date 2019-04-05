@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
-import { LOCAL_STORAGE } from '../../tokens/local-storage.token';
-import { SESSION_STORAGE } from '../../tokens/session-storage.token';
+import { LOCAL_STORAGE } from '~/tokens/local-storage.token';
+import { SESSION_STORAGE } from '~/tokens/session-storage.token';
 
 @Injectable({
     providedIn: 'root'

@@ -3,11 +3,11 @@ import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { EMPTY, of } from 'rxjs';
 import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
-import { ErrorRequest } from '../../../actions/message.actions';
-import { AuthorizationService } from '../../../services/authorization/authorization.service';
-import { StorageService } from '../../../services/storage/storage.service';
-import { TokenService } from '../../../services/token/token.service';
-import { filterError } from '../../../utils/filter.error';
+import { ErrorRequest } from '~/actions/message.actions';
+import { AuthorizationService } from '~/services/authorization/authorization.service';
+import { StorageService } from '~/services/storage/storage.service';
+import { TokenService } from '~/services/token/token.service';
+import { filterError } from '~/utils/filter.error';
 import { Signin, SigninError, SigninSuccess } from './actions';
 import { SigninTypes } from './types';
 

@@ -1,13 +1,13 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { HTTP_HEADER_NAMES } from '../../enums/http-header-names.type';
+import { HTTP_HEADER_NAMES } from '~/enums/http-header-names.type';
 import { ToolsService } from '../tools/tools.service';
 import { AccountService } from './account.service';
 
 describe('AccountService', () => {
 
     let service: AccountService;
-    let toolsService: { getQuery: jasmine.Spy };
+    let toolsService: jasmine.SpyObj<ToolsService>;
     let httpTestingController: HttpTestingController;
 
     beforeEach(() => {

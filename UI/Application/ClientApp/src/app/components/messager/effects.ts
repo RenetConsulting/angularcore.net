@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { map } from 'rxjs/operators';
-import { ErrorRequest, ErrorSuccess, MessageRequest, MessageSuccess } from '../../actions/message.actions';
-import { MessagesType } from '../../enums/messages.type';
-import { IError } from '../../interfaces/error';
-import { MessageTypes } from '../../types/message.types';
+import { ErrorRequest, ErrorSuccess, MessageRequest, MessageSuccess } from '~/actions/message.actions';
+import { MessagesType } from '~/enums/messages.type';
+import { IError } from '~/interfaces/error';
+import { MessageTypes } from '~/types/message.types';
 
 @Injectable()
 export class MessagerEffects {

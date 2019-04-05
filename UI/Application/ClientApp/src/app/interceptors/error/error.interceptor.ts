@@ -3,9 +3,9 @@ import { Inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ErrorRequest } from '../../actions/message.actions';
-import { HTTP_HEADER_NAMES } from '../../enums/http-header-names.type';
-import { RootStore } from '../../reducers';
+import { ErrorRequest } from '~/actions/message.actions';
+import { HTTP_HEADER_NAMES } from '~/enums/http-header-names.type';
+import { RootStore } from '~/reducers';
 
 @Injectable({
     providedIn: 'root'

@@ -1,10 +1,10 @@
-import { Inject, Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from "@ngrx/effects";
-import { of } from "rxjs";
-import { catchError, map, mapTo, mergeMap, tap } from "rxjs/operators";
-import { PersonService } from "../../services/person/person.service";
-import { GetProfileError, GetProfileRequest, GetProfileSuccess, UpdateProfileError, UpdateProfileRequest, UpdateProfileSuccess } from "./actions";
-import { ProfileTypes } from "./types";
+import { Inject, Injectable } from '@angular/core';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { of } from 'rxjs';
+import { catchError, map, mapTo, mergeMap, tap } from 'rxjs/operators';
+import { PersonService } from '~/services/person/person.service';
+import { GetProfileError, GetProfileRequest, GetProfileSuccess, UpdateProfileError, UpdateProfileRequest, UpdateProfileSuccess } from './actions';
+import { ProfileTypes } from './types';
 
 @Injectable()
 export class ProfileEffects {
