@@ -12,7 +12,7 @@ import { IDecodedCaptcha } from './decoded-captcha';
 })
 export class CoreCaptchaDirective implements ControlValueAccessor {
 
-    @ContentChild(CoreCaptchaComponent) readonly host: CoreCaptchaComponent;
+    @ContentChild(CoreCaptchaComponent) host: CoreCaptchaComponent;
     onChange: (value: IDecodedCaptcha) => void;
     onTouched: () => void;
 

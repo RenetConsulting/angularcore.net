@@ -1,8 +1,9 @@
-import { Component, Input, OnChanges, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy } from '@angular/core';
 
 @Component({
     selector: 'ngx-core-captcha-audio',
     templateUrl: './core-captcha-audio.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CoreCaptchaAudioComponent implements OnChanges, OnDestroy {
 

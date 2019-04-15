@@ -16,9 +16,9 @@ import { NGX_CORE_CAPTCHA_OPTIONS } from './tokens';
 })
 export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
 
+    @Input() height?: number;
     @Input() url?: string;
     @Input() width?: number;
-    @Input() height?: number;
     @Output() readonly resolved = new EventEmitter<IDecodedCaptcha>();
     @HostBinding('class.d-block') readonly dBlock = true;
     readonly subscription = new Subscription();
@@ -30,7 +30,7 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
         @Inject(NGX_CORE_CAPTCHA_OPTIONS) options: ICoreCaptchaOptions,
         @Inject(HttpClient) private http: HttpClient,
         @Optional() @Self() @Inject(NgControl) private ngControl?: NgControl,
-        @Optional() @Inject(FormGroupDirective) private parentFormGroup?: FormGroupDirective,
+        @Optional() @Inject(FormGroupDirective) private formGroup?: FormGroupDirective,
     ) {
         if (options) {
             this.height = options.height;
@@ -45,11 +45,13 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
 
     ngOnInit(): void {
         this.setCaptchaAsync();
-        this.subscription.add(this.parentFormGroup && this.parentFormGroup.ngSubmit.subscribe(() => {
-            this.ngControl.control.markAsDirty();
-            this.ngControl.control.markAsTouched();
-            this.ngControl.control.updateValueAndValidity();
-        }));
+        if (this.formGroup) {
+            this.subscription.add(this.formGroup.ngSubmit.subscribe(() => {
+                this.ngControl.control.markAsDirty();
+                this.ngControl.control.markAsTouched();
+                this.ngControl.control.updateValueAndValidity();
+            }));
+        }
         this.subscription.add(this.formControl.valueChanges.subscribe(this.emitDecodedCaptcha));
     }
 
@@ -58,8 +60,10 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
         this.subscription.unsubscribe();
     }
 
-    private emitDecodedCaptcha = (captcha: string): void => this.resolved.emit({ captcha, hash: this.captcha && this.captcha.hash });
+    /** internal */
+    emitDecodedCaptcha = (captcha: string): void => this.resolved.emit({ captcha, hash: this.captcha && this.captcha.hash });
 
+    /** internal */
     setCaptchaAsync = (): void => {
         if (this.url) {
             this.destroy();
@@ -70,11 +74,12 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
         }
     }
 
-    refresh = (): void => this.setCaptchaAsync();
-
+    /** internal */
     destroy = (): void => {
         this.captcha = null;
         this.captchaAsync = null;
         this.formControl.reset();
     }
+
+    refresh = (): void => this.setCaptchaAsync();
 }
