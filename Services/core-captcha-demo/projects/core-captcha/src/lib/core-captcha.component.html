@@ -1,19 +1,17 @@
-<mat-card class="p-0">
-    <div *ngIf="captchaAsync | async as item; else loadingRef">
-        <img [src]="item?.image" />
-        <div class="d-block mt-3">
-            <mat-form-field class="d-block">
-                <input autocomplete="off" placeholder="Please type the text above" matInput [formControl]="formControl">
-            </mat-form-field>
-        </div>
-        <div class="b-block">
-            <button class="btn btn-link btn-lg px-0 text-secondary" type="button" (click)="refresh()">
-                <i class="fas fa-redo-alt"></i>
-            </button>
-            <ngx-core-captcha-audio [sound]="item?.sound"></ngx-core-captcha-audio>
-        </div>
+<div *ngIf="captchaAsync | async as item; else loadingRef">
+    <img [src]="item?.image" />
+    <div class="d-block mt-3">
+        <mat-form-field class="d-block">
+            <input autocomplete="off" placeholder="Please type the text above" matInput [formControl]="formControl">
+        </mat-form-field>
     </div>
-</mat-card>
+    <div class="b-block">
+        <button class="btn btn-link btn-lg px-0 text-secondary" type="button" (click)="refresh()">
+            <i class="fas fa-redo-alt"></i>
+        </button>
+        <ngx-core-captcha-audio [sound]="item?.sound"></ngx-core-captcha-audio>
+    </div>
+</div>
 
 <ng-template #loadingRef>
     <div class="d-flex justify-content-center">
