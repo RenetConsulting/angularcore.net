@@ -19,7 +19,15 @@
       "dom"
     ],
     "paths": {
-      "~/*": [ "src/app/*" ]
+      "~/*": [
+        "src/app/*"
+      ],
+      "blog": [
+        "dist/blog"
+      ],
+      "blog/*": [
+        "dist/blog/*"
+      ]
     }
   }
 }

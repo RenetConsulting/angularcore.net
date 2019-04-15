@@ -8,7 +8,8 @@
     "build:prod": "ng build --prod",
     "build:ssr": "ng run angular7:server:production",
     "build:full:prod": "npm i --prod && npm run build:prod && npm run build:ssr",
-    "clean": "rimraf dist && rimraf dist-server",
+    "build:lib": "ng build blog",
+    "clean": "rimraf dist/angular7 && rimraf dist-server",
     "lint": "ng lint",
     "test": "ng test --watch=false",
     "test:watch": "ng test",
@@ -35,6 +36,7 @@
     "@angular-devkit/build-angular": "^0.13.8",
     "@fortawesome/fontawesome-free": "^5.7.2",
     "@ngrx/effects": "^7.3.0",
+    "@ngrx/entity": "7.3.0",
     "@ngrx/store": "^7.3.0",
     "@ngrx/store-devtools": "^7.3.0",
     "@nguniversal/module-map-ngfactory-loader": "^7.0.2",
@@ -51,6 +53,7 @@
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
+    "@angular-devkit/build-ng-packagr": "~0.13.0",
     "@types/jasmine": "^3.3.9",
     "@types/jasminewd2": "^2.0.6",
     "codelyzer": "~4.5.0",
@@ -64,8 +67,11 @@
     "karma-jasmine-html-reporter": "^1.4.0",
     "karma-phantomjs-launcher": "^1.0.2",
     "lodash": "^4.16.2",
+    "ng-packagr": "^4.2.0",
     "phantomjs-prebuilt": "^2.1.7",
     "protractor": "~5.4.0",
+    "tsickle": ">=0.34.0",
+    "tslib": "^1.9.0",
     "tslint": "~5.13.1",
     "ts-node": "~8.0.2",
     "typescript": "3.2.4"

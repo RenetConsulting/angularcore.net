@@ -19,7 +19,7 @@
           "options": {
             "progress": true,
             "extractCss": true,
-            "outputPath": "dist",
+            "outputPath": "dist/angular7",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -151,6 +151,46 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "blog": {
+      "root": "projects/blog",
+      "sourceRoot": "projects/blog/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "sass"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/blog/tsconfig.lib.json",
+            "project": "projects/blog/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/blog/src/test.ts",
+            "tsConfig": "projects/blog/tsconfig.spec.json",
+            "karmaConfig": "projects/blog/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/blog/tsconfig.lib.json",
+              "projects/blog/tsconfig.spec.json"
+            ],
             "exclude": [
               "**/node_modules/**"
             ]
