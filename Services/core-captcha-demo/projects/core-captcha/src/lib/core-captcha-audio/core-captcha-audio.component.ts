@@ -7,7 +7,7 @@ import { Component, Input, OnChanges, OnDestroy } from '@angular/core';
 export class CoreCaptchaAudioComponent implements OnChanges, OnDestroy {
 
     @Input() sound: string;
-    audio?: HTMLAudioElement;
+    audio?: HTMLAudioElement | null;
 
     constructor() { }
 
@@ -20,15 +20,19 @@ export class CoreCaptchaAudioComponent implements OnChanges, OnDestroy {
         this.pause();
     }
 
+    /** internal */
     get paused() {
         return this.audio && this.audio.paused;
     }
 
-    private play = () => this.audio && this.audio.play();
+    /** internal */
+    play = () => this.audio && this.audio.play();
 
-    private pause = () => this.audio && this.audio.pause();
+    /** internal */
+    pause = () => this.audio && this.audio.pause();
 
-    private setAudio = (): void => {
+    /** internal */
+    setAudio = (): void => {
         if (typeof Audio !== 'undefined' && this.sound) {
             this.audio = new Audio(this.sound);
         }
