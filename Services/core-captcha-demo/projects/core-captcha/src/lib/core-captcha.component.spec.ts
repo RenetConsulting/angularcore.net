@@ -92,7 +92,6 @@ describe('CoreCaptchaComponent', () => {
         spyOn(component.formControl, 'reset');
         component.destroy();
         expect(component.captcha).toBeNull();
-        expect(component.captchaAsync).toBeNull();
         expect(component.formControl.reset).toHaveBeenCalled();
     });
     it('refresh', () => {

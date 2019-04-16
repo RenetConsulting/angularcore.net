@@ -81,7 +81,6 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
     /** internal */
     destroy = (): void => {
         this.captcha = null;
-        this.captchaAsync = null;
         this.formControl.reset();
     }
 
