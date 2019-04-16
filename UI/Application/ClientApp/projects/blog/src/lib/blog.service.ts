@@ -4,6 +4,7 @@ import { BlogModel } from './blog.model';
 import { IRequestBlogs } from './request-blogs';
 import { IResponseList } from './response-list';
 
+/** TODO: created tools service lib */
 @Injectable({
     providedIn: 'root'
 })
