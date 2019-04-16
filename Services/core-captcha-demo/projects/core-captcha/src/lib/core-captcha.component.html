@@ -7,10 +7,9 @@
         <ngx-core-captcha-audio [sound]="item?.sound"></ngx-core-captcha-audio>
     </div>
 </div>
-
 <div class="mt-3">
     <mat-form-field class="d-block">
-        <input autocomplete="off" placeholder="Please type the text above" matInput [formControl]="formControl">
+        <input matInput autocomplete="off" [placeholder]="placeholder" [formControl]="formControl">
     </mat-form-field>
 </div>
 
