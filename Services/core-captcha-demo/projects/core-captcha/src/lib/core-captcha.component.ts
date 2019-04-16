@@ -3,9 +3,9 @@ import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Inject, 
 import { FormControl, FormGroupDirective, NgControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { ICoreCaptchaOptions } from './core-captcha-options';
 import { IDecodedCaptcha } from './decoded-captcha';
 import { IEncodedCaptcha } from './encoded-captcha';
+import { ICoreCaptchaOptions } from './options';
 import { NGX_CORE_CAPTCHA_OPTIONS } from './tokens';
 
 @Component({

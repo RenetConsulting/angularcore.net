@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { AbstractControl, FormGroupDirective } from '@angular/forms';
 import { Observable, of } from 'rxjs';
-import { ICoreCaptchaOptions } from './core-captcha-options';
 import { CoreCaptchaComponent } from './core-captcha.component';
 import { IEncodedCaptcha } from './encoded-captcha';
+import { ICoreCaptchaOptions } from './options';
 
 describe('CoreCaptchaComponent', () => {
 
@@ -11,7 +11,8 @@ describe('CoreCaptchaComponent', () => {
     const options: ICoreCaptchaOptions = {
         height: 25,
         url: 'https://',
-        width: 48
+        width: 48,
+        placeholder: 'bob'
     };
     let http: jasmine.SpyObj<HttpClient>;
     let ngControl: { control: jasmine.SpyObj<AbstractControl> };
@@ -43,6 +44,9 @@ describe('CoreCaptchaComponent', () => {
     });
     it('width', () => {
         expect(component.width).toEqual(options.width);
+    });
+    it('placeholder', () => {
+        expect(component.placeholder).toEqual(options.placeholder);
     });
     it('ngOnChanges', () => {
         spyOn(component, 'setCaptchaAsync');
