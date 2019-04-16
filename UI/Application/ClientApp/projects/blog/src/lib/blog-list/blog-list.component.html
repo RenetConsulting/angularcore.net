@@ -1,7 +1,16 @@
-<mat-card class="m-3" *ngFor="let item of items | async" [routerLink]="['/blog', item.blogId]">
-    <mat-card-header>
-        <mat-card-title><a>{{item.title}}</a></mat-card-title>
-    </mat-card-header>
-    <mat-card-content>{{item.content | slice: 0: 25}} ...</mat-card-content>
-    <mat-card-footer>Created by {{item.createdBy}}</mat-card-footer>
-</mat-card>
+<a [routerLink]="['/blog']">create blog</a>
+
+<div *ngIf="items | async as blogs">
+    <mat-card *ngFor="let item of blogs; trackBy: trackByFn" class="m-3" [routerLink]="['/blog', item.blogId]">
+        <mat-card-header>
+            <mat-card-title><a>{{item.title}}</a></mat-card-title>
+        </mat-card-header>
+        <mat-card-content>{{item.content}}</mat-card-content>
+        <mat-card-footer>Created by <strong>{{item.createdBy}}</strong> on <i>{{item.createdDate | date: 'fullDate'}}</i></mat-card-footer>
+    </mat-card>
+    <ng-container *ngIf="itemsTotal | async as total">
+        <ng-container *ngIf="itemsAmount | async as amount">
+            <button type="button" *ngIf="total !== amount" (click)="getItems(total)">Load more blogs</button>
+        </ng-container>
+    </ng-container>
+</div>

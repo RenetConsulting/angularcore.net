@@ -20,6 +20,7 @@ export const ROUTES: Array<Route> = [
     { path: 'signin', loadChildren: './components/authorization/signin/signin.module#SigninModule' },
     { path: 'signup', loadChildren: './components/authorization/signup/signup.module#SignupModule' },
 
+    { path: 'blog', loadChildren: './components/blog-dashboard/blog-dashboard.module#BlogDashboardModule' },
     { path: 'blog/:blogId', loadChildren: './components/blog-detail/blog-detail.module#BlogDetailModule' },
     { path: 'blogs', loadChildren: './components/blog-list/blog-list.module#BlogListModule' },
 

@@ -1,5 +1,7 @@
 import { Action } from "@ngrx/store";
 import { BlogModel } from "./blog.model";
+import { IRequestBlogs } from "./request-blogs";
+import { IResponseList } from "./response-list";
 import { BlogTypes } from "./types";
 
 export class CreateBlogRequest implements Action {
@@ -8,7 +10,7 @@ export class CreateBlogRequest implements Action {
 }
 export class CreateBlogSuccess implements Action {
     readonly type = BlogTypes.CREATE_BLOG_SUCCESS;
-    constructor(readonly payload: BlogModel) { }
+    constructor(readonly success: BlogModel) { }
 }
 export class CreateBlogError implements Action {
     readonly type = BlogTypes.CREATE_BLOG_ERROR;
@@ -17,11 +19,11 @@ export class CreateBlogError implements Action {
 
 export class GetBlogsRequest implements Action {
     readonly type = BlogTypes.GET_BLOGS_REQUEST;
-    constructor() { }
+    constructor(readonly payload: IRequestBlogs) { }
 }
 export class GetBlogsSuccess implements Action {
     readonly type = BlogTypes.GET_BLOGS_SUCCESS;
-    constructor(readonly success: Array<BlogModel>) { }
+    constructor(readonly success: IResponseList<BlogModel>, readonly payload: IRequestBlogs) { }
 }
 export class GetBlogsError implements Action {
     readonly type = BlogTypes.GET_BLOGS_ERROR;

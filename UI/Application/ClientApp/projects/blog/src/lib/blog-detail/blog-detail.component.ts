@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { tap } from 'rxjs/operators';
-import { GetBlogRequest } from '../actions';
+import { GetBlogRequest, UpdateBlogRequest } from '../actions';
 import { BlogModel } from '../blog.model';
 import { RootBlogStore } from '../reducers';
 import { selectSelectedBlog } from '../selectors';
 
+/** TODO: created validators */
 @Component({
     selector: 'lib-blog-detail',
     templateUrl: './blog-detail.component.html',
@@ -16,8 +17,8 @@ import { selectSelectedBlog } from '../selectors';
 })
 export class BlogDetailComponent implements OnInit {
 
-    readonly item = this.store.select(selectSelectedBlog).pipe(tap(i => this.updateBlog(i)));
-    readonly formControl = new FormControl();
+    readonly item = this.store.select(selectSelectedBlog).pipe(tap(i => this.updateFormGroup(i)));
+    formGroup: FormGroup;
 
     constructor(
         @Inject(Store) private store: Store<RootBlogStore>,
@@ -25,13 +26,28 @@ export class BlogDetailComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
+        this.setFormGroup();
         const blogId = this.route.snapshot.paramMap.get('blogId');
         this.store.dispatch(new GetBlogRequest(blogId));
     }
 
-    updateBlog = (model?: BlogModel): void => {
+    setFormGroup = (): void => {
+        this.formGroup = new FormGroup({
+            title: new FormControl(),
+            content: new FormControl()
+        } as MapPick<BlogModel, keyof BlogModel, FormControl>);
+    }
+
+    updateFormGroup = (model?: BlogModel): void => {
         if (model) {
-            this.formControl.patchValue(model.content);
+            model.editable ? this.formGroup.enable() : this.formGroup.disable();
+            this.formGroup.patchValue(model);
+        }
+    }
+
+    submit = (): void => {
+        if (this.formGroup.valid) {
+            this.store.dispatch(new UpdateBlogRequest(this.formGroup.value))
         }
     }
 }

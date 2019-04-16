@@ -18,26 +18,43 @@ namespace Application.Controllers
     [ApiController]
     public class BlogController : ControllerBase
     {
-        private readonly List<BlogModel> items = new List<BlogModel>()
+        private List<BlogModel> items = new List<BlogModel>();
+
+        public BlogController()
         {
-            new BlogModel() { BlogId = "1qq", Title = "Title 1", Content = "Brave new world 1", Editable = true, CreatedBy = "Bob" },
-            new BlogModel() { BlogId = "2qq", Title = "Title 2", Content = "Brave new world 2", Editable = true, CreatedBy = "Bob" },
-            new BlogModel() { BlogId = "3qq", Title = "Title 3", Content = "Brave new world 3", Editable = false, CreatedBy = "Mark" },
-            new BlogModel() { BlogId = "4qq", Title = "Title 4", Content = "Brave new world 4", Editable = false, CreatedBy = "Mark" },
-            new BlogModel() { BlogId = "5qq", Title = "Title 5", Content = "Brave new world 5", Editable = true, CreatedBy = "Bob" }
-        };
+            for (int i = 0; i < 350; i++)
+            {
+                bool editable = i % 2 == 0;
+                var date = DateTime.Now;
+
+                BlogModel model = new BlogModel()
+                {
+                    BlogId = i + "qq",
+                    Title = "Title " + i,
+                    Content = "Brave new world " + i,
+                    Editable = editable,
+                    CreatedBy = editable ? "Bob" : "Mark",
+                    CreatedDate = date.AddDays(i)
+                };
+                this.items.Add(model);
+            }
+        }
 
         [HttpPost]
         public IActionResult CreateBlog(BlogModel model)
         {
-            model.BlogId = "6qq";
             return this.Ok(model);
         }
 
         [HttpGet]
-        public IActionResult GetBlogs()
+        public IActionResult GetBlogs(int index, int count)
         {
-            return this.Ok(this.items);
+            var result = new
+            {
+                Items = this.items.GetRange(index, count),
+                ItemsAmount = this.items.ToArray().Length
+            };
+            return this.Ok(result);
         }
 
         [HttpGet("{blogId}")]
@@ -64,7 +81,7 @@ namespace Application.Controllers
     /// <summary>
     /// TODO: refactor to a separate file
     /// </summary>
-    public class BlogModel : ApplicationModel
+    public class BlogModel
     {
         public string BlogId { get; set; }
 
@@ -73,5 +90,11 @@ namespace Application.Controllers
         public string Content { get; set; }
 
         public bool Editable { get; set; }
+
+        public string CreatedBy { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+
+        public DateTime UpdatedDate { get; set; }
     }
 }

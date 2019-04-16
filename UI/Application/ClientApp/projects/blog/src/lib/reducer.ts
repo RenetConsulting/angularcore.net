@@ -5,12 +5,18 @@ import { BlogTypes } from './types';
 
 export interface BlogState extends EntityState<BlogModel> {
     selectedBlogId?: string;
+    itemsAmount?: number;
     loading?: boolean;
 }
 
 const selectId = (i: BlogModel) => i.blogId;
 
-const adapter = createEntityAdapter({ selectId });
+const sortComparer = (a: BlogModel, b: BlogModel) =>
+    new Date(a.createdDate).valueOf() - new Date(b.createdDate).valueOf()
+
+const adapter = createEntityAdapter({ selectId, sortComparer });
+
+export const { selectAll: getBlogs, selectEntities: getBlogEntities, selectTotal: getBlogsTotal } = adapter.getSelectors();
 
 const INITIAL_STATE: BlogState = adapter.getInitialState({});
 
@@ -18,8 +24,17 @@ export function blogReducer(state = INITIAL_STATE, action: BlogActionsUnion): Bl
 
     switch (action.type) {
 
-        case BlogTypes.GET_BLOGS_REQUEST: return { ...adapter.removeAll(state), loading: true };
-        case BlogTypes.GET_BLOGS_SUCCESS: return { ...adapter.addMany(action.success, state), loading: false };
+        case BlogTypes.CREATE_BLOG_REQUEST: return { ...state, loading: true };
+        case BlogTypes.CREATE_BLOG_SUCCESS: return { ...adapter.addOne(action.success, state), loading: false };
+        case BlogTypes.CREATE_BLOG_ERROR: return { ...state, loading: false };
+
+        case BlogTypes.GET_BLOGS_REQUEST: return { ...state, loading: true };
+        case BlogTypes.GET_BLOGS_SUCCESS: {
+
+            const itemsAmount = action.success.itemsAmount;
+            const items = action.success.items;
+            return { ...adapter.addMany(items, state), itemsAmount, loading: false }
+        };
         case BlogTypes.GET_BLOGS_ERROR: return { ...state, loading: false };
 
         case BlogTypes.GET_BLOG_REQUEST: return { ...state, selectedBlogId: null, loading: true };
@@ -37,5 +52,3 @@ export function blogReducer(state = INITIAL_STATE, action: BlogActionsUnion): Bl
         default: return state;
     }
 }
-
-export const { selectAll: getBlogs, selectEntities: getBlogEntities } = adapter.getSelectors();

@@ -9,14 +9,14 @@ import { StoreModule } from '@ngrx/store';
 import { EditorModule } from '../editor/editor.module';
 import { BlogEffects } from '../effects';
 import { blogReducer } from '../reducer';
-import { BlogDetailRoutingModule } from './blog-detail-routing.module';
-import { BlogDetailComponent } from './blog-detail.component';
+import { BlogDashboardRoutingModule } from './blog-dashboard-routing.module';
+import { BlogDashboardComponent } from './blog-dashboard.component';
 
 @NgModule({
-    declarations: [BlogDetailComponent],
+    declarations: [BlogDashboardComponent],
     imports: [
         CommonModule,
-        BlogDetailRoutingModule,
+        BlogDashboardRoutingModule,
         ReactiveFormsModule,
         MatCardModule,
         MatInputModule,
@@ -26,4 +26,4 @@ import { BlogDetailComponent } from './blog-detail.component';
         EffectsModule.forFeature([BlogEffects]),
     ]
 })
-export class BlogDetailModule { }
+export class BlogDashboardModule { }
