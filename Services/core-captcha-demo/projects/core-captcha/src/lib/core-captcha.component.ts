@@ -19,6 +19,7 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
     @Input() height?: number;
     @Input() url?: string;
     @Input() width?: number;
+    @Input() placeholder?: string = 'Please type the text above';
     @Output() readonly resolved = new EventEmitter<IDecodedCaptcha>();
     @HostBinding('class.d-block') readonly dBlock = true;
     readonly subscription = new Subscription();
@@ -36,6 +37,9 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
             this.height = options.height;
             this.url = options.url;
             this.width = options.width;
+            if (options.placeholder) {
+                this.placeholder = options.placeholder;
+            }
         }
     }
 
