@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { BlogEffects } from '../effects';
@@ -12,6 +13,7 @@ import { BlogListComponent } from './blog-list.component';
     imports: [
         CommonModule,
         BlogListRoutingModule,
+        MatCardModule,
         StoreModule.forFeature('blog', blogReducer),
         EffectsModule.forFeature([BlogEffects]),
     ]

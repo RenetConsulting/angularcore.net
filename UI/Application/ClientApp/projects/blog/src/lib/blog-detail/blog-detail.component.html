@@ -2,5 +2,7 @@
     <mat-card-header>
         <mat-card-title>{{item.title}}</mat-card-title>
     </mat-card-header>
-    <mat-card-content>{{item.content}}</mat-card-content>
+    <mat-card-content>
+        <lib-editor [formControl]="formControl" [readonly]="!item.editable"></lib-editor>
+    </mat-card-content>
 </mat-card>

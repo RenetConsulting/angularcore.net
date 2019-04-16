@@ -2,6 +2,19 @@ import { Action } from "@ngrx/store";
 import { BlogModel } from "./blog.model";
 import { BlogTypes } from "./types";
 
+export class CreateBlogRequest implements Action {
+    readonly type = BlogTypes.CREATE_BLOG_REQUEST;
+    constructor(readonly payload: BlogModel) { }
+}
+export class CreateBlogSuccess implements Action {
+    readonly type = BlogTypes.CREATE_BLOG_SUCCESS;
+    constructor(readonly payload: BlogModel) { }
+}
+export class CreateBlogError implements Action {
+    readonly type = BlogTypes.CREATE_BLOG_ERROR;
+    constructor(readonly error) { }
+}
+
 export class GetBlogsRequest implements Action {
     readonly type = BlogTypes.GET_BLOGS_REQUEST;
     constructor() { }
@@ -54,7 +67,10 @@ export class DeleteBlogError implements Action {
     constructor(readonly error) { }
 }
 
-export type BlogActionsUnion = GetBlogsRequest
+export type BlogActionsUnion = CreateBlogRequest
+    | CreateBlogSuccess
+    | CreateBlogError
+    | GetBlogsRequest
     | GetBlogsSuccess
     | GetBlogsError
     | GetBlogRequest

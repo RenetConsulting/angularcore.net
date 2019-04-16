@@ -1,1 +1,7 @@
-<div *ngFor="let item of items | async">{{item.title}}</div>
+<mat-card class="m-3" *ngFor="let item of items | async" [routerLink]="['/blog', item.blogId]">
+    <mat-card-header>
+        <mat-card-title><a>{{item.title}}</a></mat-card-title>
+    </mat-card-header>
+    <mat-card-content>{{item.content | slice: 0: 25}} ...</mat-card-content>
+    <mat-card-footer>Created by {{item.createdBy}}</mat-card-footer>
+</mat-card>

@@ -13,11 +13,13 @@ export class BlogService {
         @Inject(HttpClient) private http: HttpClient
     ) { }
 
+    create = (model: BlogModel) => this.http.post<BlogModel>(`${this.url}`, model)
+
     getBlogs = () => this.http.get<Array<BlogModel>>(this.url)
 
     getBlog = (id: string) => this.http.get<BlogModel>(`${this.url}/${id}`)
 
-    delete = (id: string) => this.http.delete<BlogModel>(`${this.url}/${id}`)
-
     update = (model: BlogModel) => this.http.patch<BlogModel>(`${this.url}`, model)
+
+    delete = (id: string) => this.http.delete<BlogModel>(`${this.url}/${id}`)
 }

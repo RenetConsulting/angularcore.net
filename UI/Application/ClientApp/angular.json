@@ -39,7 +39,9 @@
                 "input": "src/themes/purple-green.theme.scss",
                 "lazy": true,
                 "bundleName": "assets/purple-green.theme"
-              }
+              },
+              "node_modules/quill/dist/quill.core.css",
+              "node_modules/quill/dist/quill.snow.css"
             ],
             "scripts": []
           },
