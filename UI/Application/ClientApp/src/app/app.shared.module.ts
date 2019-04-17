@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { Store, StoreModule } from '@ngrx/store';
+import { NgxHttpParamsService } from '@renet-consulting/ngx-utils';
 import { environment } from 'src/environments/environment';
 import { ROUTES } from './app.routes';
 import { AppComponent } from './components/app/app.component';
@@ -19,7 +20,6 @@ import { HttpAuthorizationInterceptor } from './interceptors/http-authorization/
 import { NoneCacheInterceptor } from './interceptors/none-cache/none-cache.interceptor';
 import { REDUCERS } from './reducers';
 import { TokenService } from './services/token/token.service';
-import { ToolsService } from './services/tools/tools.service';
 import { BASE_URL } from './tokens/base-url.token';
 
 @NgModule({
@@ -28,7 +28,7 @@ import { BASE_URL } from './tokens/base-url.token';
         HomeComponent
     ],
     providers: [
-        { provide: HTTP_INTERCEPTORS, useClass: HttpAuthorizationInterceptor, deps: [TokenService, ToolsService], multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: HttpAuthorizationInterceptor, deps: [TokenService, NgxHttpParamsService], multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: NoneCacheInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, deps: [Store], multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ApiPrefixInterceptor, deps: [BASE_URL], multi: true }

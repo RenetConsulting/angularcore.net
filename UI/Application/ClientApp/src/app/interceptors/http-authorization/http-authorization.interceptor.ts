@@ -1,5 +1,6 @@
 import { HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { NgxHttpParamsService } from '@renet-consulting/ngx-utils';
 import { Observable, of, Subject } from 'rxjs';
 import { finalize, mergeMap } from 'rxjs/operators';
 import { HTTP_HEADERS } from '~/consts/http-headers';
@@ -7,7 +8,6 @@ import { HTTP_HEADER_NAMES } from '~/enums/http-header-names.type';
 import { IConnectToken } from '~/interfaces/connect-token';
 import { IToken } from '~/interfaces/token';
 import { TokenService } from '~/services/token/token.service';
-import { ToolsService } from '~/services/tools/tools.service';
 
 @Injectable({
     providedIn: 'root'
@@ -19,7 +19,7 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
 
     constructor(
         @Inject(TokenService) private tokenService: TokenService,
-        @Inject(ToolsService) private toolsService: ToolsService,
+        @Inject(NgxHttpParamsService) private params: NgxHttpParamsService,
     ) { }
 
     get refreshRequest() {
@@ -29,7 +29,7 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
             scope: 'offline_access',
             refresh_token,
         };
-        const body = this.toolsService.getQuery(item).replace(/^\?/, '');
+        const body = this.params.getParams(item).toString();
         return new HttpRequest('POST', `/connect/token`, body, {
             headers: new HttpHeaders({ ...HTTP_HEADERS.contentTypeUrlencoded }),
         });

@@ -1,23 +1,23 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { NgxHttpParamsService } from '@renet-consulting/ngx-utils';
 import { HTTP_HEADER_NAMES } from '~/enums/http-header-names.type';
 import { IUser } from '~/interfaces/user';
-import { ToolsService } from '../tools/tools.service';
 import { AuthorizationService } from './authorization.service';
 
 describe('AuthorizationService', () => {
 
     let service: AuthorizationService;
-    let toolsService: jasmine.SpyObj<ToolsService>;
+    let toolsService: jasmine.SpyObj<NgxHttpParamsService>;
     let httpTestingController: HttpTestingController;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
-            providers: [{ provide: ToolsService, useValue: jasmine.createSpyObj('ToolsService', ['getQuery']) }]
+            providers: [{ provide: NgxHttpParamsService, useValue: jasmine.createSpyObj('NgxHttpParamsService', ['getParams']) }]
         });
         service = TestBed.get(AuthorizationService);
-        toolsService = TestBed.get(ToolsService);
+        toolsService = TestBed.get(NgxHttpParamsService);
         httpTestingController = TestBed.get(HttpTestingController);
     });
 
@@ -30,26 +30,26 @@ describe('AuthorizationService', () => {
         const query = 'bob';
         const body = 'body';
         const user = {} as IUser;
-        toolsService.getQuery.and.returnValues(query, body);
+        toolsService.getParams.and.returnValues(query, body);
         service.signin(user).subscribe();
-        const req = httpTestingController.expectOne(`/connect/token${query}`);
+        const req = httpTestingController.expectOne(`/connect/token`);
         expect(req.request.method).toEqual('POST');
         expect(req.request.headers.has(HTTP_HEADER_NAMES.allowAnonymous)).toEqual(true);
         expect(req.request.headers.has(HTTP_HEADER_NAMES.allowHttpError)).toEqual(true);
         expect(req.request.headers.has(HTTP_HEADER_NAMES.contentType)).toEqual(true);
-        expect(toolsService.getQuery).toHaveBeenCalled();
+        expect(toolsService.getParams).toHaveBeenCalled();
         req.flush(null);
     });
     it('signup', () => {
         const query = 'bob';
         const body = 'body';
         const user = {} as IUser;
-        toolsService.getQuery.and.returnValues(query, body);
+        toolsService.getParams.and.returnValues(query, body);
         service.signup(user).subscribe();
-        const req = httpTestingController.expectOne(`/api/account/register${query}`);
+        const req = httpTestingController.expectOne(`/api/account/register`);
         expect(req.request.method).toEqual('POST');
         expect(req.request.headers.has(HTTP_HEADER_NAMES.allowHttpError)).toEqual(true);
-        expect(toolsService.getQuery).toHaveBeenCalled();
+        expect(toolsService.getParams).toHaveBeenCalled();
         req.flush(null);
     });
     it('signup', () => {
