@@ -1,6 +1,6 @@
-import { createEntityAdapter, EntityState } from "@ngrx/entity";
+import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { BlogActionsUnion } from './actions';
-import { BlogModel } from "./blog.model";
+import { BlogModel } from './blog.model';
 import { BlogTypes } from './types';
 
 export interface BlogState extends EntityState<BlogModel> {
@@ -12,7 +12,7 @@ export interface BlogState extends EntityState<BlogModel> {
 const selectId = (i: BlogModel) => i.blogId;
 
 const sortComparer = (a: BlogModel, b: BlogModel) =>
-    new Date(a.createdDate).valueOf() - new Date(b.createdDate).valueOf()
+    new Date(a.createdDate).valueOf() - new Date(b.createdDate).valueOf();
 
 const adapter = createEntityAdapter({ selectId, sortComparer });
 
@@ -33,8 +33,8 @@ export function blogReducer(state = INITIAL_STATE, action: BlogActionsUnion): Bl
 
             const itemsAmount = action.success.itemsAmount;
             const items = action.success.items;
-            return { ...adapter.addMany(items, state), itemsAmount, loading: false }
-        };
+            return { ...adapter.addMany(items, state), itemsAmount, loading: false };
+        }
         case BlogTypes.GET_BLOGS_ERROR: return { ...state, loading: false };
 
         case BlogTypes.GET_BLOG_REQUEST: return { ...state, selectedBlogId: null, loading: true };

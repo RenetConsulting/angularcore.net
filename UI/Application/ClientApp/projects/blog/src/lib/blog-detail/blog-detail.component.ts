@@ -46,7 +46,7 @@ export class BlogDetailComponent implements OnInit {
 
     submit = (): void => {
         if (this.formGroup.valid) {
-            this.store.dispatch(new UpdateBlogRequest(this.formGroup.value))
+            this.store.dispatch(new UpdateBlogRequest(this.formGroup.value));
         }
     }
 }

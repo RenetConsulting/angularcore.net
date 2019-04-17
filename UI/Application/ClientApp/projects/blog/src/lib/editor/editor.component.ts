@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, Inject, Input, OnChanges, OnDestroy, OnInit, Optional, Self } from '@angular/core';
 import { FormGroupDirective, NgControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { QuillModules } from 'ngx-quill';
 import { Subscription } from 'rxjs';
+import { FileListComponent } from '../file-list/file-list.component';
 
 @Component({
     selector: 'lib-editor',
@@ -25,6 +27,7 @@ export class EditorComponent implements OnChanges, OnInit, OnDestroy {
     constructor(
         @Self() @Inject(NgControl) public ngControl: NgControl,
         @Optional() @Inject(FormGroupDirective) private formGroup: FormGroupDirective,
+        @Inject(MatDialog) private dialog: MatDialog,
     ) {
         if (this.ngControl) {
             this.ngControl.valueAccessor = this;
@@ -83,7 +86,11 @@ export class EditorComponent implements OnChanges, OnInit, OnDestroy {
     onEditorCreated = (quill): void => {
         const toolbar = quill.getModule('toolbar');
         if (toolbar) {
-            toolbar.addHandler('image', console.log);
+            toolbar.addHandler('image', this.openDialog);
         }
+    }
+
+    openDialog = (): void => {
+        this.dialog.open(FileListComponent);
     }
 }

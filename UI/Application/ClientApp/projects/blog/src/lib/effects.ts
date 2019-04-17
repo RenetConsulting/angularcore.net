@@ -1,11 +1,11 @@
-import { Inject, Injectable } from "@angular/core";
-import { Router } from "@angular/router";
-import { Actions, Effect, ofType } from "@ngrx/effects";
-import { of } from "rxjs";
-import { catchError, map, mergeMap, tap } from "rxjs/operators";
-import * as UIActions from "./actions";
-import { BlogService } from "./blog.service";
-import { BlogTypes } from "./types";
+import { Inject, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { of } from 'rxjs';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import * as UIActions from './actions';
+import { BlogService } from './blog.service';
+import { BlogTypes } from './types';
 
 @Injectable()
 export class BlogEffects {

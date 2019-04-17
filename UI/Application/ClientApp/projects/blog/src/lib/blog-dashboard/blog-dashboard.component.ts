@@ -32,7 +32,7 @@ export class BlogDashboardComponent implements OnInit {
 
     submit = (): void => {
         if (this.formGroup.valid) {
-            this.store.dispatch(new CreateBlogRequest(this.formGroup.value))
+            this.store.dispatch(new CreateBlogRequest(this.formGroup.value));
         }
     }
 }

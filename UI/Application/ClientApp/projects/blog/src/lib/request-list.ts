@@ -1,4 +1,4 @@
-export interface IRequestBlogs {
+export interface IRequestList {
     index?: number;
     count?: number;
 }

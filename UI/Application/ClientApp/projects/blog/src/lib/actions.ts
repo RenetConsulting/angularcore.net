@@ -1,8 +1,8 @@
-import { Action } from "@ngrx/store";
-import { BlogModel } from "./blog.model";
-import { IRequestBlogs } from "./request-blogs";
-import { IResponseList } from "./response-list";
-import { BlogTypes } from "./types";
+import { Action } from '@ngrx/store';
+import { BlogModel } from './blog.model';
+import { IRequestList } from './request-list';
+import { IResponseList } from './response-list';
+import { BlogTypes } from './types';
 
 export class CreateBlogRequest implements Action {
     readonly type = BlogTypes.CREATE_BLOG_REQUEST;
@@ -19,11 +19,11 @@ export class CreateBlogError implements Action {
 
 export class GetBlogsRequest implements Action {
     readonly type = BlogTypes.GET_BLOGS_REQUEST;
-    constructor(readonly payload: IRequestBlogs) { }
+    constructor(readonly payload: IRequestList) { }
 }
 export class GetBlogsSuccess implements Action {
     readonly type = BlogTypes.GET_BLOGS_SUCCESS;
-    constructor(readonly success: IResponseList<BlogModel>, readonly payload: IRequestBlogs) { }
+    constructor(readonly success: IResponseList<BlogModel>, readonly payload: IRequestList) { }
 }
 export class GetBlogsError implements Action {
     readonly type = BlogTypes.GET_BLOGS_ERROR;
@@ -83,4 +83,4 @@ export type BlogActionsUnion = CreateBlogRequest
     | UpdateBlogError
     | DeleteBlogRequest
     | DeleteBlogSuccess
-    | DeleteBlogError
+    | DeleteBlogError;
