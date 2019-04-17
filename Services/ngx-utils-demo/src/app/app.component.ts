@@ -34,7 +34,7 @@ export class AppComponent {
 
 
         this.http.get('https://httpbin.org/get', {
-            params: this.util.getParams({
+            params: this.util.map({
                 param1: 'val1',
                 param2: 2,
                 numbers: [1, 2, 3, 4],

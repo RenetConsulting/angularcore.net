@@ -8,10 +8,12 @@
     "build:ngx-http-params": "ng build ngx-http-params",
     "build:ngx-validator": "ng build ngx-validator",
     "build:ngx-link-stylesheet": "ng build ngx-link-stylesheet",
+    "build:ngx-core-captcha": "ng build ngx-core-captcha",
     "test": "ng test",
     "test:ngx-http-params": "ng test ngx-http-params --watch=false",
     "test:ngx-validator": "ng test ngx-validator --watch=false",
     "test:ngx-link-stylesheet": "ng test ngx-link-stylesheet --watch=false",
+    "test:ngx-core-captcha": "ng test ngx-core-captcha --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
