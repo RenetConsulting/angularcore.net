@@ -12,7 +12,6 @@ import { selectSelectedBlog } from '../selectors';
 @Component({
     selector: 'lib-blog-detail',
     templateUrl: './blog-detail.component.html',
-    styleUrls: ['./blog-detail.component.sass'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BlogDetailComponent implements OnInit {

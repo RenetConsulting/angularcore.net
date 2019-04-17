@@ -6,7 +6,6 @@ import { Subscription } from 'rxjs';
 @Component({
     selector: 'lib-editor',
     templateUrl: './editor.component.html',
-    styleUrls: ['./editor.component.sass'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditorComponent implements OnChanges, OnInit, OnDestroy {

@@ -1,6 +1,18 @@
 {
-  "name": "blog",
+  "name": "@renet-consulting/blog",
   "version": "0.0.1",
+  "author": "Michael Vasyliv",
+  "license": "MIT",
+  "private": false,
+  "homepage": "https://github.com/RenetConsulting/angularcore.net",
+  "description": "Utils",
+  "bugs": {
+    "url": "https://github.com/RenetConsulting/angularcore.net/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RenetConsulting/angularcore.net.git"
+  },
   "peerDependencies": {
     "@angular/common": "^7.2.0",
     "@angular/core": "^7.2.0",
@@ -8,6 +20,7 @@
     "@ngrx/effects": "^7.3.0",
     "@ngrx/entity": "7.3.0",
     "@ngrx/store": "^7.3.0",
+    "@renet-consulting/ngx-utils": "^0.0.3",
     "ngx-quill": "^4.8.0",
     "quill": "1.3.6"
   }

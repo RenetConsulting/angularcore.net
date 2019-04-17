@@ -9,7 +9,6 @@ import { RootBlogStore } from '../reducers';
 @Component({
     selector: 'lib-blog-dashboard',
     templateUrl: './blog-dashboard.component.html',
-    styleUrls: ['./blog-dashboard.component.sass'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BlogDashboardComponent implements OnInit {
