@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { NgxHttpParamsService } from 'projects/ngx-http-params/src/public-api';
 import { NgxLinkStylesheetService } from 'projects/ngx-link-stylesheet/src/public_api';
@@ -10,7 +10,7 @@ import { NgxLinkStylesheetService } from 'projects/ngx-link-stylesheet/src/publi
     styleUrls: ['./app.component.css'],
     providers: [NgxLinkStylesheetService]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
     title = 'ngx-utils-demo';
     readonly formControl = new FormControl('', [
