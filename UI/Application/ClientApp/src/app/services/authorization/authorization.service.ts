@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { NgxHttpParamsService } from '@renet-consulting/ngx-utils';
 import { HTTP_HEADERS } from '~/consts/http-headers';
 import { IConnectToken } from '~/interfaces/connect-token';
 import { IToken } from '~/interfaces/token';
 import { IUser } from '~/interfaces/user';
-import { ToolsService } from '~/services/tools/tools.service';
 
 @Injectable({
     providedIn: 'root'
@@ -13,7 +13,7 @@ export class AuthorizationService {
 
     constructor(
         @Inject(HttpClient) private http: HttpClient,
-        @Inject(ToolsService) private toolsService: ToolsService,
+        @Inject(NgxHttpParamsService) private params: NgxHttpParamsService,
     ) { }
 
     signin = (model: IUser) => {
@@ -23,23 +23,19 @@ export class AuthorizationService {
             password: model.password,
             username: model.email
         };
-        const query = this.toolsService.getQuery(model.captcha);
-        const body = this.toolsService.getQuery(item).replace(/^\?/, '');
         const options = {
-            headers: {
-                ...HTTP_HEADERS.contentTypeUrlencoded,
-                ...HTTP_HEADERS.allowAnonymous,
-                ...HTTP_HEADERS.allowHttpError
-            }
+            headers: { ...HTTP_HEADERS.contentTypeUrlencoded, ...HTTP_HEADERS.allowAnonymous, ...HTTP_HEADERS.allowHttpError },
+            params: this.params.getParams(model.captcha)
         };
-        return this.http.post<IToken>(`/connect/token${query}`, body, options);
+        const body = this.params.getParams(item).toString();
+        return this.http.post<IToken>(`/connect/token`, body, options);
     }
 
-    signup = (model: IUser) => {
-        const query = this.toolsService.getQuery(model.captcha);
-        return this.http
-            .post(`/api/account/register${query}`, model, { headers: { ...HTTP_HEADERS.allowHttpError } });
-    }
+    signup = (model: IUser) => this.http
+        .post(`/api/account/register`, model, {
+            headers: { ...HTTP_HEADERS.allowHttpError },
+            params: this.params.getParams(model.captcha)
+        })
 
     /** the front-end side should post an expired token to the back-end side */
     signout = () => this.http

@@ -1,22 +1,22 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { NgxHttpParamsService } from '@renet-consulting/ngx-utils';
 import { HTTP_HEADER_NAMES } from '~/enums/http-header-names.type';
-import { ToolsService } from '../tools/tools.service';
 import { AccountService } from './account.service';
 
 describe('AccountService', () => {
 
     let service: AccountService;
-    let toolsService: jasmine.SpyObj<ToolsService>;
+    let params: jasmine.SpyObj<NgxHttpParamsService>;
     let httpTestingController: HttpTestingController;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
-            providers: [{ provide: ToolsService, useValue: jasmine.createSpyObj('ToolsService', ['getQuery']) }]
+            providers: [{ provide: NgxHttpParamsService, useValue: jasmine.createSpyObj('NgxHttpParamsService', ['getParams']) }]
         });
         service = TestBed.get(AccountService);
-        toolsService = TestBed.get(ToolsService);
+        params = TestBed.get(NgxHttpParamsService);
         httpTestingController = TestBed.get(HttpTestingController);
     });
 
@@ -34,11 +34,11 @@ describe('AccountService', () => {
     });
     it('prepResetPassword', () => {
         const query = 'bob';
-        toolsService.getQuery.and.returnValue(query);
+        params.getParams.and.returnValue(query);
         service.prepResetPassword(null).subscribe();
-        const req = httpTestingController.expectOne(`${service.url}/password/send/token${query}`);
+        const req = httpTestingController.expectOne(`${service.url}/password/send/token`);
         expect(req.request.method).toEqual('GET');
-        expect(toolsService.getQuery).toHaveBeenCalled();
+        expect(params.getParams).toHaveBeenCalled();
         req.flush(null);
     });
     it('resetPassword', () => {
@@ -50,20 +50,20 @@ describe('AccountService', () => {
     });
     it('confirmEmail', () => {
         const query = 'bob';
-        toolsService.getQuery.and.returnValue(query);
+        params.getParams.and.returnValue(query);
         service.confirmEmail(null).subscribe();
-        const req = httpTestingController.expectOne(`${service.url}/email/confirm${query}`);
+        const req = httpTestingController.expectOne(`${service.url}/email/confirm`);
         expect(req.request.method).toEqual('GET');
-        expect(toolsService.getQuery).toHaveBeenCalled();
+        expect(params.getParams).toHaveBeenCalled();
         req.flush(null);
     });
     it('resendConfirmation', () => {
         const query = 'bob';
-        toolsService.getQuery.and.returnValue(query);
+        params.getParams.and.returnValue(query);
         service.resendConfirmation(null).subscribe();
-        const req = httpTestingController.expectOne(`${service.url}/email/send/token${query}`);
+        const req = httpTestingController.expectOne(`${service.url}/email/send/token`);
         expect(req.request.method).toEqual('GET');
-        expect(toolsService.getQuery).toHaveBeenCalled();
+        expect(params.getParams).toHaveBeenCalled();
         req.flush(null);
     });
 });
