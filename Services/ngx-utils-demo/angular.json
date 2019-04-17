@@ -23,6 +23,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
             ],
             "scripts": [],
@@ -228,6 +229,41 @@
             "tsConfig": [
               "projects/ngx-link-stylesheet/tsconfig.lib.json",
               "projects/ngx-link-stylesheet/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "core-captcha": {
+      "root": "projects/core-captcha",
+      "sourceRoot": "projects/core-captcha/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/core-captcha/tsconfig.lib.json",
+            "project": "projects/core-captcha/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/core-captcha/src/test.ts",
+            "tsConfig": "projects/core-captcha/tsconfig.spec.json",
+            "karmaConfig": "projects/core-captcha/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/core-captcha/tsconfig.lib.json",
+              "projects/core-captcha/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

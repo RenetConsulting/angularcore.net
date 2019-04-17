@@ -38,6 +38,12 @@
       ],
       "ngx-link-stylesheet/*": [
         "dist/ngx-link-stylesheet/*"
+      ],
+      "core-captcha": [
+        "dist/core-captcha"
+      ],
+      "core-captcha/*": [
+        "dist/core-captcha/*"
       ]
     }
   }

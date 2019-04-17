@@ -1,22 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreCaptchaModule, ICoreCaptchaOptions, NGX_CORE_CAPTCHA_OPTIONS } from 'projects/core-captcha/src/public_api';
-import { AppComponent } from './app.component';
+import { CaptchaRoutingModule } from './captcha-routing.module';
+import { CaptchaComponent } from './captcha.component';
 
 @NgModule({
-    declarations: [
-        AppComponent
-    ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        ReactiveFormsModule,
-        CoreCaptchaModule,
-    ],
+    declarations: [CaptchaComponent],
     providers: [
         {
             provide: NGX_CORE_CAPTCHA_OPTIONS,
@@ -28,6 +19,12 @@ import { AppComponent } from './app.component';
             } as ICoreCaptchaOptions
         }
     ],
-    bootstrap: [AppComponent]
+    imports: [
+        CommonModule,
+        CaptchaRoutingModule,
+        HttpClientModule,
+        ReactiveFormsModule,
+        CoreCaptchaModule,
+    ]
 })
-export class AppModule { }
+export class CaptchaModule { }

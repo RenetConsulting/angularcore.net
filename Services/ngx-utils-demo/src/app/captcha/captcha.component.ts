@@ -3,14 +3,15 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { CoreCaptchaRequired } from 'projects/core-captcha/src/public_api';
 
 @Component({
-    selector: 'ngx-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss']
+    selector: 'app-captcha',
+    templateUrl: './captcha.component.html',
+    styleUrls: ['./captcha.component.css']
 })
-export class AppComponent {
+export class CaptchaComponent {
 
-    readonly title = 'core-captcha-demo';
-    readonly formGroup = new FormGroup({ captcha: new FormControl(null, [CoreCaptchaRequired]) });
+    readonly formGroup = new FormGroup({
+        captcha: new FormControl(null, [CoreCaptchaRequired])
+    });
     url = 'https://corecaptcha.azurewebsites.net/api/CaptchaCreate';
     toggled: boolean;
 
@@ -21,4 +22,5 @@ export class AppComponent {
     resolved = (e) => {
         console.log('resolved', e, this.formGroup.value);
     }
+
 }
