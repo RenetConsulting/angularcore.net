@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { isNumber, isObject, isString } from 'util';
+import { isBoolean, isNumber, isObject, isString } from 'util';
 
 @Injectable({
     providedIn: 'root'
@@ -24,6 +24,9 @@ export class NgxHttpParamsService {
                 params = params.append(param, value);
             }
             else if (isNumber(value)) {
+                params = params.append(param, value.toString());
+            }
+            else if (isBoolean(value)) {
                 params = params.append(param, value.toString());
             }
             else if (Array.isArray(value)) {

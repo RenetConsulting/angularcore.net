@@ -26,6 +26,10 @@ describe('NgxHttpParamsService', () => {
         const x = { param1: 'val1', param2: 2, };
         expect(service.getParams(x).toString()).toEqual('param1=val1&param2=2');
     });
+    it('boolean case', () => {
+        const x = { param1: 'val1', param2: 2, param3: true, param4: false };
+        expect(service.getParams(x).toString()).toEqual('param1=val1&param2=2&param3=true&param4=false');
+    });
     it('array case', () => {
         const x = {
             param1: 'val1',
