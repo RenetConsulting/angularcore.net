@@ -17,26 +17,28 @@ export class NgxHttpParamsService {
     getParams<ItemType extends object>(model: ItemType, prefix: string = ''): HttpParams {
         /** immutable */
         let params = new HttpParams();
-        Object.keys(model).forEach(key => {
-            const value = model[key];
-            const param = `${prefix}${key}`;
-            if (isString(value)) {
-                params = params.append(param, value);
-            }
-            else if (isNumber(value)) {
-                params = params.append(param, value.toString());
-            }
-            else if (isBoolean(value)) {
-                params = params.append(param, value.toString());
-            }
-            else if (Array.isArray(value)) {
-                value.forEach(x => params = params.append(param, x));
-            }
-            else if (isObject(value) && value) {
-                const subPrams = this.getParams(value, `${param}.`);
-                subPrams.keys().forEach(subKey => params = params.append(subKey, subPrams.get(subKey)));
-            }
-        });
+        if (model) {
+            Object.keys(model).forEach(key => {
+                const value = model[key];
+                const param = `${prefix}${key}`;
+                if (isString(value)) {
+                    params = params.append(param, value);
+                }
+                else if (isNumber(value)) {
+                    params = params.append(param, value.toString());
+                }
+                else if (isBoolean(value)) {
+                    params = params.append(param, value.toString());
+                }
+                else if (Array.isArray(value)) {
+                    value.forEach(x => params = params.append(param, x));
+                }
+                else if (isObject(value) && value) {
+                    const subPrams = this.getParams(value, `${param}.`);
+                    subPrams.keys().forEach(subKey => params = params.append(subKey, subPrams.get(subKey)));
+                }
+            });
+        }
         return params;
     }
 }

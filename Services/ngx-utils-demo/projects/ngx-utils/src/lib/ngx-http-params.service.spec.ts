@@ -76,4 +76,10 @@ describe('NgxHttpParamsService', () => {
         // tslint:disable-next-line
         expect(service.getParams(x).toString()).toEqual('param1=val1&param2=2&numbers=1&numbers=2&numbers=3&numbers=4&vegetables.tomato=1&vegetables.potato=0.5&vegetables.cucumber=4');
     });
+    it('case with null', () => {
+        expect(service.getParams(null).toString()).toEqual('');
+    });
+    it('case with undefined', () => {
+        expect(service.getParams(undefined).toString()).toEqual('');
+    });
 });
