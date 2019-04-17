@@ -21,11 +21,29 @@
       "dom"
     ],
     "paths": {
-      "ngx-utils": [
-        "dist/ngx-utils"
+      "ngx-http-params": [
+        "dist/ngx-http-params"
       ],
-      "ngx-utils/*": [
-        "dist/ngx-utils/*"
+      "ngx-http-params/*": [
+        "dist/ngx-http-params/*"
+      ],
+      "ngx-validator": [
+        "dist/ngx-validator"
+      ],
+      "ngx-validator/*": [
+        "dist/ngx-validator/*"
+      ],
+      "ngx-link-stylesheet": [
+        "dist/ngx-link-stylesheet"
+      ],
+      "ngx-link-stylesheet/*": [
+        "dist/ngx-link-stylesheet/*"
+      ],
+      "core-captcha": [
+        "dist/core-captcha"
+      ],
+      "core-captcha/*": [
+        "dist/core-captcha/*"
       ]
     }
   }

@@ -5,7 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { Store, StoreModule } from '@ngrx/store';
-import { NgxHttpParamsService } from '@renet-consulting/ngx-utils';
+import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
 import { environment } from 'src/environments/environment';
 import { ROUTES } from './app.routes';
 import { AppComponent } from './components/app/app.component';
