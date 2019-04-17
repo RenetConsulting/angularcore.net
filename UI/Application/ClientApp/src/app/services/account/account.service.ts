@@ -22,14 +22,14 @@ export class AccountService {
         .post(`${this.url}/password/change`, model, { headers: { ...HTTP_HEADERS.allowHttpError } })
 
     prepResetPassword = (email: string) => this.http
-        .get(`${this.url}/password/send/token`, { params: this.params.getParams({ email }) });
+        .get(`${this.url}/password/send/token`, { params: this.params.map({ email }) });
 
     resetPassword = (model: IResetPassword) => this.http
         .post(`${this.url}/password/reset`, model, { headers: { ...HTTP_HEADERS.allowHttpError } })
 
     confirmEmail = (model: IConfirmEmail) => this.http
-        .get(`${this.url}/email/confirm`, { params: this.params.getParams(model) });
+        .get(`${this.url}/email/confirm`, { params: this.params.map(model) });
 
     resendConfirmation = (email: string) => this.http
-        .get(`${this.url}/email/send/token`, { params: this.params.getParams({ email }) });
+        .get(`${this.url}/email/send/token`, { params: this.params.map({ email }) });
 }

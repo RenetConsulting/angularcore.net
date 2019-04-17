@@ -25,16 +25,16 @@ export class AuthorizationService {
         };
         const options = {
             headers: { ...HTTP_HEADERS.contentTypeUrlencoded, ...HTTP_HEADERS.allowAnonymous, ...HTTP_HEADERS.allowHttpError },
-            params: this.params.getParams(model.captcha)
+            params: this.params.map(model.captcha)
         };
-        const body = this.params.getParams(item).toString();
+        const body = this.params.map(item).toString();
         return this.http.post<IToken>(`/connect/token`, body, options);
     }
 
     signup = (model: IUser) => this.http
         .post(`/api/account/register`, model, {
             headers: { ...HTTP_HEADERS.allowHttpError },
-            params: this.params.getParams(model.captcha)
+            params: this.params.map(model.captcha)
         })
 
     /** the front-end side should post an expired token to the back-end side */

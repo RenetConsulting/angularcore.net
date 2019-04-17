@@ -13,7 +13,7 @@ describe('AccountService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
-            providers: [{ provide: NgxHttpParamsService, useValue: jasmine.createSpyObj('NgxHttpParamsService', ['getParams']) }]
+            providers: [{ provide: NgxHttpParamsService, useValue: jasmine.createSpyObj('NgxHttpParamsService', ['map']) }]
         });
         service = TestBed.get(AccountService);
         params = TestBed.get(NgxHttpParamsService);
@@ -34,11 +34,11 @@ describe('AccountService', () => {
     });
     it('prepResetPassword', () => {
         const query = 'bob';
-        params.getParams.and.returnValue(query);
+        params.map.and.returnValue(query);
         service.prepResetPassword(null).subscribe();
         const req = httpTestingController.expectOne(`${service.url}/password/send/token`);
         expect(req.request.method).toEqual('GET');
-        expect(params.getParams).toHaveBeenCalled();
+        expect(params.map).toHaveBeenCalled();
         req.flush(null);
     });
     it('resetPassword', () => {
@@ -50,20 +50,20 @@ describe('AccountService', () => {
     });
     it('confirmEmail', () => {
         const query = 'bob';
-        params.getParams.and.returnValue(query);
+        params.map.and.returnValue(query);
         service.confirmEmail(null).subscribe();
         const req = httpTestingController.expectOne(`${service.url}/email/confirm`);
         expect(req.request.method).toEqual('GET');
-        expect(params.getParams).toHaveBeenCalled();
+        expect(params.map).toHaveBeenCalled();
         req.flush(null);
     });
     it('resendConfirmation', () => {
         const query = 'bob';
-        params.getParams.and.returnValue(query);
+        params.map.and.returnValue(query);
         service.resendConfirmation(null).subscribe();
         const req = httpTestingController.expectOne(`${service.url}/email/send/token`);
         expect(req.request.method).toEqual('GET');
-        expect(params.getParams).toHaveBeenCalled();
+        expect(params.map).toHaveBeenCalled();
         req.flush(null);
     });
 });

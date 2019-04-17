@@ -29,7 +29,7 @@ export class HttpAuthorizationInterceptor implements HttpInterceptor {
             scope: 'offline_access',
             refresh_token,
         };
-        const body = this.params.getParams(item).toString();
+        const body = this.params.map(item).toString();
         return new HttpRequest('POST', `/connect/token`, body, {
             headers: new HttpHeaders({ ...HTTP_HEADERS.contentTypeUrlencoded }),
         });
