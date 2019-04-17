@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { NgxHttpParamsService } from '@renet-consulting/ngx-utils';
+import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
 import { HTTP_HEADERS } from '~/consts/http-headers';
 import { IConnectToken } from '~/interfaces/connect-token';
 import { IToken } from '~/interfaces/token';
