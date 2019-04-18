@@ -65,24 +65,29 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     /** internal */
-    emitDecodedCaptcha = (captcha: string): void => this.resolved.emit({ captcha, hash: this.captcha && this.captcha.hash });
+    get query() {
+        return this.width && this.height ? `?width=${this.width}&height=${this.height}` : '';
+    }
+
+    /** internal */
+    emitDecodedCaptcha = (captcha: string): void =>
+        this.resolved.emit({ captcha, hash: this.captcha && this.captcha.hash })
+
+    /** internal */
+    destroy = (): void => {
+        this.captcha = null;
+        this.captchaAsync = null;
+        this.formControl.reset();
+    }
 
     /** internal */
     setCaptchaAsync = (): void => {
         if (this.url) {
             this.destroy();
-            const query = this.width && this.height ? `?width=${this.width}&height=${this.height}` : '';
-            this.captchaAsync = this.http.get<IEncodedCaptcha>(`${this.url}${query}`).pipe(
-                tap(i => this.captcha = i)
-            );
+            this.captchaAsync = this.http.get<IEncodedCaptcha>(`${this.url}${this.query}`).pipe(tap(i => this.captcha = i));
         }
     }
 
-    /** internal */
-    destroy = (): void => {
-        this.captcha = null;
-        this.formControl.reset();
-    }
-
-    refresh = (): void => this.setCaptchaAsync();
+    refresh = (): void =>
+        this.setCaptchaAsync()
 }

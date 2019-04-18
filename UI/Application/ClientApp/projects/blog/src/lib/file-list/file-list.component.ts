@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { RootBlogStore } from '../reducers';
 import { DeleteFileRequest, GetFilesRequest, SelectFile, UploadFileRequest } from './actions';
@@ -8,7 +8,8 @@ import { selectFiles, selectFilesAmount, selectFilesTotal } from './selectors';
 @Component({
     selector: 'lib-file-list',
     templateUrl: './file-list.component.html',
-    styleUrls: ['./file-list.component.scss']
+    styleUrls: ['./file-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FileListComponent implements OnInit {
 

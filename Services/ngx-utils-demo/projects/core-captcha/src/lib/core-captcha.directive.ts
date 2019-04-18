@@ -29,7 +29,7 @@ export class CoreCaptchaDirective implements ControlValueAccessor {
 
     writeValue(value: string): void {
         if (!value && this.host) {
-            this.host.destroy();
+            this.host.refresh();
         }
     }
 

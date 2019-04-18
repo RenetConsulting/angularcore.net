@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FileModel } from '../file.model';
 
 @Component({
     selector: 'lib-file',
     templateUrl: './file.component.html',
-    styleUrls: ['./file.component.scss']
+    styleUrls: ['./file.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FileComponent {
 

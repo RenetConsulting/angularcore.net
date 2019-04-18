@@ -11,6 +11,7 @@ describe('CoreCaptchaDirective', () => {
 
     beforeEach(() => {
         directive = new CoreCaptchaDirective();
+        directive.host = jasmine.createSpyObj<CoreCaptchaComponent>('CoreCaptchaComponent', ['refresh']);
     });
 
     it('resolve', () => {
@@ -22,14 +23,12 @@ describe('CoreCaptchaDirective', () => {
     });
     describe('writeValue', () => {
         it('empty string', () => {
-            directive.host = jasmine.createSpyObj<CoreCaptchaComponent>('CoreCaptchaComponent', ['destroy']);
             directive.writeValue('');
-            expect(directive.host.destroy).toHaveBeenCalled();
+            expect(directive.host.refresh).toHaveBeenCalled();
         });
         it('empty string', () => {
-            directive.host = jasmine.createSpyObj<CoreCaptchaComponent>('CoreCaptchaComponent', ['destroy']);
             directive.writeValue(null);
-            expect(directive.host.destroy).toHaveBeenCalled();
+            expect(directive.host.refresh).toHaveBeenCalled();
         });
     });
     it('registerOnChange', () => {
