@@ -22,6 +22,8 @@ export class NgxMatInputComponent implements ControlValueAccessor, OnChanges, On
     @Input() required: boolean;
     @Input() minlength: number;
     @Input() maxlength: number;
+    /** name of the field that passes to {@link NgxValidatorDirective} */
+    @Input() label: number;
     /** entry for custom errors */
     @Input() errors: Array<string>;
     readonly subscription = new Subscription();
@@ -62,6 +64,7 @@ export class NgxMatInputComponent implements ControlValueAccessor, OnChanges, On
         this.subscription.unsubscribe();
     }
 
+    /** internal */
     writeValue(value): void {
         this.value = value;
         if (this.onChange) {
@@ -69,39 +72,46 @@ export class NgxMatInputComponent implements ControlValueAccessor, OnChanges, On
         }
     }
 
+    /** internal */
     registerOnChange(fn): void {
         this.onChange = fn;
     }
 
+    /** internal */
     registerOnTouched(fn): void {
         this.onTouched = fn;
     }
 
+    /** internal */
     setDisabledState(value: boolean): void {
         this.disabled = value;
+    }
+
+    /** internal */
+    setErrorState = (): void => {
+        this.errorState = this.error ? 1 : 0;
+    }
+
+    /** internal */
+    setHintState = (): void => {
+        this.hintState = !this.error && Array.isArray(this.errors) && this.errors.length === 0 ? 1 : 0;
+    }
+
+    /** internal */
+    setErrorsState = (): void => {
+        this.errorsState = this.errors ? this.errors.length : 0;
+    }
+
+    /** internal */
+    updateControl = (): void => {
+        this.ngControl.control.markAsDirty();
+        this.ngControl.control.markAsTouched();
+        this.ngControl.control.updateValueAndValidity();
     }
 
     setError = (value: string): void => {
         this.error = value;
         this.setErrorState();
         this.setHintState();
-    }
-
-    setErrorState = (): void => {
-        this.errorState = this.error ? 1 : 0;
-    }
-
-    setHintState = (): void => {
-        this.hintState = !this.error && Array.isArray(this.errors) && this.errors.length === 0 ? 1 : 0;
-    }
-
-    setErrorsState = (): void => {
-        this.errorsState = this.errors ? this.errors.length : 0;
-    }
-
-    updateControl = (): void => {
-        this.ngControl.control.markAsDirty();
-        this.ngControl.control.markAsTouched();
-        this.ngControl.control.updateValueAndValidity();
     }
 }

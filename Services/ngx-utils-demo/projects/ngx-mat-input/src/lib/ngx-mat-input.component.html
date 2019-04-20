@@ -1,6 +1,6 @@
 <mat-form-field class="w-100 mt-3">
-    <input matInput [autocomplete]="autocomplete" [type]="type" (validate)="setError($event)" [required]="required" [minlength]="minlength" [maxlength]="maxlength"
-           [readonly]="readonly" [placeholder]="placeholder" [formControl]="ngControl.control">
+    <input matInput [autocomplete]="autocomplete" [label]="label" [type]="type" [required]="required" [minlength]="minlength" [maxlength]="maxlength"
+           [readonly]="readonly" [placeholder]="placeholder" [formControl]="ngControl.control" (validate)="setError($event)">
 </mat-form-field>
 <mat-error [@errorEnterLeave]="errorState">
     <div *ngIf="error" class=" mb-1">{{error}}</div>
