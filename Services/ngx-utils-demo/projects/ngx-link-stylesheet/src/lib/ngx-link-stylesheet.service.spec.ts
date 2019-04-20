@@ -44,8 +44,8 @@ describe('NgxLinkStylesheetService', () => {
             head.querySelector.and.returnValue(element);
             service.updateLink(className, href);
             expect(head.querySelector).toHaveBeenCalledWith(`link[rel="stylesheet"].${className}`);
-            expect(renderer2.setAttribute).toHaveBeenCalledWith(element, 'href', href)
-        })
+            expect(renderer2.setAttribute).toHaveBeenCalledWith(element, 'href', href);
+        });
         it('createLink', () => {
             head.querySelector.and.returnValue(null);
             renderer2.createElement.and.returnValue(element);
@@ -54,12 +54,12 @@ describe('NgxLinkStylesheetService', () => {
             expect(renderer2.setAttribute).toHaveBeenCalledWith(element, 'rel', 'stylesheet');
             expect(renderer2.addClass).toHaveBeenCalledWith(element, className);
             expect(renderer2.appendChild).toHaveBeenCalledWith(head, element);
-            expect(renderer2.setAttribute).toHaveBeenCalledWith(element, 'href', href)
-        })
-    })
+            expect(renderer2.setAttribute).toHaveBeenCalledWith(element, 'href', href);
+        });
+    });
     it('deleteLink', () => {
         head.querySelector.and.returnValue(element);
         service.deleteLink(className);
-        expect(renderer2.removeChild).toHaveBeenCalledWith(head, element)
-    })
+        expect(renderer2.removeChild).toHaveBeenCalledWith(head, element);
+    });
 });

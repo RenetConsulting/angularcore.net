@@ -1,6 +1,6 @@
 import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
 
-type StyleType = { [key: string]: string | number; };
+interface StyleType { [key: string]: string | number; }
 
 const ERROR_START = { opacity: 0, width: '0px', height: '0px' };
 const ERROR_END = { opacity: 1, width: '*', height: '*' };
@@ -26,8 +26,8 @@ export function enterLeaveAnimationFactory(name: string, start: StyleType, end: 
                 ]),
             ], { optional: true })
         ]),
-    ])
-};
+    ]);
+}
 
 /**
  * about duration read at https://material.io/design/motion/speed.html#duration

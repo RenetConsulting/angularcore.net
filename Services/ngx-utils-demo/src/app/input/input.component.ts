@@ -9,7 +9,7 @@ import { FormControl, Validators } from '@angular/forms';
 export class InputComponent implements OnInit {
 
     formControl = new FormControl('', [Validators.required, Validators.minLength(3)]);
-    _errors = ['error1', 'error2'];
+    exampleErrors = ['error1', 'error2'];
     errors: Array<string> = [];
 
     constructor() { }
@@ -18,6 +18,6 @@ export class InputComponent implements OnInit {
     }
 
     toggle = () => {
-        this.errors = this.errors.length === 0 ? [...this._errors] : [];
+        this.errors = this.errors.length === 0 ? [...this.exampleErrors] : [];
     }
 }

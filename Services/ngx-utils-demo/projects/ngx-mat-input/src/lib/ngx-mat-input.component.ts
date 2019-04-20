@@ -5,6 +5,7 @@ import { errorEnterLeaveAnimation, hintEnterLeaveAnimation } from './animations'
 
 /** TODO: create unit tests */
 @Component({
+    // tslint:disable-next-line
     selector: 'ngx-mat-input',
     templateUrl: './ngx-mat-input.component.html',
     styleUrls: ['./ngx-mat-input.component.scss'],

@@ -12,7 +12,7 @@ import { NgxLinkStylesheetService } from 'projects/ngx-link-stylesheet/src/publi
 export class AppComponent implements OnInit {
 
     title = 'ngx-utils-demo';
-    
+
     constructor(
         private util: NgxHttpParamsService,
         private http: HttpClient,
