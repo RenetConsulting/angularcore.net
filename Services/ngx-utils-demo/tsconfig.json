@@ -50,6 +50,12 @@
       ],
       "ngx-mat-input/*": [
         "dist/ngx-mat-input/*"
+      ],
+      "ngx-uploader": [
+        "dist/ngx-uploader"
+      ],
+      "ngx-uploader/*": [
+        "dist/ngx-uploader/*"
       ]
     }
   }
