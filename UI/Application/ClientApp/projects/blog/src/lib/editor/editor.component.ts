@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, Inject, Input, OnChanges, OnDestroy
 import { ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { QuillModules } from 'ngx-quill';
-import Quill from 'quill';
 import { Subscription } from 'rxjs';
 import { FileListComponent } from '../file-list/file-list.component';
 
@@ -20,11 +19,11 @@ export class EditorComponent implements OnChanges, OnInit, OnDestroy, ControlVal
     @Input() maxlength: number;
     readonly subscription = new Subscription();
     disabled: boolean;
-    onChange: (i) => any | null;
-    onTouched;
+    onChange: (i) => void;
+    onTouched: () => void;
     value;
     modules: QuillModules;
-    private quill: Quill;
+    private quill;
 
     constructor(
         @Self() @Inject(NgControl) public ngControl: NgControl,

@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { CreateBlogRequest } from '../actions';
 import { BlogModel } from '../blog.model';
 import { RootBlogStore } from '../reducers';
 
-/** TODO: created validators */
 @Component({
     selector: 'lib-blog-dashboard',
     templateUrl: './blog-dashboard.component.html',
@@ -25,8 +24,8 @@ export class BlogDashboardComponent implements OnInit {
 
     setFormGroup = (): void => {
         this.formGroup = new FormGroup({
-            title: new FormControl(),
-            content: new FormControl()
+            title: new FormControl(null, [Validators.required]),
+            content: new FormControl(null, [Validators.required])
         } as MapPick<BlogModel, keyof BlogModel, FormControl>);
     }
 

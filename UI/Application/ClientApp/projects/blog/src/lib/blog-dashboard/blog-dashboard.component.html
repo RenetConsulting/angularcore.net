@@ -1,17 +1,7 @@
 <form [formGroup]="formGroup">
     <mat-card>
-        <mat-card-header>
-            <mat-card-title>
-                <mat-form-field class="w-100">
-                    <input matInput placeholder="Title" formControlName="title">
-                </mat-form-field>
-            </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <lib-editor formControlName="content"></lib-editor>
-        </mat-card-content>
-        <mat-card-actions>
-            <button mat-raised-button type="button" color="primary" [disabled]="formGroup.pristine || formGroup.invalid" (click)="submit()">Save</button>
-        </mat-card-actions>
+        <ngx-mat-input placeholder="Title" formControlName="title"></ngx-mat-input>
+        <lib-editor formControlName="content"></lib-editor>
+        <button mat-raised-button type="button" color="primary" [disabled]="formGroup.pristine || formGroup.invalid" (click)="submit()">Save</button>
     </mat-card>
 </form>

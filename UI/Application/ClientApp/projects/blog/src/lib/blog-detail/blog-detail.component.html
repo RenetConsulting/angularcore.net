@@ -1,17 +1,7 @@
 <form [formGroup]="formGroup">
     <mat-card *ngIf="item | async as blog">
-        <mat-card-header>
-            <mat-card-title>
-                <mat-form-field class="w-100">
-                    <input matInput placeholder="Title" formControlName="title">
-                </mat-form-field>
-            </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <lib-editor formControlName="content" [readonly]="!blog.editable"></lib-editor>
-        </mat-card-content>
-        <mat-card-actions *ngIf="blog.editable">
-            <button mat-raised-button type="button" color="primary" [disabled]="formGroup.pristine || formGroup.invalid" (click)="submit()">Update</button>
-        </mat-card-actions>
+        <ngx-mat-input placeholder="Title" formControlName="title"></ngx-mat-input>
+        <lib-editor formControlName="content" [readonly]="!blog.editable"></lib-editor>
+        <button *ngIf="blog.editable" mat-raised-button type="button" color="primary" [disabled]="formGroup.pristine || formGroup.invalid" (click)="submit()">Update</button>
     </mat-card>
 </form>

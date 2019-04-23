@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { tap } from 'rxjs/operators';
@@ -8,7 +8,6 @@ import { BlogModel } from '../blog.model';
 import { RootBlogStore } from '../reducers';
 import { selectSelectedBlog } from '../selectors';
 
-/** TODO: created validators */
 @Component({
     selector: 'lib-blog-detail',
     templateUrl: './blog-detail.component.html',
@@ -32,8 +31,8 @@ export class BlogDetailComponent implements OnInit {
 
     setFormGroup = (): void => {
         this.formGroup = new FormGroup({
-            title: new FormControl(),
-            content: new FormControl()
+            title: new FormControl(null, [Validators.required]),
+            content: new FormControl(null, [Validators.required])
         } as MapPick<BlogModel, keyof BlogModel, FormControl>);
     }
 

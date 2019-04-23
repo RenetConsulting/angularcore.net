@@ -20,7 +20,9 @@
     "@ngrx/effects": "^7.3.0",
     "@ngrx/entity": "7.3.0",
     "@ngrx/store": "^7.3.0",
-    "@renet-consulting/ngx-utils": "^0.0.3",
+    "@renet-consulting/ngx-mat-input": "^0.0.2",
+    "@renet-consulting/ngx-uploader": "^0.0.1",
+    "@renet-consulting/ngx-validator": "^0.0.2",
     "ngx-quill": "^4.8.0",
     "quill": "1.3.6"
   }
