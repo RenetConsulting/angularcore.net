@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, Inject, Input, OnChanges, OnDestroy, OnInit, Optional, Self } from '@angular/core';
-import { FormGroupDirective, NgControl } from '@angular/forms';
+import { ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { QuillModules } from 'ngx-quill';
+import Quill from 'quill';
 import { Subscription } from 'rxjs';
 import { FileListComponent } from '../file-list/file-list.component';
 
@@ -10,7 +11,7 @@ import { FileListComponent } from '../file-list/file-list.component';
     templateUrl: './editor.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditorComponent implements OnChanges, OnInit, OnDestroy {
+export class EditorComponent implements OnChanges, OnInit, OnDestroy, ControlValueAccessor {
 
     @Input() placeholder: string;
     @Input() readonly: boolean;
@@ -23,6 +24,7 @@ export class EditorComponent implements OnChanges, OnInit, OnDestroy {
     onTouched;
     value;
     modules: QuillModules;
+    private quill: Quill;
 
     constructor(
         @Self() @Inject(NgControl) public ngControl: NgControl,
@@ -82,8 +84,8 @@ export class EditorComponent implements OnChanges, OnInit, OnDestroy {
         this.modules = this.readonly ? { toolbar: false } : null;
     }
 
-    /** TODO: create file uploader component */
     onEditorCreated = (quill): void => {
+        this.quill = quill;
         const toolbar = quill.getModule('toolbar');
         if (toolbar) {
             toolbar.addHandler('image', this.openDialog);
@@ -91,6 +93,16 @@ export class EditorComponent implements OnChanges, OnInit, OnDestroy {
     }
 
     openDialog = (): void => {
-        this.dialog.open(FileListComponent);
+        const ref = this.dialog.open(FileListComponent);
+        ref.componentInstance.insertImage = (x): void => {
+            this.insertImage(x);
+            ref.close();
+        };
+    }
+
+    insertImage = (link: string): void => {
+        const range = this.quill.getSelection();
+        const index = range && range.index || this.quill.getLength();
+        this.quill.insertEmbed(index, 'image', link);
     }
 }

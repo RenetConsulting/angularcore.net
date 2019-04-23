@@ -6,7 +6,7 @@ import { BLOG_DEFAULT_OPTIONS } from '../blog-options.token';
 import { IRequestList } from '../request-list';
 import { IResponseList } from '../response-list';
 import { FileModel } from './file.model';
-import { mapFilesToFormData } from './map-files-to-form-data';
+import { getFormData } from './get-form-data';
 
 @Injectable({
     providedIn: 'root'
@@ -24,7 +24,7 @@ export class FileService {
     }
 
     upload = (items: FileList) => this.http
-        .post<FileModel>(`${this.url}`, mapFilesToFormData(items))
+        .post<FileModel>(`${this.url}`, getFormData(items))
 
     getFiles = (request: IRequestList) => this.http
         .get<IResponseList<FileModel>>(`${this.url}`, { params: this.params.map(request) })

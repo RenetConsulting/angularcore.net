@@ -1,8 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import * as UIActions from './actions';
 import { FileService } from './file.service';
 import { FileTypes } from './types';
@@ -13,7 +12,6 @@ export class FileEffects {
     constructor(
         @Inject(Actions) private actions: Actions,
         @Inject(FileService) private fileService: FileService,
-        @Inject(MatDialog) private dialog: MatDialog,
     ) { }
 
     @Effect() createFileRequest = this.actions.pipe(
@@ -38,10 +36,5 @@ export class FileEffects {
             map(() => new UIActions.DeleteFileSuccess(a.payload)),
             catchError(e => of(new UIActions.DeleteFileError(e.error)))
         ))
-    );
-
-    @Effect({ dispatch: false }) selectFile = this.actions.pipe(
-        ofType<UIActions.SelectFile>(FileTypes.SELECT_FILE),
-        tap(() => this.dialog.closeAll())
     );
 }

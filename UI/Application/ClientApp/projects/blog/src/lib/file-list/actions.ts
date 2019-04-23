@@ -43,11 +43,6 @@ export class DeleteFileError implements Action {
     constructor(readonly error) { }
 }
 
-export class SelectFile implements Action {
-    readonly type = FileTypes.SELECT_FILE;
-    constructor(readonly payload: string) { }
-}
-
 export type FileActionsUnion = UploadFileRequest
     | UploadFileSuccess
     | UploadFileError
@@ -57,4 +52,3 @@ export type FileActionsUnion = UploadFileRequest
     | DeleteFileRequest
     | DeleteFileSuccess
     | DeleteFileError
-    | SelectFile

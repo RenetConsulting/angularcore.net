@@ -10,6 +10,4 @@ export enum FileTypes {
     DELETE_FILE_REQUEST = '[FileTypes]DELETE_FILE_REQUEST',
     DELETE_FILE_SUCCESS = '[FileTypes]DELETE_FILE_SUCCESS',
     DELETE_FILE_ERROR = '[FileTypes]DELETE_FILE_ERROR',
-
-    SELECT_FILE = '[FileTypes]SELECT_FILE',
 }

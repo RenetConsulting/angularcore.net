@@ -16,7 +16,7 @@ const sortComparer = (a: FileModel, b: FileModel) =>
 
 const adapter = createEntityAdapter({ selectId, sortComparer });
 
-export const { selectAll: getFiles, selectEntities: getFileEntities, selectTotal: getFilesTotal } = adapter.getSelectors();
+export const { selectAll: getFiles, selectTotal: getFilesTotal } = adapter.getSelectors();
 
 const INITIAL_STATE: FileState = adapter.getInitialState({});
 
@@ -40,8 +40,6 @@ export function fileReducer(state = INITIAL_STATE, action: FileActionsUnion): Fi
         case FileTypes.DELETE_FILE_REQUEST: return { ...state, loading: true };
         case FileTypes.DELETE_FILE_SUCCESS: return { ...adapter.removeOne(action.payload, state), loading: false };
         case FileTypes.DELETE_FILE_ERROR: return { ...state, loading: false };
-
-        case FileTypes.SELECT_FILE: return { ...state, selectedFileId: action.payload };
 
         default: return state;
     }

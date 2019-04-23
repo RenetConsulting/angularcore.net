@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { RootBlogStore } from '../reducers';
-import { DeleteFileRequest, GetFilesRequest, SelectFile, UploadFileRequest } from './actions';
+import { DeleteFileRequest, GetFilesRequest, UploadFileRequest } from './actions';
 import { FileModel } from './file.model';
 import { selectFiles, selectFilesAmount, selectFilesTotal } from './selectors';
 
@@ -13,6 +13,7 @@ import { selectFiles, selectFilesAmount, selectFilesTotal } from './selectors';
 })
 export class FileListComponent implements OnInit {
 
+    @Input() insertImage: (x: string) => void;
     items = this.store.select(selectFiles);
     itemsTotal = this.store.select(selectFilesTotal);
     itemsAmount = this.store.select(selectFilesAmount);
@@ -36,6 +37,5 @@ export class FileListComponent implements OnInit {
     delete = (item: FileModel): void => this.store
         .dispatch(new DeleteFileRequest(item.fileId));
 
-    select = (item: FileModel): void => this.store
-        .dispatch(new SelectFile(item.fileId));
+    select = (item: FileModel): void => this.insertImage(item.fileUrl);
 }
