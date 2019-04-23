@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { NgxHttpParamsService } from 'projects/ngx-http-params/src/public-api';
 import { NgxLinkStylesheetService } from 'projects/ngx-link-stylesheet/src/public_api';
 
@@ -13,15 +12,6 @@ import { NgxLinkStylesheetService } from 'projects/ngx-link-stylesheet/src/publi
 export class AppComponent implements OnInit {
 
     title = 'ngx-utils-demo';
-    readonly formControl = new FormControl('', [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(6),
-        this.helloBobValidator
-    ]);
-    readonly formGroup = new FormGroup({ control: this.formControl });
-    errorMessage: string;
-
 
     constructor(
         private util: NgxHttpParamsService,
@@ -30,9 +20,6 @@ export class AppComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.link.updateLink('hello-bob', 'assets/test.css');
-
-
         this.http.get('https://httpbin.org/get', {
             params: this.util.map({
                 param1: 'val1',
@@ -44,10 +31,7 @@ export class AppComponent implements OnInit {
         }).subscribe(console.log);
     }
 
-    /** internal */
-    helloBobValidator(control: AbstractControl): ValidationErrors | null {
-        return control.value && control.value.toLowerCase() === 'bob' ? { errorMessage: 'Hello Bob!!!' } : null;
+    setTheme = () => {
+        this.link.updateLink('hello-bob', 'assets/test.css');
     }
-
-    setError = (e) => this.errorMessage = e;
 }

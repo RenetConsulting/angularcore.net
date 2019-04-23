@@ -27,8 +27,10 @@ describe('NgxValidatorDirective', () => {
     });
     it('ngOnChanges', () => {
         spyOn(directive, 'emitError');
+        spyOn(directive, 'setTitle');
         directive.ngOnChanges();
         expect(directive.emitError).toHaveBeenCalled();
+        expect(directive.setTitle).toHaveBeenCalled();
     });
     it('ngOnInit', () => {
         spyOn(directive.subscription, 'add');
@@ -96,6 +98,24 @@ describe('NgxValidatorDirective', () => {
             Object.defineProperty(ngControl, 'touched', { get: () => false });
             directive.emitError();
             expect(directive.validate.emit).not.toHaveBeenCalled();
+        });
+    });
+    describe('setTitle', () => {
+        it('label', () => {
+            const value = 'bob';
+            directive.label = value;
+            directive.setTitle();
+            expect(directive.title).toEqual(value);
+        });
+        it('placeholder', () => {
+            const value = 'bob';
+            directive.placeholder = value;
+            directive.setTitle();
+            expect(directive.title).toEqual(value);
+        });
+        it('title', () => {
+            directive.setTitle();
+            expect(directive.title).toEqual(directive.title);
         });
     });
 });

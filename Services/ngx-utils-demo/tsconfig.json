@@ -44,6 +44,18 @@
       ],
       "core-captcha/*": [
         "dist/core-captcha/*"
+      ],
+      "ngx-mat-input": [
+        "dist/ngx-mat-input"
+      ],
+      "ngx-mat-input/*": [
+        "dist/ngx-mat-input/*"
+      ],
+      "ngx-uploader": [
+        "dist/ngx-uploader"
+      ],
+      "ngx-uploader/*": [
+        "dist/ngx-uploader/*"
       ]
     }
   }

@@ -4,13 +4,15 @@ import { Subscription } from 'rxjs';
 
 @Directive({
     // tslint:disable-next-line
-    selector: 'input[validate][formControlName], textarea[validate][formControlName], input[validate][formControl], textarea[validate][formControl]',
+    selector: '[validate][formControlName], [validate][formControl]',
 })
 export class NgxValidatorDirective implements OnChanges, OnInit, OnDestroy {
 
-    @Input() title = 'Field';
+    @Input() label: string;
+    @Input() placeholder: string;
     @Output() readonly validate = new EventEmitter<string | null>();
     readonly subscription = new Subscription();
+    title = 'Field';
 
     constructor(
         @Inject(NgControl) private ngControl: NgControl
@@ -18,6 +20,7 @@ export class NgxValidatorDirective implements OnChanges, OnInit, OnDestroy {
 
     ngOnChanges(): void {
         this.emitError();
+        this.setTitle();
     }
 
     ngOnInit(): void {
@@ -28,8 +31,10 @@ export class NgxValidatorDirective implements OnChanges, OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
 
+    /** internal */
     @HostListener('blur') blur = (): void => this.emitError();
 
+    /** internal */
     get error(): string | null {
         const errors = this.ngControl.errors;
         if (errors) {
@@ -58,9 +63,15 @@ export class NgxValidatorDirective implements OnChanges, OnInit, OnDestroy {
         return null;
     }
 
+    /** internal */
     emitError = (): void => {
         if (this.ngControl.enabled && this.ngControl.touched) {
             this.validate.emit(this.error);
         }
+    }
+
+    /** internal */
+    setTitle = (): void => {
+        this.title = this.label || this.placeholder || this.title;
     }
 }

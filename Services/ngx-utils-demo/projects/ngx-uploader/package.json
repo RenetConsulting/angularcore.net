@@ -1,11 +1,11 @@
 {
-  "name": "@renet-consulting/ngx-validator",
-  "version": "0.0.2",
+  "name": "@renet-consulting/ngx-uploader",
+  "version": "0.0.1",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
   "homepage": "https://github.com/RenetConsulting/angularcore.net",
-  "description": "This library provides a validator that emits basic errors such as requred, required, email, minlength and maxlength.",
+  "description": "This library provides simple file uploader without http.",
   "bugs": {
     "url": "https://github.com/RenetConsulting/angularcore.net/issues"
   },
@@ -15,7 +15,6 @@
   },
   "peerDependencies": {
     "@angular/common": "^7.0.0",
-    "@angular/core": "^7.0.0",
-    "@angular/forms": "^7.0.0"
+    "@angular/core": "^7.0.0"
   }
 }
