@@ -1,65 +1,63 @@
-import { AfterViewInit, Directive, EventEmitter, HostListener, Inject, Input, OnDestroy, Output, Renderer2 } from '@angular/core';
-import { FileError, FileOption } from './models';
-import { emitOpload } from './utils';
+import { Directive, EventEmitter, HostListener, Inject, OnChanges, OnDestroy, OnInit, Output, Renderer2 } from '@angular/core';
+import { NgxUploaderBase } from './ngx-uploader.base';
 
 @Directive({
     selector: '[ngx-select]',
 })
-export class NgxSelectDirective implements AfterViewInit, OnDestroy {
+export class NgxSelectDirective extends NgxUploaderBase implements OnChanges, OnInit, OnDestroy {
 
-    @Input() accept: string;
-    @Input() multiple: boolean;
-    @Input() options: FileOption = {};
-    @Output('ngx-select') readonly emitter = new EventEmitter<File | File[] | FileError>();
-    private fileElm: HTMLInputElement;
-    changeListen: () => void;
+    @Output('ngx-select') readonly emitter = new EventEmitter<Array<File>>();
+    private element: HTMLInputElement;
+    unlisten: () => void;
 
     constructor(
-        @Inject(Renderer2) private render: Renderer2
-    ) { }
+        @Inject(Renderer2) private renderer: Renderer2
+    ) {
+        super();
+    }
 
-    ngAfterViewInit(): void {
-        if (!this.fileElm) {
-            this.fileElm = this.render.createElement('input');
-            this.render.setAttribute(this.fileElm, 'type', 'file');
-        }
+    ngOnChanges(): void {
+        this.setAttributes();
+    }
+
+    ngOnInit(): void {
+        this.element = this.renderer.createElement('input');
+        this.renderer.setAttribute(this.element, 'type', 'file');
+        this.setAttributes();
     }
 
     ngOnDestroy(): void {
-        // remove listen
         this.removeListen();
     }
 
-    @HostListener('click', ['$event']) click() {
-        this.bindBeforeClick();
-
-        this.fileElm.click();
+    @HostListener('click') click = (): void => {
+        this.removeListen();
+        this.unlisten = this.renderer.listen(this.element, 'change', this.uploadFiles);
+        this.element.click();
     }
 
-    private bindBeforeClick() {
-        if (this.multiple) {
-            this.render.setAttribute(this.fileElm, 'multiple', '');
+    /** internal */
+    uploadFiles = (): void => {
+        if (this.element.files.length) {
+            this.emit(this.element.files);
         }
-        else {
-            this.render.removeAttribute(this.fileElm, 'multiple');
-        }
-        this.render.setAttribute(this.fileElm, 'accept', this.accept);
+        this.element.value = '';
         this.removeListen();
-        this.changeListen = this.render.listen(this.fileElm, 'change', () => {
-            // when length is more than 0
-            if (this.fileElm.files.length) {
-                this.emitter.emit(
-                    emitOpload(this.fileElm.files, this.accept, this.multiple, this.options)
-                );
+    }
+
+    /** internal */
+    setAttributes = (): void => {
+        if (this.element) {
+            this.renderer.setAttribute(this.element, 'accept', this.accept);
+            if (this.multiple) {
+                this.renderer.setAttribute(this.element, 'multiple', '');
             }
-            this.fileElm.value = '';
-            this.changeListen();
-        });
-    }
-
-    private removeListen() {
-        if (this.changeListen) {
-            this.changeListen();
+            else {
+                this.renderer.removeAttribute(this.element, 'multiple');
+            }
         }
     }
+
+    /** internal */
+    removeListen = (): void => this.unlisten && this.unlisten();
 }
