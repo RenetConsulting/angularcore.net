@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { QuillModules } from 'ngx-quill';
 import { Subscription } from 'rxjs';
 import { FileListComponent } from '../file-list/file-list.component';
+import { mapMaxLength, mapMinLength } from './validators';
 
 @Component({
     selector: 'lib-editor',
@@ -15,8 +16,9 @@ export class EditorComponent implements OnChanges, OnInit, OnDestroy, ControlVal
     @Input() placeholder: string;
     @Input() readonly: boolean;
     @Input() required: boolean;
-    @Input() minlength: number;
-    @Input() maxlength: number;
+    @Input() minLength: number;
+    @Input() maxLength: number;
+    @Input() label: number;
     readonly subscription = new Subscription();
     disabled: boolean;
     onChange: (i) => void;
@@ -24,6 +26,7 @@ export class EditorComponent implements OnChanges, OnInit, OnDestroy, ControlVal
     value;
     modules: QuillModules;
     private quill;
+    error: string;
 
     constructor(
         @Self() @Inject(NgControl) public ngControl: NgControl,
@@ -43,11 +46,10 @@ export class EditorComponent implements OnChanges, OnInit, OnDestroy, ControlVal
 
     ngOnInit(): void {
         if (this.formGroup) {
-            this.subscription.add(this.formGroup.ngSubmit.subscribe(() => {
-                this.ngControl.control.markAsDirty();
-                this.ngControl.control.markAsTouched();
-                this.ngControl.control.updateValueAndValidity();
-            }));
+            this.subscription.add(this.formGroup.ngSubmit.subscribe(this.updateControl));
+        }
+        if (this.ngControl) {
+            this.ngControl.control.setValidators([this.ngControl.control.validator, mapMinLength, mapMaxLength]);
         }
     }
 
@@ -79,6 +81,13 @@ export class EditorComponent implements OnChanges, OnInit, OnDestroy, ControlVal
     }
 
     /** internal */
+    updateControl = (): void => {
+        this.ngControl.control.markAsDirty();
+        this.ngControl.control.markAsTouched();
+        this.ngControl.control.updateValueAndValidity();
+    }
+
+    /** internal */
     setModules = (): void => {
         this.modules = this.readonly ? { toolbar: false } : null;
     }
@@ -103,5 +112,9 @@ export class EditorComponent implements OnChanges, OnInit, OnDestroy, ControlVal
         const range = this.quill.getSelection();
         const index = range && range.index || this.quill.getLength();
         this.quill.insertEmbed(index, 'image', link);
+    }
+
+    setError = (e): void => {
+        this.error = e;
     }
 }

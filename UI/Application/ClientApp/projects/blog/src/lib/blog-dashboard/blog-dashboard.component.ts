@@ -24,8 +24,8 @@ export class BlogDashboardComponent implements OnInit {
 
     setFormGroup = (): void => {
         this.formGroup = new FormGroup({
-            title: new FormControl(null, [Validators.required]),
-            content: new FormControl(null, [Validators.required])
+            title: new FormControl('', [Validators.required]),
+            content: new FormControl('', [Validators.required])
         } as MapPick<BlogModel, keyof BlogModel, FormControl>);
     }
 

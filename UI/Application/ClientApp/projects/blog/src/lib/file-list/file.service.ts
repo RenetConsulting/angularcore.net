@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
+import { getFormData } from '@renet-consulting/ngx-uploader';
 import { IBlogOptions } from '../blog-options';
 import { BLOG_DEFAULT_OPTIONS } from '../blog-options.token';
 import { IRequestList } from '../request-list';
 import { IResponseList } from '../response-list';
 import { FileModel } from './file.model';
-import { getFormData } from './get-form-data';
 
 @Injectable({
     providedIn: 'root'

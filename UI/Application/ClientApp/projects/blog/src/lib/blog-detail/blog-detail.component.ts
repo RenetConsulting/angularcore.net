@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { tap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { GetBlogRequest, UpdateBlogRequest } from '../actions';
 import { BlogModel } from '../blog.model';
 import { RootBlogStore } from '../reducers';
@@ -13,9 +14,10 @@ import { selectSelectedBlog } from '../selectors';
     templateUrl: './blog-detail.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BlogDetailComponent implements OnInit {
+export class BlogDetailComponent implements OnInit, OnDestroy {
 
     readonly item = this.store.select(selectSelectedBlog).pipe(tap(i => this.updateFormGroup(i)));
+    readonly subscription = new Subscription();
     formGroup: FormGroup;
 
     constructor(
@@ -25,14 +27,17 @@ export class BlogDetailComponent implements OnInit {
 
     ngOnInit(): void {
         this.setFormGroup();
-        const blogId = this.route.snapshot.paramMap.get('blogId');
-        this.store.dispatch(new GetBlogRequest(blogId));
+        this.subscription.add(this.route.params.pipe(map(x => x.blogId)).subscribe(x => this.store.dispatch(new GetBlogRequest(x))));
+    }
+
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
     }
 
     setFormGroup = (): void => {
         this.formGroup = new FormGroup({
-            title: new FormControl(null, [Validators.required]),
-            content: new FormControl(null, [Validators.required])
+            title: new FormControl('', [Validators.required]),
+            content: new FormControl('', [Validators.required])
         } as MapPick<BlogModel, keyof BlogModel, FormControl>);
     }
 
