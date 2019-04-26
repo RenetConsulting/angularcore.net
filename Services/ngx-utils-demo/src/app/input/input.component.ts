@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-input',
@@ -8,8 +8,11 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class InputComponent implements OnInit {
 
-    input = new FormControl('', [Validators.required, Validators.minLength(3)]);
-    textarea = new FormControl('', [Validators.required, Validators.minLength(3)]);
+    readonly formGroup = new FormGroup({
+        input: new FormControl('', [Validators.required, Validators.minLength(3)]),
+        placeholder: new FormControl('', [Validators.required, Validators.minLength(3)]),
+        textarea: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    })
     exampleErrors = ['error1', 'error2'];
     errors: Array<string> = [];
 

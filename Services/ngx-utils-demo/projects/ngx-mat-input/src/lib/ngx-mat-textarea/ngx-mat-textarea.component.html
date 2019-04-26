@@ -1,7 +1,7 @@
 <mat-form-field class="w-100 mt-3" [appearance]="appearance">
     <mat-label>{{placeholder}}</mat-label>
     <textarea matInput cdkTextareaAutosize cdkAutosizeMaxRows="15" [cdkAutosizeMinRows]="minRows" [label]="label" [required]="required"
-              [minlength]="minlength" [maxlength]="maxlength" [readonly]="readonly" [formControl]="ngControl?.control"
+              [minlength]="minlength" [maxlength]="maxlength" [readonly]="readonly" [formControl]="ngControl?.control" [placeholder]="placeholder"
               (validate)="setError($event)"></textarea>
 </mat-form-field>
 <mat-error [@errorEnterLeave]="errorState">

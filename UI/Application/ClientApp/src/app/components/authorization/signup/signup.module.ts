@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { CoreCaptchaModule, NGX_CORE_CAPTCHA_OPTIONS } from '@renet-consulting/core-captcha';
-import { ControlInputModule } from '~/components/control-input/control-input.module';
+import { NgxMatInputModule } from '@renet-consulting/ngx-mat-input';
 import { SocialMediaModule } from '~/components/social-media/social-media.module';
 import { CORE_CAPTCHA_OPTIONS } from '~/consts/core-captcha-options';
 import { SignupEffects } from './effects';
@@ -26,7 +26,7 @@ import { SignupComponent } from './signup.component';
         SignupRoutingModule,
         ReactiveFormsModule,
         MatButtonModule,
-        ControlInputModule,
+        NgxMatInputModule,
         SocialMediaModule,
         MatCheckboxModule,
         MatInputModule,
