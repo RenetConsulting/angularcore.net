@@ -18,6 +18,6 @@ export class UploaderComponent implements OnInit {
 
     upload = (x) => {
         console.log(x);
-        this.http.post('https://httpbin.org/post', getFormData(x)).subscribe(console.log)
+        this.http.post('https://httpbin.org/post', getFormData(x)).subscribe(console.log);
     }
 }

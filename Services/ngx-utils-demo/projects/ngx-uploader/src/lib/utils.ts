@@ -24,4 +24,4 @@ export const getFormData = (files: Array<File> | FileList) => {
     const result = new FormData();
     Array.from(files).forEach(x => result.append(x.name, x));
     return result;
-}
+};
