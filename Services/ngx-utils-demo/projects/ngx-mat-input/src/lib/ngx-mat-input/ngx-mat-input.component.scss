@@ -1,8 +1,8 @@
-ngx-mat-input {
-
+@mixin ngx-mat {
     mat-error {
         overflow: hidden;
-        white-space: nowrap;
+        white-space: inherit;
+        min-height: 28px;
     }
 
     mat-hint {
@@ -25,4 +25,12 @@ ngx-mat-input {
         margin-top: initial;
         top: initial;
     }
+
+    .mat-form-field-wrapper {
+        padding-bottom: 0;
+    }
+}
+
+ngx-mat-input {
+    @include ngx-mat;
 }

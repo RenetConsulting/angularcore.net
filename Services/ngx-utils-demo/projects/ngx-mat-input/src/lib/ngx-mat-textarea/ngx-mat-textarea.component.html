@@ -4,12 +4,20 @@
               [minlength]="minlength" [maxlength]="maxlength" [readonly]="readonly" [formControl]="ngControl?.control" [placeholder]="placeholder"
               (validate)="setError($event)"></textarea>
 </mat-form-field>
-<mat-error [@errorEnterLeave]="errorState">
-    <div *ngIf="error" class=" mb-1">{{error}}</div>
-</mat-error>
-<mat-error [@errorEnterLeave]="errorsState">
-    <div *ngFor="let item of errors" class="mb-1"><i class="fas fa-exclamation-circle"></i> {{item}}</div>
-</mat-error>
-<mat-hint *ngIf="maxlength" [@hintEnterLeave]="hintState">
-    <div *ngIf="showHint" class="mt-1">{{ngControl.control.value?.length || 0}}/{{maxlength}}</div>
-</mat-hint>
+<div class="d-flex justify-content-between">
+    <div>
+        <mat-error [@errorEnterLeave]="errorState">
+            <div *ngIf="error" class=" mb-1">{{error}}</div>
+        </mat-error>
+    </div>
+    <div>
+        <mat-error [@errorEnterLeave]="errorsState">
+            <div *ngFor="let item of errors" class="mb-1"><i class="fas fa-exclamation-circle"></i> {{item}}</div>
+        </mat-error>
+    </div>
+    <div>
+        <mat-hint *ngIf="maxlength" [@hintEnterLeave]="hintState">
+            <div *ngIf="showHint" class="mt-1">{{ngControl.control.value?.length || 0}}/{{maxlength}}</div>
+        </mat-hint>
+    </div>
+</div>
