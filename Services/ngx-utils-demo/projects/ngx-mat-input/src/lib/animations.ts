@@ -8,6 +8,10 @@ const ERROR_END = { opacity: 1, width: '*', height: '*' };
 const HINT_START = { opacity: 0, height: '0px' };
 const HINT_END = { opacity: 1, height: '*' };
 
+/**
+ * about duration read at https://material.io/design/motion/speed.html#duration
+ * about easing read at https://material.io/design/motion/speed.html#easing
+ */
 export function enterLeaveAnimationFactory(name: string, start: StyleType, end: StyleType) {
     return trigger(name, [
         transition(':enter, * => void', []),
@@ -29,10 +33,6 @@ export function enterLeaveAnimationFactory(name: string, start: StyleType, end: 
     ]);
 }
 
-/**
- * about duration read at https://material.io/design/motion/speed.html#duration
- * about easing read at https://material.io/design/motion/speed.html#easing
- */
 export const errorEnterLeaveAnimation = enterLeaveAnimationFactory('errorEnterLeave', ERROR_START, ERROR_END);
 
 export const hintEnterLeaveAnimation = enterLeaveAnimationFactory('hintEnterLeave', HINT_START, HINT_END);

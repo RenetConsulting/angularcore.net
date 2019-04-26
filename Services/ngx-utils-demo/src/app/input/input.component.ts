@@ -8,7 +8,8 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class InputComponent implements OnInit {
 
-    formControl = new FormControl('', [Validators.required, Validators.minLength(3)]);
+    input = new FormControl('', [Validators.required, Validators.minLength(3)]);
+    textarea = new FormControl('', [Validators.required, Validators.minLength(3)]);
     exampleErrors = ['error1', 'error2'];
     errors: Array<string> = [];
 

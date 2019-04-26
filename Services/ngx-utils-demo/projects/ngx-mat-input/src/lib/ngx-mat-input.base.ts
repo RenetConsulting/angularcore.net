@@ -1,24 +1,12 @@
-import { ChangeDetectionStrategy, Component, Inject, Input, OnChanges, OnDestroy, OnInit, Optional, Self, ViewEncapsulation } from '@angular/core';
+import { Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
+import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { Subscription } from 'rxjs';
-import { errorEnterLeaveAnimation, hintEnterLeaveAnimation } from './animations';
 
-/** TODO: create unit tests */
-@Component({
-    // tslint:disable-next-line
-    selector: 'ngx-mat-input',
-    templateUrl: './ngx-mat-input.component.html',
-    styleUrls: ['./ngx-mat-input.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None,
-    animations: [errorEnterLeaveAnimation, hintEnterLeaveAnimation]
-})
-export class NgxMatInputComponent implements ControlValueAccessor, OnChanges, OnInit, OnDestroy {
+export abstract class NgxMatInputBase implements ControlValueAccessor, OnChanges, OnInit, OnDestroy {
 
-    @Input() autocomplete: 'on' | 'off' = 'off';
     @Input() placeholder: string;
     @Input() readonly: boolean;
-    @Input() type = 'text';
     @Input() required: boolean;
     @Input() minlength: number;
     @Input() maxlength: number;
@@ -26,6 +14,7 @@ export class NgxMatInputComponent implements ControlValueAccessor, OnChanges, On
     @Input() label: number;
     /** entry for custom errors */
     @Input() errors: Array<string>;
+    @Input() appearance: MatFormFieldAppearance;
     readonly subscription = new Subscription();
     disabled: boolean;
     onChange: (x) => any | null;
@@ -38,8 +27,8 @@ export class NgxMatInputComponent implements ControlValueAccessor, OnChanges, On
     hintState: number;
 
     constructor(
-        @Optional() @Self() @Inject(NgControl) public ngControl: NgControl,
-        @Optional() @Inject(FormGroupDirective) private formGroup: FormGroupDirective,
+        public ngControl: NgControl,
+        private formGroup: FormGroupDirective,
     ) {
         if (this.ngControl) {
             this.ngControl.valueAccessor = this;
@@ -62,6 +51,10 @@ export class NgxMatInputComponent implements ControlValueAccessor, OnChanges, On
 
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
+    }
+
+    get showHint() {
+        return !this.error && (Array.isArray(this.errors) && this.errors.length === 0 || !this.errors);
     }
 
     /** internal */
@@ -94,7 +87,7 @@ export class NgxMatInputComponent implements ControlValueAccessor, OnChanges, On
 
     /** internal */
     setHintState = (): void => {
-        this.hintState = !this.error && Array.isArray(this.errors) && this.errors.length === 0 ? 1 : 0;
+        this.hintState = this.showHint ? 1 : 0;
     }
 
     /** internal */
