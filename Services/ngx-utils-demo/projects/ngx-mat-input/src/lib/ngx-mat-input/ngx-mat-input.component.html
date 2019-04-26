@@ -10,5 +10,5 @@
     <div *ngFor="let item of errors" class="mb-1"><i class="fas fa-exclamation-circle"></i> {{item}}</div>
 </mat-error>
 <mat-hint *ngIf="maxlength" [@hintEnterLeave]="hintState">
-    <div *ngIf="!error && (errors?.length === 0 || !errors)" class="mt-1">{{ngControl.control.value?.length || 0}}/{{maxlength}}</div>
+    <div *ngIf="showHint" class="mt-1">{{ngControl.control.value?.length || 0}}/{{maxlength}}</div>
 </mat-hint>

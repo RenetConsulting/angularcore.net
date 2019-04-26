@@ -53,6 +53,10 @@ export abstract class NgxMatInputBase implements ControlValueAccessor, OnChanges
         this.subscription.unsubscribe();
     }
 
+    get showHint() {
+        return !this.error && (Array.isArray(this.errors) && this.errors.length === 0 || !this.errors);
+    }
+
     /** internal */
     writeValue(value): void {
         this.value = value;
@@ -83,7 +87,7 @@ export abstract class NgxMatInputBase implements ControlValueAccessor, OnChanges
 
     /** internal */
     setHintState = (): void => {
-        this.hintState = !this.error && Array.isArray(this.errors) && this.errors.length === 0 ? 1 : 0;
+        this.hintState = this.showHint ? 1 : 0;
     }
 
     /** internal */
