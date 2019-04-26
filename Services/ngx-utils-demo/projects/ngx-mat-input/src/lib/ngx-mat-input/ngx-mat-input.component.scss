@@ -1,14 +1,22 @@
 @mixin ngx-mat {
-    mat-error {
-        overflow: hidden;
-        white-space: inherit;
+
+    .minh-28 {
         min-height: 28px;
+    }
+
+    mat-error {
+        div {
+            overflow: hidden;
+        }
     }
 
     mat-hint {
         display: block;
-        overflow: hidden;
-        text-align: end;
+        direction: rtl;
+
+        div {
+            overflow: hidden;
+        }
     }
 
     .mat-form-field-appearance-legacy .mat-form-field-underline {

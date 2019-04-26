@@ -5,8 +5,8 @@ interface StyleType { [key: string]: string | number; }
 const ERROR_START = { opacity: 0, width: '0px', height: '0px' };
 const ERROR_END = { opacity: 1, width: '*', height: '*' };
 
-const HINT_START = { opacity: 0, height: '0px' };
-const HINT_END = { opacity: 1, height: '*' };
+const HINT_START = { opacity: 0, width: '0px', height: '0px' };
+const HINT_END = { opacity: 1, width: '*', height: '*' };
 
 /**
  * about duration read at https://material.io/design/motion/speed.html#duration
