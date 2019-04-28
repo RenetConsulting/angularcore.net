@@ -18,6 +18,8 @@ export const selectSelectedBlogId = createSelector(getModule, getSelectedBlogId)
 
 export const selectSelectedBlog = createSelector(getBlogAllEntities, selectSelectedBlogId, (entities, id) => entities[id]);
 
+/** returns number of blogs that are in DB */
 export const selectBlogsTotal = createSelector(getModule, getBlogsTotal);
 
+/** returns number of blogs that are in store */
 export const selectBlogsAmount = createSelector(getModule, getBlogsAmount);

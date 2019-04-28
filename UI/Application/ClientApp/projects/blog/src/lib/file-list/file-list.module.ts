@@ -19,7 +19,7 @@ import { fileReducer } from './reducer';
         StoreModule.forFeature('file', fileReducer),
         EffectsModule.forFeature([FileEffects]),
         FileModule,
-        NgxUploaderModule
+        NgxUploaderModule,
     ]
 })
 export class FileListModule { }

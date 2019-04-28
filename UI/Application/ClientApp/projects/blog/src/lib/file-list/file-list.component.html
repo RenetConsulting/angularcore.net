@@ -1,5 +1,7 @@
 <h2>You can choose one from previous or upload a new image</h2>
-<button (ngx-drop)="upload($event)" (ngx-select)="upload($event)">upload</button>
+<div (ngx-drop)="upload($event)">
+    Drop a file here or <a (ngx-select)="upload($event)">browse from your computer</a>
+</div>
 
 <mat-dialog-content>
     <div class="row" *ngIf="items | async as files">

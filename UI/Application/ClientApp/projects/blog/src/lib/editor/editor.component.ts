@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, Input, OnChanges, OnDestroy, OnInit, Optional, Self } from '@angular/core';
 import { ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { errorEnterLeaveAnimation } from '@renet-consulting/ngx-mat-input';
 import { QuillModules } from 'ngx-quill';
 import { Subscription } from 'rxjs';
 import { FileListComponent } from '../file-list/file-list.component';
@@ -9,7 +10,9 @@ import { mapMaxLength, mapMinLength } from './validators';
 @Component({
     selector: 'lib-editor',
     templateUrl: './editor.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    styleUrls: ['./editor.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    animations: [errorEnterLeaveAnimation]
 })
 export class EditorComponent implements OnChanges, OnInit, OnDestroy, ControlValueAccessor {
 
@@ -27,6 +30,7 @@ export class EditorComponent implements OnChanges, OnInit, OnDestroy, ControlVal
     modules: QuillModules;
     private quill;
     error: string;
+    errorState: number;
 
     constructor(
         @Self() @Inject(NgControl) public ngControl: NgControl,
@@ -51,6 +55,7 @@ export class EditorComponent implements OnChanges, OnInit, OnDestroy, ControlVal
         if (this.ngControl) {
             this.ngControl.control.setValidators([this.ngControl.control.validator, mapMinLength, mapMaxLength]);
         }
+        this.setError();
     }
 
     ngOnDestroy(): void {
@@ -114,7 +119,8 @@ export class EditorComponent implements OnChanges, OnInit, OnDestroy, ControlVal
         this.quill.insertEmbed(index, 'image', link);
     }
 
-    setError = (e): void => {
+    setError = (e?: string): void => {
         this.error = e;
+        this.errorState = this.error ? 1 : 0;
     }
 }
