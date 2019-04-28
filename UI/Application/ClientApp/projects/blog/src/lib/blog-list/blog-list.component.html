@@ -7,9 +7,11 @@
             <mat-card-content>{{item.content}}</mat-card-content>
             <mat-card-footer class="text-right px-2">Created by <strong>{{item.createdBy}}</strong> on <i>{{item.createdDate | date: 'fullDate'}}</i></mat-card-footer>
         </mat-card>
+    </div>
+    <div class="row">
         <ng-container *ngIf="itemsTotal | async as total">
             <ng-container *ngIf="itemsAmount | async as amount">
-                <button class="my-3" type="button" *ngIf="total !== amount" (click)="getItems(total)">Load more blogs</button>
+                <button mat-raised-button color="primary" class="my-3 py-3 px-5 text-30 rounded-10" type="button" *ngIf="total !== amount" (click)="getItems(total)">Load more blogs</button>
             </ng-container>
         </ng-container>
     </div>

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -20,6 +21,7 @@ import { fileReducer } from './reducer';
         EffectsModule.forFeature([FileEffects]),
         FileModule,
         NgxUploaderModule,
+        MatButtonModule
     ]
 })
 export class FileListModule { }
