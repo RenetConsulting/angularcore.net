@@ -3,5 +3,6 @@
         <ngx-mat-input placeholder="Title" formControlName="title"></ngx-mat-input>
         <lib-editor label="Content" formControlName="content" [readonly]="!blog.editable" minLength="10" maxLength="1000"></lib-editor>
         <button *ngIf="blog.editable" mat-raised-button type="button" color="primary" [disabled]="formGroup.pristine || formGroup.invalid" (click)="submit()">Update</button>
+        <mat-card-footer *ngIf="!blog.editable" class="text-right px-2">Created by <strong>{{blog.createdBy}}</strong> on <i>{{blog.createdDate | date: 'fullDate'}}</i></mat-card-footer>
     </mat-card>
 </form>
