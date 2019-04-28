@@ -1,28 +1,4 @@
+@import "../ngx-mat-input/ngx-mat-input.component.scss";
 ngx-mat-textarea {
-
-    mat-error {
-        overflow: hidden;
-        white-space: nowrap;
-    }
-
-    mat-hint {
-        display: block;
-        overflow: hidden;
-        text-align: end;
-    }
-
-    .mat-form-field-appearance-legacy .mat-form-field-underline {
-        position: relative;
-        bottom: 0;
-    }
-
-    .mat-form-field-appearance-legacy .mat-form-field-wrapper {
-        padding-bottom: 0;
-    }
-
-    .mat-form-field-appearance-legacy .mat-form-field-subscript-wrapper {
-        position: relative;
-        margin-top: initial;
-        top: initial;
-    }
+    @include ngx-mat;
 }
