@@ -9,6 +9,7 @@
     "build:ngx-http-params": "ng build ngx-http-params",
     "build:ngx-link-stylesheet": "ng build ngx-link-stylesheet",
     "build:ngx-mat-input": "ng build ngx-mat-input",
+    "build:ngx-messager": "ng build ngx-messager",
     "build:ngx-uploader": "ng build ngx-uploader",
     "build:ngx-validator": "ng build ngx-validator",
     "test": "ng test",
