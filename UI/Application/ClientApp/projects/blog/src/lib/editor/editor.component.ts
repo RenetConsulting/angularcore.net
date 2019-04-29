@@ -62,6 +62,11 @@ export class EditorComponent implements OnChanges, OnInit, OnDestroy, ControlVal
         this.subscription.unsubscribe();
     }
 
+    get selectionIndex() {
+        const range = this.quill.getSelection();
+        return range && range.index || this.quill.getLength();
+    }
+
     /** internal */
     writeValue(value): void {
         this.value = value;
@@ -114,9 +119,10 @@ export class EditorComponent implements OnChanges, OnInit, OnDestroy, ControlVal
     }
 
     insertImage = (link: string): void => {
-        const range = this.quill.getSelection();
-        const index = range && range.index || this.quill.getLength();
+        const index = this.selectionIndex;
         this.quill.insertEmbed(index, 'image', link);
+        this.quill.insertText(index + 1, '\n', 'user');
+        this.quill.setSelection(index + 2, 'silent');
     }
 
     setError = (e?: string): void => {
