@@ -1,7 +1,7 @@
-import { HttpClient, HttpEventType, HttpHeaders, HttpRequest } from "@angular/common/http";
+import { HttpClient, HttpEventType, HttpHeaders, HttpRequest, HttpResponse } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import * as signalr from "@aspnet/signalr";
-import { filter, map, tap } from "rxjs/operators";
+import { filter, map } from "rxjs/operators";
 
 type ResponseType = 'arraybuffer' | 'blob' | 'json' | 'text';
 
@@ -18,7 +18,6 @@ export class HttpHubClient extends signalr.HttpClient {
 
     /** @inheritDoc */
     public send(request: signalr.HttpRequest): Promise<signalr.HttpResponse> {
-        console.log('HttpHubClient.send', request)
         // Check that abort was not signaled before calling send
         if (request.abortSignal && request.abortSignal.aborted) {
             return Promise.reject(new signalr.AbortError());
@@ -30,7 +29,7 @@ export class HttpHubClient extends signalr.HttpClient {
             return Promise.reject(new Error("No url defined."));
         }
         if (!request.responseType) {
-            return Promise.reject(new Error("No responseType defined."));
+            request.responseType = 'text';
         }
 
         const model = new HttpRequest(request.method, request.url, request.content, {
@@ -39,14 +38,8 @@ export class HttpHubClient extends signalr.HttpClient {
         })
 
         return this.http.request(model).pipe(
-            tap(x => console.log('HttpHubClient.send.request', request, x)),
             filter(x => x.type === HttpEventType.Response),
-            map(x => ({ ...x } as any))
+            map((x: HttpResponse<any>) => new signalr.HttpResponse(x.status, x.statusText, x.body))
         ).toPromise();
-    }
-
-    public getCookieString(url: string): string {
-        console.log('HttpHubClient.getCookieString', url)
-        return '';
     }
 }

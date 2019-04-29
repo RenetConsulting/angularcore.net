@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { HubConnectionBuilder } from '@aspnet/signalr';
 import { HttpHubClient } from './http-hub-client';
@@ -9,11 +10,12 @@ export class BlogHubService {
 
     /** internal */
     readonly connection = new HubConnectionBuilder()
-        .withUrl('/blog', { httpClient: this.httpClient })
+        .withUrl('/BlogHub', { httpClient: this.httpClient })
         .build();
 
     constructor(
-        @Inject(HttpHubClient) public httpClient: HttpHubClient
+        @Inject(HttpHubClient) private httpClient: HttpHubClient,
+        @Inject(HttpClient) public http: HttpClient
     ) { }
 
     /** internal */
@@ -27,12 +29,15 @@ export class BlogHubService {
     }
 
     connect = (): void => {
+        this.connection.start();
         this.onUpdate();
         this.onCreate();
+
+        /** TODO: delete, this line just runs hub*/
+        //this.http.get('https://localhost:44395/api/BlogHub').subscribe();
     }
 
     disconnect = (): void => {
-        this.connection.off('update');
-        this.connection.off('create');
+        this.connection.stop();
     }
 }
