@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { GetBlogsRequest } from '../actions';
+import { BlogHubService } from '../blog-hub.service';
 import { BlogModel } from '../blog.model';
 import { RootBlogStore } from '../reducers';
 import { selectBlogs, selectBlogsAmount, selectBlogsTotal } from '../selectors';
@@ -21,7 +22,8 @@ export class BlogListComponent implements OnInit, OnDestroy {
     itemsAmount = this.store.select(selectBlogsAmount);
 
     constructor(
-        @Inject(Store) private store: Store<RootBlogStore>
+        @Inject(Store) private store: Store<RootBlogStore>,
+        @Inject(BlogHubService) private blogHub: BlogHubService,
     ) { }
 
     /** a case with a new blog will work fine, SingleR coming soon */
@@ -29,10 +31,12 @@ export class BlogListComponent implements OnInit, OnDestroy {
         this.subscription.add(this.store.select(selectBlogs).pipe(
             filter(x => !x || x.length <= 1),
             take(1)).subscribe(() => this.getItems(0)));
+        this.blogHub.connect();
     }
 
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
+        this.blogHub.disconnect();
     }
 
     trackByFn = (_, i: BlogModel) => i.blogId;
