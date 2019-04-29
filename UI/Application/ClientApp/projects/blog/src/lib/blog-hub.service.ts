@@ -33,8 +33,8 @@ export class BlogHubService {
         this.onUpdate();
         this.onCreate();
 
-        /** TODO: delete, this line just runs hub*/
-        //this.http.get('https://localhost:44395/api/BlogHub').subscribe();
+        /** TODO: delete, this line just runs hub */
+        // this.http.get('https://localhost:44395/api/BlogHub').subscribe();
     }
 
     disconnect = (): void => {

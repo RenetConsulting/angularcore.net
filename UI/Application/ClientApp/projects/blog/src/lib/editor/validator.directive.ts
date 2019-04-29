@@ -9,6 +9,7 @@ import { NgxValidatorDirective } from '@renet-consulting/ngx-validator';
 export class ValidatorDirective extends NgxValidatorDirective implements OnChanges, OnInit, OnDestroy {
 
     /** overrided */
+    // tslint:disable-next-line
     @Output('lib-validate') readonly validate = new EventEmitter<string | null>();
 
     constructor(
