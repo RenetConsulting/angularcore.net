@@ -5,17 +5,20 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { Store, StoreModule } from '@ngrx/store';
+import { NgProgressModule } from '@ngx-progressbar/core';
+import { NgProgressHttpModule, ɵa as NgProgressInterceptor } from '@ngx-progressbar/http';
 import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
+import { NgxMessagerModule } from '@renet-consulting/ngx-messager';
 import { BLOG_DEFAULT_OPTIONS } from 'projects/blog/src/public-api';
 import { environment } from 'src/environments/environment';
 import { ROUTES } from './app.routes';
 import { AppComponent } from './components/app/app.component';
 import { HeaderModule } from './components/header/header.module';
 import { HomeComponent } from './components/home/home.component';
-import { MessagerModule } from './components/messager/messager.module';
 import { ThemeEffects } from './components/theme-picker/effects';
 import { BLOG_OPTIONS } from './consts/blog-options';
 import { AuthorizationEffects } from './effects/authorization.effects';
+import { MessageEffects } from './effects/message.effects';
 import { ApiPrefixInterceptor } from './interceptors/api-prefix/api-prefix.interceptor';
 import { ErrorInterceptor } from './interceptors/error/error.interceptor';
 import { HttpAuthorizationInterceptor } from './interceptors/http-authorization/http-authorization.interceptor';
@@ -35,6 +38,7 @@ import { BASE_URL } from './tokens/base-url.token';
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, deps: [Store], multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ApiPrefixInterceptor, deps: [BASE_URL], multi: true },
         { provide: BLOG_DEFAULT_OPTIONS, useValue: BLOG_OPTIONS },
+        { provide: HTTP_INTERCEPTORS, useClass: NgProgressInterceptor, multi: true },
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -42,9 +46,11 @@ import { BASE_URL } from './tokens/base-url.token';
         HttpClientModule,
         RouterModule.forRoot(ROUTES),
         StoreModule.forRoot(REDUCERS, { metaReducers: environment.metaReducers }),
-        EffectsModule.forRoot([AuthorizationEffects, ThemeEffects]),
+        EffectsModule.forRoot([AuthorizationEffects, ThemeEffects, MessageEffects]),
         HeaderModule,
-        MessagerModule,
+        NgxMessagerModule,
+        NgProgressModule,
+        NgProgressHttpModule
     ],
 })
 export class AppSharedModule { }

@@ -56,6 +56,12 @@
       ],
       "ngx-uploader/*": [
         "dist/ngx-uploader/*"
+      ],
+      "ngx-messager": [
+        "dist/ngx-messager"
+      ],
+      "ngx-messager/*": [
+        "dist/ngx-messager/*"
       ]
     }
   }

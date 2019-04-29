@@ -1,4 +1,4 @@
 export interface IError {
-    code: number;
+    code: string;
     error_description: string;
 }

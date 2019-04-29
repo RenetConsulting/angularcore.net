@@ -2,24 +2,14 @@ import { Action } from '@ngrx/store';
 import { IError } from '../interfaces/error';
 import { MessageTypes } from '../types/message.types';
 
-export class ErrorRequest implements Action {
-    readonly type = MessageTypes.ERROR_REQUEST;
+export class SetError implements Action {
+    readonly type = MessageTypes.SET_ERROR;
     constructor(readonly payload: IError) { }
 }
 
-export class ErrorSuccess implements Action {
-    readonly type = MessageTypes.ERROR_SUCCESS;
-    constructor(readonly payload: IError) { }
-}
-
-export class MessageRequest implements Action {
-    readonly type = MessageTypes.MESSAGE_REQUEST;
+export class SetSuccess implements Action {
+    readonly type = MessageTypes.SET_SUCCESS;
     constructor(readonly payload: string) { }
 }
 
-export class MessageSuccess implements Action {
-    readonly type = MessageTypes.MESSAGE_SUCCESS;
-    constructor(readonly payload: string) { }
-}
-
-export type MessageActionsUnion = ErrorRequest | ErrorSuccess | MessageRequest | MessageSuccess;
+export type MessageActionsUnion = SetError | SetSuccess;

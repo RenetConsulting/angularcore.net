@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { selectSigninUser } from '~/components/authorization/signin/selectors';
@@ -12,6 +12,7 @@ import { ResendConfirmation } from './actions';
 })
 export class ResendConfirmationComponent implements OnInit, OnDestroy {
 
+    @Input() error: string;
     readonly subscription = new Subscription();
     email: string;
 
