@@ -9,7 +9,7 @@ export class BlogHubService {
 
     /** internal */
     readonly connection = new HubConnectionBuilder()
-        .withUrl('/blog')
+        .withUrl('/blog', { httpClient: this.httpClient })
         .build();
 
     constructor(
