@@ -27,7 +27,7 @@ export class BlogListComponent implements OnInit, OnDestroy {
     /** a case with a new blog will work fine, SingleR coming soon */
     ngOnInit(): void {
         this.subscription.add(this.store.select(selectBlogs).pipe(
-            filter(x => !x || x.length === 0),
+            filter(x => !x || x.length <= 1),
             take(1)).subscribe(() => this.getItems(0)));
     }
 

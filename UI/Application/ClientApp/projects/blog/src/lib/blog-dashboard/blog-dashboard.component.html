@@ -1,7 +1,7 @@
 <form class="container" [formGroup]="formGroup">
     <mat-card class="row mt-3">
         <ngx-mat-input placeholder="Please enter title" label="Title" formControlName="title" maxLength="1000"></ngx-mat-input>
-        <lib-editor label="Content" formControlName="content" minLength="10" maxLength="1000"></lib-editor>
+        <lib-editor label="Content" formControlName="content" minLength="2" maxLength="1000"></lib-editor>
         <button mat-raised-button type="button" color="primary" [disabled]="formGroup.pristine || formGroup.invalid" (click)="submit()">Save</button>
     </mat-card>
 </form>
