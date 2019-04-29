@@ -5,6 +5,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { Store, StoreModule } from '@ngrx/store';
+import { NgProgressModule } from '@ngx-progressbar/core';
+import { NgProgressHttpModule, ɵa as NgProgressInterceptor } from '@ngx-progressbar/http';
 import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
 import { NgxMessagerModule } from '@renet-consulting/ngx-messager';
 import { environment } from 'src/environments/environment';
@@ -32,7 +34,8 @@ import { BASE_URL } from './tokens/base-url.token';
         { provide: HTTP_INTERCEPTORS, useClass: HttpAuthorizationInterceptor, deps: [TokenService, NgxHttpParamsService], multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: NoneCacheInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, deps: [Store], multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: ApiPrefixInterceptor, deps: [BASE_URL], multi: true }
+        { provide: HTTP_INTERCEPTORS, useClass: ApiPrefixInterceptor, deps: [BASE_URL], multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: NgProgressInterceptor, multi: true },
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -43,6 +46,8 @@ import { BASE_URL } from './tokens/base-url.token';
         EffectsModule.forRoot([AuthorizationEffects, ThemeEffects, MessageEffects]),
         HeaderModule,
         NgxMessagerModule,
+        NgProgressModule,
+        NgProgressHttpModule
     ],
 })
 export class AppSharedModule { }
