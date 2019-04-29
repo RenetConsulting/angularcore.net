@@ -6,7 +6,7 @@ import { catchError, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { Reset } from '~/actions/root.actions';
 import { Signout } from '~/components/authorization/actions';
 import { AuthorizationTypes } from '~/components/authorization/types';
-import { MessageRequest } from '../actions/message.actions';
+import { SetSuccess } from '../actions/message.actions';
 import { AuthorizationService } from '../services/authorization/authorization.service';
 import { TokenService } from '../services/token/token.service';
 
@@ -26,7 +26,7 @@ export class AuthorizationEffects {
             tap(this.tokenService.clean),
             tap(() => this.router.navigate(['/signin'])),
             switchMap(() => [
-                new MessageRequest('You has signed out successfully.'),
+                new SetSuccess('You has signed out successfully.'),
                 new Reset()
             ]),
             catchError(() => EMPTY)

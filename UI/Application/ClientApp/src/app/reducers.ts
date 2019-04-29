@@ -3,12 +3,10 @@ import { ChangePasswordState } from './components/account/change-password/reduce
 import { ResetPasswordState } from './components/account/reset-password/reducer';
 import { SigninState } from './components/authorization/signin/reducer';
 import { SignupState } from './components/authorization/signup/reducer';
-import { MessagerState } from './components/messager/reducer';
 import { profileReducer, ProfileState } from './components/profile/reducer';
 import { ThemeState } from './components/theme-picker/reducer';
 
 export interface RootStore {
-    messager?: MessagerState;
     signin?: SigninState;
     signup?: SignupState;
     theme?: ThemeState;
