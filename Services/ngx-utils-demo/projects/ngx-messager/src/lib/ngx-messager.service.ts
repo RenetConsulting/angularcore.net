@@ -1,5 +1,6 @@
-import { Inject, Injectable, Type } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ComponentType } from '@angular/cdk/portal';
+import { Inject, Injectable } from '@angular/core';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { isString } from 'util';
 import { NgxErrorDialogComponent } from './ngx-error-dialog.component';
@@ -17,13 +18,13 @@ export class NgxMessagerService {
         @Inject(MatDialog) private dialog: MatDialog,
     ) { }
 
-    error = (value: string | Type<any>) => {
-        const component = isString(value) ? NgxErrorDialogComponent : value as Type<any>;
-        const ref = this.dialog.open<NgxErrorDialogComponent>(component, this.dialogConfig);
+    error = <T = any>(value: string | ComponentType<T>) => {
+        const component: ComponentType<any> = isString(value) ? NgxErrorDialogComponent : value as ComponentType<T>;
+        const ref = this.dialog.open(component, this.dialogConfig);
         if (component === NgxErrorDialogComponent) {
-            ref.componentInstance.error = value as string;
+            (ref.componentInstance as NgxErrorDialogComponent).error = value as string;
         }
-        return ref;
+        return ref as MatDialogRef<T>;
     }
 
     success = (value: string) => this.snackBar.open(value, 'Close', this.snackBarConfig);
