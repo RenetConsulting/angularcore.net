@@ -1,5 +1,5 @@
 import { Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
-import { ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
+import { AbstractControl, ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { Subscription } from 'rxjs';
 
@@ -35,11 +35,13 @@ export abstract class NgxMatInputBase implements ControlValueAccessor, OnChanges
         }
     }
 
-    ngOnChanges(e) {
+    ngOnChanges(e): void {
         if (e.errors) {
             this.setErrorsState();
             this.setHintState();
         }
+        this.setRequired();
+        this.setMaxlength();
     }
 
     ngOnInit(): void {
@@ -100,6 +102,23 @@ export abstract class NgxMatInputBase implements ControlValueAccessor, OnChanges
         this.ngControl.control.markAsDirty();
         this.ngControl.control.markAsTouched();
         this.ngControl.control.updateValueAndValidity();
+    }
+
+    /** internal */
+    setRequired = (): void => {
+        if (!this.required && this.ngControl) {
+            const errors = this.ngControl.control.validator({} as AbstractControl);
+            this.required = errors && errors.required;
+        }
+    }
+
+    /** internal */
+    setMaxlength = (): void => {
+        if (!this.maxlength && this.ngControl) {
+            const value: ArrayLike<any> = { length: Infinity };
+            const errors = this.ngControl.control.validator({ value } as AbstractControl);
+            this.maxlength = errors && errors.maxlength && errors.maxlength.requiredLength;
+        }
     }
 
     setError = (value: string): void => {
