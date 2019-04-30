@@ -1,28 +1,28 @@
 import { Inject, Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { NgxMessagerService } from '@renet-consulting/ngx-messager';
+import { NgxMessengerService } from '@renet-consulting/ngx-messenger';
 import { filter, map, tap } from 'rxjs/operators';
-import { SetError, SetSuccess } from '~/actions/messager.actions';
+import { SetError, SetSuccess } from '~/actions/messenger.actions';
 import { MessagesType } from '~/enums/messages.type';
-import { MessagerTypes } from '~/types/messager.types';
+import { MessengerTypes } from '~/types/messenger.types';
 
 @Injectable()
-export class MessagerEffects {
+export class MessengerEffects {
 
     constructor(
         @Inject(Actions) private actions: Actions,
-        @Inject(NgxMessagerService) private messager: NgxMessagerService,
+        @Inject(NgxMessengerService) private messenger: NgxMessengerService,
     ) { }
 
     @Effect({ dispatch: false }) setError = this.actions.pipe(
-        ofType<SetError>(MessagerTypes.SET_ERROR),
+        ofType<SetError>(MessengerTypes.SET_ERROR),
         map(a => a.payload && a.payload.error_description || MessagesType.unspecifiedError),
-        tap(this.messager.error)
+        tap(this.messenger.error)
     );
     @Effect({ dispatch: false }) setSuccess = this.actions.pipe(
-        ofType<SetSuccess>(MessagerTypes.SET_SUCCESS),
+        ofType<SetSuccess>(MessengerTypes.SET_SUCCESS),
         map(a => a.payload),
         filter(i => !!i),
-        tap(this.messager.success)
+        tap(this.messenger.success)
     );
 }

@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, mapTo, mergeMap } from 'rxjs/operators';
-import { SetSuccess } from '~/actions/messager.actions';
+import { SetSuccess } from '~/actions/messenger.actions';
 import { MessagesType } from '~/enums/messages.type';
 import { AccountService } from '~/services/account/account.service';
 import { ResendConfirmation, ResendConfirmationError, ResendConfirmationSuccess } from './actions';

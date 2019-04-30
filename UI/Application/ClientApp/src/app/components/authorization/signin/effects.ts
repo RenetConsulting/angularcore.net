@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { NgxMessagerService } from '@renet-consulting/ngx-messager';
+import { NgxMessengerService } from '@renet-consulting/ngx-messenger';
 import { EMPTY, of } from 'rxjs';
 import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
-import { SetError } from '~/actions/messager.actions';
+import { SetError } from '~/actions/messenger.actions';
 import { ErrorCodeType } from '~/consts/error-code.type';
 import { AuthorizationService } from '~/services/authorization/authorization.service';
 import { StorageService } from '~/services/storage/storage.service';
@@ -23,7 +23,7 @@ export class SigninEffects {
         @Inject(StorageService) private storageService: StorageService,
         @Inject(TokenService) private tokenService: TokenService,
         @Inject(Router) private router: Router,
-        @Inject(NgxMessagerService) private messager: NgxMessagerService,
+        @Inject(NgxMessengerService) private messenger: NgxMessengerService,
     ) { }
 
     @Effect() signin = this.actions.pipe(
@@ -54,6 +54,6 @@ export class SigninEffects {
         ofType<SigninError>(SigninTypes.SIGNIN_ERROR),
         filter(filterError),
         filter(e => e.error.code === ErrorCodeType.unconfirmedEmail),
-        tap(e => this.messager.error(ResendConfirmationComponent).componentInstance.error = e.error.error_description)
+        tap(e => this.messenger.error(ResendConfirmationComponent).componentInstance.error = e.error.error_description)
     );
 }
