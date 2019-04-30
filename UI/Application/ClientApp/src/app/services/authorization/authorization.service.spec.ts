@@ -5,10 +5,11 @@ import { HTTP_HEADER_NAMES } from '~/enums/http-header-names.type';
 import { IUser } from '~/interfaces/user';
 import { AuthorizationService } from './authorization.service';
 
-fdescribe('AuthorizationService', () => {
+/** TODO: wait for https://github.com/angular/angular/issues/19974 */
+describe('AuthorizationService', () => {
 
     let service: AuthorizationService;
-    let toolsService: jasmine.SpyObj<NgxHttpParamsService>;
+    let params: jasmine.SpyObj<NgxHttpParamsService>;
     let httpTestingController: HttpTestingController;
 
     beforeEach(() => {
@@ -17,7 +18,7 @@ fdescribe('AuthorizationService', () => {
             providers: [{ provide: NgxHttpParamsService, useValue: jasmine.createSpyObj('NgxHttpParamsService', ['map']) }]
         });
         service = TestBed.get(AuthorizationService);
-        toolsService = TestBed.get(NgxHttpParamsService);
+        params = TestBed.get(NgxHttpParamsService);
         httpTestingController = TestBed.get(HttpTestingController);
     });
 
@@ -30,26 +31,26 @@ fdescribe('AuthorizationService', () => {
         const query = 'bob';
         const body = 'body';
         const user = {} as IUser;
-        toolsService.map.and.returnValues(query, body);
+        params.map.and.returnValues(query, body);
         service.signin(user).subscribe();
         const req = httpTestingController.expectOne(`/connect/token`);
         expect(req.request.method).toEqual('POST');
         expect(req.request.headers.has(HTTP_HEADER_NAMES.allowAnonymous)).toEqual(true);
         expect(req.request.headers.has(HTTP_HEADER_NAMES.allowHttpError)).toEqual(true);
         expect(req.request.headers.has(HTTP_HEADER_NAMES.contentType)).toEqual(true);
-        expect(toolsService.map).toHaveBeenCalled();
+        expect(params.map).toHaveBeenCalled();
         req.flush(null);
     });
     it('signup', () => {
         const query = 'bob';
         const body = 'body';
         const user = {} as IUser;
-        toolsService.map.and.returnValues(query, body);
+        params.map.and.returnValues(query, body);
         service.signup(user).subscribe();
         const req = httpTestingController.expectOne(`/api/account/register`);
         expect(req.request.method).toEqual('POST');
         expect(req.request.headers.has(HTTP_HEADER_NAMES.allowHttpError)).toEqual(true);
-        expect(toolsService.map).toHaveBeenCalled();
+        expect(params.map).toHaveBeenCalled();
         req.flush(null);
     });
     it('signup', () => {
