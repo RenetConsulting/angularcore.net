@@ -4,7 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { NgxMessagerService } from '@renet-consulting/ngx-messager';
 import { EMPTY, of } from 'rxjs';
 import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
-import { SetError } from '~/actions/message.actions';
+import { SetError } from '~/actions/messager.actions';
 import { ErrorCodeType } from '~/consts/error-code.type';
 import { AuthorizationService } from '~/services/authorization/authorization.service';
 import { StorageService } from '~/services/storage/storage.service';

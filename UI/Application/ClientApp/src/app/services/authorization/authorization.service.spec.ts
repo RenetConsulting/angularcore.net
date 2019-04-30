@@ -5,7 +5,7 @@ import { HTTP_HEADER_NAMES } from '~/enums/http-header-names.type';
 import { IUser } from '~/interfaces/user';
 import { AuthorizationService } from './authorization.service';
 
-describe('AuthorizationService', () => {
+fdescribe('AuthorizationService', () => {
 
     let service: AuthorizationService;
     let toolsService: jasmine.SpyObj<NgxHttpParamsService>;

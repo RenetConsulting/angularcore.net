@@ -1,15 +1,15 @@
 import { Action } from '@ngrx/store';
 import { IError } from '../interfaces/error';
-import { MessageTypes } from '../types/message.types';
+import { MessagerTypes } from '../types/messager.types';
 
 export class SetError implements Action {
-    readonly type = MessageTypes.SET_ERROR;
+    readonly type = MessagerTypes.SET_ERROR;
     constructor(readonly payload: IError) { }
 }
 
 export class SetSuccess implements Action {
-    readonly type = MessageTypes.SET_SUCCESS;
+    readonly type = MessagerTypes.SET_SUCCESS;
     constructor(readonly payload: string) { }
 }
 
-export type MessageActionsUnion = SetError | SetSuccess;
+export type MessagerActionsUnion = SetError | SetSuccess;
