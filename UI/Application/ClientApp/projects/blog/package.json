@@ -24,6 +24,7 @@
     "@renet-consulting/ngx-mat-input": "^0.0.2",
     "@renet-consulting/ngx-uploader": "^0.0.1",
     "@renet-consulting/ngx-validator": "^0.0.2",
+    "@renet-consulting/http-hub-client": "^0.0.1",
     "ngx-quill": "^4.8.0",
     "quill": "1.3.6"
   }

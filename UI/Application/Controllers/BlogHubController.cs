@@ -20,7 +20,7 @@
         [HttpGet]
         public IActionResult Get()
         {
-            var timerManager1 = new TimerManager(() => this.hub.Clients.All.SendAsync("update", Data.GetData(5)));
+            var timerManager1 = new TimerManager(() => this.hub.Clients.All.SendAsync("update", Data.GetData(1)[0]));
             var timerManager2 = new TimerManager(() => this.hub.Clients.All.SendAsync("create", Data.GetData(1)[0]));
 
             return this.Ok(new { Message = "Request Completed" });
