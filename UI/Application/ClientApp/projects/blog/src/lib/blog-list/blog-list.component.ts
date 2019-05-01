@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
 import { GetBlogsRequest } from '../actions';
 import { BlogHubService } from '../blog-hub.service';
 import { BlogModel } from '../blog.model';
@@ -26,11 +25,8 @@ export class BlogListComponent implements OnInit, OnDestroy {
         @Inject(BlogHubService) private blogHub: BlogHubService,
     ) { }
 
-    /** a case with a new blog will work fine, SingleR coming soon */
     ngOnInit(): void {
-        this.subscription.add(this.store.select(selectBlogs).pipe(
-            filter(x => !x || x.length <= 1),
-            take(1)).subscribe(() => this.getItems(0)));
+        this.getItems(0);
         this.blogHub.connect();
     }
 
