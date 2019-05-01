@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MessagerComponent } from './messager.component';
+import { MessagerComponent } from './messenger.component';
 
 describe('MessagerComponent', () => {
   let component: MessagerComponent;

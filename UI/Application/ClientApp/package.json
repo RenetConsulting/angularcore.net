@@ -47,7 +47,7 @@
     "@renet-consulting/ngx-http-params": "0.0.3",
     "@renet-consulting/ngx-link-stylesheet": "0.0.2",
     "@renet-consulting/ngx-mat-input": "0.1.4",
-    "@renet-consulting/ngx-messager": "0.0.2",
+    "@renet-consulting/ngx-messenger": "0.0.1",
     "@renet-consulting/ngx-uploader": "0.0.3",
     "@renet-consulting/ngx-validator": "0.0.3",
     "aspnet-prerendering": "^3.0.1",
