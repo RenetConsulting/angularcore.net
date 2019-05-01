@@ -135,6 +135,127 @@ namespace Application.DataAccess.Repositories
             return await this.ItemList<TEntity>(entity, skip, take, active, propertyInfo, sortOrder);
         }
 
+        #region Blog
+
+        public async Task<Blog> GetBlogAsync(int blogId)
+        {
+            return await this.context.Blogs.Where(bl => bl.BlogId.Equals(blogId)).FirstOrDefaultAsync();
+        }
+
+        public async Task<Blog> AddBlogAsync(Blog blog)
+        {
+            using (IDbContextTransaction dbContextTransaction = await this.BeginTransactionAsync())
+            {
+                try
+                {
+                    this.context.Blogs.Add(blog);
+
+                    await this.context.SaveChangesAsync();
+
+                    dbContextTransaction.Commit();
+
+                    return blog;
+                }
+                catch (Exception ex)
+                {
+                    dbContextTransaction.Rollback();
+
+                    throw ex;
+                }
+            }
+        }
+
+        // TODO: Review, do we need to update blog with files?
+        public async Task<Blog> UpdateImageAsync(int blogId, string title, string content)
+        {
+            try
+            {
+                Blog blog = await this.context.Blogs.FirstOrDefaultAsync(bl => bl.IsActive.Value && bl.BlogId.Equals(blogId));
+
+                if (!Equals(blog, null))
+                {
+                    blog.Title = title;
+
+                    blog.Content = content;
+                }
+                else
+                {
+                    throw new Exception($"Blog with id {blogId} not found.");
+                }
+
+                await this.context.SaveChangesAsync();
+
+                return blog;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        // TODO: Need to implement code to delete blog with files.
+        public async Task<bool> DeleteBlogAsync(int blogId)
+        {
+            try
+            {
+                Blog deleteBlog = await this.context.Blogs.FirstOrDefaultAsync(a => a.IsActive.Value && a.BlogId.Equals(blogId));
+
+                if (!Equals(deleteBlog, null))
+                {
+                    this.context.Blogs.Remove(deleteBlog);
+                }
+                else
+                {
+                    throw new Exception($"Blog with id {blogId} not found.");
+                }
+
+                return await this.context.SaveChangesAsync() > 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<bool> SaveBlogFileAsync(string blogId, string fileBlobName)
+        {
+            try
+            {
+                FileStorage blogFile = new FileStorage { FileId = fileBlobName, BlogId = blogId};
+
+                this.context.FileStorages.Add(blogFile);
+
+                return await this.context.SaveChangesAsync() > 0;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<FileStorage> GetBlogFileAsync(string fileBlobName)
+        {
+            return await this.context.FileStorages.FirstOrDefaultAsync(f => f.BlogId.Equals(fileBlobName));
+        }
+
+        public async Task<bool> DeleteBlogFileAsync(string fileBlobName)
+        {
+            var deletedFile = await this.context.FileStorages.FirstOrDefaultAsync(f => f.FileId.Equals(fileBlobName));
+
+            if (deletedFile != null)
+            {
+                this.context.FileStorages.Remove(deletedFile);
+
+                return await this.context.SaveChangesAsync() > 0;
+            }
+            else
+            {
+                throw new Exception($"File with {fileBlobName} name not found");
+            }
+        }
+
+        #endregion
+
         internal IQueryable<TEntity> WhereSelector<TEntity, KAndObject, KOrObject>(KAndObject whereAnd, KOrObject whereOr)
              where TEntity : ApplicationEntity
         {
