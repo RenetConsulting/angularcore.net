@@ -12,6 +12,7 @@ namespace Application
     using Application.Business;
     using Application.Business.Communications;
     using Application.Business.CoreCaptcha;
+    using Application.Controllers;
     using Application.DataAccess;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Repositories;
@@ -69,6 +70,17 @@ namespace Application
             });
 
             services.Configure<AppSettings>(this.Configuration.GetSection("AppSettings"));
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(
+                    "CorsPolicy",
+                    builder => builder
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+            services.AddSignalR();
 
             // Add framework services.
             services.AddMvc().AddJsonOptions(options =>
@@ -229,7 +241,7 @@ namespace Application
             {
                 options.Level = CompressionLevel.Fastest;
             });
-            services.AddNodeServices();
+            services.AddNodeServices();            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -256,6 +268,13 @@ namespace Application
             app.UseStaticFiles(StaticFileOptions(env));
 
             app.UseSpaStaticFiles(StaticFileOptions(env));
+
+            app.UseCors("CorsPolicy");
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<BlogHub>("/BlogHub");
+            });
 
             app.UseMvc(routes =>
             {

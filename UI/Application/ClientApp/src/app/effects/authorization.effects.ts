@@ -6,7 +6,7 @@ import { catchError, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { Reset } from '~/actions/root.actions';
 import { Signout } from '~/components/authorization/actions';
 import { AuthorizationTypes } from '~/components/authorization/types';
-import { SetSuccess } from '../actions/message.actions';
+import { SetSuccess } from '../actions/messenger.actions';
 import { AuthorizationService } from '../services/authorization/authorization.service';
 import { TokenService } from '../services/token/token.service';
 

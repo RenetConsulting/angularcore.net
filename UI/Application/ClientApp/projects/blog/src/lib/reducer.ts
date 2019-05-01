@@ -24,13 +24,8 @@ export function blogReducer(state = INITIAL_STATE, action: BlogActionsUnion): Bl
 
     switch (action.type) {
 
-        case BlogTypes.CREATE_BLOG_REQUEST: return { ...state, loading: true };
-        case BlogTypes.CREATE_BLOG_SUCCESS: return { ...adapter.addOne(action.success, state), loading: false };
-        case BlogTypes.CREATE_BLOG_ERROR: return { ...state, loading: false };
-
         case BlogTypes.GET_BLOGS_REQUEST: return { ...state, loading: true };
         case BlogTypes.GET_BLOGS_SUCCESS: {
-
             const itemsAmount = action.success.itemsAmount;
             const items = action.success.items;
             return { ...adapter.addMany(items, state), itemsAmount, loading: false };
@@ -38,11 +33,21 @@ export function blogReducer(state = INITIAL_STATE, action: BlogActionsUnion): Bl
         case BlogTypes.GET_BLOGS_ERROR: return { ...state, loading: false };
 
         case BlogTypes.GET_BLOG_REQUEST: return { ...state, selectedBlogId: null, loading: true };
-        case BlogTypes.GET_BLOG_SUCCESS: return { ...adapter.upsertOne(action.success, state), selectedBlogId: action.payload, loading: false };
+        case BlogTypes.GET_BLOG_SUCCESS: return {
+            ...adapter.upsertOne(action.success, state),
+            selectedBlogId: action.payload, loading: false
+        };
         case BlogTypes.GET_BLOG_ERROR: return { ...state, loading: false };
 
+        case BlogTypes.CREATE_BLOG_REQUEST: return { ...state, loading: true };
+        case BlogTypes.CREATE_BLOG_SUCCESS: return { ...adapter.addOne(action.success, state), loading: false };
+        case BlogTypes.CREATE_BLOG_ERROR: return { ...state, loading: false };
+
         case BlogTypes.UPDATE_BLOG_REQUEST: return { ...state, loading: true };
-        case BlogTypes.UPDATE_BLOG_SUCCESS: return { ...adapter.updateOne({ id: action.payload.blogId, changes: action.payload }, state), loading: false };
+        case BlogTypes.UPDATE_BLOG_SUCCESS: return {
+            ...adapter.updateOne({ id: action.payload.blogId, changes: action.payload }, state),
+            loading: false
+        };
         case BlogTypes.UPDATE_BLOG_ERROR: return { ...state, loading: false };
 
         case BlogTypes.DELETE_BLOG_REQUEST: return { ...state, loading: true };

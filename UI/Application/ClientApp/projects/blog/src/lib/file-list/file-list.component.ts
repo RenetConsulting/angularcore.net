@@ -29,13 +29,13 @@ export class FileListComponent implements OnInit {
     trackByFn = (_, i: FileModel) => i.fileId;
 
     getItems = (index: number): void => this.store
-        .dispatch(new GetFilesRequest({ index }));
+        .dispatch(new GetFilesRequest({ index }))
 
     upload = (items: FileList): void => this.store
-        .dispatch(new UploadFileRequest(items));
+        .dispatch(new UploadFileRequest(items))
 
     delete = (item: FileModel): void => this.store
-        .dispatch(new DeleteFileRequest(item.fileId));
+        .dispatch(new DeleteFileRequest(item.fileId))
 
     select = (item: FileModel): void => this.insertImage(item.fileUrl);
 }

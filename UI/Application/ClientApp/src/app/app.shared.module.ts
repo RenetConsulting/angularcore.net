@@ -8,7 +8,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressHttpModule, ɵa as NgProgressInterceptor } from '@ngx-progressbar/http';
 import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
-import { NgxMessagerModule } from '@renet-consulting/ngx-messager';
+import { NgxMessengerModule } from '@renet-consulting/ngx-messenger';
 import { BLOG_DEFAULT_OPTIONS } from 'projects/blog/src/public-api';
 import { environment } from 'src/environments/environment';
 import { ROUTES } from './app.routes';
@@ -18,7 +18,7 @@ import { HomeComponent } from './components/home/home.component';
 import { ThemeEffects } from './components/theme-picker/effects';
 import { BLOG_OPTIONS } from './consts/blog-options';
 import { AuthorizationEffects } from './effects/authorization.effects';
-import { MessageEffects } from './effects/message.effects';
+import { MessengerEffects } from './effects/messenger.effects';
 import { ApiPrefixInterceptor } from './interceptors/api-prefix/api-prefix.interceptor';
 import { ErrorInterceptor } from './interceptors/error/error.interceptor';
 import { HttpAuthorizationInterceptor } from './interceptors/http-authorization/http-authorization.interceptor';
@@ -46,9 +46,9 @@ import { BASE_URL } from './tokens/base-url.token';
         HttpClientModule,
         RouterModule.forRoot(ROUTES),
         StoreModule.forRoot(REDUCERS, { metaReducers: environment.metaReducers }),
-        EffectsModule.forRoot([AuthorizationEffects, ThemeEffects, MessageEffects]),
+        EffectsModule.forRoot([AuthorizationEffects, ThemeEffects, MessengerEffects]),
         HeaderModule,
-        NgxMessagerModule,
+        NgxMessengerModule,
         NgProgressModule,
         NgProgressHttpModule
     ],

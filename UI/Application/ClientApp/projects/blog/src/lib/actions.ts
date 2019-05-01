@@ -69,6 +69,15 @@ export class DeleteBlogError implements Action {
     constructor(readonly error) { }
 }
 
+export class HubCreate implements Action {
+    readonly type = BlogTypes.HUB_CREATE;
+    constructor(readonly payload: BlogModel) { }
+}
+export class HubUpdate implements Action {
+    readonly type = BlogTypes.HUB_UPDATE;
+    constructor(readonly payload: BlogModel) { }
+}
+
 export type BlogActionsUnion = CreateBlogRequest
     | CreateBlogSuccess
     | CreateBlogError
@@ -83,4 +92,6 @@ export type BlogActionsUnion = CreateBlogRequest
     | UpdateBlogError
     | DeleteBlogRequest
     | DeleteBlogSuccess
-    | DeleteBlogError;
+    | DeleteBlogError
+    | HubCreate
+    | HubUpdate;

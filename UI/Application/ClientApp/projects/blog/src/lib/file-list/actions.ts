@@ -51,4 +51,4 @@ export type FileActionsUnion = UploadFileRequest
     | GetFilesError
     | DeleteFileRequest
     | DeleteFileSuccess
-    | DeleteFileError
+    | DeleteFileError;

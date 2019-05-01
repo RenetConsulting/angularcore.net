@@ -18,4 +18,7 @@ export enum BlogTypes {
     DELETE_BLOG_REQUEST = '[BlogTypes]DELETE_BLOG_REQUEST',
     DELETE_BLOG_SUCCESS = '[BlogTypes]DELETE_BLOG_SUCCESS',
     DELETE_BLOG_ERROR = '[BlogTypes]DELETE_BLOG_ERROR',
+
+    HUB_UPDATE = '[BlogTypes]HUB_UPDATE',
+    HUB_CREATE = '[BlogTypes]HUB_CREATE',
 }

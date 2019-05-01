@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { NgxMessagerModule } from 'projects/ngx-messager/src/public-api';
-import { MessagerRoutingModule } from './messager-routing.module';
-import { MessagerComponent } from './messager.component';
+import { NgxMessengerModule } from 'projects/ngx-messenger/src/public-api';
+import { MessagerRoutingModule } from './messenger-routing.module';
+import { MessagerComponent } from './messenger.component';
 
 @NgModule({
     declarations: [MessagerComponent],
     imports: [
         CommonModule,
         MessagerRoutingModule,
-        NgxMessagerModule,
+        NgxMessengerModule,
     ]
 })
 export class MessagerModule { }
