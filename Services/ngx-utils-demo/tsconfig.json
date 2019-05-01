@@ -57,11 +57,11 @@
       "ngx-uploader/*": [
         "dist/ngx-uploader/*"
       ],
-      "ngx-messager": [
-        "dist/ngx-messager"
+      "ngx-messenger": [
+        "dist/ngx-messenger"
       ],
-      "ngx-messager/*": [
-        "dist/ngx-messager/*"
+      "ngx-messenger/*": [
+        "dist/ngx-messenger/*"
       ]
     }
   }

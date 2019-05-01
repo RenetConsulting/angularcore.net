@@ -1,3 +1,4 @@
+/* tslint:disable:max-line-length */
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -9,9 +10,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class InputComponent implements OnInit {
 
     readonly formGroup = new FormGroup({
-        input: new FormControl('', [Validators.minLength(3)]),
-        placeholder: new FormControl('', [Validators.required, Validators.minLength(3)]),
-        textarea: new FormControl('', [Validators.required, Validators.minLength(3)]),
+        input: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(10)]),
+        placeholder: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(10)]),
+        textarea: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
     });
     exampleErrors = [
         `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s`,

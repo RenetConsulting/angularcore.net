@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { SetError } from '~/actions/message.actions';
+import { SetError } from '~/actions/messenger.actions';
 import { HTTP_HEADER_NAMES } from '~/enums/http-header-names.type';
 import { RootStore } from '~/reducers';
 

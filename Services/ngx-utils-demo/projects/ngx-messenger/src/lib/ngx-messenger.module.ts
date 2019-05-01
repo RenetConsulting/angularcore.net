@@ -4,14 +4,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgxErrorDialogComponent } from './ngx-error-dialog.component';
-import { NgxMessagerService } from './ngx-messager.service';
+import { NgxMessengerService } from './ngx-messenger.service';
 
 @NgModule({
     declarations: [NgxErrorDialogComponent],
     exports: [NgxErrorDialogComponent],
     entryComponents: [NgxErrorDialogComponent],
     providers: [
-        NgxMessagerService
+        NgxMessengerService
     ],
     imports: [
         CommonModule,
@@ -20,4 +20,4 @@ import { NgxMessagerService } from './ngx-messager.service';
         MatButtonModule
     ],
 })
-export class NgxMessagerModule { }
+export class NgxMessengerModule { }

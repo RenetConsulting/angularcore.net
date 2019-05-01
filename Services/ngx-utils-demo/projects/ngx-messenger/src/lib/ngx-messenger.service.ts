@@ -9,7 +9,7 @@ import { NGX_DIALOG_CONFIG, NGX_SNACK_BAR_CONFIG } from './tokens';
 @Injectable({
     providedIn: 'root'
 })
-export class NgxMessagerService {
+export class NgxMessengerService {
 
     constructor(
         @Inject(NGX_SNACK_BAR_CONFIG) private snackBarConfig: MatSnackBarConfig,
