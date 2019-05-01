@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { CreateBlogRequest } from '../actions';
+import { CreateBlogRequest, DeleteBlogs } from '../actions';
 import { BlogModel } from '../blog.model';
 import { RootBlogStore } from '../reducers';
 
@@ -10,7 +10,7 @@ import { RootBlogStore } from '../reducers';
     templateUrl: './blog-dashboard.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BlogDashboardComponent implements OnInit {
+export class BlogDashboardComponent implements OnInit, OnDestroy {
 
     formGroup: FormGroup;
 
@@ -20,6 +20,10 @@ export class BlogDashboardComponent implements OnInit {
 
     ngOnInit(): void {
         this.setFormGroup();
+    }
+
+    ngOnDestroy(): void {
+        this.store.dispatch(new DeleteBlogs());
     }
 
     setFormGroup = (): void => {

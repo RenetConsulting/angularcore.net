@@ -4,7 +4,7 @@ import { HubConnectionBuilder } from '@aspnet/signalr';
 import { Store } from '@ngrx/store';
 import { HttpHubClient } from '@renet-consulting/http-hub-client';
 import { RootStore } from '~/reducers';
-import { HubCreate, HubUpdate } from './actions';
+import { HubCreateBlogRequest, HubUpdateBlogRequest } from './actions';
 import { BlogModel } from './blog.model';
 
 @Injectable({
@@ -24,10 +24,10 @@ export class BlogHubService {
     ) { }
 
     /** internal */
-    update = (x: BlogModel): void => this.store.dispatch(new HubUpdate(x));
+    update = (x: BlogModel): void => this.store.dispatch(new HubUpdateBlogRequest(x));
 
     /** internal */
-    create = (x: BlogModel): void => this.store.dispatch(new HubCreate(x));
+    create = (x: BlogModel): void => this.store.dispatch(new HubCreateBlogRequest(x));
 
     /** internal */
     onUpdate = (): void => {
@@ -43,9 +43,6 @@ export class BlogHubService {
         this.connection.start();
         this.onUpdate();
         this.onCreate();
-
-        /** TODO: delete, this line just runs hub */
-        // this.http.get('https://localhost:44395/api/BlogHub').subscribe();
     }
 
     disconnect = (): void => {

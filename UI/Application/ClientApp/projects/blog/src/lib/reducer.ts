@@ -7,6 +7,8 @@ export interface BlogState extends EntityState<BlogModel> {
     selectedBlogId?: string;
     itemsAmount?: number;
     loading?: boolean;
+    updated?: BlogModel;
+    created?: BlogModel;
 }
 
 const selectId = (i: BlogModel) => i.blogId;
@@ -53,6 +55,11 @@ export function blogReducer(state = INITIAL_STATE, action: BlogActionsUnion): Bl
         case BlogTypes.DELETE_BLOG_REQUEST: return { ...state, loading: true };
         case BlogTypes.DELETE_BLOG_SUCCESS: return { ...adapter.removeOne(action.payload, state), loading: false };
         case BlogTypes.DELETE_BLOG_ERROR: return { ...state, loading: false };
+
+        case BlogTypes.HUB_CREATE_BLOG_SUCCESS: return { ...state, created: action.payload, updated: null, loading: false };
+        case BlogTypes.HUB_UPDATE_BLOG_SUCCESS: return { ...state, created: null, updated: action.payload, loading: false };
+
+        case BlogTypes.DELETE_BLOGS: return { ...adapter.removeAll(state), created: null, updated: null, loading: false };
 
         default: return state;
     }
