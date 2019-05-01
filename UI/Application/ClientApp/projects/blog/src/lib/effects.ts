@@ -1,10 +1,12 @@
 import { Inject, Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
 import * as UIActions from './actions';
 import { BlogService } from './blog.service';
+import { MessageComponent } from './message/message.component';
 import { BlogTypes } from './types';
 
 @Injectable()
@@ -14,6 +16,7 @@ export class BlogEffects {
         @Inject(Actions) private actions: Actions,
         @Inject(BlogService) private blogService: BlogService,
         @Inject(Router) private router: Router,
+        @Inject(MatSnackBar) private snackBar: MatSnackBar,
     ) { }
 
     @Effect() createBlogRequest = this.actions.pipe(
@@ -57,5 +60,35 @@ export class BlogEffects {
             tap(() => this.router.navigate(['/blogs'])),
             catchError(e => of(new UIActions.DeleteBlogError(e.error)))
         ))
+    );
+
+    @Effect() hubCreateBlogRequest = this.actions.pipe(
+        ofType<UIActions.HubCreateBlogRequest>(BlogTypes.HUB_CREATE_BLOG_REQUEST),
+        map(action => ({ action, instance: this.snackBar.openFromComponent(MessageComponent).instance })),
+        tap(x => x.instance.subject = 'created blog'),
+        mergeMap(x => x.instance.change.pipe(
+            filter(z => z),
+            map(() => new UIActions.HubCreateBlogSuccess(x.action.payload))
+        ))
+    );
+
+    @Effect() hubCreateBlogSuccess = this.actions.pipe(
+        ofType<UIActions.HubCreateBlogSuccess>(BlogTypes.HUB_CREATE_BLOG_SUCCESS),
+        map(a => new UIActions.CreateBlogSuccess(a.payload)),
+    );
+
+    @Effect() hubUpdateBlogRequest = this.actions.pipe(
+        ofType<UIActions.HubUpdateBlogRequest>(BlogTypes.HUB_UPDATE_BLOG_REQUEST),
+        map(action => ({ action, instance: this.snackBar.openFromComponent(MessageComponent).instance })),
+        tap(x => x.instance.subject = 'updated blog'),
+        mergeMap(x => x.instance.change.pipe(
+            filter(z => z),
+            map(() => new UIActions.HubUpdateBlogSuccess(x.action.payload))
+        ))
+    );
+
+    @Effect() hubUpdateBlogSuccess = this.actions.pipe(
+        ofType<UIActions.HubUpdateBlogSuccess>(BlogTypes.HUB_UPDATE_BLOG_SUCCESS),
+        map(a => new UIActions.UpdateBlogSuccess(a.payload)),
     );
 }

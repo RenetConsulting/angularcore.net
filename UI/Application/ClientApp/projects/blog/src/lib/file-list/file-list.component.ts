@@ -14,9 +14,9 @@ import { selectFiles, selectFilesAmount, selectFilesTotal } from './selectors';
 export class FileListComponent implements OnInit {
 
     @Input() insertImage: (x: string) => void;
-    items = this.store.select(selectFiles);
-    itemsTotal = this.store.select(selectFilesTotal);
-    itemsAmount = this.store.select(selectFilesAmount);
+    readonly items = this.store.select(selectFiles);
+    readonly itemsTotal = this.store.select(selectFilesTotal);
+    readonly itemsAmount = this.store.select(selectFilesAmount);    
 
     constructor(
         @Inject(Store) private store: Store<RootBlogStore>

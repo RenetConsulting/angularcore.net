@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
-import { GetBlogsRequest } from '../actions';
+import { DeleteBlogs, GetBlogsRequest } from '../actions';
 import { BlogHubService } from '../blog-hub.service';
 import { BlogModel } from '../blog.model';
 import { RootBlogStore } from '../reducers';
-import { selectBlogs, selectBlogsAmount, selectBlogsTotal } from '../selectors';
+import { selectBlogs, selectBlogsAmount, selectBlogsTotal, selectCreatedBlog, selectUpdatedBlog } from '../selectors';
 
 @Component({
     selector: 'lib-blog-list',
@@ -15,10 +14,11 @@ import { selectBlogs, selectBlogsAmount, selectBlogsTotal } from '../selectors';
 })
 export class BlogListComponent implements OnInit, OnDestroy {
 
-    readonly subscription = new Subscription();
-    items = this.store.select(selectBlogs);
-    itemsTotal = this.store.select(selectBlogsTotal);
-    itemsAmount = this.store.select(selectBlogsAmount);
+    readonly items = this.store.select(selectBlogs);
+    readonly itemsTotal = this.store.select(selectBlogsTotal);
+    readonly itemsAmount = this.store.select(selectBlogsAmount);
+    readonly updated = this.store.select(selectUpdatedBlog);
+    readonly created = this.store.select(selectCreatedBlog);
 
     constructor(
         @Inject(Store) private store: Store<RootBlogStore>,
@@ -31,8 +31,8 @@ export class BlogListComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.subscription.unsubscribe();
         this.blogHub.disconnect();
+        this.store.dispatch(new DeleteBlogs());
     }
 
     trackByFn = (_, i: BlogModel) => i.blogId;

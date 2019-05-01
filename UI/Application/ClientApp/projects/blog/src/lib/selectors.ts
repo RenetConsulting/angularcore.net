@@ -10,7 +10,12 @@ const getSelectedBlogId = (s: BlogState) => s.selectedBlogId;
 
 const getBlogsAmount = (s: BlogState) => s.itemsAmount;
 
+const getCreatedBlog = (s: BlogState) => s.created;
+
+const getUpdatedBlog = (s: BlogState) => s.updated;
+
 const getBlogAllEntities = createSelector(getModule, getBlogEntities);
+
 
 export const selectBlogs = createSelector(getModule, getAllBlogs);
 
@@ -23,3 +28,7 @@ export const selectBlogsTotal = createSelector(getModule, getBlogsTotal);
 
 /** returns number of blogs that are in store */
 export const selectBlogsAmount = createSelector(getModule, getBlogsAmount);
+
+export const selectCreatedBlog = createSelector(getModule, getCreatedBlog);
+
+export const selectUpdatedBlog = createSelector(getModule, getUpdatedBlog);

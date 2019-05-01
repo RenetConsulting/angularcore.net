@@ -69,13 +69,27 @@ export class DeleteBlogError implements Action {
     constructor(readonly error) { }
 }
 
-export class HubCreate implements Action {
-    readonly type = BlogTypes.HUB_CREATE;
+export class HubCreateBlogRequest implements Action {
+    readonly type = BlogTypes.HUB_CREATE_BLOG_REQUEST;
     constructor(readonly payload: BlogModel) { }
 }
-export class HubUpdate implements Action {
-    readonly type = BlogTypes.HUB_UPDATE;
+export class HubCreateBlogSuccess implements Action {
+    readonly type = BlogTypes.HUB_CREATE_BLOG_SUCCESS;
     constructor(readonly payload: BlogModel) { }
+}
+
+export class HubUpdateBlogRequest implements Action {
+    readonly type = BlogTypes.HUB_UPDATE_BLOG_REQUEST;
+    constructor(readonly payload: BlogModel) { }
+}
+export class HubUpdateBlogSuccess implements Action {
+    readonly type = BlogTypes.HUB_UPDATE_BLOG_SUCCESS;
+    constructor(readonly payload: BlogModel) { }
+}
+
+export class DeleteBlogs implements Action {
+    readonly type = BlogTypes.DELETE_BLOGS;
+    constructor() { }
 }
 
 export type BlogActionsUnion = CreateBlogRequest
@@ -93,5 +107,8 @@ export type BlogActionsUnion = CreateBlogRequest
     | DeleteBlogRequest
     | DeleteBlogSuccess
     | DeleteBlogError
-    | HubCreate
-    | HubUpdate;
+    | HubCreateBlogRequest
+    | HubCreateBlogSuccess
+    | HubUpdateBlogRequest
+    | HubUpdateBlogSuccess
+    | DeleteBlogs;

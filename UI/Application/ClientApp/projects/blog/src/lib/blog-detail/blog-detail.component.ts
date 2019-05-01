@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { GetBlogRequest, UpdateBlogRequest } from '../actions';
+import { DeleteBlogs, GetBlogRequest, UpdateBlogRequest } from '../actions';
 import { BlogModel } from '../blog.model';
 import { RootBlogStore } from '../reducers';
 import { selectSelectedBlog } from '../selectors';
@@ -32,6 +32,7 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
+        this.store.dispatch(new DeleteBlogs());
     }
 
     setFormGroup = (): void => {

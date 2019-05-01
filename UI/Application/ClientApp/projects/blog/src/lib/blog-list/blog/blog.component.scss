@@ -1,0 +1,17 @@
+$black: black;
+
+mat-card {
+
+    &:hover {
+        box-shadow: 0 8px 8px rgba($black, 0.24), 0 0 8px rgba($black, 0.12);
+        text-decoration: none;
+    }
+}
+
+.created {
+    background-color: red;
+}
+
+.updated {
+    background-color: yellow;
+}
