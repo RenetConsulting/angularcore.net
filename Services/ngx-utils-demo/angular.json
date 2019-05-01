@@ -377,6 +377,41 @@
           }
         }
       }
+    },
+    "http-hub-client": {
+      "root": "projects/http-hub-client",
+      "sourceRoot": "projects/http-hub-client/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/http-hub-client/tsconfig.lib.json",
+            "project": "projects/http-hub-client/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/http-hub-client/src/test.ts",
+            "tsConfig": "projects/http-hub-client/tsconfig.spec.json",
+            "karmaConfig": "projects/http-hub-client/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/http-hub-client/tsconfig.lib.json",
+              "projects/http-hub-client/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "ngx-utils-demo"
