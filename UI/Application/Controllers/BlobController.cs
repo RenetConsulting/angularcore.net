@@ -5,75 +5,49 @@
 
 namespace Application.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using Microsoft.AspNetCore.Http;
+    using Application.DataAccess.Repositories;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Options;
 
     [Route("api/[controller]")]
     [ApiController]
     public class BlobController : ControllerBase
     {
-        private List<FileModel> items = new List<FileModel>();
+        private readonly IGlobalRepository repository;
 
-        public BlobController()
+        private readonly IOptions<AppSettings> appSettings;
+
+        public BlobController(IGlobalRepository repository, IOptions<AppSettings> appSettings)
         {
-            for (int i = 0; i < 80; i++)
-            {
-                bool editable = i % 2 == 0;
-                var date = DateTime.Now;
+            this.repository = repository;
 
-                FileModel model = new FileModel()
-                {
-                    FileId = i + "qq",
-                    Title = "Title " + i,
-                    FileUrl = "https://angular.io/assets/images/logos/angular/angular.svg",
-                    CreatedDate = date.AddDays(i)
-                };
-                this.items.Add(model);
-            }
+            this.appSettings = appSettings;
         }
 
         [HttpPost]
         [DisableRequestSizeLimit]
         public IActionResult UploadFile()
         {
-            IFormFileCollection files = this.HttpContext.Request.Form.Files;
-            return this.Ok(this.items[0]);
+            // IFormFileCollection files = this.HttpContext.Request.Form.Files;
+            return this.Ok();
         }
 
         [HttpGet]
         public IActionResult GetFiles(int index, int count)
         {
-            var result = new
-            {
-                Items = this.items.GetRange(index, count),
-                ItemsAmount = this.items.ToArray().Length
-            };
-            return this.Ok(result);
+            //var result = new
+            //{
+            //    Items = this.items.GetRange(index, count),
+            //    ItemsAmount = this.items.ToArray().Length
+            //};
+            return this.Ok();
         }
 
         [HttpDelete("{blogId}")]
         public IActionResult DeleteFile(string blogId)
         {
-            this.items.Remove(this.items.Find(x => x.FileId == blogId));
+            // this.items.Remove(this.items.Find(x => x.FileId == blogId));
             return this.Ok(true);
         }
-    }
-
-    /// <summary>
-    /// TODO: refactor to a separate file
-    /// </summary>
-    public class FileModel
-    {
-        public string FileId { get; set; }
-
-        public string Title { get; set; }
-
-        public string FileUrl { get; set; }
-
-        public DateTime CreatedDate { get; set; }
-
-        public DateTime UpdatedDate { get; set; }
     }
 }

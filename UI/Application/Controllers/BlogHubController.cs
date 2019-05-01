@@ -45,20 +45,20 @@
                 bool editable = i % 2 == 0;
                 var date = DateTime.Now;
 
-                BlogModel model = new BlogModel()
-                {
-                    BlogId = i + "qq",
-                    Title = "Title " + i,
-                    Content = "Brave new world " + i,
-                    Editable = editable,
-                    CreatedBy = editable ? "Bob" : "Mark",
-                    CreatedDate = date.AddDays(i)
-                };
-                items.Add(model);
-            }
+        //        BlogModel model = new BlogModel()
+        //        {
+        //            BlogId = i + "qq",
+        //            Title = "Title " + i,
+        //            Content = "Brave new world " + i,
+        //            Editable = editable,
+        //            CreatedBy = editable ? "Bob" : "Mark",
+        //            CreatedDate = date.AddDays(i)
+        //        };
+        //        items.Add(model);
+        //    }
 
-            return items;
-        }
+        //    return items;
+        //}
     }
 
     public class BlogHub : Hub

@@ -5,10 +5,10 @@
 
 namespace Application.Controllers
 {
-    using System;
-    using System.Collections.Generic;
     using Application.Business.Models;
+    using Application.DataAccess.Repositories;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Options;
 
     /// <summary>
     /// TODO: create integaration with SignalR
@@ -18,26 +18,15 @@ namespace Application.Controllers
     [ApiController]
     public class BlogController : ControllerBase
     {
-        private List<BlogModel> items = new List<BlogModel>();
+        private readonly IGlobalRepository repository;
 
-        public BlogController()
+        private readonly IOptions<AppSettings> appSettings;
+
+        public BlogController(IGlobalRepository repository, IOptions<AppSettings> appSettings)
         {
-            for (int i = 0; i < 350; i++)
-            {
-                bool editable = i % 2 == 0;
-                var date = DateTime.Now;
+            this.repository = repository;
 
-                BlogModel model = new BlogModel()
-                {
-                    BlogId = i + "qq",
-                    Title = "Title " + i,
-                    Content = "Brave new world " + i,
-                    Editable = editable,
-                    CreatedBy = editable ? "Bob" : "Mark",
-                    CreatedDate = date.AddDays(i)
-                };
-                this.items.Add(model);
-            }
+            this.appSettings = appSettings;
         }
 
         [HttpPost]
@@ -49,19 +38,19 @@ namespace Application.Controllers
         [HttpGet]
         public IActionResult GetBlogs(int index, int count)
         {
-            var result = new
-            {
-                Items = this.items.GetRange(index, count),
-                ItemsAmount = this.items.ToArray().Length
-            };
-            return this.Ok(result);
+            //var result = new
+            //{
+            //    Items = this.items.GetRange(index, count),
+            //    ItemsAmount = this.items.ToArray().Length
+            //};
+            return this.Ok();
         }
 
         [HttpGet("{blogId}")]
         public IActionResult GetBlog(string blogId)
         {
-            BlogModel model = this.items.Find(x => x.BlogId == blogId);
-            return this.Ok(model);
+            // BlogModel model = this.items.Find(x => x.BlogId == blogId);
+            return this.Ok();
         }
 
         [HttpPatch]
@@ -73,28 +62,8 @@ namespace Application.Controllers
         [HttpDelete("{blogId}")]
         public IActionResult DeleteBlog(string blogId)
         {
-            this.items.Remove(this.items.Find(x => x.BlogId == blogId));
-            return this.Ok(true);
+            // this.items.Remove(this.items.Find(x => x.BlogId == blogId));
+            return this.Ok();
         }
-    }
-
-    /// <summary>
-    /// TODO: refactor to a separate file
-    /// </summary>
-    public class BlogModel
-    {
-        public string BlogId { get; set; }
-
-        public string Title { get; set; }
-
-        public string Content { get; set; }
-
-        public bool Editable { get; set; }
-
-        public string CreatedBy { get; set; }
-
-        public DateTime CreatedDate { get; set; }
-
-        public DateTime UpdatedDate { get; set; }
     }
 }
