@@ -1,25 +1,20 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { NgxMatInputComponent } from './ngx-mat-input.component';
 
 describe('NgxMatInputComponent', () => {
-  let component: NgxMatInputComponent;
-  let fixture: ComponentFixture<NgxMatInputComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ NgxMatInputComponent ]
-    })
-    .compileComponents();
-  }));
+    let component: NgxMatInputComponent;
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(NgxMatInputComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        component = new NgxMatInputComponent(null, null);
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
+    it('autocomplete', () => {
+        expect(component.autocomplete).toEqual('off');
+    });
+    it('type', () => {
+        expect(component.type).toEqual('text');
+    });
 });
