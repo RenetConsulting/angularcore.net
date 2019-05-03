@@ -19,6 +19,7 @@
     "test:ngx-http-params": "ng test ngx-http-params --watch=false",
     "test:ngx-link-stylesheet": "ng test ngx-link-stylesheet --watch=false",
     "test:ngx-mat-input": "ng test ngx-mat-input --watch=false",
+    "test:ngx-messenger": "ng test ngx-messenger --watch=false",
     "test:ngx-uploader": "ng test ngx-uploader --watch=false",
     "test:ngx-validator": "ng test ngx-validator --watch=false",
     "lint": "ng lint",

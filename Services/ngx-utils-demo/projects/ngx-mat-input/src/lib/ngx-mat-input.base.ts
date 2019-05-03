@@ -10,7 +10,7 @@ export abstract class NgxMatInputBase implements ControlValueAccessor, OnChanges
     @Input() required: boolean;
     @Input() minlength: number;
     @Input() maxlength: number;
-    /** name of the field that passes to {@link NgxValidatorDirective} */
+    /** name of the field that is passed to {@link NgxValidatorDirective} */
     @Input() label: number;
     /** entry for custom errors */
     @Input() errors: Array<string>;
