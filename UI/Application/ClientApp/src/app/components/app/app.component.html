@@ -1,7 +1,7 @@
 <app-header></app-header>
-<div class="container-fluid d-flex flex-column vh-100 px-0">
+<div class="container-fluid d-flex flex-column vh-100 px-0 pt-10">
     <main class="flex-fill">
         <router-outlet></router-outlet>
     </main>
 </div>
-<messager></messager>
+<ng-progress color="#ec971f" [spinner]="false" [thick]="true"></ng-progress>

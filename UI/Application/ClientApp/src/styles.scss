@@ -4,7 +4,7 @@
 /** override styles of material */
 @import "./app/styles/dialog.scss";
 @import "./app/styles/checkbox.scss";
-/** imports of fontawesome */
+/** fontawesome */
 $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "../node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
 @import "../node_modules/@fortawesome/fontawesome-free/scss/regular";
@@ -46,4 +46,7 @@ a, button {
 }
 .rounded-10 {
     border-radius: 10px !important;
+}
+.pt-10 {
+    padding-top: $spacer * 6;
 }

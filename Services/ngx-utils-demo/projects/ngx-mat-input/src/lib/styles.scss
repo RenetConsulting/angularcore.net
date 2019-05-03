@@ -1,0 +1,40 @@
+@mixin ngx-mat {
+
+    .minh-28 {
+        min-height: 28px;
+    }
+
+    mat-error {
+        div {
+            overflow: hidden;
+        }
+    }
+
+    mat-hint {
+        display: block;
+        direction: rtl;
+
+        div {
+            overflow: hidden;
+        }
+    }
+
+    .mat-form-field-appearance-legacy .mat-form-field-underline {
+        position: relative;
+        bottom: 0;
+    }
+
+    .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+        padding-bottom: 0;
+    }
+
+    .mat-form-field-appearance-legacy .mat-form-field-subscript-wrapper {
+        position: relative;
+        margin-top: initial;
+        top: initial;
+    }
+
+    .mat-form-field-wrapper {
+        padding-bottom: 0;
+    }
+}

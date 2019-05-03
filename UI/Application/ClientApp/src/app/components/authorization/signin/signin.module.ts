@@ -7,11 +7,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { CoreCaptchaModule, NGX_CORE_CAPTCHA_OPTIONS } from '@renet-consulting/core-captcha';
-import { ControlInputModule } from '~/components/control-input/control-input.module';
+import { NgxMatInputModule } from '@renet-consulting/ngx-mat-input';
+import { NgxMessengerModule } from '@renet-consulting/ngx-messenger';
 import { SocialMediaModule } from '~/components/social-media/social-media.module';
 import { CORE_CAPTCHA_OPTIONS } from '~/consts/core-captcha-options';
 import { SigninEffects } from './effects';
 import { signinReducer } from './reducer';
+import { ResendConfirmationModule } from './resend-confirmation/resend-confirmation.module';
 import { SigninExternalModule } from './signin-external/signin-external.module';
 import { SigninRoutingModule } from './signin-routing.module';
 import { SigninComponent } from './signin.component';
@@ -26,14 +28,16 @@ import { SigninComponent } from './signin.component';
         SigninRoutingModule,
         ReactiveFormsModule,
         MatButtonModule,
-        ControlInputModule,
+        NgxMatInputModule,
         SocialMediaModule,
         MatCheckboxModule,
         MatCardModule,
         CoreCaptchaModule,
         StoreModule.forFeature('signin', signinReducer),
         EffectsModule.forRoot([SigninEffects]),
-        SigninExternalModule
+        ResendConfirmationModule,
+        SigninExternalModule,
+        NgxMessengerModule,
     ],
 })
 export class SigninModule { }

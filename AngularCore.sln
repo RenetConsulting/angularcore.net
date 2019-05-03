@@ -34,9 +34,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{7B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreCaptcha", "Services\CoreCaptcha\CoreCaptcha.csproj", "{53BC1D85-6445-4557-8531-2F93A56DC6CC}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "core-captcha-demo", "Services\core-captcha-demo\core-captcha-demo.njsproj", "{F95BA1EA-07C7-49AE-87D7-7D8013E08408}"
-EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "ngx-link-stylesheet-demo", "Services\ngx-link-stylesheet-demo\ngx-link-stylesheet-demo.njsproj", "{95AE8594-E0E1-47BF-9F11-B6D70B1A0E83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ngx-utils-demo", "Services\ngx-utils-demo\ngx-utils-demo.csproj", "{EEC16F48-97B7-4C08-BFDB-C82F1DB6852A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,16 +77,12 @@ Global
 		{53BC1D85-6445-4557-8531-2F93A56DC6CC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{53BC1D85-6445-4557-8531-2F93A56DC6CC}.TestingProduction|Any CPU.ActiveCfg = Debug|Any CPU
 		{53BC1D85-6445-4557-8531-2F93A56DC6CC}.TestingProduction|Any CPU.Build.0 = Debug|Any CPU
-		{F95BA1EA-07C7-49AE-87D7-7D8013E08408}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F95BA1EA-07C7-49AE-87D7-7D8013E08408}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F95BA1EA-07C7-49AE-87D7-7D8013E08408}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F95BA1EA-07C7-49AE-87D7-7D8013E08408}.TestingProduction|Any CPU.ActiveCfg = Release|Any CPU
-		{F95BA1EA-07C7-49AE-87D7-7D8013E08408}.TestingProduction|Any CPU.Build.0 = Release|Any CPU
-		{95AE8594-E0E1-47BF-9F11-B6D70B1A0E83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{95AE8594-E0E1-47BF-9F11-B6D70B1A0E83}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{95AE8594-E0E1-47BF-9F11-B6D70B1A0E83}.Release|Any CPU.Build.0 = Release|Any CPU
-		{95AE8594-E0E1-47BF-9F11-B6D70B1A0E83}.TestingProduction|Any CPU.ActiveCfg = Release|Any CPU
-		{95AE8594-E0E1-47BF-9F11-B6D70B1A0E83}.TestingProduction|Any CPU.Build.0 = Release|Any CPU
+		{EEC16F48-97B7-4C08-BFDB-C82F1DB6852A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEC16F48-97B7-4C08-BFDB-C82F1DB6852A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEC16F48-97B7-4C08-BFDB-C82F1DB6852A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEC16F48-97B7-4C08-BFDB-C82F1DB6852A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEC16F48-97B7-4C08-BFDB-C82F1DB6852A}.TestingProduction|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEC16F48-97B7-4C08-BFDB-C82F1DB6852A}.TestingProduction|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -100,8 +94,7 @@ Global
 		{7E001325-5586-4878-A1B0-9D97F63DECD7} = {46D36B75-80EB-4ADE-9F09-FA565FFFDB3F}
 		{3F3851A4-98EF-4B69-A7D7-02C78DCC71B4} = {1F3672DE-1B48-4C20-8551-C214405F2B09}
 		{53BC1D85-6445-4557-8531-2F93A56DC6CC} = {7B798BEB-8EF8-4459-8F62-02C6A7E72BD3}
-		{F95BA1EA-07C7-49AE-87D7-7D8013E08408} = {7B798BEB-8EF8-4459-8F62-02C6A7E72BD3}
-		{95AE8594-E0E1-47BF-9F11-B6D70B1A0E83} = {7B798BEB-8EF8-4459-8F62-02C6A7E72BD3}
+		{EEC16F48-97B7-4C08-BFDB-C82F1DB6852A} = {7B798BEB-8EF8-4459-8F62-02C6A7E72BD3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B08C599-CF94-4BC6-9D7F-F7DC85331814}

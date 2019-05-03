@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, filter, map, mapTo, mergeMap, tap } from 'rxjs/operators';
-import { ErrorRequest, MessageRequest } from '~/actions/message.actions';
+import { SetError, SetSuccess } from '~/actions/messenger.actions';
 import { MessagesType } from '~/enums/messages.type';
 import { AuthorizationService } from '~/services/authorization/authorization.service';
 import { filterError } from '~/utils/filter.error';
@@ -31,12 +31,12 @@ export class SignupEffects {
     @Effect() signupSuccess = this.actions.pipe(
         ofType<SignupSuccess>(SignupTypes.SIGNUP_SUCCESS),
         tap(() => this.router.navigate(['/signin'])),
-        mapTo(new MessageRequest(MessagesType.checkEmail))
+        mapTo(new SetSuccess(MessagesType.checkEmail))
     );
 
     @Effect() signupError = this.actions.pipe(
         ofType<SignupError>(SignupTypes.SIGNUP_ERROR),
         filter(filterError),
-        map(e => new ErrorRequest(e.error))
+        map(e => new SetError(e.error))
     );
 }

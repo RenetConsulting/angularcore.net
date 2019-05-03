@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ErrorRequest } from '~/actions/message.actions';
+import { SetError } from '~/actions/messenger.actions';
 import { HTTP_HEADER_NAMES } from '~/enums/http-header-names.type';
 import { RootStore } from '~/reducers';
 
@@ -25,7 +25,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     handleError = (error: HttpErrorResponse, request: HttpRequest<any>) => {
         if (error instanceof HttpErrorResponse) {
             if (!request.headers.has(HTTP_HEADER_NAMES.allowHttpError) || error.status >= 500) {
-                this.store.dispatch(new ErrorRequest(error.error));
+                this.store.dispatch(new SetError(error.error));
                 return throwError(error);
             }
         }

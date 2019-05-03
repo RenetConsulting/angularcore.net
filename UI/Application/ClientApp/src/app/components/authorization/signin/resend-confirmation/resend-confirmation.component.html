@@ -1,0 +1,12 @@
+<div class="d-flex align-items-center">
+    <H1 class="p-2 mat-error"><i class="fas fa-exclamation-circle"></i></H1>
+    <div class="p-2 flex-grow-1">
+        {{error}}
+        <div class="mt-3">
+            You have not confirmed your email. Click <button mat-raised-button color="primary" type="button" (click)="submit()">Resend</button> to Resend your confirmation email.
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions class="d-flex justify-content-end">
+    <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>
+</div>
