@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Inject, Input, OnChanges, OnDestroy, OnInit, Optional, Output, Self } from '@angular/core';
-import { AbstractControl, FormControl, FormGroupDirective, NgControl, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroupDirective, NgControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { IDecodedCaptcha } from './decoded-captcha';
@@ -56,7 +56,6 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
             this.subscription.add(this.formGroup.ngSubmit.subscribe(this.updateControl));
         }
         this.subscription.add(this.formControl.valueChanges.subscribe(this.emitDecodedCaptcha));
-        this.subscription.add(this.resolved.subscribe(this.validate));
     }
 
     ngOnDestroy(): void {
@@ -80,7 +79,7 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     /** internal */
-    emitDecodedCaptcha = (): void => this.resolved.emit(this.value)
+    emitDecodedCaptcha = (): void => this.resolved.emit(this.value);
 
     /** internal */
     destroy = (): void => {
@@ -99,16 +98,20 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
 
     refresh = (): void => this.setCaptchaAsync();
 
-    /** internal */
+    /**
+     *  internal
+     *  override {@link ngx-mat-input} validator
+     */
     setValidator = (): void => {
-        this.validator = this.ngControl && this.ngControl.control && this.ngControl.control.validator;
+        const validator = this.ngControl && this.ngControl.control && this.ngControl.control.validator;
+        if (validator) {
+            this.formControl.validator = this.mapValidator(validator);
+        }
     }
 
     /** internal */
-    validate = (): void => {
-        if (this.validator) {
-            const errors = this.validator({ value: this.value } as AbstractControl);
-            this.formControl.setErrors(errors);
-        }
+    mapValidator = (validator: ValidatorFn): ValidatorFn => (): ValidationErrors | null => {
+        const control: AbstractControl = { value: this.value } as AbstractControl;
+        return validator(control);
     }
 }
