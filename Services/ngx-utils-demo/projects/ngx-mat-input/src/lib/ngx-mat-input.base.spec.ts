@@ -127,16 +127,42 @@ describe('NgxMatInputBase', () => {
         expect(base.ngControl.control.markAsTouched).toHaveBeenCalled();
         expect(base.ngControl.control.updateValueAndValidity).toHaveBeenCalled();
     });
-    it('setRequired', () => {
-        control.validator.and.returnValue({ required: true });
-        base.setRequired();
-        expect(base.required).toEqual(true);
+    describe('setRequired', () => {
+        it('should set required', () => {
+            control.validator.and.returnValue({ required: true });
+            base.setRequired();
+            expect(base.required).toEqual(true);
+        });
+        it('should not set required', () => {
+            control = jasmine.createSpyObj<AbstractControl>('AbstractControl', [
+                'markAsDirty',
+                'markAsTouched',
+                'updateValueAndValidity',
+            ]);
+            ngControl = { control: control as AbstractControl } as NgControl;
+            base = new TestBase(ngControl, formGroup);
+            base.setRequired();
+            expect(base.required).toBeUndefined();
+        });
     });
-    it('setMaxlength', () => {
-        const requiredLength = 26;
-        control.validator.and.returnValue({ maxlength: { requiredLength} });
-        base.setMaxlength();
-        expect(base.maxlength).toEqual(requiredLength);
+    describe('setMaxlength', () => {
+        it('should set maxlength', () => {
+            const requiredLength = 26;
+            control.validator.and.returnValue({ maxlength: { requiredLength } });
+            base.setMaxlength();
+            expect(base.maxlength).toEqual(requiredLength);
+        });
+        it('should not set maxlength', () => {
+            control = jasmine.createSpyObj<AbstractControl>('AbstractControl', [
+                'markAsDirty',
+                'markAsTouched',
+                'updateValueAndValidity',
+            ]);
+            ngControl = { control: control as AbstractControl } as NgControl;
+            base = new TestBase(ngControl, formGroup);
+            base.setMaxlength();
+            expect(base.maxlength).toBeUndefined();
+        });
     });
     it('setError', () => {
         spyOn(base, 'setErrorState');
