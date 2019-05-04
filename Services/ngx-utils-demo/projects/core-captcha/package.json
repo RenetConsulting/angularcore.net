@@ -18,6 +18,8 @@
     "@angular/common": "^7.0.0",
     "@angular/core": "^7.0.0",
     "@angular/material": "^7.0.0",
+    "@renet-consulting/ngx-mat-input": "^0.2.0",
+    "@renet-consulting/ngx-validator": "^0.0.3",
     "bootstrap": "^4.0.0"
   }
 }

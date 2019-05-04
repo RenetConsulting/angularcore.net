@@ -15,12 +15,11 @@ export class CaptchaComponent {
     url = 'https://corecaptcha.azurewebsites.net/api/CaptchaCreate';
     toggled: boolean;
 
-    constructor() {
-        console.log('constructor', this.formGroup.value);
-    }
+    constructor() { }
+
+    submit = console.log;
 
     resolved = (e) => {
         console.log('resolved', e, this.formGroup.value);
     }
-
 }
