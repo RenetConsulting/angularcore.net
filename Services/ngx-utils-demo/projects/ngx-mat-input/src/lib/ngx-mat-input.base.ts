@@ -59,6 +59,10 @@ export abstract class NgxMatInputBase implements ControlValueAccessor, OnChanges
         return !this.error && (Array.isArray(this.errors) && this.errors.length === 0 || !this.errors);
     }
 
+    get validator() {
+        return this.ngControl && this.ngControl.control && this.ngControl.control.validator;
+    }
+
     /** internal */
     writeValue(value): void {
         this.value = value;
@@ -106,17 +110,19 @@ export abstract class NgxMatInputBase implements ControlValueAccessor, OnChanges
 
     /** internal */
     setRequired = (): void => {
-        if (!this.required && this.ngControl) {
-            const errors = this.ngControl.control.validator({} as AbstractControl);
+        const validator = this.validator;
+        if (!this.required && validator) {
+            const errors = validator({} as AbstractControl);
             this.required = errors && errors.required;
         }
     }
 
     /** internal */
     setMaxlength = (): void => {
-        if (!this.maxlength && this.ngControl) {
+        const validator = this.validator;
+        if (!this.maxlength && validator) {
             const value: ArrayLike<any> = { length: Infinity };
-            const errors = this.ngControl.control.validator({ value } as AbstractControl);
+            const errors = validator({ value } as AbstractControl);
             this.maxlength = errors && errors.maxlength && errors.maxlength.requiredLength;
         }
     }
