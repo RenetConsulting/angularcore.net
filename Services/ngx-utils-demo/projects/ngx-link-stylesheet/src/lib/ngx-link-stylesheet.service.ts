@@ -1,15 +1,19 @@
 import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable, Renderer2 } from '@angular/core';
+import { Inject, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 
 @Injectable({
     providedIn: 'root'
 })
 export class NgxLinkStylesheetService {
 
+    private renderer: Renderer2;
+
     constructor(
         @Inject(DOCUMENT) private document,
-        @Inject(Renderer2) private renderer: Renderer2,
-    ) { }
+        @Inject(RendererFactory2) rendererFactory: RendererFactory2
+    ) {
+        this.renderer = rendererFactory.createRenderer(this.document, null);
+    }
 
     create = (className: string) => {
         const element = this.renderer.createElement('link');

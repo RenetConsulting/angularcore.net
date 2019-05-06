@@ -7,7 +7,6 @@ import { NgxLinkStylesheetService } from 'projects/ngx-link-stylesheet/src/publi
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
-    providers: [NgxLinkStylesheetService]
 })
 export class AppComponent implements OnInit {
 
