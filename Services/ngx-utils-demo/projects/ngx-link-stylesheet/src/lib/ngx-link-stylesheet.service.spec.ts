@@ -39,17 +39,17 @@ describe('NgxLinkStylesheetService', () => {
     it('should be created', () => {
         expect(service).toBeTruthy();
     });
-    describe('updateLink', () => {
-        it('getLink', () => {
+    describe('update', () => {
+        it('get', () => {
             head.querySelector.and.returnValue(element);
-            service.updateLink(className, href);
+            service.update(className, href);
             expect(head.querySelector).toHaveBeenCalledWith(`link[rel="stylesheet"].${className}`);
             expect(renderer2.setAttribute).toHaveBeenCalledWith(element, 'href', href);
         });
-        it('createLink', () => {
+        it('update', () => {
             head.querySelector.and.returnValue(null);
             renderer2.createElement.and.returnValue(element);
-            service.updateLink(className, href);
+            service.update(className, href);
             expect(renderer2.createElement).toHaveBeenCalledWith('link');
             expect(renderer2.setAttribute).toHaveBeenCalledWith(element, 'rel', 'stylesheet');
             expect(renderer2.addClass).toHaveBeenCalledWith(element, className);
@@ -57,9 +57,9 @@ describe('NgxLinkStylesheetService', () => {
             expect(renderer2.setAttribute).toHaveBeenCalledWith(element, 'href', href);
         });
     });
-    it('deleteLink', () => {
+    it('delete', () => {
         head.querySelector.and.returnValue(element);
-        service.deleteLink(className);
+        service.delete(className);
         expect(renderer2.removeChild).toHaveBeenCalledWith(head, element);
     });
 });

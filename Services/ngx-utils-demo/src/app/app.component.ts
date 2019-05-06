@@ -32,6 +32,6 @@ export class AppComponent implements OnInit {
     }
 
     setTheme = () => {
-        this.link.updateLink('hello-bob', 'assets/test.css');
+        this.link.update('hello-bob', 'assets/test.css');
     }
 }
