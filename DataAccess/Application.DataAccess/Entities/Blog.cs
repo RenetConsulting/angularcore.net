@@ -7,7 +7,7 @@ namespace Application.DataAccess.Entities
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class Blog
+    public class Blog : ApplicationEntity
     {
         [Key]
         public string BlogId { get; set; }

@@ -16,6 +16,7 @@ namespace Application
     using Application.DataAccess;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Repositories;
+    using Application.Services;
     using AspNet.Security.OAuth.Validation;
     using AspNet.Security.OpenIdConnect.Primitives;
     using Microsoft.AspNetCore.Builder;
@@ -210,6 +211,7 @@ namespace Application
             string apiKey = this.Configuration["AppSettings:SendGridKey"];
             services.AddScoped<ISendGridClient>(f => new SendGridClient(apiKey));
             services.AddScoped<IMailClient, MailClient>();
+            services.AddScoped<IAzureBlobManager, AzureBlobManager>();
 
             services.Configure<CoreCaptchaSettings>(this.Configuration.GetSection("CoreCaptcha"));
 
