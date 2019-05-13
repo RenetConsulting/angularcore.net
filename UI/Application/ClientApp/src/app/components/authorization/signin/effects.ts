@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { NgxMessengerService } from '@renet-consulting/ngx-messenger';
 import { StorageService } from '@renet-consulting/storage';
-import { EMPTY, of } from 'rxjs';
+import { of } from 'rxjs';
 import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
 import { SetError } from '~/actions/messenger.actions';
 import { ErrorCodeType } from '~/consts/error-code.type';
@@ -36,11 +36,10 @@ export class SigninEffects {
         ))
     );
 
-    @Effect() signinSuccess = this.actions.pipe(
+    @Effect({ dispatch: false }) signinSuccess = this.actions.pipe(
         ofType<SigninSuccess>(SigninTypes.SIGNIN_SUCCESS),
         tap(() => this.router.navigate(['/'])),
         tap(x => this.tokenService.setToken(x.success)),
-        mergeMap(() => EMPTY)
     );
 
     @Effect() signinError = this.actions.pipe(

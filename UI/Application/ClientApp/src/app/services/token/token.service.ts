@@ -9,7 +9,7 @@ export class TokenService {
 
     /** the key for storage */
     private readonly key: string = 'token';
-    /*private */_token: IToken;
+    private _token: IToken;
 
     constructor(
         @Inject(StorageService) private storageService: StorageService
