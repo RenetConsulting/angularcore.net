@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { PASSWORD_VALIDATORS } from '~/consts/password.validators';
 import { IChangePassword } from '~/interfaces/change-password';
 import { mismatchPasswordValidator } from '~/validators/mismatch-password.validator';
-import { ChangePassword, ResetError } from './actions';
+import { ChangePasswordRequest, ResetError } from './actions';
 import { ChangePasswordStore } from './reducer';
 import { selectChangePasswordError } from './selectors';
 
@@ -40,7 +40,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
 
     submit = (): void => {
         if (this.formGroup.valid) {
-            this.store.dispatch(new ChangePassword(this.formGroup));
+            this.store.dispatch(new ChangePasswordRequest(this.formGroup));
         }
     }
 }

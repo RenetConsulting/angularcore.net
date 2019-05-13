@@ -2,12 +2,12 @@ import { TestBed } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { ChangePassword, ResetError } from './actions';
+import { ChangePasswordRequest, ResetError } from './actions';
 import { ChangePasswordComponent } from './change-password.component';
 import { ChangePasswordStore } from './reducer';
 import { selectChangePasswordError } from './selectors';
 
-fdescribe('ChangePasswordComponent', () => {
+describe('ChangePasswordComponent', () => {
 
     let component: ChangePasswordComponent;
 
@@ -46,6 +46,6 @@ fdescribe('ChangePasswordComponent', () => {
         spyOn(store, 'dispatch');
         component.formGroup = { valid: true } as FormGroup;
         component.submit();
-        expect(store.dispatch).toHaveBeenCalledWith(new ChangePassword(component.formGroup));
+        expect(store.dispatch).toHaveBeenCalledWith(new ChangePasswordRequest(component.formGroup));
     });
 });
