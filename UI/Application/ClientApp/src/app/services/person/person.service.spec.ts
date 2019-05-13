@@ -11,7 +11,7 @@ describe('PersonService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
-        })
+        });
         service = TestBed.get(PersonService);
         controller = TestBed.get(HttpTestingController);
     });
