@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
@@ -8,7 +9,7 @@ describe('AccountService', () => {
 
     let service: AccountService;
     let params: jasmine.SpyObj<NgxHttpParamsService>;
-    let httpTestingController: HttpTestingController;
+    let controller: HttpTestingController;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -17,51 +18,46 @@ describe('AccountService', () => {
         });
         service = TestBed.get(AccountService);
         params = TestBed.get(NgxHttpParamsService);
-        httpTestingController = TestBed.get(HttpTestingController);
+        controller = TestBed.get(HttpTestingController);
+        params.map.and.returnValue(new HttpParams());
     });
 
-    afterEach(() => httpTestingController.verify());
+    afterEach(() => controller.verify());
 
     it('should be created', () => {
         expect(service).toBeTruthy();
     });
     it('changePassword', () => {
         service.changePassword(null).subscribe();
-        const req = httpTestingController.expectOne(`${service.url}/password/change`);
+        const req = controller.expectOne(`${service.url}/password/change`);
         expect(req.request.method).toEqual('POST');
         expect(req.request.headers.has(HTTP_HEADER_NAMES.allowHttpError)).toEqual(true);
         req.flush(null);
     });
     it('prepResetPassword', () => {
-        const query = 'bob';
-        params.map.and.returnValue(query);
         service.prepResetPassword(null).subscribe();
-        const req = httpTestingController.expectOne(`${service.url}/password/send/token`);
+        const req = controller.expectOne(`${service.url}/password/send/token`);
         expect(req.request.method).toEqual('GET');
         expect(params.map).toHaveBeenCalled();
         req.flush(null);
     });
     it('resetPassword', () => {
         service.resetPassword(null).subscribe();
-        const req = httpTestingController.expectOne(`${service.url}/password/reset`);
+        const req = controller.expectOne(`${service.url}/password/reset`);
         expect(req.request.method).toEqual('POST');
         expect(req.request.headers.has(HTTP_HEADER_NAMES.allowHttpError)).toEqual(true);
         req.flush(null);
     });
     it('confirmEmail', () => {
-        const query = 'bob';
-        params.map.and.returnValue(query);
         service.confirmEmail(null).subscribe();
-        const req = httpTestingController.expectOne(`${service.url}/email/confirm`);
+        const req = controller.expectOne(`${service.url}/email/confirm`);
         expect(req.request.method).toEqual('GET');
         expect(params.map).toHaveBeenCalled();
         req.flush(null);
     });
     it('resendConfirmation', () => {
-        const query = 'bob';
-        params.map.and.returnValue(query);
         service.resendConfirmation(null).subscribe();
-        const req = httpTestingController.expectOne(`${service.url}/email/send/token`);
+        const req = controller.expectOne(`${service.url}/email/send/token`);
         expect(req.request.method).toEqual('GET');
         expect(params.map).toHaveBeenCalled();
         req.flush(null);
