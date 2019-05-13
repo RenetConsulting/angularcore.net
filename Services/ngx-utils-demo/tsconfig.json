@@ -68,6 +68,12 @@
       ],
       "http-hub-client/*": [
         "dist/http-hub-client/*"
+      ],
+      "storage": [
+        "dist/storage"
+      ],
+      "storage/*": [
+        "dist/storage/*"
       ]
     }
   }

@@ -13,6 +13,7 @@
     "build:ngx-messenger": "ng build ngx-messenger",
     "build:ngx-uploader": "ng build ngx-uploader",
     "build:ngx-validator": "ng build ngx-validator",
+    "build:storage": "ng build storage",
     "test": "ng test",
     "test:core-captcha": "ng test core-captcha --watch=false",
     "test:http-hub-client": "ng test http-hub-client --watch=false",
@@ -22,6 +23,7 @@
     "test:ngx-messenger": "ng test ngx-messenger --watch=false",
     "test:ngx-uploader": "ng test ngx-uploader --watch=false",
     "test:ngx-validator": "ng test ngx-validator --watch=false",
+    "test:storage": "ng test storage --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
