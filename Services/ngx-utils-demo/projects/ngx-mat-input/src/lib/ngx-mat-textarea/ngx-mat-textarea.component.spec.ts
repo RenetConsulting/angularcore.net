@@ -1,25 +1,17 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { NgxMatTextareaComponent } from './ngx-mat-textarea.component';
 
 describe('NgxMatTextareaComponent', () => {
-  let component: NgxMatTextareaComponent;
-  let fixture: ComponentFixture<NgxMatTextareaComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ NgxMatTextareaComponent ]
-    })
-    .compileComponents();
-  }));
+    let component: NgxMatTextareaComponent;
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(NgxMatTextareaComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        component = new NgxMatTextareaComponent(null, null);
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
+    it('minRows', () => {
+        expect(component.minRows).toEqual(7);
+    });
 });

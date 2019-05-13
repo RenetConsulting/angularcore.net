@@ -3,7 +3,6 @@ import { ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/fo
 import { errorEnterLeaveAnimation, hintEnterLeaveAnimation } from '../animations';
 import { NgxMatInputBase } from '../ngx-mat-input.base';
 
-/** TODO: create unit tests */
 @Component({
     // tslint:disable-next-line
     selector: 'ngx-mat-input',

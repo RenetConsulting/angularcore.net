@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
+import { StorageService } from '@renet-consulting/storage';
 import { IToken } from '~/interfaces/token';
-import { StorageService } from '../storage/storage.service';
 
 @Injectable({
     providedIn: 'root'
@@ -9,7 +9,7 @@ export class TokenService {
 
     /** the key for storage */
     private readonly key: string = 'token';
-    /*private */_token: IToken;
+    private _token: IToken;
 
     constructor(
         @Inject(StorageService) private storageService: StorageService

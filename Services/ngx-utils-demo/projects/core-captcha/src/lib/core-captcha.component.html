@@ -7,11 +7,7 @@
         <ngx-core-captcha-audio [sound]="item?.sound"></ngx-core-captcha-audio>
     </div>
 </div>
-<div class="mt-3">
-    <mat-form-field class="d-block">
-        <input matInput autocomplete="off" [placeholder]="placeholder" [formControl]="formControl">
-    </mat-form-field>
-</div>
+<ngx-mat-input [label]="label" [placeholder]="placeholder" [formControl]="formControl"></ngx-mat-input>
 
 <ng-template #loadingRef>
     <div class="d-flex justify-content-center">

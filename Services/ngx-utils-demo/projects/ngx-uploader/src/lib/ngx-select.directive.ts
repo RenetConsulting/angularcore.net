@@ -1,4 +1,5 @@
 import { Directive, EventEmitter, HostListener, Inject, OnChanges, OnDestroy, OnInit, Output, Renderer2 } from '@angular/core';
+import { isString } from 'util';
 import { NgxUploaderBase } from './ngx-uploader.base';
 
 @Directive({
@@ -38,9 +39,7 @@ export class NgxSelectDirective extends NgxUploaderBase implements OnChanges, On
 
     /** internal */
     uploadFiles = (): void => {
-        if (this.element.files.length) {
-            this.emit(this.element.files);
-        }
+        this.emit(this.element.files);
         this.element.value = '';
         this.removeListen();
     }
@@ -49,7 +48,7 @@ export class NgxSelectDirective extends NgxUploaderBase implements OnChanges, On
     setAttributes = (): void => {
         if (this.element) {
             this.renderer.setAttribute(this.element, 'accept', this.accept);
-            if (this.multiple) {
+            if (this.multiple || isString(this.multiple)) {
                 this.renderer.setAttribute(this.element, 'multiple', '');
             }
             else {
