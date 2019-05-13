@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
-import { LOCAL_STORAGE } from '~/tokens/local-storage.token';
-import { SESSION_STORAGE } from '~/tokens/session-storage.token';
+import { LOCAL_STORAGE } from './local-storage.token';
+import { SESSION_STORAGE } from './session-storage.token';
 
 @Injectable({
     providedIn: 'root'
@@ -8,14 +8,15 @@ import { SESSION_STORAGE } from '~/tokens/session-storage.token';
 export class StorageService {
 
     /** key - is remember user */
-    private readonly key = 'storage.iru';
+    private readonly key = 'constant';
     private storage;
 
     constructor(
         @Inject(LOCAL_STORAGE) private localStorage,
         @Inject(SESSION_STORAGE) private sessionStorage
     ) {
-        this.setStorage(this.get(this.key, this.localStorage));
+        const constant = this.get(this.key, this.localStorage);
+        this.setStorage(constant);
     }
 
     private getItem = (key: string, storage = this.storage): string => storage && storage.getItem(key);

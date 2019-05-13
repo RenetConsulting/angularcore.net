@@ -21,7 +21,12 @@ describe('CoreCaptchaComponent', () => {
 
     beforeEach(() => {
         http = jasmine.createSpyObj<HttpClient>('HttpClient', ['get']);
-        control = jasmine.createSpyObj<AbstractControl>('AbstractControl', ['markAsDirty', 'markAsTouched', 'updateValueAndValidity']);
+        control = jasmine.createSpyObj<AbstractControl>('AbstractControl', [
+            'markAsDirty',
+            'markAsTouched',
+            'updateValueAndValidity',
+            'validator'
+        ]);
         ngControl = { control };
         formGroup = { ngSubmit: of(null) };
 
@@ -54,13 +59,12 @@ describe('CoreCaptchaComponent', () => {
         expect(component.setCaptchaAsync).toHaveBeenCalled();
     });
     it('ngOnInit', () => {
+        spyOn(component, 'updateControl');
         spyOn(component, 'setCaptchaAsync');
         spyOn(component, 'emitDecodedCaptcha');
         component.ngOnInit();
         component.formControl.patchValue({});
-        expect(control.markAsDirty).toHaveBeenCalled();
-        expect(control.markAsTouched).toHaveBeenCalled();
-        expect(control.updateValueAndValidity).toHaveBeenCalled();
+        expect(component.updateControl).toHaveBeenCalled();
         expect(component.setCaptchaAsync).toHaveBeenCalled();
         expect(component.emitDecodedCaptcha).toHaveBeenCalled();
         component.subscription.unsubscribe();
@@ -71,11 +75,33 @@ describe('CoreCaptchaComponent', () => {
         expect(component.destroy).toHaveBeenCalled();
         expect(component.subscription.closed).toEqual(true);
     });
+    it('query', () => {
+        expect(component.query).toEqual('?width=48&height=25');
+    });
+    it('value', () => {
+        expect(component.value).toEqual({ captcha: null, hash: undefined });
+    });
+    it('updateControl', () => {
+        spyOn(component.formControl, 'markAsDirty');
+        spyOn(component.formControl, 'markAsTouched');
+        spyOn(component.formControl, 'updateValueAndValidity');
+        component.updateControl();
+        expect(component.formControl.markAsDirty).toHaveBeenCalled();
+        expect(component.formControl.markAsTouched).toHaveBeenCalled();
+        expect(component.formControl.updateValueAndValidity).toHaveBeenCalled();
+    });
     it('emitDecodedCaptcha', () => {
         const captcha = 'bob';
+        Object.defineProperty(component, 'value', { get: () => ({ captcha, hash: component.captcha && component.captcha.hash }) });
         spyOn(component.resolved, 'emit');
-        component.emitDecodedCaptcha(captcha);
+        component.emitDecodedCaptcha();
         expect(component.resolved.emit).toHaveBeenCalledWith({ captcha, hash: component.captcha && component.captcha.hash });
+    });
+    it('destroy', () => {
+        spyOn(component.formControl, 'reset');
+        component.destroy();
+        expect(component.captcha).toBeNull();
+        expect(component.formControl.reset).toHaveBeenCalled();
     });
     it('setCaptchaAsync', () => {
         const captcha = {} as IEncodedCaptcha;
@@ -88,15 +114,19 @@ describe('CoreCaptchaComponent', () => {
         expect(http.get).toHaveBeenCalledWith(`${component.url}${query}`);
         expect(component.captcha).toEqual(captcha);
     });
-    it('destroy', () => {
-        spyOn(component.formControl, 'reset');
-        component.destroy();
-        expect(component.captcha).toBeNull();
-        expect(component.formControl.reset).toHaveBeenCalled();
-    });
     it('refresh', () => {
         spyOn(component, 'setCaptchaAsync');
         component.refresh();
         expect(component.setCaptchaAsync).toHaveBeenCalled();
+    });
+    it('setValidator', () => {
+        spyOn(component, 'mapValidator');
+        component.setValidator();
+        expect(component.mapValidator).toHaveBeenCalled();
+    });
+    it('mapValidator', () => {
+        const validator = jasmine.createSpy();
+        component.mapValidator(validator)(null);
+        expect(validator).toHaveBeenCalledWith({ value: component.value });
     });
 });
