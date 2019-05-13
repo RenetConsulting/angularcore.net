@@ -11,7 +11,7 @@ import { AccountService } from '~/services/account/account.service';
 import { ChangePasswordError, ChangePasswordRequest, ChangePasswordSuccess } from './actions';
 import { ChangePasswordEffects } from './effects';
 
-fdescribe('ChangePasswordEffects', () => {
+describe('ChangePasswordEffects', () => {
 
     let effects: ChangePasswordEffects;
 
