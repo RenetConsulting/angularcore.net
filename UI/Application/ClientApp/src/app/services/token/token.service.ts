@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
+import { StorageService } from '@renet-consulting/storage';
 import { IToken } from '~/interfaces/token';
-import { StorageService } from '../storage/storage.service';
 
 @Injectable({
     providedIn: 'root'
