@@ -38,8 +38,8 @@ export class SigninComponent implements OnInit, OnDestroy {
 
     setFormGroup = (): void => {
         this.formGroup = new FormGroup({
-            email: new FormControl('', [...EMAIL_VALIDATORS]),
-            password: new FormControl('', [...PASSWORD_VALIDATORS]),
+            email: new FormControl('', EMAIL_VALIDATORS),
+            password: new FormControl('', PASSWORD_VALIDATORS),
             isRemember: new FormControl(false),
             captcha: new FormControl()
         } as MapPick<IUser, keyof IUser, FormControl>);

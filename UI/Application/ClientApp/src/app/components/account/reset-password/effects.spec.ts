@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { SetError, SetSuccess } from '~/actions/messenger.actions';
 import { MessagesType } from '~/enums/messages.type';
 import { IError } from '~/interfaces/error';
@@ -35,14 +35,31 @@ describe('ResetPasswordEffects', () => {
     it('should work', () => {
         expect(effects).toBeDefined();
     });
-    it('resetPasswordRequest', () => {
-        accountService.resetPassword.and.returnValue(of(null));
-        const formGroup = jasmine.createSpyObj<FormGroup>('FormGroup', ['reset']);
-        const action = new ResetPasswordRequest(formGroup);
-        const completion = new ResetPasswordSuccess();
-        const expected = cold('--b', { b: completion });
-        actions = hot('--a-', { a: action });
-        expect(effects.resetPasswordRequest).toBeObservable(expected);
+    describe('resetPasswordRequest', () => {
+
+        let formGroup: FormGroup;
+
+        beforeEach(() => {
+            formGroup = jasmine.createSpyObj<FormGroup>('FormGroup', ['reset']);
+        });
+
+        it('success', () => {
+            accountService.resetPassword.and.returnValue(of(null));
+            const action = new ResetPasswordRequest(formGroup);
+            const completion = new ResetPasswordSuccess();
+            const expected = cold('--b', { b: completion });
+            actions = hot('--a-', { a: action });
+            expect(effects.resetPasswordRequest).toBeObservable(expected);
+        });
+        it('error', () => {
+            const error = 'bob'
+            accountService.resetPassword.and.returnValue(throwError({ error }));
+            const action = new ResetPasswordRequest(formGroup);
+            const completion = new ResetPasswordError(error);
+            const expected = cold('--b', { b: completion });
+            actions = hot('--a-', { a: action });
+            expect(effects.resetPasswordRequest).toBeObservable(expected);
+        });
     });
     it('resetPasswordSuccess', () => {
         const action = new ResetPasswordSuccess();

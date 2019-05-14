@@ -18,4 +18,7 @@ describe('changePasswordReducer', () => {
     it('RESET', () => {
         expect(changePasswordReducer({}, new Reset())).toEqual({});
     });
+    it('RESET', () => {
+        expect(changePasswordReducer({}, { type: null })).toEqual({});
+    });
 });

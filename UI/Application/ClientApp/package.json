@@ -12,7 +12,7 @@
     "lint": "ng lint",
     "test": "ng test --watch=false",
     "test:watch": "ng test",
-    "test:coverage": "http-server -c-1 -o -p 9875 ./coverage/app",
+    "test:coverage": "npm run test -- --code-coverage && http-server -c-1 -o -p 9875 ./coverage/app",
     "e2e": "ng e2e"
   },
   "private": false,
