@@ -5,7 +5,7 @@ import { catchError, mapTo, mergeMap, tap } from 'rxjs/operators';
 import { SetSuccess } from '~/actions/messenger.actions';
 import { MessagesType } from '~/enums/messages.type';
 import { AccountService } from '~/services/account/account.service';
-import { PrepResetPassword, PrepResetPasswordSuccess } from './actions';
+import { PrepResetPasswordRequest, PrepResetPasswordSuccess } from './actions';
 import { PrepResetPasswordTypes } from './types';
 
 @Injectable()
@@ -16,8 +16,8 @@ export class PrepResetPasswordEffects {
         @Inject(AccountService) private accountService: AccountService
     ) { }
 
-    @Effect() prepResetPassword = this.actions.pipe(
-        ofType<PrepResetPassword>(PrepResetPasswordTypes.PREP_RESET_PASSWORD_REQUEST),
+    @Effect() prepResetPasswordRequest = this.actions.pipe(
+        ofType<PrepResetPasswordRequest>(PrepResetPasswordTypes.PREP_RESET_PASSWORD_REQUEST),
         mergeMap(x => this.accountService.prepResetPassword(x.payload.controls.email.value).pipe(
             tap(() => x.payload.reset()),
             mapTo(new PrepResetPasswordSuccess()),

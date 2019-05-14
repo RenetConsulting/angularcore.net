@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { EMAIL_VALIDATORS } from '~/consts/email.validators';
 import { IConfirmEmail } from '~/interfaces/confirm-email';
-import { ConfirmEmail } from './actions';
+import { ConfirmEmailRequest } from './actions';
 
 @Component({
     selector: 'confirm-email',
@@ -42,7 +42,7 @@ export class ConfirmEmailComponent implements OnInit, OnDestroy {
 
     submit = (): void => {
         if (this.formGroup.valid) {
-            this.store.dispatch(new ConfirmEmail(this.formGroup));
+            this.store.dispatch(new ConfirmEmailRequest(this.formGroup));
         }
     }
 }

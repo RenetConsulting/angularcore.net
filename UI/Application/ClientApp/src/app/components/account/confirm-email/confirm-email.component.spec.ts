@@ -4,10 +4,10 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { of } from 'rxjs';
-import { ConfirmEmail } from './actions';
+import { ConfirmEmailRequest } from './actions';
 import { ConfirmEmailComponent } from './confirm-email.component';
 
-fdescribe('ConfirmEmailComponent', () => {
+describe('ConfirmEmailComponent', () => {
 
     let component: ConfirmEmailComponent;
 
@@ -54,6 +54,6 @@ fdescribe('ConfirmEmailComponent', () => {
         spyOn(store, 'dispatch');
         component.formGroup = { valid: true } as FormGroup;
         component.submit();
-        expect(store.dispatch).toHaveBeenCalledWith(new ConfirmEmail(component.formGroup));
+        expect(store.dispatch).toHaveBeenCalledWith(new ConfirmEmailRequest(component.formGroup));
     });
 });

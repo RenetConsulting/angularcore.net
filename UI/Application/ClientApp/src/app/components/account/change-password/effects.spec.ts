@@ -35,7 +35,6 @@ describe('ChangePasswordEffects', () => {
     it('should work', () => {
         expect(effects).toBeDefined();
     });
-
     it('changePasswordRequest', () => {
         accountService.changePassword.and.returnValue(of(null));
         const formGroup = jasmine.createSpyObj<FormGroup>('FormGroup', ['reset']);
