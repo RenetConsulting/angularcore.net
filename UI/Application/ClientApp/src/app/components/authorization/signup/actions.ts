@@ -3,7 +3,7 @@ import { Action } from '@ngrx/store';
 import { SigninSuccess } from '../signin/actions';
 import { SignupTypes } from './types';
 
-export class Signup implements Action {
+export class SignupRequest implements Action {
     readonly type = SignupTypes.SIGNUP_REQUEST;
     constructor(readonly payload: FormGroup) { }
 }
@@ -15,4 +15,4 @@ export class SignupError implements Action {
     constructor(readonly error) { }
 }
 
-export type SignupActionsUnion = Signup | SignupSuccess | SignupError | SigninSuccess;
+export type SignupActionsUnion = SignupRequest | SignupSuccess | SignupError | SigninSuccess;

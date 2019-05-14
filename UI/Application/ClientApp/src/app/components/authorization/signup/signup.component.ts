@@ -8,7 +8,7 @@ import { PASSWORD_VALIDATORS } from '~/consts/password.validators';
 import { IUser } from '~/interfaces/user';
 import { RootStore } from '~/reducers';
 import { mismatchPasswordValidator } from '~/validators/mismatch-password.validator';
-import { Signup } from './actions';
+import { SignupRequest } from './actions';
 import { selectSignupError } from './selectors';
 
 @Component({
@@ -41,7 +41,7 @@ export class SignupComponent implements OnInit {
 
     submit = (): void => {
         if (this.formGroup.valid) {
-            this.store.dispatch(new Signup(this.formGroup));
+            this.store.dispatch(new SignupRequest(this.formGroup));
         }
     }
 }

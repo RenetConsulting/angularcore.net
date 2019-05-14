@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 import { ResendConfirmationTypes } from './types';
 
-export class ResendConfirmation implements Action {
+export class ResendConfirmationRequest implements Action {
     readonly type = ResendConfirmationTypes.RESEND_CONFIRMATION_REQUEST;
     constructor(readonly payload: string) { }
 }
@@ -13,4 +13,4 @@ export class ResendConfirmationError implements Action {
     constructor(readonly error) { }
 }
 
-export type AccountActionsUnion =  ResendConfirmation | ResendConfirmationSuccess | ResendConfirmationError;
+export type AccountActionsUnion =  ResendConfirmationRequest | ResendConfirmationSuccess | ResendConfirmationError;

@@ -7,7 +7,7 @@ import { SetError, SetSuccess } from '~/actions/messenger.actions';
 import { MessagesType } from '~/enums/messages.type';
 import { AuthorizationService } from '~/services/authorization/authorization.service';
 import { filterError } from '~/utils/filter.error';
-import { Signup, SignupError, SignupSuccess } from './actions';
+import { SignupRequest, SignupError, SignupSuccess } from './actions';
 import { SignupTypes } from './types';
 
 @Injectable()
@@ -19,8 +19,8 @@ export class SignupEffects {
         @Inject(Router) private router: Router,
     ) { }
 
-    @Effect() signup = this.actions.pipe(
-        ofType<Signup>(SignupTypes.SIGNUP_REQUEST),
+    @Effect() signupRequest = this.actions.pipe(
+        ofType<SignupRequest>(SignupTypes.SIGNUP_REQUEST),
         mergeMap(x => this.authorizationService.signup(x.payload.value).pipe(
             tap(() => x.payload.reset()),
             mapTo(new SignupSuccess()),

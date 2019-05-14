@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { selectSigninUser } from '~/components/authorization/signin/selectors';
 import { RootStore } from '~/reducers';
-import { ResendConfirmation } from './actions';
+import { ResendConfirmationRequest } from './actions';
 
 @Component({
     selector: 'resend-confirmation',
@@ -29,6 +29,6 @@ export class ResendConfirmationComponent implements OnInit, OnDestroy {
     }
 
     submit = (): void => {
-        this.store.dispatch(new ResendConfirmation(this.email));
+        this.store.dispatch(new ResendConfirmationRequest(this.email));
     }
 }

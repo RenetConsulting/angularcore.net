@@ -10,7 +10,7 @@ import { ErrorCodeType } from '~/consts/error-code.type';
 import { AuthorizationService } from '~/services/authorization/authorization.service';
 import { TokenService } from '~/services/token/token.service';
 import { filterError } from '~/utils/filter.error';
-import { Signin, SigninError, SigninSuccess } from './actions';
+import { SigninRequest, SigninError, SigninSuccess } from './actions';
 import { ResendConfirmationComponent } from './resend-confirmation/resend-confirmation.component';
 import { SigninTypes } from './types';
 
@@ -26,8 +26,8 @@ export class SigninEffects {
         @Inject(NgxMessengerService) private messenger: NgxMessengerService,
     ) { }
 
-    @Effect() signin = this.actions.pipe(
-        ofType<Signin>(SigninTypes.SIGNIN_REQUEST),
+    @Effect() signinRequest = this.actions.pipe(
+        ofType<SigninRequest>(SigninTypes.SIGNIN_REQUEST),
         mergeMap(x => this.authorizationService.signin(x.payload.value).pipe(
             tap(() => this.storageService.setStorage(x.payload.controls.isRemember.value)),
             tap(() => x.payload.reset()),

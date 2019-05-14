@@ -8,7 +8,7 @@ import { PASSWORD_VALIDATORS } from '~/consts/password.validators';
 import { IUser } from '~/interfaces/user';
 import { RootStore } from '~/reducers';
 import { selectSignupUser } from '../signup/selectors';
-import { ResetError, Signin } from './actions';
+import { ResetError, SigninRequest } from './actions';
 import { selectSigninError } from './selectors';
 
 @Component({
@@ -49,7 +49,7 @@ export class SigninComponent implements OnInit, OnDestroy {
 
     submit = (): void => {
         if (this.formGroup.valid) {
-            this.store.dispatch(new Signin(this.formGroup));
+            this.store.dispatch(new SigninRequest(this.formGroup));
         }
     }
 }
