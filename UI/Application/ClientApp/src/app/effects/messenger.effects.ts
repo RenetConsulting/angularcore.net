@@ -16,7 +16,9 @@ export class MessengerEffects {
 
     @Effect({ dispatch: false }) setError = this.actions.pipe(
         ofType<SetError>(MessengerTypes.SET_ERROR),
-        map(a => a.payload && a.payload.error_description || typeof a.payload === 'string' && a.payload as any || MessagesType.unspecifiedError),
+        map(a => a.payload && a.payload.error_description
+            || typeof a.payload === 'string' && a.payload as any
+            || MessagesType.unspecifiedError),
         tap(this.messenger.error)
     );
     @Effect({ dispatch: false }) setSuccess = this.actions.pipe(
