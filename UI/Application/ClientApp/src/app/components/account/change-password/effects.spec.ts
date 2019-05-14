@@ -52,7 +52,7 @@ describe('ChangePasswordEffects', () => {
             expect(effects.changePasswordRequest).toBeObservable(expected);
         });
         it('error', () => {
-            const error = 'bob'
+            const error = 'bob';
             accountService.changePassword.and.returnValue(throwError({ error }));
             const action = new ChangePasswordRequest(formGroup);
             const completion = new ChangePasswordError(error);

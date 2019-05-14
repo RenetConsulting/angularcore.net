@@ -52,7 +52,7 @@ describe('ResetPasswordEffects', () => {
             expect(effects.resetPasswordRequest).toBeObservable(expected);
         });
         it('error', () => {
-            const error = 'bob'
+            const error = 'bob';
             accountService.resetPassword.and.returnValue(throwError({ error }));
             const action = new ResetPasswordRequest(formGroup);
             const completion = new ResetPasswordError(error);

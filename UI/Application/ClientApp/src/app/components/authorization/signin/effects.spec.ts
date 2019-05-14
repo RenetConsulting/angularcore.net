@@ -115,13 +115,19 @@ describe('SigninEffects', () => {
         actions = hot('--a-', { a: action });
         expect(effects.signinError).toBeObservable(expected);
     });
-    it('signinError1001', () => {
-        messengerService.error.and.returnValue({ componentInstance: {} } as any);
-        const error = { error_description: 'bob error', code: ErrorCodeType.unconfirmedEmail } as IError;
-        const action = new SigninError(error);
-        const expected = cold('--b', { b: action });
-        actions = hot('--a-', { a: action });
-        expect(effects.signinError1001).toBeObservable(expected);
-        expect(messengerService.error).toHaveBeenCalledWith(ResendConfirmationComponent);
+    describe('signinError1001', () => {
+
+        it('should call methods', () => {
+            messengerService.error.and.returnValue({ componentInstance: {} } as any);
+            const error = { error_description: 'bob error', code: ErrorCodeType.unconfirmedEmail } as IError;
+            const action = new SigninError(error);
+            const expected = cold('--b', { b: action });
+            actions = hot('--a-', { a: action });
+            expect(effects.signinError1001).toBeObservable(expected);
+            expect(messengerService.error).toHaveBeenCalledWith(ResendConfirmationComponent);
+        });
+        it('should have dispatch', () => {
+            expect(metadata.signinError1001).toEqual({ dispatch: false });
+        });
     });
 });

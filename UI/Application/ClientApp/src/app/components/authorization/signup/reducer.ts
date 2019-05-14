@@ -1,6 +1,7 @@
 import { RootUnion } from '~/actions/root.actions';
 import { IUser } from '~/interfaces/user';
 import { RootTypes } from '~/types/root.types';
+import { SigninSuccess } from '../signin/actions';
 import { SigninTypes } from '../signin/types';
 import { SignupActionsUnion } from './actions';
 import { SignupTypes } from './types';
@@ -12,7 +13,7 @@ export interface SignupState {
 
 const INITIAL_STATE: SignupState = {};
 
-export function signupReducer(state = INITIAL_STATE, action: SignupActionsUnion | RootUnion): SignupState {
+export function signupReducer(state = INITIAL_STATE, action: SignupActionsUnion | RootUnion | SigninSuccess): SignupState {
 
     switch (action.type) {
 
