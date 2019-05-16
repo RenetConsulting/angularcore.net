@@ -8,8 +8,8 @@ import { IToken } from './token';
 import { IAuthUser } from './user';
 
 interface HttpOptions {
-    params: HttpParams;
-    headers: { [k: string]: string | Array<string> };
+    params?: HttpParams;
+    headers?: { [k: string]: string | Array<string> };
 }
 
 @Injectable({

@@ -27,16 +27,12 @@ export class TokenService {
     }
 
     get expired(): boolean {
-        let result = false;
-        if (this.valid) {
-            result = new Date().valueOf() > new Date(this.token.expired_at || 0).valueOf();
-        }
-        return result;
+        return this.valid ? new Date().valueOf() > new Date(this.token.expired_at || 0).valueOf() : false;
     }
 
     get header(): { [k: string]: string } {
         const item = this.token;
-        return this.valid ? { auth: `${item.token_type} ${item.access_token}` } : null;
+        return this.valid ? { authorization: `${item.token_type} ${item.access_token}` } : null;
     }
 
     get = <Key extends keyof IToken>(key: Key): IToken[Key] => {

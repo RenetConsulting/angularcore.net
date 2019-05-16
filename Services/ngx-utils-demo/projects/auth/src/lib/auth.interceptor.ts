@@ -15,8 +15,10 @@ import { TokenService } from './token.service';
 })
 export class AuthInterceptor implements HttpInterceptor {
 
-    private readonly subjects: Array<Subject<HttpRequest<any>>> = [];
-    private loading: boolean;
+    /** a set of requests that were posting during refreshing a token */
+    readonly subjects: Array<Subject<HttpRequest<any>>> = [];
+    /** a flag of process the refreshing a token */
+    loading: boolean;
 
     constructor(
         @Inject(TokenService) private token: TokenService,
@@ -24,7 +26,8 @@ export class AuthInterceptor implements HttpInterceptor {
         @Inject(AuthDefaultOptions) private options: AuthDefaultOptions,
     ) { }
 
-    get refreshRequest() {
+    /** request to refresh an expired token */
+    get request() {
         const refresh_token = this.token.get('refresh_token');
         const item: IConnectToken = {
             grant_type: 'refresh_token',
@@ -46,7 +49,7 @@ export class AuthInterceptor implements HttpInterceptor {
                     return subject.pipe(mergeMap(() => handler.handle(this.setAuth(request))));
                 }
                 this.loading = true;
-                return handler.handle(this.refreshRequest).pipe(
+                return handler.handle(this.request).pipe(
                     mergeMap(i => i instanceof HttpResponse ? this.handleSuccess(request, handler, i.body) : of(i)),
                     finalize(this.handleFinalize)
                 );
@@ -60,7 +63,7 @@ export class AuthInterceptor implements HttpInterceptor {
         }
     }
 
-    handleSuccess = (request: HttpRequest<any>, handler: HttpHandler, token: IToken): Observable<HttpEvent<any>> => {
+    handleSuccess = (request: HttpRequest<any>, handler: HttpHandler, token: IToken) => {
         this.token.setToken(token);
         this.subjects.forEach(i => i.next(null));
         return handler.handle(this.setAuth(request));
@@ -72,7 +75,5 @@ export class AuthInterceptor implements HttpInterceptor {
         this.loading = false;
     }
 
-    setAuth = (request: HttpRequest<any>): HttpRequest<any> => {
-        return request ? request.clone({ setHeaders: this.token.header }) : request;
-    }
+    setAuth = (request: HttpRequest<any>) => request ? request.clone({ setHeaders: this.token.header }) : request;
 }
