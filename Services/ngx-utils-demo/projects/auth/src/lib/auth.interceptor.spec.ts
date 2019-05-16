@@ -64,7 +64,7 @@ describe('AuthInterceptor', () => {
             httpRequest = { headers: headers as HttpHeaders } as HttpRequest<any>;
             headers = jasmine.createSpyObj<HttpHeaders>('HttpHeaders', ['has']);
             headers.has.and.returnValue(false);
-        })
+        });
 
         it('invalid token', () => {
             interceptor.intercept(httpRequest, handler);
@@ -80,14 +80,14 @@ describe('AuthInterceptor', () => {
                 interceptor.intercept(httpRequest, handler);
                 expect(interceptor.setAuth).toHaveBeenCalledWith(httpRequest);
                 expect(handler.handle).toHaveBeenCalledWith(authHttpRequest);
-            })
+            });
 
             describe('expired', () => {
 
                 beforeEach(() => {
                     Object.defineProperty(interceptor, 'token', { get: () => ({ valid: true, expired: true } as Partial<TokenService>) });
                     Object.defineProperty(interceptor, 'request', { get: () => null });
-                })
+                });
 
                 it('should add a request to subjects when loading is true and set auth to requests from subjects when data comes', () => {
                     const authHttpRequest = {} as HttpRequest<any>;
@@ -99,11 +99,11 @@ describe('AuthInterceptor', () => {
                     interceptor.subjects.forEach(x => {
                         x.next(null);
                         x.complete();
-                    })
+                    });
                     expect(handler.handle).toHaveBeenCalledWith(authHttpRequest);
                     expect(interceptor.setAuth).toHaveBeenCalledWith(httpRequest);
                     expect(interceptor.subjects.length).toEqual(1);
-                })
+                });
                 it('shouldn`t call handleSuccess', () => {
                     spyOn(interceptor, 'handleSuccess');
                     spyOn(interceptor, 'handleFinalize');
@@ -111,7 +111,7 @@ describe('AuthInterceptor', () => {
                     interceptor.intercept(httpRequest, handler).subscribe();
                     expect(interceptor.handleSuccess).not.toHaveBeenCalled();
                     expect(interceptor.handleFinalize).toHaveBeenCalled();
-                })
+                });
                 it('should call handleSuccess', () => {
                     spyOn(interceptor, 'handleSuccess').and.returnValue(of(null));
                     spyOn(interceptor, 'handleFinalize');
@@ -119,8 +119,8 @@ describe('AuthInterceptor', () => {
                     interceptor.intercept(httpRequest, handler).subscribe();
                     expect(interceptor.handleSuccess).toHaveBeenCalled();
                     expect(interceptor.handleFinalize).toHaveBeenCalled();
-                })
-            })
+                });
+            });
         });
     });
     it('handleSuccess', () => {
@@ -135,27 +135,27 @@ describe('AuthInterceptor', () => {
         expect(subject.next).toHaveBeenCalledWith(null);
         expect(interceptor.setAuth).toHaveBeenCalledWith(httpRequest);
         expect(handler.handle).toHaveBeenCalledWith(authHttpRequest);
-    })
+    });
     it('handleFinalize', () => {
         const subject = jasmine.createSpyObj<Subject<any>>('Subject', ['complete']);
         interceptor.subjects.push(subject);
         interceptor.handleFinalize();
         expect(interceptor.subjects.length).toEqual(0);
         expect(interceptor.loading).toEqual(false);
-    })
+    });
 
     describe('setAuth', () => {
 
         it('httpRequest', () => {
             const header = { bob: 'bob qweqwasdasd' };
             Object.defineProperty(interceptor, 'token', { get: () => ({ header } as Partial<TokenService>) });
-            let httpRequest = jasmine.createSpyObj<HttpRequest<any>>('HttpRequest', ['clone']);
+            const httpRequest = jasmine.createSpyObj<HttpRequest<any>>('HttpRequest', ['clone']);
             interceptor.setAuth(httpRequest);
             expect(httpRequest.clone).toHaveBeenCalledWith({ setHeaders: header });
-        })
+        });
         it('null', () => {
-            let httpRequest = null;
+            const httpRequest = null;
             expect(interceptor.setAuth(httpRequest)).toEqual(httpRequest);
-        })
-    })
-})
+        });
+    });
+});

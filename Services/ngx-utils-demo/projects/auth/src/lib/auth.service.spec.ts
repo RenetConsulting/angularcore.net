@@ -54,7 +54,7 @@ describe('AuthService', () => {
             const user = { email: 'qwe@qwe', password: 'bob' } as IAuthUser;
             const headerName = 'bob';
             const headers = { [headerName]: 'qwe' };
-            const httpParams = new HttpParams({ fromObject: headers })
+            const httpParams = new HttpParams({ fromObject: headers });
             service.signin(user, { headers, params: httpParams }).subscribe();
             const req = controller.expectOne(() => true);
             expect(req.request.headers.has(headerName)).toEqual(true);
@@ -77,7 +77,7 @@ describe('AuthService', () => {
             const user = { email: 'qwe@qwe', password: 'bob' } as IAuthUser;
             const headerName = 'bob';
             const headers = { [headerName]: 'qwe' };
-            const httpParams = new HttpParams({ fromObject: headers })
+            const httpParams = new HttpParams({ fromObject: headers });
             service.signup(user, { headers, params: httpParams }).subscribe();
             const req = controller.expectOne(() => true);
             expect(req.request.headers.has(headerName)).toEqual(true);
