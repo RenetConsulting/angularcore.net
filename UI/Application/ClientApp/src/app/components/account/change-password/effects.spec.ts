@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { SetError, SetSuccess } from '~/actions/messenger.actions';
 import { MessagesType } from '~/enums/messages.type';
 import { IError } from '~/interfaces/error';
@@ -11,7 +11,7 @@ import { AccountService } from '~/services/account/account.service';
 import { ChangePasswordError, ChangePasswordRequest, ChangePasswordSuccess } from './actions';
 import { ChangePasswordEffects } from './effects';
 
-fdescribe('ChangePasswordEffects', () => {
+describe('ChangePasswordEffects', () => {
 
     let effects: ChangePasswordEffects;
 
@@ -35,15 +35,31 @@ fdescribe('ChangePasswordEffects', () => {
     it('should work', () => {
         expect(effects).toBeDefined();
     });
+    describe('changePasswordRequest', () => {
 
-    it('changePasswordRequest', () => {
-        accountService.changePassword.and.returnValue(of(null));
-        const formGroup = jasmine.createSpyObj<FormGroup>('FormGroup', ['reset']);
-        const action = new ChangePasswordRequest(formGroup);
-        const completion = new ChangePasswordSuccess();
-        const expected = cold('--b', { b: completion });
-        actions = hot('--a-', { a: action });
-        expect(effects.changePasswordRequest).toBeObservable(expected);
+        let formGroup: FormGroup;
+
+        beforeEach(() => {
+            formGroup = jasmine.createSpyObj<FormGroup>('FormGroup', ['reset']);
+        });
+
+        it('success', () => {
+            accountService.changePassword.and.returnValue(of(null));
+            const action = new ChangePasswordRequest(formGroup);
+            const completion = new ChangePasswordSuccess();
+            const expected = cold('--b', { b: completion });
+            actions = hot('--a-', { a: action });
+            expect(effects.changePasswordRequest).toBeObservable(expected);
+        });
+        it('error', () => {
+            const error = 'bob';
+            accountService.changePassword.and.returnValue(throwError({ error }));
+            const action = new ChangePasswordRequest(formGroup);
+            const completion = new ChangePasswordError(error);
+            const expected = cold('--b', { b: completion });
+            actions = hot('--a-', { a: action });
+            expect(effects.changePasswordRequest).toBeObservable(expected);
+        });
     });
     it('changePasswordSuccess', () => {
         const action = new ChangePasswordSuccess();

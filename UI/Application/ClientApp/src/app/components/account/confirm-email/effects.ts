@@ -5,7 +5,7 @@ import { catchError, mapTo, mergeMap, tap } from 'rxjs/operators';
 import { SetSuccess } from '~/actions/messenger.actions';
 import { MessagesType } from '~/enums/messages.type';
 import { AccountService } from '~/services/account/account.service';
-import { ConfirmEmail, ConfirmEmailSuccess } from './actions';
+import { ConfirmEmailRequest, ConfirmEmailSuccess } from './actions';
 import { ConfirmEmailTypes } from './types';
 
 @Injectable()
@@ -16,8 +16,8 @@ export class ConfirmEmailEffects {
         @Inject(AccountService) private accountService: AccountService,
     ) { }
 
-    @Effect() confirmEmail = this.actions.pipe(
-        ofType<ConfirmEmail>(ConfirmEmailTypes.CONFIRM_EMAIL_REQUEST),
+    @Effect() confirmEmailRequest = this.actions.pipe(
+        ofType<ConfirmEmailRequest>(ConfirmEmailTypes.CONFIRM_EMAIL_REQUEST),
         mergeMap(x => this.accountService.confirmEmail(x.payload.value).pipe(
             tap(() => x.payload.reset()),
             mapTo(new ConfirmEmailSuccess()),

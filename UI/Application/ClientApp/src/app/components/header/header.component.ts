@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { RootStore } from '~/reducers';
-import { AccessService } from '~/services/access/access.service';
-import { Signout } from '../authorization/actions';
+import { SignoutRequest } from '../auth/actions';
+import { selectAuthorized } from '../auth/selectors';
 
 @Component({
     selector: 'app-header',
@@ -12,11 +12,11 @@ import { Signout } from '../authorization/actions';
 })
 export class HeaderComponent {
 
-    expanded = false;
+    readonly authorized = this.store.select(selectAuthorized);
+    expanded: boolean;
 
     constructor(
         @Inject(Store) private store: Store<RootStore>,
-        @Inject(AccessService) private accessService: AccessService,
         @Inject(HttpClient) public http: HttpClient,
     ) { }
 
@@ -29,11 +29,7 @@ export class HeaderComponent {
     }
 
     signout = (): void => {
-        this.store.dispatch(new Signout());
-    }
-
-    get authorized(): boolean {
-        return this.accessService.authorized;
+        this.store.dispatch(new SignoutRequest());
     }
 
     /** TODO: delete, this line just runs hub */

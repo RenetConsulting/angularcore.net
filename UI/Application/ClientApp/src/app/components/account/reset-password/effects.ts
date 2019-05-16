@@ -6,7 +6,7 @@ import { SetError, SetSuccess } from '~/actions/messenger.actions';
 import { MessagesType } from '~/enums/messages.type';
 import { AccountService } from '~/services/account/account.service';
 import { filterError } from '~/utils/filter.error';
-import { ResetPassword, ResetPasswordError, ResetPasswordSuccess } from './actions';
+import { ResetPasswordRequest, ResetPasswordError, ResetPasswordSuccess } from './actions';
 import { ResetPasswordTypes } from './types';
 
 @Injectable()
@@ -17,8 +17,8 @@ export class ResetPasswordEffects {
         @Inject(AccountService) private accountService: AccountService,
     ) { }
 
-    @Effect() resetPassword = this.actions.pipe(
-        ofType<ResetPassword>(ResetPasswordTypes.RESET_PASSWORD_REQUEST),
+    @Effect() resetPasswordRequest = this.actions.pipe(
+        ofType<ResetPasswordRequest>(ResetPasswordTypes.RESET_PASSWORD_REQUEST),
         mergeMap(x => this.accountService.resetPassword(x.payload.value).pipe(
             tap(() => x.payload.reset()),
             mapTo(new ResetPasswordSuccess()),

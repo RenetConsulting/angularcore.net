@@ -16,9 +16,9 @@ export const ROUTES: Array<Route> = [
     { path: 'confirm-email', loadChildren: './components/account/confirm-email/confirm-email.module#ConfirmEmailModule' },
     { path: 'change-password', canActivate: [AuthenticationGuard], loadChildren: './components/account/change-password/change-password.module#ChangePasswordModule' },
 
-    /** authorization */
-    { path: 'signin', loadChildren: './components/authorization/signin/signin.module#SigninModule' },
-    { path: 'signup', loadChildren: './components/authorization/signup/signup.module#SignupModule' },
+    /** auth */
+    { path: 'signin', loadChildren: './components/auth/signin/signin.module#SigninModule' },
+    { path: 'signup', loadChildren: './components/auth/signup/signup.module#SignupModule' },
 
     { path: 'blog', loadChildren: './components/blog-dashboard/blog-dashboard.module#BlogDashboardModule' },
     { path: 'blog/:blogId', loadChildren: './components/blog-detail/blog-detail.module#BlogDetailModule' },

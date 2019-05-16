@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { EMAIL_VALIDATORS } from '~/consts/email.validators';
 import { IConfirmEmail } from '~/interfaces/confirm-email';
-import { ConfirmEmail } from './actions';
+import { ConfirmEmailRequest } from './actions';
 
 @Component({
     selector: 'confirm-email',
@@ -24,7 +24,7 @@ export class ConfirmEmailComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.setFormGroup();
-        this.subscription.add(this.route.queryParams.subscribe((i: Pick<IConfirmEmail, 'token'>) => this.setToken(i.token)));
+        this.subscription.add(this.route.queryParams.subscribe(i => this.setToken(i.token)));
     }
 
     ngOnDestroy(): void {
@@ -33,7 +33,7 @@ export class ConfirmEmailComponent implements OnInit, OnDestroy {
 
     setFormGroup = (): void => {
         this.formGroup = new FormGroup({
-            email: new FormControl('', [...EMAIL_VALIDATORS]),
+            email: new FormControl('', EMAIL_VALIDATORS),
             token: new FormControl('', [Validators.required]),
         } as MapPick<IConfirmEmail, keyof IConfirmEmail, FormControl>);
     }
@@ -42,7 +42,7 @@ export class ConfirmEmailComponent implements OnInit, OnDestroy {
 
     submit = (): void => {
         if (this.formGroup.valid) {
-            this.store.dispatch(new ConfirmEmail(this.formGroup));
+            this.store.dispatch(new ConfirmEmailRequest(this.formGroup));
         }
     }
 }

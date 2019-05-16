@@ -5,7 +5,6 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { ChangePasswordRequest, ResetError } from './actions';
 import { ChangePasswordComponent } from './change-password.component';
 import { ChangePasswordStore } from './reducer';
-import { selectChangePasswordError } from './selectors';
 
 describe('ChangePasswordComponent', () => {
 
@@ -23,10 +22,6 @@ describe('ChangePasswordComponent', () => {
 
     it('should be created', () => {
         expect(component).toBeTruthy();
-    });
-    it('selectChangePasswordError', () => {
-        const error = { password: 'bob wrong' };
-        expect(selectChangePasswordError({ changePassword: { error } })).toEqual(error);
     });
     it('ngOnInit', () => {
         spyOn(component, 'setFormGroup');

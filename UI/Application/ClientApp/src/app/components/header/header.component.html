@@ -27,16 +27,16 @@
                 <!--<li class="nav-item" routerLinkActive='active'>
                     <a class="nav-link text-white" [routerLink]='["/profile"]'>Profile</a>
                 </li>-->
-                <li *ngIf="authorized" class="nav-item" routerLinkActive='active'>
+                <li *ngIf="authorized | async" class="nav-item" routerLinkActive='active'>
                     <a class="nav-link text-white" [routerLink]='["/change-password"]'>Change Password</a>
                 </li>
-                <li *ngIf="authorized" class="nav-item">
+                <li *ngIf="authorized | async" class="nav-item">
                     <button mat-raised-button type="button" (click)="signout()">Sign Out</button>
                 </li>
-                <li *ngIf="!authorized" class="nav-item" routerLinkActive='active'>
+                <li *ngIf="!(authorized | async)" class="nav-item" routerLinkActive='active'>
                     <a class="nav-link text-white" [routerLink]='["/signup"]'>Sign Up</a>
                 </li>
-                <li *ngIf="!authorized" class="nav-item" routerLinkActive='active'>
+                <li *ngIf="!(authorized | async)" class="nav-item" routerLinkActive='active'>
                     <a class="nav-link text-white" [routerLink]='["/signin"]'>Sign In</a>
                 </li>
             </ul>
