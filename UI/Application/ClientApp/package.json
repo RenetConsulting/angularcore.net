@@ -83,10 +83,9 @@
     "ng-packagr": "^4.2.0",
     "phantomjs-prebuilt": "^2.1.7",
     "protractor": "~5.4.0",
-    "tslint": "~5.16.0",
+    "tslint": "~5.13.1",
     "tsickle": ">=0.34.0",
     "tslib": "^1.9.0",
-    "tslint": "~5.13.1",
     "ts-node": "~8.0.2",
     "typescript": "3.2.4"
   }
