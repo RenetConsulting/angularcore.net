@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
 import { AuthDefaultOptions } from './auth-default-options';
@@ -6,6 +6,11 @@ import { IConnectToken } from './connect-token';
 import { HTTP_HEADERS } from './http-headers';
 import { IToken } from './token';
 import { IAuthUser } from './user';
+
+interface HttpOptions {
+    params: HttpParams;
+    headers: { [k: string]: string | Array<string> };
+}
 
 @Injectable({
     providedIn: 'root'
@@ -18,7 +23,7 @@ export class AuthService {
         @Inject(AuthDefaultOptions) private options: AuthDefaultOptions,
     ) { }
 
-    signin = (user: IAuthUser, options?) => {
+    signin = (user: IAuthUser, options?: HttpOptions) => {
         const token: IConnectToken = {
             scope: 'offline_access',
             grant_type: 'password',
@@ -35,7 +40,7 @@ export class AuthService {
         return this.http.post<IToken>(this.options.apiSignin, body, { ...options, headers });
     }
 
-    signup = (model: IAuthUser, options?) => this.http
+    signup = (model: IAuthUser, options?: HttpOptions) => this.http
         .post(this.options.apiSignup, model, {
             ...options,
             headers: {
