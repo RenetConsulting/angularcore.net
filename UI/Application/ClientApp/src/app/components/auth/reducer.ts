@@ -8,6 +8,8 @@ import { SignupActionsUnion } from './signup/actions';
 import { SignupTypes } from './signup/types';
 import { AuthTypes } from './types';
 
+type ActionTypes = SigninActionsUnion | SignupActionsUnion | AuthActionsUnion | RootUnion;
+
 export interface AuthState {
     authorized?: boolean;
     user?: IUser;
@@ -17,7 +19,7 @@ export interface AuthState {
 
 const INITIAL_STATE: AuthState = {};
 
-export function authReducer(state = INITIAL_STATE, action: SigninActionsUnion | SignupActionsUnion | AuthActionsUnion | RootUnion): AuthState {
+export function authReducer(state = INITIAL_STATE, action: ActionTypes): AuthState {
 
     switch (action.type) {
 

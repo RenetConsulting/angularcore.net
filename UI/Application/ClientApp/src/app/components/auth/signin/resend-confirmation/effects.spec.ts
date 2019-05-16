@@ -45,7 +45,7 @@ describe('ResendConfirmationEffects', () => {
 
         beforeEach(() => {
             store.setState({ auth: { user: { email } as IUser } });
-        })
+        });
 
         it('success', () => {
             accountService.resendConfirmation.and.returnValue(of(null));

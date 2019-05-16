@@ -22,7 +22,7 @@ describe('AuthenticationGuard', () => {
         expect(guard).toBeTruthy();
     });
     it('canActivate', () => {
-        store.setState({ auth: { authorized: true } })
+        store.setState({ auth: { authorized: true } });
         expect(guard).toBeTruthy();
     });
 });

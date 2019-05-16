@@ -1,7 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { AuthService, IToken, TokenService } from '@renet-consulting/auth';
 import { cold, hot } from 'jasmine-marbles';
@@ -19,9 +18,6 @@ fdescribe('AuthEffects', () => {
     let authService: jasmine.SpyObj<AuthService>;
     let tokenService: jasmine.SpyObj<TokenService>;
     let router: jasmine.SpyObj<Router>;
-    let metadata: EffectsMetadata<AuthEffects>;
-
-    metadata
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -42,7 +38,6 @@ fdescribe('AuthEffects', () => {
         authService = TestBed.get(AuthService);
         tokenService = TestBed.get(TokenService);
         router = TestBed.get(Router);
-        metadata = getEffectsMetadata(effects);
     });
 
     it('should work', () => {

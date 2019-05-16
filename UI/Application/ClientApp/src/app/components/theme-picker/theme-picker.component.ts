@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { NgxLinkStylesheetService } from '@renet-consulting/ngx-link-stylesheet';
-import { tap } from 'rxjs/operators';
 import { RootStore } from '~/reducers';
 import { SetTheme } from './actions';
-import { selectItems, selectTheme } from './selectors';
+import { selectThemes, selectSelectedTheme } from './selectors';
 import { ITheme } from './theme';
 
 @Component({
@@ -17,27 +16,12 @@ import { ITheme } from './theme';
 })
 export class ThemePickerComponent {
 
-    readonly cssClass = 'link-theme';
-    readonly items = this.store.select(selectItems);
-    readonly selected = this.store.select(selectTheme).pipe(tap(i => this.setSelected(i)));
+    readonly items = this.store.select(selectThemes);
+    readonly selected = this.store.select(selectSelectedTheme);
 
     constructor(
         @Inject(Store) private store: Store<RootStore>,
-        @Inject(NgxLinkStylesheetService) private stylesheetService: NgxLinkStylesheetService
     ) { }
 
-    setTheme = (name: string): void => {
-        this.store.dispatch(new SetTheme(name));
-    }
-
-    setSelected = (item: ITheme): void => {
-        if (item) {
-            if (item.isDefault) {
-                this.stylesheetService.deleteLink(this.cssClass);
-            }
-            else {
-                this.stylesheetService.updateLink(this.cssClass, `assets/${item.name}.css`);
-            }
-        }
-    }
+    select = (item: ITheme): void => this.store.dispatch(new SetTheme(item));
 }
