@@ -38,7 +38,7 @@ export class TokenService {
 
     get header(): { [k: string]: string } | null {
         const item = this.token;
-        return this.valid ? { authorization: `${item.token_type} ${item.access_token}` } : null;
+        return this.valid ? { auth: `${item.token_type} ${item.access_token}` } : null;
     }
 
     get = <Key extends keyof IToken>(key: Key): IToken[Key] => {
