@@ -8,7 +8,7 @@ describe('StorageService', () => {
     let service: StorageService;
     let localStorage: jasmine.SpyObj<Storage>;
     let sessionStorage: jasmine.SpyObj<Storage>;
-    const storagekey = 'constant';
+    const storageKey = 'session';
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -29,19 +29,27 @@ describe('StorageService', () => {
         const value = true;
         localStorage.getItem.and.returnValue(value);
         service = new StorageService(localStorage, sessionStorage);
-        expect(localStorage.getItem).toHaveBeenCalledWith(storagekey);
-        expect(localStorage.setItem).toHaveBeenCalledWith(storagekey, `${value}`);
+        expect(localStorage.getItem).toHaveBeenCalledWith(storageKey);
+        expect(localStorage.setItem).toHaveBeenCalledWith(storageKey, `${value}`);
+    });
+    it('by default has to be localStorage', () => {
+        const value = null;
+        localStorage.getItem.and.returnValue(value);
+        service = new StorageService(localStorage, sessionStorage);
+        service.set('bob', 'mark');
+        expect(localStorage.setItem).toHaveBeenCalledWith('bob', 'mark');
+        expect(sessionStorage.setItem).not.toHaveBeenCalled();
     });
     describe('setStorage', () => {
         it('localSorage', () => {
             const value = true;
             service.setStorage(value);
-            expect(localStorage.setItem).toHaveBeenCalledWith(storagekey, `${value}`);
+            expect(localStorage.setItem).toHaveBeenCalledWith(storageKey, `${value}`);
         });
         it('sessionStorage', () => {
             const value = false;
             service.setStorage(value);
-            expect(localStorage.setItem).toHaveBeenCalledWith(storagekey, `${value}`);
+            expect(localStorage.setItem).toHaveBeenCalledWith(storageKey, `${value}`);
         });
     });
     describe('get', () => {
