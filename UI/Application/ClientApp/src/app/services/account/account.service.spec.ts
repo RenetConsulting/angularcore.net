@@ -1,8 +1,8 @@
 import { HttpParams } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { HTTP_HEADER_NAMES } from '@renet-consulting/auth';
 import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
-import { HTTP_HEADER_NAMES } from '~/enums/http-header-names.type';
 import { AccountService } from './account.service';
 
 describe('AccountService', () => {

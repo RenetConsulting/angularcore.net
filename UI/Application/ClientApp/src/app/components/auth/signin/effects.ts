@@ -1,14 +1,14 @@
 import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { AuthService, TokenService } from '@renet-consulting/auth';
+import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
 import { NgxMessengerService } from '@renet-consulting/ngx-messenger';
 import { StorageService } from '@renet-consulting/storage';
 import { of } from 'rxjs';
 import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
 import { SetError } from '~/actions/messenger.actions';
 import { ErrorCodeType } from '~/consts/error-code.type';
-import { AuthService } from '~/services/auth/auth.service';
-import { TokenService } from '~/services/token/token.service';
 import { filterError } from '~/utils/filter.error';
 import { SetAuthorized } from '../actions';
 import { SigninError, SigninRequest, SigninSuccess } from './actions';
@@ -25,11 +25,13 @@ export class SigninEffects {
         @Inject(TokenService) private tokenService: TokenService,
         @Inject(Router) private router: Router,
         @Inject(NgxMessengerService) private messenger: NgxMessengerService,
+        @Inject(NgxHttpParamsService) private params: NgxHttpParamsService,
     ) { }
 
+    /** TODO: remove as any */
     @Effect() signinRequest = this.actions.pipe(
         ofType<SigninRequest>(SigninTypes.SIGNIN_REQUEST),
-        mergeMap(a => this.authService.signin(a.payload.value).pipe(
+        mergeMap(a => this.authService.signin(a.payload.value, { params: this.params.map(a.payload.value.captcha) } as any).pipe(
             tap(() => this.storageService.setStorage(a.payload.controls.isRemember.value)),
             tap(() => a.payload.reset()),
             map(i => new SigninSuccess(a.payload, i)),

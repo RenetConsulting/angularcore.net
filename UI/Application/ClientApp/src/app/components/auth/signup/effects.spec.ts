@@ -8,7 +8,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { SetError, SetSuccess } from '~/actions/messenger.actions';
 import { MessagesType } from '~/enums/messages.type';
 import { IError } from '~/interfaces/error';
-import { AuthService } from '~/services/auth/auth.service';
+import { AuthService } from '@renet-consulting/auth';
 import { SignupError, SignupRequest, SignupSuccess } from './actions';
 import { SignupEffects } from './effects';
 

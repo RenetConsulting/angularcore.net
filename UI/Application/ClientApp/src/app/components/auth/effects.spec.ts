@@ -3,13 +3,11 @@ import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { AuthService, IToken, TokenService } from '@renet-consulting/auth';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { SetSuccess } from '~/actions/messenger.actions';
 import { Reset } from '~/actions/root.actions';
-import { IToken } from '~/interfaces/token';
-import { AuthService } from '~/services/auth/auth.service';
-import { TokenService } from '~/services/token/token.service';
 import { SignoutError, SignoutRequest, SignoutSuccess } from './actions';
 import { AuthEffects } from './effects';
 

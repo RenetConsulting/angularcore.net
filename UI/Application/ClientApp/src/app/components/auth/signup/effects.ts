@@ -1,13 +1,14 @@
 import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { AuthService } from '@renet-consulting/auth';
+import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
 import { of } from 'rxjs';
 import { catchError, filter, map, mapTo, mergeMap, tap } from 'rxjs/operators';
 import { SetError, SetSuccess } from '~/actions/messenger.actions';
 import { MessagesType } from '~/enums/messages.type';
-import { AuthService } from '~/services/auth/auth.service';
 import { filterError } from '~/utils/filter.error';
-import { SignupRequest, SignupError, SignupSuccess } from './actions';
+import { SignupError, SignupRequest, SignupSuccess } from './actions';
 import { SignupTypes } from './types';
 
 @Injectable()
@@ -16,13 +17,15 @@ export class SignupEffects {
     constructor(
         @Inject(Actions) private actions: Actions,
         @Inject(AuthService) private authService: AuthService,
+        @Inject(NgxHttpParamsService) private params: NgxHttpParamsService,
         @Inject(Router) private router: Router,
     ) { }
 
+    /** TODO: remove as any */
     @Effect() signupRequest = this.actions.pipe(
         ofType<SignupRequest>(SignupTypes.SIGNUP_REQUEST),
-        mergeMap(x => this.authService.signup(x.payload.value).pipe(
-            tap(() => x.payload.reset()),
+        mergeMap(a => this.authService.signup(a.payload.value, { params: this.params.map(a.payload.value.captcha) } as any).pipe(
+            tap(() => a.payload.reset()),
             mapTo(new SignupSuccess()),
             catchError(e => of(new SignupError(e.error)))
         ))

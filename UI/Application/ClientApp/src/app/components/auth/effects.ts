@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
+import { TokenService } from '@renet-consulting/auth';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { SetSuccess } from '~/actions/messenger.actions';
 import { Reset } from '~/actions/root.actions';
-import { AuthService } from '~/services/auth/auth.service';
-import { TokenService } from '~/services/token/token.service';
+import { AuthService } from '@renet-consulting/auth';
 import { SetAuthorized, SignoutError, SignoutRequest, SignoutSuccess } from './actions';
 import { AuthTypes } from './types';
 

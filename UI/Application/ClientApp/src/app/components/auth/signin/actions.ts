@@ -1,6 +1,6 @@
 import { FormGroup } from '@angular/forms';
 import { Action } from '@ngrx/store';
-import { IToken } from '~/interfaces/token';
+import { IToken } from '@renet-consulting/auth';
 import { SigninTypes } from './types';
 
 export class SigninRequest implements Action {
