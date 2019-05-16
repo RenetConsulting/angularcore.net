@@ -7,7 +7,7 @@ import { IToken } from './token';
 })
 export class TokenService {
 
-    private readonly key: string = 'token';
+    private readonly key = 'token';
     private _token: IToken;
 
     constructor(
@@ -27,7 +27,7 @@ export class TokenService {
     }
 
     get expired(): boolean {
-        return this.valid ? new Date().valueOf() > new Date(this.token.expired_at || 0).valueOf() : false;
+        return this.valid ? new Date().valueOf() >= new Date(this.token.expired_at || 0).valueOf() : false;
     }
 
     get header(): { [k: string]: string } {
@@ -40,11 +40,11 @@ export class TokenService {
         return item && item[key];
     }
 
-    setToken = (value: IToken): void => {
+    setToken = (value: IToken, date = new Date()): void => {
         const token = { ...value };
         if (token.access_token && token.refresh_token) {
             if (token.expires_in) {
-                token.expired_at = new Date(new Date().valueOf() + 1000 * token.expires_in).toISOString();
+                token.expired_at = date.setTime(date.valueOf() + 1000 * token.expires_in).toString();
             }
             this._token = { ...token };
             this.storage.set(this.key, token);

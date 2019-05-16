@@ -7,8 +7,8 @@ export class AuthDefaultOptions {
 
     readonly apiRefreshToken = '/connect/token';
     readonly apiSignin = '/connect/token';
-    readonly apiSignup = '/api/account/register';
     readonly apiSignout = '/connect/signout';
+    readonly apiSignup = '/api/account/register';
 
     constructor() { }
 }

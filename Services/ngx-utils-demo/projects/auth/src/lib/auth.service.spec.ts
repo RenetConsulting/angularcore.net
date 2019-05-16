@@ -19,10 +19,12 @@ describe('AuthService', () => {
             imports: [HttpClientTestingModule],
             providers: [{ provide: NgxHttpParamsService, useValue: jasmine.createSpyObj('NgxHttpParamsService', ['map']) }]
         });
+
         service = TestBed.get(AuthService);
         params = TestBed.get(NgxHttpParamsService);
         options = TestBed.get(AuthDefaultOptions);
         controller = TestBed.get(HttpTestingController);
+
         params.map.and.returnValue(new HttpParams());
     });
 

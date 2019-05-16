@@ -7,7 +7,7 @@ import { SESSION_STORAGE } from './session-storage.token';
 })
 export class StorageService {
 
-    /** key - is remember user */
+    /** key of flag for using localStorage */
     private readonly key = 'constant';
     private storage;
 

@@ -24,6 +24,7 @@ describe('AuthInterceptor', () => {
                 { provide: TokenService, useValue: jasmine.createSpyObj('TokenService', ['get', 'setToken']) }
             ]
         });
+
         interceptor = TestBed.get(AuthInterceptor);
         params = TestBed.get(NgxHttpParamsService);
         options = TestBed.get(AuthDefaultOptions);
