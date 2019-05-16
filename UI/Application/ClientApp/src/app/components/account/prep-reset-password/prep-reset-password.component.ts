@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { EMAIL_VALIDATORS } from '~/consts/email.validators';
 import { IUser } from '~/interfaces/user';
 import { RootStore } from '~/reducers';
-import { PrepResetPassword } from './actions';
+import { PrepResetPasswordRequest } from './actions';
 
 @Component({
     selector: 'prep-reset-password',
@@ -31,7 +31,7 @@ export class PrepResetPasswordComponent implements OnInit {
 
     submit = (): void => {
         if (this.formGroup.valid) {
-            this.store.dispatch(new PrepResetPassword(this.formGroup));
+            this.store.dispatch(new PrepResetPasswordRequest(this.formGroup));
         }
     }
 }

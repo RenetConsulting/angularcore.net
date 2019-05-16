@@ -2,7 +2,7 @@ import { FormGroup } from '@angular/forms';
 import { Action } from '@ngrx/store';
 import { ResetPasswordTypes } from './types';
 
-export class ResetPassword implements Action {
+export class ResetPasswordRequest implements Action {
     readonly type = ResetPasswordTypes.RESET_PASSWORD_REQUEST;
     constructor(readonly payload: FormGroup) { }
 }
@@ -17,4 +17,4 @@ export class ResetError implements Action {
     readonly type = ResetPasswordTypes.RESET_ERROR;
 }
 
-export type ResetPasswordActionsUnion = ResetPassword | ResetPasswordSuccess | ResetPasswordError | ResetError;
+export type ResetPasswordActionsUnion = ResetPasswordRequest | ResetPasswordSuccess | ResetPasswordError | ResetError;

@@ -1,27 +1,28 @@
 import { TestBed } from '@angular/core/testing';
-import { AccessService } from '~/services/access/access.service';
+import { Store } from '@ngrx/store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { RootStore } from '~/reducers';
 import { AuthenticationGuard } from './authentication.guard';
 
 describe('AuthenticationGuard', () => {
 
     let guard: AuthenticationGuard;
 
-    const mockAccessService = { authorized: true } as AccessService;
+    let store: MockStore<RootStore>;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [
-                AuthenticationGuard,
-                { provide: AccessService, useValue: mockAccessService }
-            ]
+            providers: [provideMockStore({})]
         });
+        store = TestBed.get(Store);
         guard = TestBed.get(AuthenticationGuard);
     });
 
     it('should toBeTruthy', () => {
         expect(guard).toBeTruthy();
     });
-    it('canActivate should return value of isAuthenticated', () => {
-        expect(guard.canActivate()).toEqual(mockAccessService.authorized);
+    it('canActivate', () => {
+        store.setState({ auth: { authorized: true } })
+        expect(guard).toBeTruthy();
     });
 });

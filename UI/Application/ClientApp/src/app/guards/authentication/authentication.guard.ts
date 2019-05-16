@@ -1,6 +1,9 @@
 import { Inject, Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-import { AccessService } from '~/services/access/access.service';
+import { Store } from '@ngrx/store';
+import { take } from 'rxjs/operators';
+import { selectAuthorized } from '~/components/auth/selectors';
+import { RootStore } from '~/reducers';
 
 @Injectable({
     providedIn: 'root'
@@ -8,10 +11,10 @@ import { AccessService } from '~/services/access/access.service';
 export class AuthenticationGuard implements CanActivate {
 
     constructor(
-        @Inject(AccessService) private accessService: AccessService
+        @Inject(Store) private store: Store<RootStore>
     ) { }
 
-    canActivate(): boolean {
-        return this.accessService.authorized;
+    canActivate() {
+        return this.store.select(selectAuthorized).pipe(take(1));
     }
 }

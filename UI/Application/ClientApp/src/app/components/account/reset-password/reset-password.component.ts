@@ -9,7 +9,7 @@ import { PASSWORD_VALIDATORS } from '~/consts/password.validators';
 import { IResetPassword } from '~/interfaces/reset-password';
 import { RootStore } from '~/reducers';
 import { mismatchPasswordValidator } from '~/validators/mismatch-password.validator';
-import { ResetError, ResetPassword } from './actions';
+import { ResetError, ResetPasswordRequest } from './actions';
 import { selectResetPasswordError } from './selectors';
 
 /** the interface of the errors from the back-end side are wrong */
@@ -52,7 +52,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
 
     submit = (): void => {
         if (this.formGroup.valid) {
-            this.store.dispatch(new ResetPassword(this.formGroup));
+            this.store.dispatch(new ResetPasswordRequest(this.formGroup));
         }
     }
 }
