@@ -74,6 +74,12 @@
       ],
       "storage/*": [
         "dist/storage/*"
+      ],
+      "auth": [
+        "dist/auth"
+      ],
+      "auth/*": [
+        "dist/auth/*"
       ]
     }
   }
