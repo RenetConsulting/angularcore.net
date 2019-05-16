@@ -7,7 +7,6 @@ import { IToken } from './token';
 })
 export class TokenService {
 
-    /** the key for storage */
     private readonly key: string = 'token';
     private _token: IToken;
 
