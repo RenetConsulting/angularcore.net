@@ -21,10 +21,9 @@ export class SignupEffects {
         @Inject(Router) private router: Router,
     ) { }
 
-    /** TODO: remove as any */
     @Effect() signupRequest = this.actions.pipe(
         ofType<SignupRequest>(SignupTypes.SIGNUP_REQUEST),
-        mergeMap(a => this.authService.signup(a.payload.value, { params: this.params.map(a.payload.value.captcha) } as any).pipe(
+        mergeMap(a => this.authService.signup(a.payload.value, { params: this.params.map(a.payload.value.captcha) }).pipe(
             tap(() => a.payload.reset()),
             mapTo(new SignupSuccess()),
             catchError(e => of(new SignupError(e.error)))
