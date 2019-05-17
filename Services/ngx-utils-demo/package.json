@@ -45,7 +45,7 @@
     "@renet-consulting/ngx-http-params": "^0.0.3",
     "@renet-consulting/ngx-mat-input": "^0.2.1",
     "@renet-consulting/ngx-validator": "0.0.2",
-    "@renet-consulting/storage": "^0.0.1",
+    "@renet-consulting/storage": "^0.0.3",
     "bootstrap": "^4.3.1",
     "core-js": "^2.5.4",
     "hammerjs": "^2.0.8",
