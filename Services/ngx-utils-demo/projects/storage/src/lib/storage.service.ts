@@ -16,7 +16,7 @@ export class StorageService {
         @Inject(SESSION_STORAGE) private sessionStorage
     ) {
         const session = this.get(this.key, this.localStorage);
-        this.setStorage(!session);
+        this.setStorage(session);
     }
 
     private getItem = (key: string, storage = this.storage): string => storage && storage.getItem(key);
@@ -26,7 +26,7 @@ export class StorageService {
     /** @param value - is a type of storage that we must use */
     setStorage = (value: boolean): void => {
         this.set(this.key, value, this.localStorage);
-        this.storage = value ? this.localStorage : this.sessionStorage;
+        this.storage = value ? this.sessionStorage : this.localStorage;
     }
 
     remove = (key: string, storage = this.storage): void => storage && storage.removeItem(key);

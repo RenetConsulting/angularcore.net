@@ -40,6 +40,14 @@ describe('StorageService', () => {
         expect(localStorage.setItem).toHaveBeenCalledWith('bob', 'mark');
         expect(sessionStorage.setItem).not.toHaveBeenCalled();
     });
+    it('should be sessionStorage', () => {
+        const value = true;
+        localStorage.getItem.and.returnValue(value);
+        service = new StorageService(localStorage, sessionStorage);
+        service.set('bob', 'mark');
+        expect(sessionStorage.setItem).toHaveBeenCalledWith('bob', 'mark');
+        expect(localStorage.setItem).toHaveBeenCalledWith(storageKey, `${value}`);
+    });
     describe('setStorage', () => {
         it('localSorage', () => {
             const value = true;
