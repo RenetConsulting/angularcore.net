@@ -69,6 +69,12 @@ describe('TokenService', () => {
             storage.get.and.returnValue(token);
             expect(service.expired).toEqual(true);
         });
+        it('true', () => {
+            const value = `{"token_type":"Bearer","access_token":"1","expires_in":3600,"refresh_token":"2","expired_at":"1558723213274"}`;
+            const token = JSON.parse(value);
+            storage.get.and.returnValue(token);
+            expect(service.expired).toEqual(true);
+        })
     });
     describe('header', () => {
         it('null', () => {
