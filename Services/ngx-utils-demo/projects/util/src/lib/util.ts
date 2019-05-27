@@ -13,7 +13,7 @@ export function isNumber(x) {
     return typeof x === 'number' && !isNaN(x);
 }
 
-/** whether all passed params are number and Nan */
+/** whether all passed params are number and NaN */
 export function isNumbers(...values) {
     return Array.isArray(values) && values.length > 0 ? values.every(x => isNumber(x)) : false;
 }
