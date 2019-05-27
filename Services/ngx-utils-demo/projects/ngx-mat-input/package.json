@@ -18,7 +18,7 @@
     "@angular/core": "^7.0.0",
     "@angular/forms": "^7.0.0",
     "@angular/material": "^7.0.0",
-    "@renet-consulting/ngx-validator": "^0.0.2",
+    "@renet-consulting/ngx-validator": "^0.0.3",
     "bootstrap": "^4.0.0"
   }
 }

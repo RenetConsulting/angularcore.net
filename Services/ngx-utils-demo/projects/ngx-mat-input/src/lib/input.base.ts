@@ -1,9 +1,9 @@
 import { Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
-import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { Subscription } from 'rxjs';
+import { ControlValueAccessorBase } from './control-value-accessor.base';
 
-export abstract class NgxMatInputBase implements ControlValueAccessor, OnChanges, OnInit, OnDestroy {
+export abstract class InputBase extends ControlValueAccessorBase implements ControlValueAccessor, OnChanges, OnInit, OnDestroy {
 
     @Input() placeholder: string;
     @Input() readonly: boolean;
@@ -14,12 +14,7 @@ export abstract class NgxMatInputBase implements ControlValueAccessor, OnChanges
     @Input() label: string;
     /** entry for custom errors */
     @Input() errors: Array<string>;
-    @Input() appearance: MatFormFieldAppearance;
     readonly subscription = new Subscription();
-    disabled: boolean;
-    onChange: (x) => any | null;
-    onTouched: () => void;
-    value;
     /** an error that is provided by {@link NgxValidatorDirective} */
     error: string;
     errorState: number;
@@ -27,12 +22,10 @@ export abstract class NgxMatInputBase implements ControlValueAccessor, OnChanges
     hintState: number;
 
     constructor(
-        public ngControl: NgControl,
-        private formGroup: FormGroupDirective,
+        control: NgControl,
+        protected formGroup: FormGroupDirective,
     ) {
-        if (this.ngControl) {
-            this.ngControl.valueAccessor = this;
-        }
+        super(control);
     }
 
     ngOnChanges(e): void {
@@ -61,29 +54,6 @@ export abstract class NgxMatInputBase implements ControlValueAccessor, OnChanges
 
     get validator() {
         return this.ngControl && this.ngControl.control && this.ngControl.control.validator;
-    }
-
-    /** internal */
-    writeValue(value): void {
-        this.value = value;
-        if (this.onChange) {
-            this.onChange(value);
-        }
-    }
-
-    /** internal */
-    registerOnChange(fn): void {
-        this.onChange = fn;
-    }
-
-    /** internal */
-    registerOnTouched(fn): void {
-        this.onTouched = fn;
-    }
-
-    /** internal */
-    setDisabledState(value: boolean): void {
-        this.disabled = value;
     }
 
     /** internal */
