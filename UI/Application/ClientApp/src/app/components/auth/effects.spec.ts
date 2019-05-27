@@ -10,7 +10,7 @@ import { Reset } from '~/actions/root.actions';
 import { SignoutError, SignoutRequest, SignoutSuccess } from './actions';
 import { AuthEffects } from './effects';
 
-fdescribe('AuthEffects', () => {
+describe('AuthEffects', () => {
 
     let effects: AuthEffects;
 
@@ -29,7 +29,7 @@ fdescribe('AuthEffects', () => {
                     provide: AuthService,
                     useValue: jasmine.createSpyObj<AuthService>('AuthService', ['signout'])
                 },
-                { provide: TokenService, useValue: jasmine.createSpyObj<TokenService>('TokenService', ['setToken']) },
+                { provide: TokenService, useValue: jasmine.createSpyObj<TokenService>('TokenService', ['setToken', 'clean']) },
                 { provide: Router, useValue: jasmine.createSpyObj<Router>('Router', ['navigate']) },
             ],
         });
@@ -43,6 +43,7 @@ fdescribe('AuthEffects', () => {
     it('should work', () => {
         expect(effects).toBeDefined();
     });
+
     describe('signoutRequest', () => {
 
         it('success', () => {
@@ -64,16 +65,16 @@ fdescribe('AuthEffects', () => {
             expect(effects.signoutRequest).toBeObservable(expected);
         });
     });
-    fit('signoutSuccess', () => {
-        const token = {} as IToken;
+
+    it('signoutSuccess', () => {
         const action = new SignoutSuccess();
         const completionB = new SetSuccess('You has signed out successfully.');
         const completionC = new Reset();
-        const expected = cold('--bc', { b: completionB, c: completionC });
+        const expected = cold('--(bc)', { b: completionB, c: completionC });
         actions = hot('--a-', { a: action });
         expect(effects.signoutSuccess).toBeObservable(expected);
-        expect(router.navigate).toHaveBeenCalledWith(['/']);
-        expect(tokenService.setToken).toHaveBeenCalledWith(token);
+        expect(router.navigate).toHaveBeenCalledWith(['/signin']);
+        expect(tokenService.clean).toHaveBeenCalled();
     });
     it('signoutError', () => {
         const action = new SignoutError();

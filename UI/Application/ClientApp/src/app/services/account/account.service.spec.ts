@@ -31,7 +31,7 @@ describe('AccountService', () => {
         service.changePassword(null).subscribe();
         const req = controller.expectOne(`${service.url}/password/change`);
         expect(req.request.method).toEqual('POST');
-        expect(req.request.headers.has(HTTP_HEADER_NAMES.allowHttpError)).toEqual(true);
+        expect(req.request.headers.has(HTTP_HEADER_NAMES.allowError)).toEqual(true);
         req.flush(null);
     });
     it('prepResetPassword', () => {
@@ -45,7 +45,7 @@ describe('AccountService', () => {
         service.resetPassword(null).subscribe();
         const req = controller.expectOne(`${service.url}/password/reset`);
         expect(req.request.method).toEqual('POST');
-        expect(req.request.headers.has(HTTP_HEADER_NAMES.allowHttpError)).toEqual(true);
+        expect(req.request.headers.has(HTTP_HEADER_NAMES.allowError)).toEqual(true);
         req.flush(null);
     });
     it('confirmEmail', () => {
