@@ -1,5 +1,5 @@
 import { Directive, EventEmitter, HostListener, Inject, OnChanges, OnDestroy, OnInit, Output, Renderer2 } from '@angular/core';
-import { isString } from 'util';
+import { isString } from '@renet-consulting/util';
 import { NgxUploaderBase } from './ngx-uploader.base';
 
 @Directive({
