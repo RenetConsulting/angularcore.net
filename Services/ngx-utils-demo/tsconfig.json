@@ -80,6 +80,12 @@
       ],
       "auth/*": [
         "dist/auth/*"
+      ],
+      "util": [
+        "dist/util"
+      ],
+      "util/*": [
+        "dist/util/*"
       ]
     }
   }

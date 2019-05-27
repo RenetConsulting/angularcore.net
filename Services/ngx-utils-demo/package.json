@@ -15,6 +15,7 @@
     "build:ngx-uploader": "ng build ngx-uploader",
     "build:ngx-validator": "ng build ngx-validator",
     "build:storage": "ng build storage",
+    "build:util": "ng build util",
     "test": "ng test",
     "test:auth": "ng test auth --watch=false",
     "test:core-captcha": "ng test core-captcha --watch=false",
@@ -26,6 +27,7 @@
     "test:ngx-uploader": "ng test ngx-uploader --watch=false",
     "test:ngx-validator": "ng test ngx-validator --watch=false",
     "test:storage": "ng test storage --watch=false",
+    "test:util": "ng test util --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
