@@ -31,7 +31,7 @@ export class SigninEffects {
     @Effect() signinRequest = this.actions.pipe(
         ofType<SigninRequest>(SigninTypes.SIGNIN_REQUEST),
         mergeMap(a => this.authService.signin(a.payload.value, { params: this.params.map(a.payload.value.captcha) }).pipe(
-            tap(() => this.storageService.setStorage(a.payload.controls.isRemember.value)),
+            tap(() => this.storageService.setStorage(a.payload.value.isRemember)),
             tap(() => a.payload.reset()),
             map(i => new SigninSuccess(a.payload, i)),
             catchError(e => of(new SigninError(e.error)))
