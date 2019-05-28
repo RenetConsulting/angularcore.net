@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { MaxLength } from '~/enums/max-length.type';
 import { IPerson } from '~/interfaces/person';
 import { RootStore } from '~/reducers';
 import { GetProfileRequest, UpdateProfileRequest } from './actions';
@@ -35,15 +36,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
     /** TODO: add a phone validator */
     setFormGroup = (): void => {
         this.formGroup = new FormGroup({
-            firstName: new FormControl('', [Validators.required]),
-            lastName: new FormControl('', [Validators.required]),
-            email: new FormControl('', [Validators.required, Validators.email]),
-            phone: new FormControl('', [Validators.required]),
-            address: new FormControl(),
-            zipCode: new FormControl(),
-            city: new FormControl(),
-            region: new FormControl(),
-            country: new FormControl(),
+            firstName: new FormControl('', [Validators.required, Validators.maxLength(MaxLength.l250)]),
+            lastName: new FormControl('', [Validators.required, Validators.maxLength(MaxLength.l250)]),
+            email: new FormControl('', [Validators.required, Validators.email, Validators.maxLength(MaxLength.l150)]),
+            phone: new FormControl('', [Validators.required, Validators.maxLength(MaxLength.l12)]),
+            address: new FormControl('', [, Validators.maxLength(MaxLength.l150)]),
+            zipCode: new FormControl('', [, Validators.maxLength(MaxLength.l10)]),
+            city: new FormControl('', [, Validators.maxLength(MaxLength.l100)]),
+            region: new FormControl('', [, Validators.maxLength(MaxLength.l100)]),
+            country: new FormControl('', [, Validators.maxLength(MaxLength.l100)]),
         } as MapPick<IPerson, keyof IPerson, FormControl>);
     }
 
