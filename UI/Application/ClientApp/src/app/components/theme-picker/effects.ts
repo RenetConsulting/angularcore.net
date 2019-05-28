@@ -3,7 +3,7 @@ import { Actions, Effect, ofType, ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { NgxLinkStylesheetService } from '@renet-consulting/ngx-link-stylesheet';
 import { StorageService } from '@renet-consulting/storage';
-import { first, map, tap, withLatestFrom } from 'rxjs/operators';
+import { map, tap, withLatestFrom } from 'rxjs/operators';
 import { RootStore } from '~/reducers';
 import { SetTheme } from './actions';
 import { selectThemes } from './selectors';
@@ -24,11 +24,10 @@ export class ThemeEffects {
 
     @Effect() init = this.actions.pipe(
         ofType(ROOT_EFFECTS_INIT),
-        first(),
         map(() => this.storageService.get(this.key)),
         withLatestFrom(this.store.select(selectThemes)),
         map(([selected, themes]) => selected ? selected : themes.find(i => i.isDefault)),
-        map(i => new SetTheme(i))
+        map(i => new SetTheme(i)),
     );
 
     @Effect({ dispatch: false }) setTheme = this.actions.pipe(

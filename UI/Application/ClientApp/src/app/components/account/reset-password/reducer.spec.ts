@@ -17,7 +17,7 @@ describe('resetPasswordReducer', () => {
     it('RESET_PASSWORD_ERROR', () => {
         expect(resetPasswordReducer({}, new Reset())).toEqual({});
     });
-    it('null', () => {
+    it('default', () => {
         expect(resetPasswordReducer({}, { type: null })).toEqual({});
     });
 });
