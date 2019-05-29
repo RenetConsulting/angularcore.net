@@ -23,13 +23,7 @@ export class AuthService {
         @Inject(AuthDefaultOptions) private options: AuthDefaultOptions,
     ) { }
 
-    signin = (user: IAuthUser, options?: HttpOptions) => {
-        const token: IConnectToken = {
-            scope: 'offline_access',
-            grant_type: 'password',
-            password: user.password,
-            username: user.email
-        };
+    getToken = (token: IConnectToken, options?: HttpOptions) => {
         const headers = {
             ...(options && options.headers),
             ...HTTP_HEADERS.contentTypeUrlencoded,
@@ -38,6 +32,16 @@ export class AuthService {
         };
         const body = this.params.map(token).toString();
         return this.http.post<IToken>(this.options.apiSignin, body, { ...options, headers });
+    }
+
+    signin = (user: IAuthUser, options?: HttpOptions) => {
+        const token: IConnectToken = {
+            scope: 'offline_access',
+            grant_type: 'password',
+            password: user.password,
+            username: user.email
+        };
+        return this.getToken(token, options);
     }
 
     signup = (model: IAuthUser, options?: HttpOptions) => this.http

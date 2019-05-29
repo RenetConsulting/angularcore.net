@@ -1,4 +1,3 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -20,7 +19,6 @@ describe('ResetPasswordEffects', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule],
             providers: [
                 ResetPasswordEffects,
                 provideMockActions(() => actions),

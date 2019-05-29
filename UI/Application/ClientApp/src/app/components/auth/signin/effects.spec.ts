@@ -1,10 +1,10 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { AuthService, IToken, TokenService } from '@renet-consulting/auth';
+import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
 import { NgxMessengerService } from '@renet-consulting/ngx-messenger';
 import { StorageService } from '@renet-consulting/storage';
 import { cold, hot } from 'jasmine-marbles';
@@ -12,6 +12,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { SetError } from '~/actions/messenger.actions';
 import { ErrorCodeType } from '~/consts/error-code.type';
 import { IError } from '~/interfaces/error';
+import { IUser } from '~/interfaces/user';
 import { SetAuthorized } from '../actions';
 import { SigninError, SigninRequest, SigninSuccess } from './actions';
 import { SigninEffects } from './effects';
@@ -28,10 +29,10 @@ describe('SigninEffects', () => {
     let router: jasmine.SpyObj<Router>;
     let messengerService: jasmine.SpyObj<NgxMessengerService>;
     let metadata: EffectsMetadata<SigninEffects>;
+    let params: jasmine.SpyObj<NgxHttpParamsService>;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule],
             providers: [
                 SigninEffects,
                 provideMockActions(() => actions),
@@ -43,6 +44,7 @@ describe('SigninEffects', () => {
                 { provide: TokenService, useValue: jasmine.createSpyObj<TokenService>('TokenService', ['setToken']) },
                 { provide: Router, useValue: jasmine.createSpyObj<Router>('Router', ['navigate']) },
                 { provide: NgxMessengerService, useValue: jasmine.createSpyObj<NgxMessengerService>('NgxMessengerService', ['error']) },
+                { provide: NgxHttpParamsService, useValue: jasmine.createSpyObj<NgxHttpParamsService>('NgxHttpParamsService', ['map']) },
             ],
         });
 
@@ -52,7 +54,10 @@ describe('SigninEffects', () => {
         tokenService = TestBed.get(TokenService);
         router = TestBed.get(Router);
         messengerService = TestBed.get(NgxMessengerService);
+        params = TestBed.get(NgxHttpParamsService);
         metadata = getEffectsMetadata(effects);
+
+        params.map.and.returnValue(null);
     });
 
     it('should work', () => {
@@ -62,11 +67,12 @@ describe('SigninEffects', () => {
 
         let formGroup: FormGroup;
         let reset;
+        let value: IUser;
 
         beforeEach(() => {
             reset = jasmine.createSpy();
-            const isRemember = {} as AbstractControl;
-            formGroup = { reset, controls: { isRemember } as { [k: string]: AbstractControl } } as FormGroup;
+            value = {} as IUser;
+            formGroup = { reset, value } as FormGroup;
         });
 
         it('success', () => {
@@ -79,6 +85,7 @@ describe('SigninEffects', () => {
             expect(effects.signinRequest).toBeObservable(expected);
             expect(reset).toHaveBeenCalled();
             expect(storageService.setStorage).toHaveBeenCalled();
+            expect(params.map).toHaveBeenCalled();
         });
         it('error', () => {
             const error = 'bob';
@@ -88,6 +95,7 @@ describe('SigninEffects', () => {
             const expected = cold('--b', { b: completion });
             actions = hot('--a-', { a: action });
             expect(effects.signinRequest).toBeObservable(expected);
+            expect(params.map).toHaveBeenCalled();
         });
     });
     it('signinSuccess', () => {

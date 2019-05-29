@@ -20,10 +20,6 @@ export class AuthEffects implements OnInitEffects {
         @Inject(Router) private router: Router,
     ) { }
 
-    ngrxOnInitEffects() {
-        return new SetAuthorized(this.tokenService.valid);
-    }
-
     @Effect() signoutRequest = this.actions.pipe(
         ofType<SignoutRequest>(AuthTypes.SIGNOUT_REQUEST),
         mergeMap(() => this.authService.signout().pipe(
@@ -46,4 +42,8 @@ export class AuthEffects implements OnInitEffects {
         ofType<SignoutError>(AuthTypes.SIGNOUT_ERROR),
         tap(this.tokenService.clean),
     );
+
+    ngrxOnInitEffects() {
+        return new SetAuthorized(this.tokenService.valid);
+    }
 }

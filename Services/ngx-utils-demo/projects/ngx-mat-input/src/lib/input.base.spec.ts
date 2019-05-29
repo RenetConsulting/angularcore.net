@@ -1,13 +1,13 @@
 import { EventEmitter } from '@angular/core';
 import { AbstractControl, FormGroupDirective, NgControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { NgxMatInputBase } from './ngx-mat-input.base';
+import { InputBase } from './input.base';
 
-class TestBase extends NgxMatInputBase { }
+class Test extends InputBase { }
 
 describe('NgxMatInputBase', () => {
 
-    let base: TestBase;
+    let base: Test;
 
     let ngControl: NgControl;
     let formGroup: FormGroupDirective;
@@ -22,17 +22,14 @@ describe('NgxMatInputBase', () => {
         ]);
         ngControl = { control: control as AbstractControl } as NgControl;
         formGroup = {} as FormGroupDirective;
-        base = new TestBase(ngControl, formGroup);
+        base = new Test(ngControl, formGroup);
     });
 
     it('base instanceof NgxMatInputBase', () => {
-        expect(base instanceof NgxMatInputBase).toEqual(true);
+        expect(base instanceof InputBase).toEqual(true);
     });
     it('subscription instanceof Subscription', () => {
         expect(base.subscription instanceof Subscription).toEqual(true);
-    });
-    it('ngControl.valueAccessor', () => {
-        expect(base.ngControl.valueAccessor).toEqual(base);
     });
     it('ngOnChanges', () => {
         spyOn(base, 'setErrorsState');
@@ -65,28 +62,6 @@ describe('NgxMatInputBase', () => {
     it('showHint errors.length === 0', () => {
         base.errors = [];
         expect(base.showHint).toEqual(true);
-    });
-    it('writeValue', () => {
-        const value = '123';
-        base.onChange = jasmine.createSpy();
-        base.writeValue(value);
-        expect(base.value).toEqual(value);
-        expect(base.onChange).toHaveBeenCalledWith(value);
-    });
-    it('registerOnChange', () => {
-        const fn = () => { };
-        base.registerOnChange(fn);
-        expect(base.onChange).toEqual(fn);
-    });
-    it('registerOnTouched', () => {
-        const fn = () => { };
-        base.registerOnTouched(fn);
-        expect(base.onTouched).toEqual(fn);
-    });
-    it('setDisabledState', () => {
-        const value = true;
-        base.setDisabledState(value);
-        expect(base.disabled).toEqual(value);
     });
     describe('setErrorState', () => {
         it('should be 0', () => {
@@ -123,9 +98,9 @@ describe('NgxMatInputBase', () => {
     });
     it('updateControl', () => {
         base.updateControl();
-        expect(base.ngControl.control.markAsDirty).toHaveBeenCalled();
-        expect(base.ngControl.control.markAsTouched).toHaveBeenCalled();
-        expect(base.ngControl.control.updateValueAndValidity).toHaveBeenCalled();
+        expect(ngControl.control.markAsDirty).toHaveBeenCalled();
+        expect(ngControl.control.markAsTouched).toHaveBeenCalled();
+        expect(ngControl.control.updateValueAndValidity).toHaveBeenCalled();
     });
     describe('setRequired', () => {
         it('should set required', () => {
@@ -140,7 +115,7 @@ describe('NgxMatInputBase', () => {
                 'updateValueAndValidity',
             ]);
             ngControl = { control: control as AbstractControl } as NgControl;
-            base = new TestBase(ngControl, formGroup);
+            base = new Test(ngControl, formGroup);
             base.setRequired();
             expect(base.required).toBeUndefined();
         });
@@ -159,7 +134,7 @@ describe('NgxMatInputBase', () => {
                 'updateValueAndValidity',
             ]);
             ngControl = { control: control as AbstractControl } as NgControl;
-            base = new TestBase(ngControl, formGroup);
+            base = new Test(ngControl, formGroup);
             base.setMaxlength();
             expect(base.maxlength).toBeUndefined();
         });

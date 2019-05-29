@@ -6,7 +6,6 @@ import { ProfileTypes } from './types';
 
 export interface ProfileState {
     profile?: IPerson;
-    error?;
 }
 
 const INITIAL_STATE: ProfileState = {};
@@ -15,9 +14,9 @@ export function profileReducer(state = INITIAL_STATE, action: ProfileUnion | Roo
 
     switch (action.type) {
 
-        case ProfileTypes.UPDATE_PROFILE_REQUEST: return { profile: { ...action.payload.value } };
-        case ProfileTypes.UPDATE_PROFILE_SUCCESS: return { ...state, error: null };
-        case ProfileTypes.UPDATE_PROFILE_ERROR: return { ...state, error: { ...action.error } };
+        case ProfileTypes.UPDATE_PROFILE_SUCCESS: return { ...state, profile: { ...action.payload } };
+        case ProfileTypes.GET_PROFILE_REQUEST: return { ...state, profile: null };
+        case ProfileTypes.GET_PROFILE_SUCCESS: return { ...state, profile: { ...action.success } };
         case RootTypes.RESET: return INITIAL_STATE;
         default: return state;
     }

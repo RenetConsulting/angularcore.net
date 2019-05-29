@@ -8,6 +8,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressHttpModule, ɵa as NgProgressInterceptor } from '@ngx-progressbar/http';
 import { AuthDefaultOptions, AuthInterceptor, TokenService } from '@renet-consulting/auth';
+import { ApiPrefixInterceptor, NoneCacheInterceptor } from '@renet-consulting/interceptors';
 import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
 import { NgxMessengerModule } from '@renet-consulting/ngx-messenger';
 import { environment } from 'src/environments/environment';
@@ -18,9 +19,7 @@ import { HeaderModule } from './components/header/header.module';
 import { HomeComponent } from './components/home/home.component';
 import { ThemeEffects } from './components/theme-picker/effects';
 import { MessengerEffects } from './effects/messenger.effects';
-import { ApiPrefixInterceptor } from './interceptors/api-prefix/api-prefix.interceptor';
 import { ErrorInterceptor } from './interceptors/error/error.interceptor';
-import { NoneCacheInterceptor } from './interceptors/none-cache/none-cache.interceptor';
 import { REDUCERS } from './reducers';
 import { BASE_URL } from './tokens/base-url.token';
 

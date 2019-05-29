@@ -8,6 +8,7 @@ export const ROUTES: Routes = [
     { path: 'validator', loadChildren: './validator/validator.module#ValidatorModule' },
     { path: 'uploader', loadChildren: './uploader/uploader.module#UploaderModule' },
     { path: 'messenger', loadChildren: './messenger/messenger.module#MessagerModule' },
+    { path: 'storage', loadChildren: './storage/storage.module#StorageModule' },
 
     { path: '**', redirectTo: '' }
 ];

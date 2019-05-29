@@ -7,16 +7,16 @@ import { SESSION_STORAGE } from './session-storage.token';
 })
 export class StorageService {
 
-    /** key of flag for using localStorage */
-    private readonly key = 'constant';
+    /** a key for storage of value - whether we have to use localStorage */
+    private readonly key = 'session';
     private storage;
 
     constructor(
         @Inject(LOCAL_STORAGE) private localStorage,
         @Inject(SESSION_STORAGE) private sessionStorage
     ) {
-        const constant = this.get(this.key, this.localStorage);
-        this.setStorage(constant);
+        const session = this.get(this.key, this.localStorage);
+        this.setStorage(session);
     }
 
     private getItem = (key: string, storage = this.storage): string => storage && storage.getItem(key);
@@ -26,7 +26,7 @@ export class StorageService {
     /** @param value - is a type of storage that we must use */
     setStorage = (value: boolean): void => {
         this.set(this.key, value, this.localStorage);
-        this.storage = value ? this.localStorage : this.sessionStorage;
+        this.storage = value ? this.sessionStorage : this.localStorage;
     }
 
     remove = (key: string, storage = this.storage): void => storage && storage.removeItem(key);

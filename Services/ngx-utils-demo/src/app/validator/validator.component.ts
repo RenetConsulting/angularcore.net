@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { phoneUSRegExp, phoneValidator } from 'projects/ngx-validator/src/public-api';
 
 @Component({
     selector: 'app-validator',
@@ -8,13 +9,11 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators }
 })
 export class ValidatorComponent implements OnInit {
 
-    readonly formControl = new FormControl('', [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(6),
-        this.helloBobValidator
-    ]);
-    readonly formGroup = new FormGroup({ control: this.formControl });
+    readonly formGroup = new FormGroup({
+        city: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(6), this.helloBobValidator]),
+        address: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(6), this.helloBobValidator]),
+        phone: new FormControl('', [phoneValidator(phoneUSRegExp)])
+    });
     errorMessage: string;
     error: string;
 

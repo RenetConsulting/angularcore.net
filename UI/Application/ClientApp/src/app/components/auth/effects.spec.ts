@@ -1,17 +1,15 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { AuthService, IToken, TokenService } from '@renet-consulting/auth';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { SetSuccess } from '~/actions/messenger.actions';
 import { Reset } from '~/actions/root.actions';
-import { SignoutError, SignoutRequest, SignoutSuccess } from './actions';
+import { SetAuthorized, SignoutError, SignoutRequest, SignoutSuccess } from './actions';
 import { AuthEffects } from './effects';
 
-fdescribe('AuthEffects', () => {
+describe('AuthEffects', () => {
 
     let effects: AuthEffects;
 
@@ -19,13 +17,9 @@ fdescribe('AuthEffects', () => {
     let authService: jasmine.SpyObj<AuthService>;
     let tokenService: jasmine.SpyObj<TokenService>;
     let router: jasmine.SpyObj<Router>;
-    let metadata: EffectsMetadata<AuthEffects>;
-
-    metadata
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule],
             providers: [
                 AuthEffects,
                 provideMockActions(() => actions),
@@ -33,7 +27,7 @@ fdescribe('AuthEffects', () => {
                     provide: AuthService,
                     useValue: jasmine.createSpyObj<AuthService>('AuthService', ['signout'])
                 },
-                { provide: TokenService, useValue: jasmine.createSpyObj<TokenService>('TokenService', ['setToken']) },
+                { provide: TokenService, useValue: jasmine.createSpyObj<TokenService>('TokenService', ['setToken', 'clean']) },
                 { provide: Router, useValue: jasmine.createSpyObj<Router>('Router', ['navigate']) },
             ],
         });
@@ -42,12 +36,12 @@ fdescribe('AuthEffects', () => {
         authService = TestBed.get(AuthService);
         tokenService = TestBed.get(TokenService);
         router = TestBed.get(Router);
-        metadata = getEffectsMetadata(effects);
     });
 
     it('should work', () => {
         expect(effects).toBeDefined();
     });
+
     describe('signoutRequest', () => {
 
         it('success', () => {
@@ -69,21 +63,24 @@ fdescribe('AuthEffects', () => {
             expect(effects.signoutRequest).toBeObservable(expected);
         });
     });
-    fit('signoutSuccess', () => {
-        const token = {} as IToken;
+
+    it('signoutSuccess', () => {
         const action = new SignoutSuccess();
         const completionB = new SetSuccess('You has signed out successfully.');
         const completionC = new Reset();
-        const expected = cold('--bc', { b: completionB, c: completionC });
+        const expected = cold('--(bc)', { b: completionB, c: completionC });
         actions = hot('--a-', { a: action });
         expect(effects.signoutSuccess).toBeObservable(expected);
-        expect(router.navigate).toHaveBeenCalledWith(['/']);
-        expect(tokenService.setToken).toHaveBeenCalledWith(token);
+        expect(router.navigate).toHaveBeenCalledWith(['/signin']);
+        expect(tokenService.clean).toHaveBeenCalled();
     });
     it('signoutError', () => {
         const action = new SignoutError();
         const expected = cold('--b', { b: action });
         actions = hot('--a-', { a: action });
         expect(effects.signoutError).toBeObservable(expected);
+    });
+    it('ngrxOnInitEffects', () => {
+        expect(effects.ngrxOnInitEffects()).toEqual(new SetAuthorized(tokenService.valid));
     });
 });

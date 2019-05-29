@@ -482,6 +482,76 @@
           }
         }
       }
+    },
+    "util": {
+      "root": "projects/util",
+      "sourceRoot": "projects/util/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/util/tsconfig.lib.json",
+            "project": "projects/util/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/util/src/test.ts",
+            "tsConfig": "projects/util/tsconfig.spec.json",
+            "karmaConfig": "projects/util/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/util/tsconfig.lib.json",
+              "projects/util/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "interceptors": {
+      "root": "projects/interceptors",
+      "sourceRoot": "projects/interceptors/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/interceptors/tsconfig.lib.json",
+            "project": "projects/interceptors/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/interceptors/src/test.ts",
+            "tsConfig": "projects/interceptors/tsconfig.spec.json",
+            "karmaConfig": "projects/interceptors/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/interceptors/tsconfig.lib.json",
+              "projects/interceptors/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "ngx-utils-demo"
