@@ -6,7 +6,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { SetSuccess } from '~/actions/messenger.actions';
 import { Reset } from '~/actions/root.actions';
-import { SignoutError, SignoutRequest, SignoutSuccess } from './actions';
+import { SetAuthorized, SignoutError, SignoutRequest, SignoutSuccess } from './actions';
 import { AuthEffects } from './effects';
 
 describe('AuthEffects', () => {
@@ -79,5 +79,8 @@ describe('AuthEffects', () => {
         const expected = cold('--b', { b: action });
         actions = hot('--a-', { a: action });
         expect(effects.signoutError).toBeObservable(expected);
+    });
+    it('ngrxOnInitEffects', () => {
+        expect(effects.ngrxOnInitEffects()).toEqual(new SetAuthorized(tokenService.valid));
     });
 });
