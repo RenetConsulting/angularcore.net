@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { phoneUSRegExp, phoneValidator } from '@renet-consulting/ngx-validator';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { MaxLength } from '~/enums/max-length.type';
@@ -33,18 +34,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
 
-    /** TODO: add a phone validator */
     setFormGroup = (): void => {
         this.formGroup = new FormGroup({
             firstName: new FormControl('', [Validators.required, Validators.maxLength(MaxLength.l250)]),
             lastName: new FormControl('', [Validators.required, Validators.maxLength(MaxLength.l250)]),
             email: new FormControl('', [Validators.required, Validators.email, Validators.maxLength(MaxLength.l150)]),
-            phone: new FormControl('', [Validators.required, Validators.maxLength(MaxLength.l12)]),
-            address: new FormControl('', [, Validators.maxLength(MaxLength.l150)]),
-            zipCode: new FormControl('', [, Validators.maxLength(MaxLength.l10)]),
-            city: new FormControl('', [, Validators.maxLength(MaxLength.l100)]),
-            region: new FormControl('', [, Validators.maxLength(MaxLength.l100)]),
-            country: new FormControl('', [, Validators.maxLength(MaxLength.l100)]),
+            phone: new FormControl('', [Validators.required, Validators.maxLength(MaxLength.l12), phoneValidator(phoneUSRegExp)]),
+            address: new FormControl('', [Validators.maxLength(MaxLength.l150)]),
+            zipCode: new FormControl('', [Validators.maxLength(MaxLength.l10)]),
+            city: new FormControl('', [Validators.maxLength(MaxLength.l100)]),
+            region: new FormControl('', [Validators.maxLength(MaxLength.l100)]),
+            country: new FormControl('', [Validators.maxLength(MaxLength.l100)]),
         } as MapPick<IPerson, keyof IPerson, FormControl>);
     }
 

@@ -9,7 +9,7 @@ export class UpdateProfileRequest implements Action {
 }
 export class UpdateProfileSuccess implements Action {
     readonly type = ProfileTypes.UPDATE_PROFILE_SUCCESS;
-    constructor() { }
+    constructor(readonly payload: IPerson) { }
 }
 export class UpdateProfileError implements Action {
     readonly type = ProfileTypes.UPDATE_PROFILE_ERROR;
