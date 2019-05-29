@@ -3,18 +3,12 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { SigninExternalComponent } from './signin-external.component';
 
-const MODULES = [
-    CommonModule,
-    MatButtonModule
-];
-
-const COMPONENTS = [
-    SigninExternalComponent
-];
-
 @NgModule({
-    declarations: [...COMPONENTS],
-    imports: [...MODULES],
-    exports: [...COMPONENTS],
+    declarations: [SigninExternalComponent],
+    exports: [SigninExternalComponent],
+    imports: [
+        CommonModule,
+        MatButtonModule
+    ],
 })
 export class SigninExternalModule { }

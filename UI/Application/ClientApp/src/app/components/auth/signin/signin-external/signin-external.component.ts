@@ -1,9 +1,8 @@
 import { isPlatformBrowser } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostBinding, Inject, Input, NgZone, OnInit, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Inject, Input, NgZone, OnInit, PLATFORM_ID, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
-import { IToken } from '../../../../interfaces/token';
-import { TokenService } from '../../../../services/token/token.service';
-import { BASE_URL } from '../../../../tokens/base-url.token';
+import { IToken, TokenService } from '@renet-consulting/auth';
+import { BASE_URL } from '~/tokens/base-url.token';
 
 declare const window;
 
@@ -15,11 +14,12 @@ declare const window;
     styleUrls: ['./signin-external.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SigninExternalComponent implements OnInit {
+export class SigninExternalComponent implements OnChanges, OnInit {
 
     @HostBinding('class.d-block') readonly dBlock = true;
     /** possible variants: facebook, google, twitter et. */
     @Input() provider: string;
+    @Input() label: string;
     @Input() iconClass: string;
     providerWindow;
 
@@ -31,7 +31,11 @@ export class SigninExternalComponent implements OnInit {
         @Inject(TokenService) private tokenService: TokenService,
     ) { }
 
-    ngOnInit() {
+    ngOnChanges(): void {
+        this.label = this.label ? this.label : this.provider ? this.provider : null;
+    }
+
+    ngOnInit(): void {
         if (isPlatformBrowser(this.platformId)) {
 
             // close previously opened windows (if any)
