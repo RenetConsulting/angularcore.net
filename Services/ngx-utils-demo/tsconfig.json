@@ -86,6 +86,12 @@
       ],
       "util/*": [
         "dist/util/*"
+      ],
+      "interceptors": [
+        "dist/interceptors"
+      ],
+      "interceptors/*": [
+        "dist/interceptors/*"
       ]
     }
   }
