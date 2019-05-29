@@ -80,10 +80,7 @@ namespace Application.Controllers
                     {
                         // There was a successful external log in from the same log in provider.
                         // Skip challenging and redirect to next step.
-                        return this.RedirectToAction(
-                            nameof(this.ExternalLoginCallbackAsync),
-                            "Authorization",
-                            new { provider, returnUrl });
+                        return this.RedirectToAction(nameof(this.ExternalLoginCallbackAsync), "Authorization", new { provider, returnUrl });
                     }
                 }
 
@@ -91,10 +88,7 @@ namespace Application.Controllers
                 {
                     case "Facebook":
                         // Redirect the request to the external provider.
-                        var redirectUrl = this.Url.Action(
-                            nameof(this.ExternalLoginCallbackAsync),
-                            "Authorization",
-                            new { returnUrl });
+                        var redirectUrl = this.Url.Action(nameof(this.ExternalLoginCallbackAsync), "Authorization", new { returnUrl });
                         var properties = this.signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
                         return this.Challenge(properties, provider);
                     default:
