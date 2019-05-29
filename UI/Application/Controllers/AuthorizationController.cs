@@ -59,6 +59,20 @@ namespace Application.Controllers
                 return await this.RefreshTokenGrantTypeAsync(request);
             }
 
+            // grant_type=refresh_token&refresh_token=tGzv3JOkF0XG5Qx2TlKWIA
+            if (request.GrantType == "external_identity_token")
+            {
+                // get external info for login user
+                ExternalLoginInfo info = await this.signInManager.GetExternalLoginInfoAsync().ConfigureAwait(false);
+
+                var user = await this.userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey).ConfigureAwait(false);
+
+                // Create a new authentication ticket.
+                var ticket = await this.CreateTicketAsync(request, user).ConfigureAwait(false);
+
+                return this.SignIn(ticket.Principal, ticket.Properties, ticket.AuthenticationScheme);
+            }
+
             return this.BadRequest(new OpenIdConnectResponse
             {
                 Error = OpenIdConnectConstants.Errors.UnsupportedGrantType,
@@ -136,14 +150,11 @@ namespace Application.Controllers
 
                     if (user == null)
                     {
-                        DateTime now = DateTime.Now;
-
                         // Create a unique username using the 'nameidentifier' claim
-                        var username = string.Format("{0}{1}{2}", info.LoginProvider, info.Principal.FindFirst(ClaimTypes.NameIdentifier).Value, Guid.NewGuid().ToString("N"));
                         user = new ApplicationUser()
                         {
                             SecurityStamp = Guid.NewGuid().ToString(),
-                            UserName = username,
+                            UserName = string.Format("{0}:{1}:{2}", info.LoginProvider, info.Principal.FindFirst(ClaimTypes.NameIdentifier).Value, Guid.NewGuid().ToString("N")),
                             Email = email,
                             EmailConfirmed = true,
                             LockoutEnabled = false

@@ -1,8 +1,10 @@
 import { isPlatformBrowser } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostBinding, Inject, Input, NgZone, OnInit, PLATFORM_ID, OnChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Inject, Input, NgZone, OnChanges, OnInit, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
-import { IToken, TokenService } from '@renet-consulting/auth';
+import { Store } from '@ngrx/store';
+import { AuthService, TokenService } from '@renet-consulting/auth';
 import { BASE_URL } from '~/tokens/base-url.token';
+import { SetAuthorized } from '../../actions';
 
 declare const window;
 
@@ -29,6 +31,8 @@ export class SigninExternalComponent implements OnChanges, OnInit {
         @Inject(BASE_URL) private baseUrl: string,
         @Inject(PLATFORM_ID) private platformId: any,
         @Inject(TokenService) private tokenService: TokenService,
+        @Inject(AuthService) private authService: AuthService,
+        @Inject(Store) private store: Store<null>,
     ) { }
 
     ngOnChanges(): void {
@@ -49,11 +53,13 @@ export class SigninExternalComponent implements OnChanges, OnInit {
         }
     }
 
-    private signin = (auth: IToken): void => {
+    private signin = (): void => {
         this.zone.run(() => {
-            console.log('External Login successful!', auth);
-            this.tokenService.setToken(auth);
-            this.router.navigate(['']);
+            this.authService.getToken({ grant_type: 'external_identity_token' } as any).subscribe(x => {
+                this.tokenService.setToken({ ...x, refresh_token: 'fake' })
+                this.store.dispatch(new SetAuthorized(true));
+                this.router.navigate(['']);
+            });
         });
     }
 
