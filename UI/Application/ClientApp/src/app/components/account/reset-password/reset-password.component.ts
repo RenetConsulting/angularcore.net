@@ -2,13 +2,13 @@ import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { mismatchPasswordValidator } from '@renet-consulting/ngx-validator';
 import { Subscription } from 'rxjs';
 import { share } from 'rxjs/operators';
 import { EMAIL_VALIDATORS } from '~/consts/email.validators';
 import { PASSWORD_VALIDATORS } from '~/consts/password.validators';
 import { IResetPassword } from '~/interfaces/reset-password';
 import { RootStore } from '~/reducers';
-import { mismatchPasswordValidator } from '~/validators/mismatch-password.validator';
 import { ResetError, ResetPasswordRequest } from './actions';
 import { selectResetPasswordError } from './selectors';
 
@@ -41,8 +41,8 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
 
     setFormGroup = (): void => {
         this.formGroup = new FormGroup({
-            email: new FormControl('', [...EMAIL_VALIDATORS]),
-            password: new FormControl('', [...PASSWORD_VALIDATORS]),
+            email: new FormControl('', EMAIL_VALIDATORS),
+            password: new FormControl('', PASSWORD_VALIDATORS),
             confirmPassword: new FormControl('', [...PASSWORD_VALIDATORS, mismatchPasswordValidator()]),
             token: new FormControl('', [Validators.required]),
         } as MapPick<IResetPassword, keyof IResetPassword, FormControl>);
