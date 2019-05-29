@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/ngx-http-params",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
@@ -15,6 +15,7 @@
   },
   "peerDependencies": {
     "@angular/common": "^7.0.0",
-    "@angular/core": "^7.0.0"
+    "@angular/core": "^7.0.0",
+    "@renet-consulting/util": "^0.0.1"
   }
 }

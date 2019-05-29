@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/auth",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
@@ -17,6 +17,6 @@
     "@angular/common": "^7.0.0",
     "@angular/core": "^7.0.0",
     "@renet-consulting/ngx-http-params": "^0.0.3",
-    "@renet-consulting/storage": "0.0.1"
+    "@renet-consulting/storage": "0.0.3"
   }
 }

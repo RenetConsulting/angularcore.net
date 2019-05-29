@@ -69,6 +69,27 @@ describe('TokenService', () => {
             storage.get.and.returnValue(token);
             expect(service.expired).toEqual(true);
         });
+        it('true, date in number format as string from localStorage', () => {
+            const value = `{"access_token":"1","refresh_token":"2","expired_at":"1558723213274"}`;
+            const token = JSON.parse(value);
+            storage.get.and.returnValue(token);
+            expect(service.expired).toEqual(true);
+        });
+        it('true, date in string format', () => {
+            const token = {
+                access_token: '1',
+                refresh_token: '2',
+                expired_at: 'Sat May 25 2019 00:27:50 GMT+0300 (Eastern European Summer Time)'
+            };
+            storage.get.and.returnValue(token);
+            expect(service.expired).toEqual(true);
+        });
+        it('true, date in ISO format', () => {
+            const value = `{"access_token":"1","refresh_token":"2","expired_at":"2019-05-24T21:28:11.511Z"}`;
+            const token = JSON.parse(value);
+            storage.get.and.returnValue(token);
+            expect(service.expired).toEqual(true);
+        });
     });
     describe('header', () => {
         it('null', () => {

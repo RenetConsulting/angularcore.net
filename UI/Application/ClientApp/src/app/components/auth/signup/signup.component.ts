@@ -2,12 +2,12 @@ import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/cor
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { CoreCaptchaRequired } from '@renet-consulting/core-captcha';
+import { mismatchPasswordValidator } from '@renet-consulting/ngx-validator';
 import { share } from 'rxjs/operators';
 import { EMAIL_VALIDATORS } from '~/consts/email.validators';
 import { PASSWORD_VALIDATORS } from '~/consts/password.validators';
 import { IUser } from '~/interfaces/user';
 import { RootStore } from '~/reducers';
-import { mismatchPasswordValidator } from '~/validators/mismatch-password.validator';
 import { selectSignupError } from '../selectors';
 import { SignupRequest } from './actions';
 

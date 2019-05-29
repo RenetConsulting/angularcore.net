@@ -25,7 +25,7 @@ export class PrepResetPasswordComponent implements OnInit {
 
     setFormGroup = (): void => {
         this.formGroup = new FormGroup({
-            email: new FormControl('', [...EMAIL_VALIDATORS]),
+            email: new FormControl('', EMAIL_VALIDATORS),
         } as MapPick<IUser, keyof IUser, FormControl>);
     }
 

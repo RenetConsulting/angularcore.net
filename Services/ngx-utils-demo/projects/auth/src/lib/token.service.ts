@@ -27,7 +27,19 @@ export class TokenService {
     }
 
     get expired(): boolean {
-        return this.valid ? new Date().valueOf() >= new Date(this.token.expired_at || 0).valueOf() : false;
+        const item = this.token;
+        const expired_at = item && item.expired_at;
+        let value: number;
+        /** expects date in format number as string */
+        try {
+            value = JSON.parse(expired_at);
+        }
+        /** expects date in format ISO or string of a date */
+        catch (e) {
+            const date = new Date(expired_at).valueOf();
+            value = isNaN(date) ? 0 : date;
+        }
+        return this.valid ? new Date().valueOf() >= new Date(value).valueOf() : false;
     }
 
     get header(): { [k: string]: string } {

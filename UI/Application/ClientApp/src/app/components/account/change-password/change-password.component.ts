@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { mismatchPasswordValidator } from '@renet-consulting/ngx-validator';
 import { PASSWORD_VALIDATORS } from '~/consts/password.validators';
 import { IChangePassword } from '~/interfaces/change-password';
-import { mismatchPasswordValidator } from '~/validators/mismatch-password.validator';
 import { ChangePasswordRequest, ResetError } from './actions';
 import { ChangePasswordStore } from './reducer';
 import { selectChangePasswordError } from './selectors';

@@ -1,8 +1,8 @@
 import { HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
-import { Observable, of, Subject } from 'rxjs';
-import { finalize, mergeMap } from 'rxjs/operators';
+import { Observable, of, Subject, throwError } from 'rxjs';
+import { catchError, finalize, mergeMap } from 'rxjs/operators';
 import { AuthDefaultOptions } from './auth-default-options';
 import { IConnectToken } from './connect-token';
 import { HTTP_HEADER_NAMES } from './http-header-names.type';
@@ -51,6 +51,7 @@ export class AuthInterceptor implements HttpInterceptor {
                 this.loading = true;
                 return handler.handle(this.request).pipe(
                     mergeMap(i => i instanceof HttpResponse ? this.handleSuccess(request, handler, i.body) : of(i)),
+                    catchError(this.handleError),
                     finalize(this.handleFinalize)
                 );
             }
@@ -67,6 +68,12 @@ export class AuthInterceptor implements HttpInterceptor {
         this.token.setToken(token);
         this.subjects.forEach(i => i.next(null));
         return handler.handle(this.setAuth(request));
+    }
+
+    /** clean token to prevent cycling the error */
+    handleError = (e) => {
+        this.token.clean();
+        return throwError(e);
     }
 
     handleFinalize = (): void => {

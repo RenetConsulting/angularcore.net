@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { isBoolean, isNumber, isObject, isString } from 'util';
+import { isBoolean, isNumber, isObject, isString } from '@renet-consulting/util';
 
 @Injectable({
     providedIn: 'root'

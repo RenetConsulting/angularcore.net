@@ -8,7 +8,7 @@ import { RootStore } from '~/reducers';
 @Injectable({
     providedIn: 'root'
 })
-export class AuthenticationGuard implements CanActivate {
+export class AuthGuard implements CanActivate {
 
     constructor(
         @Inject(Store) private store: Store<RootStore>
