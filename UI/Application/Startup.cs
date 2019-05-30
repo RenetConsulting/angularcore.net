@@ -166,8 +166,8 @@ namespace Application
                     // Note: the Mvc.Client sample only uses the code flow and the password flow, but you
                     // can enable the other flows if you need to support implicit or client credentials.
                     options.AllowPasswordFlow()
-                           .AllowRefreshTokenFlow()
-                           .AllowCustomFlow("external_identity_token");
+                           .AllowCustomFlow("external_identity_token")
+                           .AllowRefreshTokenFlow();
 
                     // Mark the "email", "profile" and "roles" scopes as supported scopes.
                     options.RegisterScopes(

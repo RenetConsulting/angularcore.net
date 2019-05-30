@@ -63,8 +63,8 @@ export class SigninExternalComponent implements OnChanges, OnInit {
     }
 
     getToken = (access_token: string): void => {
-        this.authService.getToken({ grant_type: 'external_identity_token', access_token, state: this.provider } as any).subscribe(x => {
-            this.tokenService.setToken({ ...x, refresh_token: 'fake' })
+        this.authService.getToken({ grant_type: 'external_identity_token', access_token, state: this.provider, scope: 'offline_access' } as any).subscribe(x => {
+            this.tokenService.setToken(x);
             this.store.dispatch(new SetAuthorized(true));
             this.router.navigate(['']);
         });
