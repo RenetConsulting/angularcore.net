@@ -76,6 +76,7 @@ export class SigninExternalComponent implements OnChanges, OnInit {
         }
     }
 
+    // TODO: remove doc
     addScript = (): void => {
         const script = this.renderer.createElement('script');
         this.renderer.setAttribute(script, 'src', '//connect.facebook.net/en_US/sdk.js');
