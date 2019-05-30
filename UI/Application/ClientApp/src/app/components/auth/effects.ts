@@ -28,6 +28,7 @@ export class AuthEffects implements OnInitEffects {
         )),
     );
 
+    /** TODO: call facebook signout */
     @Effect() signoutSuccess = this.actions.pipe(
         ofType<SignoutSuccess>(AuthTypes.SIGNOUT_SUCCESS),
         tap(this.tokenService.clean),

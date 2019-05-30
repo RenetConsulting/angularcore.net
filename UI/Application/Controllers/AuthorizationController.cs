@@ -54,22 +54,23 @@ namespace Application.Controllers
             {
                 return await this.PasswordGrantTypeAsync(request);
             }
-
-            // grant_type=refresh_token&refresh_token=tGzv3JOkF0XG5Qx2TlKWIA
-            if (request.IsRefreshTokenGrantType())
+            else if (request.IsRefreshTokenGrantType())
             {
                 return await this.RefreshTokenGrantTypeAsync(request);
             }
-
-            // grant_type=refresh_token&refresh_token=tGzv3JOkF0XG5Qx2TlKWIA
-            if (request.GrantType == "external_identity_token")
+            else if (request.GrantType == "external_identity_token")
             {
-                var user = await this.Facebook(request.AccessToken);
-
-                // Create a new authentication ticket.
-                var ticket = await this.CreateTicketAsync(request, user).ConfigureAwait(false);
-
-                return this.SignIn(ticket.Principal, ticket.Properties, ticket.AuthenticationScheme);
+                try
+                {
+                    return await this.ExternalSignInAsync(request);
+                }
+                catch (Exception ex)
+                {
+                    return this.BadRequest(new OpenIdConnectResponse
+                    {
+                        ErrorDescription = ex.Message
+                    });
+                }
             }
 
             return this.BadRequest(new OpenIdConnectResponse
@@ -79,180 +80,16 @@ namespace Application.Controllers
             });
         }
 
-        [AllowAnonymous]
-        [HttpGet("~/connect/token/external/{provider}")]
-        public async Task<IActionResult> ExternalLoginAsync(string provider, string returnUrl = null)
-        {
-            try
-            {
-                ExternalLoginInfo info = await this.signInManager.GetExternalLoginInfoAsync().ConfigureAwait(false);
-
-                if (info != null)
-                {
-                    if (string.Equals(info.LoginProvider, provider))
-                    {
-                        // There was a successful external log in from the same log in provider.
-                        // Skip challenging and redirect to next step.
-                        return this.RedirectToAction(nameof(this.ExternalLoginCallbackAsync), "Authorization", new { provider, returnUrl });
-                    }
-                }
-
-                switch (provider)
-                {
-                    case "Facebook":
-                        // Redirect the request to the external provider.
-                        var redirectUrl = this.Url.Action(nameof(this.ExternalLoginCallbackAsync), "Authorization", new { returnUrl });
-                        var properties = this.signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
-                        return this.Challenge(properties, provider);
-                    default:
-                        // provider not supported
-                        return this.BadRequest(new
-                        {
-                            Error = string.Format("Provider '{0}' is not supported.", provider)
-                        });
-                }
-            }
-            catch (Exception ex)
-            {
-                return this.BadRequest(ex.Message);
-            }
-        }
-
-        [AllowAnonymous]
-        [HttpGet("ExternalLoginCallback")]
-        public async Task<IActionResult> ExternalLoginCallbackAsync(string returnUrl = null, string remoteError = null)
-        {
-            try
-            {
-                if (!string.IsNullOrEmpty(remoteError))
-                {
-                    // TODO: handle external provider errors
-                    throw new Exception(string.Format("External Provider error: {0}", remoteError));
-                }
-
-                // Extract the login info obtained from the External Provider
-                var info = await this.signInManager.GetExternalLoginInfoAsync();
-                if (info == null)
-                {
-                    throw new Exception("ERROR: No login info available.");
-                }
-
-                ExternalLoginInfoHelper externalLoginInfo = new ExternalLoginInfoHelper();
-
-                // Check if this user already registered himself with this external provider before
-                ApplicationUser user = await this.userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
-                if (user == null)
-                {
-                    string email = info.Principal.FindFirst(ClaimTypes.Email).Value;
-
-                    user = await this.userManager.FindByEmailAsync(email);
-
-                    if (user == null)
-                    {
-                        // Create a unique username using the 'nameidentifier' claim
-                        user = new ApplicationUser()
-                        {
-                            SecurityStamp = Guid.NewGuid().ToString(),
-                            UserName = string.Format("{0}:{1}:{2}", info.LoginProvider, info.Principal.FindFirst(ClaimTypes.NameIdentifier).Value, Guid.NewGuid().ToString("N")),
-                            Email = email,
-                            EmailConfirmed = true,
-                            LockoutEnabled = false
-                        };
-
-                        await this.userManager.CreateAsync(user, DataHelper.GenerateRandomPassword());
-                    }
-
-                    // Register this external provider to the user
-                    var ir = await this.userManager.AddLoginAsync(user, info);
-                    if (!ir.Succeeded)
-                    {
-                        throw new Exception("Authentication error");
-                    }
-                }
-
-                externalLoginInfo.AccessToken = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
-
-                JsonSerializerSettings jsonSettings = new JsonSerializerSettings();
-
-                // output a <SCRIPT> tag to call a JS function
-                // registered into the parent window global scope
-                return this.Content(
-                    "<script type=\"text/javascript\">" +
-                    "window.opener.externalProviderLogin(" +
-                    JsonConvert.SerializeObject(externalLoginInfo, jsonSettings) +
-                    ");" +
-                    "window.close();" +
-                    "</script>", "text/html");
-            }
-            catch (Exception ex)
-            {
-                return this.BadRequest(ex.Message);
-            }
-        }
-
         [HttpDelete("~/connect/signout")]
         public async Task<IActionResult> SignOutAsync()
         {
-            await this.HttpContext.SignOutAsync("Identity.Application")
-                .ConfigureAwait(false);
+            await this.HttpContext.SignOutAsync("Identity.Application").ConfigureAwait(false);
 
-            await this.HttpContext.SignOutAsync("Identity.External")
-                .ConfigureAwait(false);
+            await this.HttpContext.SignOutAsync("Identity.External").ConfigureAwait(false);
 
-            await this.signInManager.SignOutAsync()
-                .ConfigureAwait(false);
+            await this.signInManager.SignOutAsync().ConfigureAwait(false);
 
             return this.Ok();
-        }
-
-        [HttpPost("~/connect/logout")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LogoutAsync()
-        {
-            // Ask ASP.NET Core Identity to delete the local and external cookies created
-            // when the user agent is redirected from the external identity provider
-            // after a successful authentication flow (e.g Google or Facebook).
-            await this.signInManager.SignOutAsync();
-
-            // Returning a SignOutResult will ask OpenIddict to redirect the user agent
-            // to the post_logout_redirect_uri specified by the client application.
-            return this.SignOut(OpenIdConnectServerDefaults.AuthenticationScheme);
-        }
-
-        public async Task<ApplicationUser> Facebook(string access_token)
-        {
-            var fbAPI_url = "https://graph.facebook.com/v2.10/";
-            var fbAPI_queryString = string.Format("me?scope=email&access_token={0}&fields=id,name,email", access_token);
-            string result = null;
-
-            // fetch the user info from Facebook Graph v2.10
-            using (var http = new HttpClient())
-            {
-                http.BaseAddress = new Uri(fbAPI_url);
-                var response = await http.GetAsync(fbAPI_queryString);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    result = await response.Content.ReadAsStringAsync();
-                }
-                else
-                {
-                    throw new Exception("Authentication error");
-                }
-            }
-
-            // load the resulting Json into a dictionary
-            var epInfo = JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
-            var info = new UserLoginInfo("facebook", epInfo["id"], "Facebook");
-
-            // Check if this user already registered himself with this external provider before
-            var user = await this.userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
-            if (user == null)
-            {
-                user = await this.CreateUser(info, epInfo["email"]);
-            }
-
-            return user;
         }
 
         internal async Task<IActionResult> PasswordGrantTypeAsync([ModelBinder(typeof(OpenIddictMvcBinder))] OpenIdConnectRequest request)
@@ -378,7 +215,67 @@ namespace Application.Controllers
             }
         }
 
-        private async Task<ApplicationUser> CreateUser(UserLoginInfo info, string email)
+        private async Task<Microsoft.AspNetCore.Mvc.SignInResult> ExternalSignInAsync(OpenIdConnectRequest request)
+        {
+            ApplicationUser user = null;
+
+            switch (request.State.ToLower())
+            {
+                case "facebook":
+                    {
+                        user = await this.FacebookSignInAsync(request.AccessToken);
+                        break;
+                    }
+
+                default:
+                    {
+                        throw new Exception("Provider is not present.");
+                    }
+            }
+
+            // Create a new authentication ticket.
+            var ticket = await this.CreateTicketAsync(request, user).ConfigureAwait(false);
+
+            return this.SignIn(ticket.Principal, ticket.Properties, ticket.AuthenticationScheme);
+        }
+
+        private async Task<ApplicationUser> FacebookSignInAsync(string access_token)
+        {
+            var fbAPI_url = "https://graph.facebook.com/v2.10/";
+            var fbAPI_queryString = string.Format("me?scope=email&access_token={0}&fields=id,name,email", access_token);
+            string result = null;
+
+            // fetch the user info from Facebook Graph v2.10
+            using (var http = new HttpClient())
+            {
+                http.BaseAddress = new Uri(fbAPI_url);
+                var response = await http.GetAsync(fbAPI_queryString);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    result = await response.Content.ReadAsStringAsync();
+                }
+                else
+                {
+                    throw new Exception("Authentication error");
+                }
+            }
+
+            // load the resulting Json into a dictionary
+            var epInfo = JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
+            var info = new UserLoginInfo("facebook", epInfo["id"], "Facebook");
+
+            // Check if this user already registered himself with this external provider before
+            var user = await this.userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+            if (user == null)
+            {
+                user = await this.CreateUser(info, epInfo["email"], epInfo["id"]);
+            }
+
+            return user;
+        }
+
+        private async Task<ApplicationUser> CreateUser(UserLoginInfo info, string email, string id)
         {
             var user = await this.userManager.FindByEmailAsync(email);
 
@@ -387,7 +284,7 @@ namespace Application.Controllers
                 user = new ApplicationUser()
                 {
                     SecurityStamp = Guid.NewGuid().ToString(),
-                    UserName = string.Format("{0}:{1}", info.LoginProvider, Guid.NewGuid().ToString("N")),
+                    UserName = string.Format("{0}-{1}-{2}", info.LoginProvider, id, Guid.NewGuid().ToString("N")),
                     Email = email,
                     EmailConfirmed = true,
                     LockoutEnabled = false
