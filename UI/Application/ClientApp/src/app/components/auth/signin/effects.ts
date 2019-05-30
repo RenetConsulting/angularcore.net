@@ -42,7 +42,7 @@ export class SigninEffects {
         ofType<SigninSuccess>(SigninTypes.SIGNIN_SUCCESS),
         tap(() => this.router.navigate(['/'])),
         tap(a => this.tokenService.setToken(a.success)),
-        map(() => new SetAuthorized(true))
+        map(() => new SetAuthorized({ authorized: true}))
     );
 
     @Effect() signinError = this.actions.pipe(

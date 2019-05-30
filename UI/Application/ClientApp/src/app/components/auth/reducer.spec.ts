@@ -34,7 +34,7 @@ describe('authReducer', () => {
     });
     it('SIGNIN_SUCCESS', () => {
         const authorized = true;
-        expect(authReducer({}, new SetAuthorized(authorized))).toEqual({ authorized });
+        expect(authReducer({}, new SetAuthorized({ authorized }))).toEqual({ authorized });
     });
     it('RESET', () => {
         expect(authReducer({}, new Reset())).toEqual({});

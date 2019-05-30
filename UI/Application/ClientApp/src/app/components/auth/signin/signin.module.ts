@@ -11,8 +11,8 @@ import { NgxMessengerModule } from '@renet-consulting/ngx-messenger';
 import { SocialMediaModule } from '~/components/social-media/social-media.module';
 import { CORE_CAPTCHA_OPTIONS } from '~/consts/core-captcha-options';
 import { SigninEffects } from './effects';
+import { FacebookSigninModule } from './facebook-signin/facebook-signin.module';
 import { ResendConfirmationModule } from './resend-confirmation/resend-confirmation.module';
-import { SigninExternalModule } from './signin-external/signin-external.module';
 import { SigninRoutingModule } from './signin-routing.module';
 import { SigninComponent } from './signin.component';
 
@@ -33,7 +33,7 @@ import { SigninComponent } from './signin.component';
         CoreCaptchaModule,
         EffectsModule.forRoot([SigninEffects]),
         ResendConfirmationModule,
-        SigninExternalModule,
+        FacebookSigninModule,
         NgxMessengerModule,
     ],
 })

@@ -81,6 +81,6 @@ describe('AuthEffects', () => {
         expect(effects.signoutError).toBeObservable(expected);
     });
     it('ngrxOnInitEffects', () => {
-        expect(effects.ngrxOnInitEffects()).toEqual(new SetAuthorized(tokenService.valid));
+        expect(effects.ngrxOnInitEffects()).toEqual(new SetAuthorized({ authorized: tokenService.valid}));
     });
 });

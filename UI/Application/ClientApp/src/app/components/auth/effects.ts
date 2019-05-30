@@ -45,6 +45,6 @@ export class AuthEffects implements OnInitEffects {
     );
 
     ngrxOnInitEffects() {
-        return new SetAuthorized(this.tokenService.valid);
+        return new SetAuthorized({ authorized: this.tokenService.valid });
     }
 }

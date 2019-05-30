@@ -16,7 +16,7 @@ export class SignoutError implements Action {
 
 export class SetAuthorized implements Action {
     readonly type = AuthTypes.SET_AUTHORIZED;
-    constructor(readonly payload: boolean) { }
+    constructor(readonly payload: { authorized?: boolean, provider?: string }) { }
 }
 
 export type AuthActionsUnion = SignoutRequest | SignoutSuccess | SignoutError | SetAuthorized;

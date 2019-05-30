@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SigninExternalComponent } from './signin-external.component';
+import { FacebookSigninComponent } from './facebook-signin.component';
 
-describe('SigninExternalComponent', () => {
-  let component: SigninExternalComponent;
-  let fixture: ComponentFixture<SigninExternalComponent>;
+describe('FacebookSigninComponent', () => {
+  let component: FacebookSigninComponent;
+  let fixture: ComponentFixture<FacebookSigninComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SigninExternalComponent ]
+      declarations: [ FacebookSigninComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SigninExternalComponent);
+    fixture = TestBed.createComponent(FacebookSigninComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

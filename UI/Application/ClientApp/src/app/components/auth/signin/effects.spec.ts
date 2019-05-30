@@ -102,7 +102,7 @@ describe('SigninEffects', () => {
         const formGroup = {} as FormGroup;
         const token = {} as IToken;
         const action = new SigninSuccess(formGroup, token);
-        const completion = new SetAuthorized(true);
+        const completion = new SetAuthorized({ authorized: true});
         const expected = cold('--b', { b: completion });
         actions = hot('--a-', { a: action });
         expect(effects.signinSuccess).toBeObservable(expected);

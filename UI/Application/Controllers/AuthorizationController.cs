@@ -9,7 +9,6 @@ namespace Application.Controllers
     using System.Collections.Generic;
     using System.Linq;
     using System.Net.Http;
-    using System.Security.Claims;
     using System.Threading.Tasks;
     using Application.Business;
     using Application.Business.CoreCaptcha;
@@ -20,7 +19,6 @@ namespace Application.Controllers
     using AspNet.Security.OpenIdConnect.Primitives;
     using AspNet.Security.OpenIdConnect.Server;
     using Microsoft.AspNetCore.Authentication;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
@@ -269,13 +267,13 @@ namespace Application.Controllers
             var user = await this.userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
             if (user == null)
             {
-                user = await this.CreateUser(info, epInfo["email"], epInfo["id"]);
+                user = await this.CreateUserAync(info, epInfo["email"], epInfo["id"]);
             }
 
             return user;
         }
 
-        private async Task<ApplicationUser> CreateUser(UserLoginInfo info, string email, string id)
+        private async Task<ApplicationUser> CreateUserAync(UserLoginInfo info, string email, string id)
         {
             var user = await this.userManager.FindByEmailAsync(email);
 
