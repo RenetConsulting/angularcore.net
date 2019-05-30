@@ -7,6 +7,7 @@ import { BASE_URL } from '~/tokens/base-url.token';
 import { SetAuthorized } from '../../actions';
 
 declare const window;
+declare var FB: any;
 
 /** TODO: center the dialog */
 /** TODO: test changes */
@@ -51,6 +52,68 @@ export class SigninExternalComponent implements OnChanges, OnInit {
                 window.externalProviderLogin = this.signin;
             }
         }
+
+
+
+
+        if (typeof FB === 'undefined') {
+
+            // if the FB oject is undefined, 
+            // it means that it's the first time
+            // we visit this page, hence we need
+            // to initialize the Facebook SDK
+
+            window.fbAsyncInit = () => {
+
+                console.log('fbAsyncInit')
+                // be sure to do this within 
+                // the local zone, or Angular will be
+                // unable to find the local references
+                this.zone.run(() => {
+                    FB.init({
+                        appId: '406258573277906',
+                        xfbml: true,
+                        cookie: false,
+                        version: 'v2.10'
+                    });
+                    FB.AppEvents.logPageView();
+
+                    // this will trigger right after the user 
+                    // completes the FB SDK Auth roundtrip successfully
+                    FB.Event.subscribe('auth.statusChange', (
+                        (result: any) => {
+                            console.log("FB auth status changed");
+                            console.log(result);
+                            if (result.status === 'connected') {
+                                // login successful
+                                console.log('Connected to Facebook.');
+                                this.statusChange(result.authResponse.accessToken);
+                            }
+                        })
+                    );
+                });
+            }
+
+
+            // Load the SDK js library (only once)
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) { return; }
+                js = d.createElement(s); js.id = id;
+                (<any>js).src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode!.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+
+        }
+        else {
+
+            // Reload the FB login button
+            window.FB.XFBML.parse();
+
+            // if the user is still connected, log him off.
+            FB.getLoginStatus(console.info);
+        }
+
     }
 
     private signin = (): void => {
@@ -70,7 +133,26 @@ export class SigninExternalComponent implements OnChanges, OnInit {
         this.providerWindow = null;
     }
 
-    submit = (provider: string): void => {
+    submit = (_: string) => {
+        FB.login(function (response) {
+            if (response.authResponse) {
+                console.log('Welcome!  Fetching your information.... ', response);
+                FB.api('/me', function (response) {
+                    console.log('Good to see you, ' + response.name + '.', response);
+                });
+            } else {
+                console.log('User cancelled login or did not fully authorize.');
+            }
+        });
+    }
+
+    statusChange = (access_token: string) => {
+        this.authService.getToken({ grant_type: 'external_identity_token', access_token } as any).subscribe(x => {
+            console.log(x)
+        });
+    }
+
+    submit01 = (provider: string): void => {
         if (isPlatformBrowser(this.platformId) && provider) {
             const url = `${this.baseUrl}/connect/token/external/${provider}`;
 

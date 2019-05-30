@@ -6,7 +6,9 @@
 namespace Application.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
+    using System.Net.Http;
     using System.Security.Claims;
     using System.Threading.Tasks;
     using Application.Business;
@@ -62,10 +64,7 @@ namespace Application.Controllers
             // grant_type=refresh_token&refresh_token=tGzv3JOkF0XG5Qx2TlKWIA
             if (request.GrantType == "external_identity_token")
             {
-                // get external info for login user
-                ExternalLoginInfo info = await this.signInManager.GetExternalLoginInfoAsync().ConfigureAwait(false);
-
-                var user = await this.userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey).ConfigureAwait(false);
+                var user = await this.Facebook(request.AccessToken);
 
                 // Create a new authentication ticket.
                 var ticket = await this.CreateTicketAsync(request, user).ConfigureAwait(false);
@@ -220,6 +219,42 @@ namespace Application.Controllers
             return this.SignOut(OpenIdConnectServerDefaults.AuthenticationScheme);
         }
 
+        public async Task<ApplicationUser> Facebook(string access_token)
+        {
+            var fbAPI_url = "https://graph.facebook.com/v2.10/";
+            var fbAPI_queryString = string.Format("me?scope=email&access_token={0}&fields=id,name,email", access_token);
+            string result = null;
+
+            // fetch the user info from Facebook Graph v2.10
+            using (var http = new HttpClient())
+            {
+                http.BaseAddress = new Uri(fbAPI_url);
+                var response = await http.GetAsync(fbAPI_queryString);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    result = await response.Content.ReadAsStringAsync();
+                }
+                else
+                {
+                    throw new Exception("Authentication error");
+                }
+            }
+
+            // load the resulting Json into a dictionary
+            var epInfo = JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
+            var info = new UserLoginInfo("facebook", epInfo["id"], "Facebook");
+
+            // Check if this user already registered himself with this external provider before
+            var user = await this.userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+            if (user == null)
+            {
+                user = await this.CreateUser(info, epInfo["email"]);
+            }
+
+            return user;
+        }
+
         internal async Task<IActionResult> PasswordGrantTypeAsync([ModelBinder(typeof(OpenIddictMvcBinder))] OpenIdConnectRequest request)
         {
             var user = await this.userManager.FindByNameAsync(request.Username);
@@ -343,10 +378,34 @@ namespace Application.Controllers
             }
         }
 
-        private async Task<AuthenticationTicket> CreateTicketAsync(
-            OpenIdConnectRequest request,
-            ApplicationUser user,
-            AuthenticationProperties properties = null)
+        private async Task<ApplicationUser> CreateUser(UserLoginInfo info, string email)
+        {
+            var user = await this.userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                user = new ApplicationUser()
+                {
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    UserName = string.Format("{0}:{1}", info.LoginProvider, Guid.NewGuid().ToString("N")),
+                    Email = email,
+                    EmailConfirmed = true,
+                    LockoutEnabled = false
+                };
+
+                await this.userManager.CreateAsync(user, DataHelper.GenerateRandomPassword());
+                var ir = await this.userManager.AddLoginAsync(user, info);
+
+                if (!ir.Succeeded)
+                {
+                    throw new Exception("Authentication error");
+                }
+            }
+
+            return user;
+        }
+
+        private async Task<AuthenticationTicket> CreateTicketAsync(OpenIdConnectRequest request, ApplicationUser user, AuthenticationProperties properties = null)
         {
             // Create a new ClaimsPrincipal containing the claims that
             // will be used to create an id_token, a token or a code.
