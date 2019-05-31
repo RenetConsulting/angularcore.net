@@ -12,6 +12,7 @@ import { SocialMediaModule } from '~/components/social-media/social-media.module
 import { CORE_CAPTCHA_OPTIONS } from '~/consts/core-captcha-options';
 import { SigninEffects } from './effects';
 import { FacebookSigninModule } from './facebook-signin/facebook-signin.module';
+import { GoogleSigninModule } from './google-signin/google-signin.module';
 import { ResendConfirmationModule } from './resend-confirmation/resend-confirmation.module';
 import { SigninRoutingModule } from './signin-routing.module';
 import { SigninComponent } from './signin.component';
@@ -34,6 +35,7 @@ import { SigninComponent } from './signin.component';
         EffectsModule.forRoot([SigninEffects]),
         ResendConfirmationModule,
         FacebookSigninModule,
+        GoogleSigninModule,
         NgxMessengerModule,
     ],
 })

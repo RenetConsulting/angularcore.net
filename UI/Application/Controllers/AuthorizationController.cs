@@ -239,7 +239,7 @@ namespace Application.Controllers
 
         private async Task<ApplicationUser> FacebookSignInAsync(string access_token)
         {
-            var fbAPI_url = "https://graph.facebook.com/v2.10/";
+            var fbAPI_url = "https://graph.facebook.com/v3.3/";
             var fbAPI_queryString = string.Format("me?scope=email&access_token={0}&fields=id,name,email", access_token);
             string result = null;
 
