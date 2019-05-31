@@ -20,6 +20,7 @@ export class GoogleSigninComponent implements OnChanges {
     @Input() clientId: string;
     @Input() label: string;
     @Input() iconClass: string;
+    scriptUrl = '//apis.google.com/js/api.js?onload=fbAsyncInit';
 
     constructor(
         @Inject(NgZone) private zone: NgZone,
@@ -38,45 +39,39 @@ export class GoogleSigninComponent implements OnChanges {
 
     addScript = (): void => {
         const script = this.renderer.createElement('script');
-        this.renderer.setAttribute(script, 'src', '//apis.google.com/js/api.js?onload=fbAsyncInit');
+        this.renderer.setAttribute(script, 'src', this.scriptUrl);
         this.renderer.setAttribute(script, 'defer', '');
         this.renderer.setAttribute(script, 'async', '');
         this.renderer.appendChild(this.doc.head, script);
     }
 
     getToken = (access_token: string): void => {
-        this.authService.getToken({ grant_type: 'external_identity_token', access_token, state: this.provider, scope: 'offline_access' } as any).subscribe(x => {
-            this.tokenService.setToken(x);
-            this.store.dispatch(new SetAuthorized({ authorized: true, provider: this.provider }));
-            this.router.navigate(['']);
-        });
+        this.zone.run(() => {
+            this.authService.getToken({ grant_type: 'external_identity_token', access_token, state: this.provider, scope: 'offline_access' } as any).subscribe(x => {
+                this.tokenService.setToken(x);
+                this.store.dispatch(new SetAuthorized({ authorized: true, provider: this.provider }));
+                this.router.navigate(['']);
+            });
+        })
     }
 
     setInit = (): void => {
-        window.fbAsyncInit = () => this.zone.run(() => {
-            gapi.load('client:auth2', () => {
-                gapi.client.init({ clientId: this.clientId, scope: 'profile' }).then(() => {
-                    console.log('setInit')
-                    this.signin();
+        window.fbAsyncInit = () => gapi.load('client:auth2', () => {
+            gapi.client.init({ clientId: this.clientId, scope: 'profile' }).then(() => {
+                gapi.auth2.getAuthInstance().currentUser.listen(x => {
+                    const token = x.getAuthResponse();
+                    console.log(token)
+                    if (token && token.id_token) {
+                        this.getToken(token.id_token)
+                    }
                 })
-            });
+
+                this.signin();
+            })
         });
     }
 
-    signin = (): void =>
-        typeof gapi !== 'undefined' && this.zone.run(() => this.fbSignin())
-
-    /** TODO: fix a bug when a user logins first time */
-    fbSignin = (): void => {
-        const auth = gapi.auth2.getAuthInstance();
-        auth.grantOfflineAccess().then(() => {
-            const token = auth.currentUser.get().getAuthResponse();
-            console.log('auth.grantOfflineAccess()', auth, token,  'bob')
-            if (token && token.id_token) {
-                this.getToken(token.id_token)
-            }
-        })
-    }
+    signin = (): void => gapi.auth2.getAuthInstance().grantOfflineAccess()
 
     submit = (): void => {
         if (isPlatformBrowser(this.platformId)) {

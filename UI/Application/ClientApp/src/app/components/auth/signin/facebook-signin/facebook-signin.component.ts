@@ -21,6 +21,7 @@ export class FacebookSigninComponent implements OnChanges {
     @Input() appId: string;
     @Input() label: string;
     @Input() iconClass: string;
+    scriptUrl = '//connect.facebook.net/en_US/sdk.js';
 
     constructor(
         @Inject(NgZone) private zone: NgZone,
@@ -39,32 +40,32 @@ export class FacebookSigninComponent implements OnChanges {
 
     addScript = (): void => {
         const script = this.renderer.createElement('script');
-        this.renderer.setAttribute(script, 'src', '//connect.facebook.net/en_US/sdk.js');
+        this.renderer.setAttribute(script, 'src', this.scriptUrl);
         this.renderer.setAttribute(script, 'defer', '');
         this.renderer.setAttribute(script, 'async', '');
         this.renderer.appendChild(this.doc.head, script);
     }
 
     getToken = (access_token: string): void => {
-        this.authService.getToken({ grant_type: 'external_identity_token', access_token, state: this.provider, scope: 'offline_access' } as any).subscribe(x => {
-            this.tokenService.setToken(x);
-            this.store.dispatch(new SetAuthorized({ authorized: true, provider: this.provider }));
-            this.router.navigate(['']);
-        });
+        this.zone.run(() => {
+            this.authService.getToken({ grant_type: 'external_identity_token', access_token, state: this.provider, scope: 'offline_access' } as any).subscribe(x => {
+                this.tokenService.setToken(x);
+                this.store.dispatch(new SetAuthorized({ authorized: true, provider: this.provider }));
+                this.router.navigate(['']);
+            });
+        })
     }
 
     setInit = (): void => {
-        window.fbAsyncInit = () => this.zone.run(() => {
+        window.fbAsyncInit = () => {
             FB.init({ appId: this.appId, version: 'v3.3' });
             this.signin();
-        });
+        };
     }
 
     signin = (): void =>
-        typeof FB !== 'undefined' && FB.getLoginStatus(x => x.authResponse ? this.getToken(x.authResponse.accessToken) : this.fbSignin())
-
-    fbSignin = (): void =>
-        FB.login(z => z.authResponse ? this.zone.run(() => this.getToken(z.authResponse.accessToken)) : null)
+        typeof FB !== 'undefined' && FB.getLoginStatus(x => x.authResponse ? this.getToken(x.authResponse.accessToken)
+            : FB.login(z => z.authResponse ? this.getToken(z.authResponse.accessToken) : null))
 
     submit = (): void => {
         if (isPlatformBrowser(this.platformId)) {

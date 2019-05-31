@@ -213,21 +213,32 @@ namespace Application.Controllers
             }
         }
 
-        private async Task<Microsoft.AspNetCore.Mvc.SignInResult> ExternalSignInAsync(OpenIdConnectRequest request)
+        internal async Task<IActionResult> ExternalSignInAsync(OpenIdConnectRequest request)
         {
             ApplicationUser user = null;
 
-            switch (request.State.ToLower())
+            var provider = request.State.ToLower();
+
+            switch (provider)
             {
                 case "facebook":
                     {
-                        user = await this.FacebookSignInAsync(request.AccessToken);
+                        user = await this.ProviderSignInAsync(
+                            provider,
+                            "id",
+                            "https://graph.facebook.com/v3.3/",
+                            string.Format("me?scope=email&access_token={0}&fields=id,name,email", request.AccessToken));
                         break;
                     }
 
                 case "google":
                     {
-                        user = await this.GoogleSignInAsync(request.AccessToken);
+                        // sub - the unique-identifier key for the user
+                        user = await this.ProviderSignInAsync(
+                            provider,
+                            "sub",
+                            "https://www.googleapis.com/oauth2/v3/tokeninfo",
+                            string.Format("?id_token={0}", request.AccessToken));
                         break;
                     }
 
@@ -243,13 +254,10 @@ namespace Application.Controllers
             return this.SignIn(ticket.Principal, ticket.Properties, ticket.AuthenticationScheme);
         }
 
-        private async Task<ApplicationUser> FacebookSignInAsync(string access_token)
+        internal async Task<ApplicationUser> ProviderSignInAsync(string provider, string keyId, string url, string queryString)
         {
-            var url = "https://graph.facebook.com/v3.3/";
-            var queryString = string.Format("me?scope=email&access_token={0}&fields=id,name,email", access_token);
             string result = null;
 
-            // fetch the user info from Facebook Graph v2.10
             using (var http = new HttpClient())
             {
                 http.BaseAddress = new Uri(url);
@@ -261,90 +269,52 @@ namespace Application.Controllers
                 }
                 else
                 {
-                    throw new Exception("Authentication error");
+                    throw new Exception("Authentication error.");
                 }
             }
 
-            // load the resulting Json into a dictionary
-            var epInfo = JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
-            var info = new UserLoginInfo("facebook", epInfo["id"], "Facebook");
-
-            // Check if this user already registered himself with this external provider before
+            var dic = JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
+            string id = dic[keyId];
+            string email = dic["email"];
+            var info = new UserLoginInfo(provider, id, provider);
             var user = await this.userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
-            if (user == null)
+
+            if (!Equals(user, null))
             {
-                user = await this.CreateUserAync(info, epInfo["email"], epInfo["id"]);
+                return user;
             }
 
-            return user;
+            if (Equals(email, null))
+            {
+                throw new Exception(string.Format("Can not extract an email from the response of the provider: {0}.", provider));
+            }
+
+            return await this.CreateUserAync(info, email);
         }
 
-        // TODO: refactor GoogleSignInAsync and CreateUserAync
-        // TODO: clarify a case when facebook login and google login has the same email, have we to create a new account or use the same
-        private async Task<ApplicationUser> GoogleSignInAsync(string id_token)
+        internal async Task<ApplicationUser> CreateUserAync(UserLoginInfo info, string email)
         {
-            var url = "https://www.googleapis.com/oauth2/v3/tokeninfo";
-            var queryString = string.Format("?id_token={0}", id_token);
-            string result = null;
-
-            // fetch the user info from Facebook Graph v2.10
-            using (var http = new HttpClient())
+            ApplicationUser user = new ApplicationUser()
             {
-                http.BaseAddress = new Uri(url);
-                var response = await http.GetAsync(queryString);
+                SecurityStamp = Guid.NewGuid().ToString(),
+                UserName = string.Format("{0}-{1}-{2}", info.LoginProvider, info.ProviderKey, Guid.NewGuid().ToString("N")),
+                Email = email,
+                EmailConfirmed = true,
+                LockoutEnabled = false
+            };
 
-                if (response.IsSuccessStatusCode)
-                {
-                    result = await response.Content.ReadAsStringAsync();
-                }
-                else
-                {
-                    throw new Exception("Authentication error");
-                }
-            }
+            await this.userManager.CreateAsync(user, DataHelper.GenerateRandomPassword());
+            var ir = await this.userManager.AddLoginAsync(user, info);
 
-            // load the resulting Json into a dictionary
-            var epInfo = JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
-            var info = new UserLoginInfo("google", epInfo["sub"], "Google");
-
-            // Check if this user already registered himself with this external provider before
-            var user = await this.userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
-            if (user == null)
+            if (!ir.Succeeded)
             {
-                user = await this.CreateUserAync(info, epInfo["email"], epInfo["sub"]);
+                throw new Exception(ir.Errors.FirstOrDefault().Description);
             }
 
             return user;
         }
 
-        private async Task<ApplicationUser> CreateUserAync(UserLoginInfo info, string email, string id)
-        {
-            var user = await this.userManager.FindByEmailAsync(email);
-
-            if (user == null)
-            {
-                user = new ApplicationUser()
-                {
-                    SecurityStamp = Guid.NewGuid().ToString(),
-                    UserName = string.Format("{0}-{1}-{2}", info.LoginProvider, id, Guid.NewGuid().ToString("N")),
-                    Email = email,
-                    EmailConfirmed = true,
-                    LockoutEnabled = false
-                };
-
-                await this.userManager.CreateAsync(user, DataHelper.GenerateRandomPassword());
-                var ir = await this.userManager.AddLoginAsync(user, info);
-
-                if (!ir.Succeeded)
-                {
-                    throw new Exception("Authentication error");
-                }
-            }
-
-            return user;
-        }
-
-        private async Task<AuthenticationTicket> CreateTicketAsync(OpenIdConnectRequest request, ApplicationUser user, AuthenticationProperties properties = null)
+        internal async Task<AuthenticationTicket> CreateTicketAsync(OpenIdConnectRequest request, ApplicationUser user, AuthenticationProperties properties = null)
         {
             // Create a new ClaimsPrincipal containing the claims that
             // will be used to create an id_token, a token or a code.
