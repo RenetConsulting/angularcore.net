@@ -18,6 +18,7 @@ export class FacebookSigninComponent implements OnChanges {
 
     @HostBinding('class.d-block') readonly dBlock = true;
     @Input() provider: string;
+    @Input() appId: string;
     @Input() label: string;
     @Input() iconClass: string;
 
@@ -54,7 +55,7 @@ export class FacebookSigninComponent implements OnChanges {
 
     setInit = (): void => {
         window.fbAsyncInit = () => this.zone.run(() => {
-            FB.init({ appId: '', version: 'v3.3' });
+            FB.init({ appId: this.appId, version: 'v3.3' });
             this.signin();
         });
     }

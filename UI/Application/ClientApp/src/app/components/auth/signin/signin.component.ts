@@ -7,6 +7,7 @@ import { EMAIL_VALIDATORS } from '~/consts/email.validators';
 import { PASSWORD_VALIDATORS } from '~/consts/password.validators';
 import { IUser } from '~/interfaces/user';
 import { RootStore } from '~/reducers';
+import { selectFacebookAppId, selectGoogleClientId } from '~/selectors/settings.selectors';
 import { selectAuthUser, selectSigninError } from '../selectors';
 import { ResetError, SigninRequest } from './actions';
 
@@ -19,6 +20,8 @@ export class SigninComponent implements OnInit, OnDestroy {
 
     readonly subscription = new Subscription();
     readonly errors = this.store.select(selectSigninError).pipe(share());
+    readonly facebookAppId = this.store.select(selectFacebookAppId);
+    readonly googleClientId = this.store.select(selectGoogleClientId);
     formGroup: FormGroup;
 
     constructor(

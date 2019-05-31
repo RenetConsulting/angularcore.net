@@ -17,6 +17,7 @@ export class GoogleSigninComponent implements OnChanges {
 
     @HostBinding('class.d-block') readonly dBlock = true;
     @Input() provider: string;
+    @Input() clientId: string;
     @Input() label: string;
     @Input() iconClass: string;
 
@@ -54,7 +55,7 @@ export class GoogleSigninComponent implements OnChanges {
     setInit = (): void => {
         window.fbAsyncInit = () => this.zone.run(() => {
             gapi.load('client:auth2', () => {
-                gapi.client.init({ clientId: '', scope: 'profile' }).then(() => {
+                gapi.client.init({ clientId: this.clientId, scope: 'profile' }).then(() => {
                     this.signin();
                 })
             });
