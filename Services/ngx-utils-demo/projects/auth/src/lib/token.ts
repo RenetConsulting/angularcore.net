@@ -6,6 +6,7 @@ export interface IToken {
     token_type?: string;
     grant_type?: string;
     scope?: string;
+    state?: string;
     username?: string;
     password?: string;
     /** custom property that check time of authorization */
