@@ -2,7 +2,7 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Component, HostBinding, Inject, Input, NgZone, OnChanges, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AuthService, IToken, TokenService } from '@renet-consulting/auth';
+import { AuthService, TokenService } from '@renet-consulting/auth';
 import { SetAuthorized } from '../../actions';
 
 declare const window;
@@ -56,6 +56,7 @@ export class GoogleSigninComponent implements OnChanges {
         window.fbAsyncInit = () => this.zone.run(() => {
             gapi.load('client:auth2', () => {
                 gapi.client.init({ clientId: this.clientId, scope: 'profile' }).then(() => {
+                    console.log('setInit')
                     this.signin();
                 })
             });
@@ -63,14 +64,16 @@ export class GoogleSigninComponent implements OnChanges {
     }
 
     signin = (): void =>
-        typeof gapi !== 'undefined' && this.fbSignin();
+        typeof gapi !== 'undefined' && this.zone.run(() => this.fbSignin())
 
+    /** TODO: fix a bug when a user logins first time */
     fbSignin = (): void => {
         const auth = gapi.auth2.getAuthInstance();
         auth.grantOfflineAccess().then(() => {
-            const token: IToken = auth.currentUser.get().getAuthResponse();
-            if (token && token.access_token) {
-                this.zone.run(() => this.getToken(token.access_token));
+            const token = auth.currentUser.get().getAuthResponse();
+            console.log('auth.grantOfflineAccess()', auth, token,  'bob')
+            if (token && token.id_token) {
+                this.getToken(token.id_token)
             }
         })
     }

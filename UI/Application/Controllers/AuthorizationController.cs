@@ -225,9 +225,15 @@ namespace Application.Controllers
                         break;
                     }
 
+                case "google":
+                    {
+                        user = await this.GoogleSignInAsync(request.AccessToken);
+                        break;
+                    }
+
                 default:
                     {
-                        throw new Exception("Provider is not present.");
+                        throw new Exception("Provider is not found.");
                     }
             }
 
@@ -239,15 +245,15 @@ namespace Application.Controllers
 
         private async Task<ApplicationUser> FacebookSignInAsync(string access_token)
         {
-            var fbAPI_url = "https://graph.facebook.com/v3.3/";
-            var fbAPI_queryString = string.Format("me?scope=email&access_token={0}&fields=id,name,email", access_token);
+            var url = "https://graph.facebook.com/v3.3/";
+            var queryString = string.Format("me?scope=email&access_token={0}&fields=id,name,email", access_token);
             string result = null;
 
             // fetch the user info from Facebook Graph v2.10
             using (var http = new HttpClient())
             {
-                http.BaseAddress = new Uri(fbAPI_url);
-                var response = await http.GetAsync(fbAPI_queryString);
+                http.BaseAddress = new Uri(url);
+                var response = await http.GetAsync(queryString);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -268,6 +274,44 @@ namespace Application.Controllers
             if (user == null)
             {
                 user = await this.CreateUserAync(info, epInfo["email"], epInfo["id"]);
+            }
+
+            return user;
+        }
+
+        // TODO: refactor GoogleSignInAsync and CreateUserAync
+        // TODO: clarify a case when facebook login and google login has the same email, have we to create a new account or use the same
+        private async Task<ApplicationUser> GoogleSignInAsync(string id_token)
+        {
+            var url = "https://www.googleapis.com/oauth2/v3/tokeninfo";
+            var queryString = string.Format("?id_token={0}", id_token);
+            string result = null;
+
+            // fetch the user info from Facebook Graph v2.10
+            using (var http = new HttpClient())
+            {
+                http.BaseAddress = new Uri(url);
+                var response = await http.GetAsync(queryString);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    result = await response.Content.ReadAsStringAsync();
+                }
+                else
+                {
+                    throw new Exception("Authentication error");
+                }
+            }
+
+            // load the resulting Json into a dictionary
+            var epInfo = JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
+            var info = new UserLoginInfo("google", epInfo["sub"], "Google");
+
+            // Check if this user already registered himself with this external provider before
+            var user = await this.userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+            if (user == null)
+            {
+                user = await this.CreateUserAync(info, epInfo["email"], epInfo["sub"]);
             }
 
             return user;
