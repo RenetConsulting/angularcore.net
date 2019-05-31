@@ -17,6 +17,8 @@ namespace Application
 
         public string FacebookClientId { get; set; }
 
+        public string GoogleClientId { get; set; }
+
         public string InfoEmail { get; set; }
 
         public string InfoFromEmail { get; set; }
