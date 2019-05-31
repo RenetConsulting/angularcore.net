@@ -2,7 +2,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
 import { AuthDefaultOptions } from './auth-default-options';
-import { IConnectToken } from './connect-token';
 import { HTTP_HEADERS } from './http-headers';
 import { IToken } from './token';
 import { IAuthUser } from './user';
@@ -23,7 +22,7 @@ export class AuthService {
         @Inject(AuthDefaultOptions) private options: AuthDefaultOptions,
     ) { }
 
-    getToken = (token: IConnectToken, options?: HttpOptions) => {
+    getToken = (token: IToken, options?: HttpOptions) => {
         const headers = {
             ...(options && options.headers),
             ...HTTP_HEADERS.contentTypeUrlencoded,
@@ -35,7 +34,7 @@ export class AuthService {
     }
 
     signin = (user: IAuthUser, options?: HttpOptions) => {
-        const token: IConnectToken = {
+        const token: IToken = {
             scope: 'offline_access',
             grant_type: 'password',
             password: user.password,

@@ -4,7 +4,6 @@ import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
 import { Observable, of, Subject, throwError } from 'rxjs';
 import { catchError, finalize, mergeMap } from 'rxjs/operators';
 import { AuthDefaultOptions } from './auth-default-options';
-import { IConnectToken } from './connect-token';
 import { HTTP_HEADER_NAMES } from './http-header-names.type';
 import { HTTP_HEADERS } from './http-headers';
 import { IToken } from './token';
@@ -29,7 +28,7 @@ export class AuthInterceptor implements HttpInterceptor {
     /** request to refresh an expired token */
     get request() {
         const refresh_token = this.token.get('refresh_token');
-        const item: IConnectToken = {
+        const item: IToken = {
             grant_type: 'refresh_token',
             scope: 'offline_access',
             refresh_token,
