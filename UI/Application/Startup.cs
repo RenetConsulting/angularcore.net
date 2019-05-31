@@ -160,9 +160,6 @@ namespace Application
                     // Enable the authorization, logout, token and userinfo endpoints.
                     options.EnableTokenEndpoint("/connect/token");
 
-                    // This end point for logoff. Should be Post or Get
-                    options.EnableLogoutEndpoint("/connect/logout");
-
                     // Note: the Mvc.Client sample only uses the code flow and the password flow, but you
                     // can enable the other flows if you need to support implicit or client credentials.
                     options.AllowPasswordFlow()
@@ -192,14 +189,7 @@ namespace Application
 
             // Register the OAuth2 validation handler.
             services.AddAuthentication(options => options.DefaultAuthenticateScheme = OAuthValidationDefaults.AuthenticationScheme)
-                .AddOAuthValidation()
-
-                // Add Facebook support
-                .AddFacebook(options =>
-                {
-                    options.AppId = this.Configuration["AppSettings:FacebookAppId"];
-                    options.AppSecret = this.Configuration["AppSettings:FacebookAppSecret"];
-                });
+                .AddOAuthValidation();
 
             // Resolve dependencies
             services.AddScoped<IGlobalRepository, GlobalRepository>();
