@@ -14,6 +14,7 @@ declare var gapi;
 export class GoogleSigninComponent extends ExternalAuthBase {
 
     @Input() clientId: string;
+    @Input() scope = 'profile';
     iconClass = 'fab fa-google';
     provider = 'google';
     label = 'Continue with google';
@@ -26,12 +27,12 @@ export class GoogleSigninComponent extends ExternalAuthBase {
     }
 
     init = (): void => gapi.load('client:auth2', () => {
-        gapi.client.init({ clientId: this.clientId, scope: 'profile' }).then(() => {
+        gapi.client.init({ clientId: this.clientId, scope: this.scope }).then(() => {
             this.setAuthListener();
 
             this.signin();
-        })
-    });
+        });
+    })
 
     setInit = (): void => {
         window.gAsyncInit = this.init;
@@ -40,11 +41,11 @@ export class GoogleSigninComponent extends ExternalAuthBase {
     setAuthListener = () => gapi.auth2.getAuthInstance().currentUser.listen(x => {
         const token = x.getAuthResponse();
         if (token && token.id_token) {
-            this.getToken(token.id_token)
+            this.getToken(token.id_token);
         }
     })
 
-    signin = (): void => gapi.auth2.getAuthInstance().grantOfflineAccess()
+    signin = (): void => gapi.auth2.getAuthInstance().grantOfflineAccess();
 
     submit = (): void => {
         if (isPlatformBrowser(this.platformId)) {

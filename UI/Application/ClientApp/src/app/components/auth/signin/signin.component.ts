@@ -60,8 +60,8 @@ export class SigninComponent implements OnInit, OnDestroy {
     }
 
     externalSignin = (provider: string) =>
-        this.store.dispatch(new SetAuthorized({ authorized: true, provider }));
+        this.store.dispatch(new SetAuthorized({ authorized: true, provider }))
 
     externalSigninError = e =>
-        this.store.dispatch(new SetError(e));
+        this.store.dispatch(new SetError(e))
 }

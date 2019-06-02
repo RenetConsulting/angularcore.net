@@ -2,7 +2,6 @@ import { isPlatformBrowser } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, Injector, Input } from '@angular/core';
 import { ExternalAuthBase } from '../external-auth.base';
 import { FACEBOOK_SCRIPT_URL } from '../facebook-script-url';
-import { signout } from './util';
 
 declare const window;
 declare var FB;
@@ -16,6 +15,7 @@ declare var FB;
 export class FacebookSigninComponent extends ExternalAuthBase {
 
     @Input() appId: string;
+    @Input() version = 'v3.3';
     iconClass = 'fab fa-facebook-f';
     provider = 'facebook';
     label = 'Continue with facebook';
@@ -28,30 +28,30 @@ export class FacebookSigninComponent extends ExternalAuthBase {
     }
 
     init = (): void => {
-        FB.init({ appId: this.appId, version: 'v3.3' });
+        FB.init({ appId: this.appId, version: this.version });
         this.signin();
-    };
+    }
 
     setInit = (): void => {
         window.fbAsyncInit = this.init;
     }
 
-    //signin = (): void => FB.getLoginStatus(x => x.authResponse ? this.getToken(x.authResponse.accessToken)
+    // signin = (): void => FB.getLoginStatus(x => x.authResponse ? this.getToken(x.authResponse.accessToken)
     //    : FB.login(z => z.authResponse && this.getToken(z.authResponse.accessToken)))
 
     /** A user has to be logout before login to have access select different accounts. */
     signin = (): void => {
         FB.getLoginStatus(x => {
             if (x.authResponse) {
-                signout(() => this.fbSignin());
+                FB.logout(this.fbSignin);
             }
             else {
                 this.fbSignin();
             }
-        })
+        });
     }
 
-    fbSignin = (): void => FB.login(z => z.authResponse && this.getToken(z.authResponse.accessToken))
+    fbSignin = (): void => FB.login(z => z.authResponse && this.getToken(z.authResponse.accessToken));
 
     submit = (): void => {
         if (isPlatformBrowser(this.platformId)) {

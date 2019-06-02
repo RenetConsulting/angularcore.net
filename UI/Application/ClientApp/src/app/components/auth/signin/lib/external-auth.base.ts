@@ -8,25 +8,26 @@ export abstract class ExternalAuthBase {
     @Input() provider: string;
     @Input() label: string;
     @Input() iconClass: string;
-    @Output('onSignin') signinEmitter = new EventEmitter<string>();
-    @Output('onError') signinErrorEmitter = new EventEmitter<any>();
+    @Output() signed = new EventEmitter<string>();
+    @Output() signedError = new EventEmitter<any>();
     abstract scriptUrl: string;
     protected zone: NgZone;
-    protected platformId: any;
-    protected tokenService: TokenService;
-    protected authService: AuthService;
-    protected renderer: Renderer2;
     protected doc: any;
+    protected renderer: Renderer2;
+    protected platformId: any;
+    protected authService: AuthService;
+    protected tokenService: TokenService;
 
     constructor(
         injector: Injector
     ) {
         this.zone = injector.get(NgZone);
-        this.platformId = injector.get(PLATFORM_ID);
-        this.tokenService = injector.get(TokenService);
-        this.authService = injector.get(AuthService);
-        this.renderer = injector.get(Renderer2);
         this.doc = injector.get(DOCUMENT);
+        // tslint:disable-next-line:deprecation
+        this.renderer = injector.get(Renderer2);
+        this.platformId = injector.get(PLATFORM_ID);
+        this.authService = injector.get(AuthService);
+        this.tokenService = injector.get(TokenService);
     }
 
     abstract init: () => void;
@@ -50,8 +51,8 @@ export abstract class ExternalAuthBase {
             const token = { grant_type: 'external_identity_token', access_token, state: this.provider, scope: 'offline_access' };
             this.authService.getToken(token).subscribe(x => {
                 this.tokenService.setToken(x);
-                this.signinEmitter.emit(this.provider);
-            }, e => this.signinErrorEmitter.emit(e.error));
-        })
+                this.signed.emit(this.provider);
+            }, e => this.signedError.emit(e.error));
+        });
     }
 }

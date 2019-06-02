@@ -1,21 +1,15 @@
 import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
 import { AuthService, TokenService } from '@renet-consulting/auth';
 import { StorageService } from '@renet-consulting/storage';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { SetSuccess } from '~/actions/messenger.actions';
 import { Reset } from '~/actions/root.actions';
-import { RootStore } from '~/reducers';
 import { SetAuthorized, SignoutError, SignoutRequest, SignoutSuccess } from './actions';
-import { selectProvider } from './selectors';
-import * as fUtil from './signin/lib/facebook-signin/util';
-import * as gUtil from './signin/lib/google-signin/util';
 import { AuthTypes } from './types';
 
-/** TODO: remove magic var */
 @Injectable()
 export class AuthEffects implements OnInitEffects {
 
@@ -27,7 +21,6 @@ export class AuthEffects implements OnInitEffects {
         @Inject(TokenService) private tokenService: TokenService,
         @Inject(StorageService) private storageService: StorageService,
         @Inject(Router) private router: Router,
-        @Inject(Store) private store: Store<RootStore>,
     ) { }
 
     @Effect() signoutRequest = this.actions.pipe(
@@ -43,8 +36,6 @@ export class AuthEffects implements OnInitEffects {
         tap(this.tokenService.clean),
         tap(() => this.storageService.remove(this.providerKey)),
         tap(() => this.router.navigate(['/signin'])),
-        withLatestFrom(this.store.select(selectProvider)),
-        tap(([_, provider]) => provider === 'google' ? gUtil.signout() : provider === 'facebook' ? fUtil.signout() : null),
         switchMap(() => [
             new SetSuccess('You has signed out successfully.'),
             new Reset()
