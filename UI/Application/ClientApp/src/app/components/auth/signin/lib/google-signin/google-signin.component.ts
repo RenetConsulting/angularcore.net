@@ -1,10 +1,11 @@
+/// <reference path="../../../../../../../node_modules/@types/gapi/index.d.ts" />
+/// <reference path="../../../../../../../node_modules/@types/gapi.auth2/index.d.ts" />
 import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, Injector, Input } from '@angular/core';
 import { ExternalAuthBase } from '../external-auth.base';
 import { GOOGLE_SCRIPT_URL } from '../google-script-url';
 
 declare const window;
-declare var gapi;
 
 @Component({
     selector: 'google-signin',
@@ -45,7 +46,7 @@ export class GoogleSigninComponent extends ExternalAuthBase {
         }
     })
 
-    signin = (): void => gapi.auth2.getAuthInstance().grantOfflineAccess();
+    signin = () => gapi.auth2.getAuthInstance().grantOfflineAccess();
 
     submit = (): void => {
         if (isPlatformBrowser(this.platformId)) {

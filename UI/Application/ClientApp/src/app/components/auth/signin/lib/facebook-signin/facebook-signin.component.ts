@@ -1,10 +1,10 @@
+/// <reference path="../../../../../../../node_modules/@types/fb/index.d.ts" />
 import { isPlatformBrowser } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, Injector, Input } from '@angular/core';
 import { ExternalAuthBase } from '../external-auth.base';
 import { FACEBOOK_SCRIPT_URL } from '../facebook-script-url';
 
 declare const window;
-declare var FB;
 
 @Component({
     selector: 'facebook-signin',
