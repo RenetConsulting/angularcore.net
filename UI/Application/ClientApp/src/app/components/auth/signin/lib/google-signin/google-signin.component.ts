@@ -1,7 +1,7 @@
 /// <reference path="../../../../../../../node_modules/@types/gapi/index.d.ts" />
 /// <reference path="../../../../../../../node_modules/@types/gapi.auth2/index.d.ts" />
 import { isPlatformBrowser } from '@angular/common';
-import { Component, Inject, Injector, Input } from '@angular/core';
+import { Component, Inject, Injector, Input, OnDestroy, OnInit } from '@angular/core';
 import { ExternalAuthBase } from '../external-auth.base';
 import { GOOGLE_SCRIPT_URL } from '../google-script-url';
 
@@ -12,7 +12,7 @@ declare const window;
     templateUrl: './google-signin.component.html',
     styleUrls: ['./google-signin.component.scss']
 })
-export class GoogleSigninComponent extends ExternalAuthBase {
+export class GoogleSigninComponent extends ExternalAuthBase implements OnInit, OnDestroy {
 
     @Input() clientId: string;
     @Input() scope = 'profile';
@@ -27,26 +27,38 @@ export class GoogleSigninComponent extends ExternalAuthBase {
         super(injector);
     }
 
-    init = (): void => gapi.load('client:auth2', () => {
-        gapi.client.init({ clientId: this.clientId, scope: this.scope }).then(() => {
-            this.setAuthListener();
+    setClientInit = () => gapi.client.init({ clientId: this.clientId, scope: this.scope }).then(() => {
+        this.setAuthListener();
+        this.signin();
+    });
 
-            this.signin();
-        });
-    })
+    init = () => gapi.load('client:auth2', this.setClientInit)
 
-    setInit = (): void => {
-        window.gAsyncInit = this.init;
-    }
+    setAuthListener = () => gapi.auth2.getAuthInstance().currentUser.listen(this.authListener);
 
-    setAuthListener = () => gapi.auth2.getAuthInstance().currentUser.listen(x => {
+    authListener = (x: gapi.auth2.GoogleUser): void => {
         const token = x.getAuthResponse();
         if (token && token.id_token) {
             this.getToken(token.id_token);
         }
-    })
+    }
 
-    signin = () => gapi.auth2.getAuthInstance().grantOfflineAccess();
+    signin = (): void => {
+        const user = gapi.auth2.getAuthInstance().currentUser.get();
+        const token = user.getAuthResponse();
+        if (token.id_token) {
+            this.getToken(token.id_token);
+        }
+        else {
+            gapi.auth2.getAuthInstance().grantOfflineAccess();
+        }
+    }
+
+    signout = (): void => gapi.auth2.getAuthInstance().signOut();
+
+    setInit = (): void => {
+        window.gAsyncInit = this.init;
+    }
 
     submit = (): void => {
         if (isPlatformBrowser(this.platformId)) {

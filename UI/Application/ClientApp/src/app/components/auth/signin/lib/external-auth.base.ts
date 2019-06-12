@@ -1,8 +1,9 @@
 import { DOCUMENT } from '@angular/common';
-import { EventEmitter, HostBinding, Injector, Input, NgZone, Output, PLATFORM_ID, Renderer2 } from '@angular/core';
+import { EventEmitter, HostBinding, Injector, Input, NgZone, OnDestroy, OnInit, Output, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { AuthService, TokenService } from '@renet-consulting/auth';
+import { Subscription } from 'rxjs';
 
-export abstract class ExternalAuthBase {
+export abstract class ExternalAuthBase implements OnInit, OnDestroy {
 
     @HostBinding('class.d-block') readonly dBlock = true;
     @Input() provider: string;
@@ -10,7 +11,13 @@ export abstract class ExternalAuthBase {
     @Input() iconClass: string;
     @Output() signed = new EventEmitter<string>();
     @Output() signedError = new EventEmitter<any>();
+    readonly subscription = new Subscription();
     abstract scriptUrl: string;
+    abstract init: () => void;
+    abstract setInit: () => void;
+    abstract signin: () => void;
+    abstract signout: () => void;
+    abstract submit: () => void;
     protected zone: NgZone;
     protected doc: any;
     protected renderer: Renderer2;
@@ -30,13 +37,13 @@ export abstract class ExternalAuthBase {
         this.tokenService = injector.get(TokenService);
     }
 
-    abstract init: () => void;
+    ngOnInit(): void {
+        this.subscription.add(this.signedError.subscribe(this.signout));
+    }
 
-    abstract setInit: () => void;
-
-    abstract signin: () => void;
-
-    abstract submit: () => void;
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
+    }
 
     addScript = (url = this.scriptUrl): void => {
         const script = this.renderer.createElement('script');
