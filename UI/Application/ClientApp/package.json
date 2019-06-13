@@ -46,6 +46,7 @@
     "@ngx-progressbar/http": "^5.3.2",
     "@renet-consulting/auth": "0.0.6",
     "@renet-consulting/core-captcha": "0.2.0",
+    "@renet-consulting/external-auth": "0.0.1",
     "@renet-consulting/http-hub-client": "0.0.1",
     "@renet-consulting/interceptors": "0.0.1",
     "@renet-consulting/ngx-http-params": "0.1.0",

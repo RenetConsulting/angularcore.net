@@ -1,5 +1,5 @@
 import { IUser } from '~/interfaces/user';
-import { selectAuthorized, selectAuthUser, selectSigninError, selectSignupError } from './selectors';
+import { selectAuthorized, selectAuthUser, selectProvider, selectSigninError, selectSignupError } from './selectors';
 
 describe('auth selectors', () => {
 
@@ -18,5 +18,9 @@ describe('auth selectors', () => {
     it('selectAuthorized', () => {
         const authorized = true;
         expect(selectAuthorized({ auth: { authorized } })).toEqual(authorized);
+    });
+    it('selectProvider', () => {
+        const provider = 'bob';
+        expect(selectProvider({ auth: { provider } })).toEqual(provider);
     });
 });

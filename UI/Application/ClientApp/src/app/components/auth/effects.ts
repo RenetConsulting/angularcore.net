@@ -1,22 +1,25 @@
 import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
-import { TokenService } from '@renet-consulting/auth';
+import { AuthService, TokenService } from '@renet-consulting/auth';
+import { StorageService } from '@renet-consulting/storage';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { SetSuccess } from '~/actions/messenger.actions';
 import { Reset } from '~/actions/root.actions';
-import { AuthService } from '@renet-consulting/auth';
 import { SetAuthorized, SignoutError, SignoutRequest, SignoutSuccess } from './actions';
 import { AuthTypes } from './types';
 
 @Injectable()
 export class AuthEffects implements OnInitEffects {
 
+    readonly providerKey = 'provider';
+
     constructor(
         @Inject(Actions) private actions: Actions,
         @Inject(AuthService) private authService: AuthService,
         @Inject(TokenService) private tokenService: TokenService,
+        @Inject(StorageService) private storageService: StorageService,
         @Inject(Router) private router: Router,
     ) { }
 
@@ -31,6 +34,7 @@ export class AuthEffects implements OnInitEffects {
     @Effect() signoutSuccess = this.actions.pipe(
         ofType<SignoutSuccess>(AuthTypes.SIGNOUT_SUCCESS),
         tap(this.tokenService.clean),
+        tap(() => this.storageService.remove(this.providerKey)),
         tap(() => this.router.navigate(['/signin'])),
         switchMap(() => [
             new SetSuccess('You has signed out successfully.'),
@@ -43,7 +47,17 @@ export class AuthEffects implements OnInitEffects {
         tap(this.tokenService.clean),
     );
 
+    @Effect({ dispatch: false }) setAuthorized = this.actions.pipe(
+        ofType<SetAuthorized>(AuthTypes.SET_AUTHORIZED),
+        tap(x => this.storageService.set(this.providerKey, x.payload.provider)),
+        filter(x => x.payload.authorized),
+        tap(() => this.router.navigate(['/'])),
+    );
+
     ngrxOnInitEffects() {
-        return new SetAuthorized(this.tokenService.valid);
+        return new SetAuthorized({
+            authorized: this.tokenService.valid,
+            provider: this.storageService.get(this.providerKey)
+        });
     }
 }

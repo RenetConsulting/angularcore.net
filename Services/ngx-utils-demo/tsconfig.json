@@ -92,6 +92,12 @@
       ],
       "interceptors/*": [
         "dist/interceptors/*"
+      ],
+      "external-auth": [
+        "dist/external-auth"
+      ],
+      "external-auth/*": [
+        "dist/external-auth/*"
       ]
     }
   }

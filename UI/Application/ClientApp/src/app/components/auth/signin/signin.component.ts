@@ -3,10 +3,13 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { filter, share, take } from 'rxjs/operators';
+import { SetError } from '~/actions/messenger.actions';
 import { EMAIL_VALIDATORS } from '~/consts/email.validators';
 import { PASSWORD_VALIDATORS } from '~/consts/password.validators';
 import { IUser } from '~/interfaces/user';
 import { RootStore } from '~/reducers';
+import { selectFacebookAppId, selectGoogleClientId } from '~/selectors/settings.selectors';
+import { SetAuthorized } from '../actions';
 import { selectAuthUser, selectSigninError } from '../selectors';
 import { ResetError, SigninRequest } from './actions';
 
@@ -19,6 +22,8 @@ export class SigninComponent implements OnInit, OnDestroy {
 
     readonly subscription = new Subscription();
     readonly errors = this.store.select(selectSigninError).pipe(share());
+    readonly facebookAppId = this.store.select(selectFacebookAppId);
+    readonly googleClientId = this.store.select(selectGoogleClientId);
     formGroup: FormGroup;
 
     constructor(
@@ -53,4 +58,10 @@ export class SigninComponent implements OnInit, OnDestroy {
             this.store.dispatch(new SigninRequest(this.formGroup));
         }
     }
+
+    externalSignin = (provider: string) =>
+        this.store.dispatch(new SetAuthorized({ authorized: true, provider }))
+
+    externalSigninError = e =>
+        this.store.dispatch(new SetError(e))
 }

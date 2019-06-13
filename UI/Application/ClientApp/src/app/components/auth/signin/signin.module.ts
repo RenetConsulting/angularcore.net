@@ -6,6 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { EffectsModule } from '@ngrx/effects';
 import { CoreCaptchaModule, NGX_CORE_CAPTCHA_OPTIONS } from '@renet-consulting/core-captcha';
+import { FacebookSigninModule, GoogleSigninModule } from '@renet-consulting/external-auth';
 import { NgxMatInputModule } from '@renet-consulting/ngx-mat-input';
 import { NgxMessengerModule } from '@renet-consulting/ngx-messenger';
 import { SocialMediaModule } from '~/components/social-media/social-media.module';
@@ -32,7 +33,9 @@ import { SigninComponent } from './signin.component';
         CoreCaptchaModule,
         EffectsModule.forRoot([SigninEffects]),
         ResendConfirmationModule,
-        NgxMessengerModule
+        FacebookSigninModule,
+        GoogleSigninModule,
+        NgxMessengerModule,
     ],
 })
 export class SigninModule { }

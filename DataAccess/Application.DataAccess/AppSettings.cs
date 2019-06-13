@@ -11,6 +11,14 @@ namespace Application
 
         public string EmailConfirmationSubject { get; set; }
 
+        public string FacebookAppId { get; set; }
+
+        public string FacebookAppSecret { get; set; }
+
+        public string FacebookClientId { get; set; }
+
+        public string GoogleClientId { get; set; }
+
         public string InfoEmail { get; set; }
 
         public string InfoFromEmail { get; set; }

@@ -3,10 +3,13 @@ import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { Subscription } from 'rxjs';
+import { SetError } from '~/actions/messenger.actions';
 import { IUser } from '~/interfaces/user';
 import { RootStore } from '~/reducers';
+import { SetAuthorized } from '../actions';
 import { ResetError, SigninRequest } from './actions';
 import { SigninComponent } from './signin.component';
+import { IError } from '~/interfaces/error';
 
 describe('SigninComponent', () => {
 
@@ -56,5 +59,17 @@ describe('SigninComponent', () => {
         component.formGroup = { valid: true } as FormGroup;
         component.submit();
         expect(store.dispatch).toHaveBeenCalledWith(new SigninRequest(component.formGroup));
+    });
+    it('externalSignin', () => {
+        spyOn(store, 'dispatch');
+        const provider = 'bob';
+        component.externalSignin(provider);
+        expect(store.dispatch).toHaveBeenCalledWith(new SetAuthorized({ authorized: true, provider }));
+    });
+    it('externalSigninError', () => {
+        spyOn(store, 'dispatch');
+        const error = { error_description: 'bob' } as IError;
+        component.externalSigninError(error);
+        expect(store.dispatch).toHaveBeenCalledWith(new SetError(error));
     });
 });

@@ -49,6 +49,7 @@ namespace Application
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("secrets.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
@@ -172,14 +173,11 @@ namespace Application
                     // Enable the authorization, logout, token and userinfo endpoints.
                     options.EnableTokenEndpoint("/connect/token");
 
-                    // This end point for logoff. Should be Post or Get
-                    options.EnableLogoutEndpoint("/connect/logout");
-
                     // Note: the Mvc.Client sample only uses the code flow and the password flow, but you
                     // can enable the other flows if you need to support implicit or client credentials.
                     options.AllowPasswordFlow()
-                           .AllowRefreshTokenFlow()
-                           .AllowCustomFlow("external_identity_token");
+                           .AllowCustomFlow("external_identity_token")
+                           .AllowRefreshTokenFlow();
 
                     // Mark the "email", "profile" and "roles" scopes as supported scopes.
                     options.RegisterScopes(

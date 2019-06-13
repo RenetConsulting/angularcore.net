@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
@@ -23,7 +23,10 @@ import { BLOG_OPTIONS } from './consts/blog-options';
 import { MessengerEffects } from './effects/messenger.effects';
 import { ErrorInterceptor } from './interceptors/error/error.interceptor';
 import { REDUCERS } from './reducers';
+import { InitializerService } from './services/initializer/initializer.service';
 import { BASE_URL } from './tokens/base-url.token';
+
+const initializerFactory = (service: InitializerService) => () => service.initialize();
 
 @NgModule({
     declarations: [
@@ -41,6 +44,7 @@ import { BASE_URL } from './tokens/base-url.token';
         { provide: HTTP_INTERCEPTORS, useClass: ApiPrefixInterceptor, deps: [BASE_URL], multi: true },
         { provide: BLOG_DEFAULT_OPTIONS, useValue: BLOG_OPTIONS },
         { provide: HTTP_INTERCEPTORS, useClass: NgProgressInterceptor, multi: true },
+        { provide: APP_INITIALIZER, useFactory: initializerFactory, deps: [InitializerService], multi: true },
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

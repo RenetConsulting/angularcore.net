@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { AuthService, IToken, TokenService } from '@renet-consulting/auth';
+import { StorageService } from '@renet-consulting/storage';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { SetSuccess } from '~/actions/messenger.actions';
@@ -16,6 +17,7 @@ describe('AuthEffects', () => {
     let actions: Observable<any>;
     let authService: jasmine.SpyObj<AuthService>;
     let tokenService: jasmine.SpyObj<TokenService>;
+    let storageService: jasmine.SpyObj<StorageService>;
     let router: jasmine.SpyObj<Router>;
 
     beforeEach(() => {
@@ -29,12 +31,14 @@ describe('AuthEffects', () => {
                 },
                 { provide: TokenService, useValue: jasmine.createSpyObj<TokenService>('TokenService', ['setToken', 'clean']) },
                 { provide: Router, useValue: jasmine.createSpyObj<Router>('Router', ['navigate']) },
+                { provide: StorageService, useValue: jasmine.createSpyObj<StorageService>('StorageService', ['get', 'set', 'remove']) },
             ],
         });
 
         effects = TestBed.get(AuthEffects);
         authService = TestBed.get(AuthService);
         tokenService = TestBed.get(TokenService);
+        storageService = TestBed.get(StorageService);
         router = TestBed.get(Router);
     });
 
@@ -80,7 +84,19 @@ describe('AuthEffects', () => {
         actions = hot('--a-', { a: action });
         expect(effects.signoutError).toBeObservable(expected);
     });
+    it('setAuthorized', () => {
+        const provider = 'bob';
+        const action = new SetAuthorized({ authorized: true, provider });
+        const expected = cold('--b', { b: action });
+        actions = hot('--a-', { a: action });
+        expect(effects.setAuthorized).toBeObservable(expected);
+        expect(storageService.set).toHaveBeenCalledWith(effects.providerKey, provider);
+        expect(router.navigate).toHaveBeenCalledWith(['/']);
+    });
     it('ngrxOnInitEffects', () => {
-        expect(effects.ngrxOnInitEffects()).toEqual(new SetAuthorized(tokenService.valid));
+        const provider = 'bob';
+        storageService.get.and.returnValue(provider);
+        expect(effects.ngrxOnInitEffects()).toEqual(new SetAuthorized({ authorized: tokenService.valid, provider }));
+        expect(storageService.get).toHaveBeenCalledWith(effects.providerKey);
     });
 });

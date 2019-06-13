@@ -12,6 +12,7 @@ type ActionTypes = SigninActionsUnion | SignupActionsUnion | AuthActionsUnion | 
 
 export interface AuthState {
     authorized?: boolean;
+    provider?: string;
     user?: IUser;
     signinError?;
     signupError?;
@@ -31,7 +32,7 @@ export function authReducer(state = INITIAL_STATE, action: ActionTypes): AuthSta
         case SignupTypes.SIGNUP_ERROR: return { ...state, signupError: { ...action.error } };
         case SigninTypes.SIGNIN_SUCCESS: return INITIAL_STATE;
 
-        case AuthTypes.SET_AUTHORIZED: return { ...state, authorized: action.payload };
+        case AuthTypes.SET_AUTHORIZED: return { ...state, authorized: action.payload.authorized, provider: action.payload.provider };
 
         case RootTypes.RESET: return INITIAL_STATE;
 

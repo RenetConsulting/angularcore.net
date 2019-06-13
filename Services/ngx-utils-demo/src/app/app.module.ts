@@ -9,7 +9,7 @@ import { ApiPrefixInterceptor, NoneCacheInterceptor } from 'projects/interceptor
 import { AppComponent } from './app.component';
 import { ROUTES } from './app.routes';
 
-const BASE_URL = new InjectionToken('BASE_URL', { providedIn: 'root', factory: () => typeof window !== 'undefined' ? window.location.origin : '' })
+const BASE_URL = new InjectionToken('BASE_URL', { providedIn: 'root', factory: () => typeof window !== 'undefined' ? window.location.origin : '' });
 
 @NgModule({
     declarations: [
