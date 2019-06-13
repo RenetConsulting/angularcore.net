@@ -4,7 +4,7 @@ import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
 import { AuthService, TokenService } from '@renet-consulting/auth';
 import { StorageService } from '@renet-consulting/storage';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { SetSuccess } from '~/actions/messenger.actions';
 import { Reset } from '~/actions/root.actions';
 import { SetAuthorized, SignoutError, SignoutRequest, SignoutSuccess } from './actions';
@@ -50,6 +50,8 @@ export class AuthEffects implements OnInitEffects {
     @Effect({ dispatch: false }) setAuthorized = this.actions.pipe(
         ofType<SetAuthorized>(AuthTypes.SET_AUTHORIZED),
         tap(x => this.storageService.set(this.providerKey, x.payload.provider)),
+        filter(x => x.payload.authorized),
+        tap(() => this.router.navigate(['/'])),
     );
 
     ngrxOnInitEffects() {
