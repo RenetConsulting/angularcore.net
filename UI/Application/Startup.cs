@@ -35,9 +35,12 @@ namespace Application
 
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly ILogger logger;
+
+        public Startup(IConfiguration configuration, ILogger<Startup> logger)
         {
             this.Configuration = configuration;
+            this.logger = logger;
         }
 
         public Startup(IHostingEnvironment env)
@@ -268,12 +271,16 @@ namespace Application
                 // see https://go.microsoft.com/fwlink/?linkid=864501
                 spa.Options.SourcePath = "ClientApp";
 
+                this.logger.LogInformation("env is " + env.EnvironmentName);
+
                 if (env.IsDevelopment())
                 {
                     spa.UseAngularCliServer(npmScript: "start");
                 }
                 else
                 {
+                    this.logger.LogInformation("SSR has started work.");
+
                     // SSR is enabled only in production
                     spa.UseSpaPrerendering(options =>
                     {
