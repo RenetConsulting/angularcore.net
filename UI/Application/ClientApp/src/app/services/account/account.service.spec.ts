@@ -8,6 +8,7 @@ import { AccountService } from './account.service';
 describe('AccountService', () => {
 
     let service: AccountService;
+
     let params: jasmine.SpyObj<NgxHttpParamsService>;
     let controller: HttpTestingController;
 
@@ -16,6 +17,7 @@ describe('AccountService', () => {
             imports: [HttpClientTestingModule],
             providers: [{ provide: NgxHttpParamsService, useValue: jasmine.createSpyObj('NgxHttpParamsService', ['map']) }]
         });
+
         service = TestBed.get(AccountService);
         params = TestBed.get(NgxHttpParamsService);
         controller = TestBed.get(HttpTestingController);

@@ -32,10 +32,20 @@ describe('authReducer', () => {
     it('SIGNIN_SUCCESS', () => {
         expect(authReducer({}, new SigninSuccess(null, null))).toEqual({});
     });
-    it('SIGNIN_SUCCESS', () => {
-        const authorized = true;
-        expect(authReducer({}, new SetAuthorized({ authorized }))).toEqual({ authorized });
+
+    describe('SET_AUTHORIZED', () => {
+
+        it('doesn`t have provider', () => {
+            const authorized = true;
+            expect(authReducer({}, new SetAuthorized({ authorized }))).toEqual({ authorized, provider: undefined });
+        });
+        it('has provider', () => {
+            const authorized = true;
+            const provider = 'bob';
+            expect(authReducer({}, new SetAuthorized({ authorized, provider }))).toEqual({ authorized, provider });
+        });
     });
+
     it('RESET', () => {
         expect(authReducer({}, new Reset())).toEqual({});
     });
