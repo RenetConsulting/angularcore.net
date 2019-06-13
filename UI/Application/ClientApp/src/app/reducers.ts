@@ -1,22 +1,22 @@
 import { ActionReducerMap } from '@ngrx/store';
 import { ChangePasswordState } from './components/account/change-password/reducer';
 import { ResetPasswordState } from './components/account/reset-password/reducer';
-import { SigninState } from './components/authorization/signin/reducer';
-import { SignupState } from './components/authorization/signup/reducer';
-import { MessagerState } from './components/messager/reducer';
-import { profileReducer, ProfileState } from './components/profile/reducer';
+import { authReducer, AuthState } from './components/auth/reducer';
+import { ProfileState } from './components/profile/reducer';
 import { ThemeState } from './components/theme-picker/reducer';
+import { ISettings } from './interfaces/settings';
+import { settingsReducer } from './reducers/settings.reducer';
 
 export interface RootStore {
-    messager?: MessagerState;
-    signin?: SigninState;
-    signup?: SignupState;
+    auth?: AuthState;
     theme?: ThemeState;
-    persons?: ProfileState;
+    profile?: ProfileState;
     resetPassword?: ResetPasswordState;
     changePassword?: ChangePasswordState;
+    settings?: ISettings;
 }
 
 export const REDUCERS: ActionReducerMap<RootStore> = {
-    persons: profileReducer
+    auth: authReducer,
+    settings: settingsReducer
 };

@@ -1,0 +1,21 @@
+{
+  "name": "@renet-consulting/ngx-validator",
+  "version": "0.1.0",
+  "author": "Michael Vasyliv",
+  "license": "MIT",
+  "private": false,
+  "homepage": "https://github.com/RenetConsulting/angularcore.net",
+  "description": "This library provides a validator that emits basic errors such as requred, required, email, minlength and maxlength.",
+  "bugs": {
+    "url": "https://github.com/RenetConsulting/angularcore.net/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/ngx-validator"
+  },
+  "peerDependencies": {
+    "@angular/common": "^7.0.0",
+    "@angular/core": "^7.0.0",
+    "@angular/forms": "^7.0.0"
+  }
+}

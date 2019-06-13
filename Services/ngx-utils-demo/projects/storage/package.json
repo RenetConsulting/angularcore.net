@@ -1,0 +1,20 @@
+{
+  "name": "@renet-consulting/storage",
+  "version": "0.0.3",
+  "author": "Michael Vasyliv",
+  "license": "MIT",
+  "private": false,
+  "homepage": "https://github.com/RenetConsulting/angularcore.net",
+  "description": "This library provides s StorageService with tokens: LOCAL_STORAGE and SESSION_STORAGE",
+  "bugs": {
+    "url": "https://github.com/RenetConsulting/angularcore.net/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/storage"
+  },
+  "peerDependencies": {
+    "@angular/common": "^7.2.0",
+    "@angular/core": "^7.2.0"
+  }
+}

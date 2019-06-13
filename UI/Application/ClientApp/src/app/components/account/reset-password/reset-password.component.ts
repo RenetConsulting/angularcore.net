@@ -1,15 +1,15 @@
 import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { mismatchPasswordValidator } from '@renet-consulting/ngx-validator';
 import { Subscription } from 'rxjs';
 import { share } from 'rxjs/operators';
 import { EMAIL_VALIDATORS } from '~/consts/email.validators';
 import { PASSWORD_VALIDATORS } from '~/consts/password.validators';
-import { MessagesType } from '~/enums/messages.type';
 import { IResetPassword } from '~/interfaces/reset-password';
 import { RootStore } from '~/reducers';
-import { ResetError, ResetPassword } from './actions';
+import { ResetError, ResetPasswordRequest } from './actions';
 import { selectResetPasswordError } from './selectors';
 
 /** the interface of the errors from the back-end side are wrong */
@@ -39,16 +39,11 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
 
-    matchPasswordValidator = (control: AbstractControl): ValidationErrors | null => {
-        return control.value === (this.formGroup && this.formGroup.controls.password.value) ? null
-            : { errorMessage: MessagesType.passwordsDoNotMatch };
-    }
-
     setFormGroup = (): void => {
         this.formGroup = new FormGroup({
-            email: new FormControl('', [...EMAIL_VALIDATORS]),
-            password: new FormControl('', [...PASSWORD_VALIDATORS]),
-            confirmPassword: new FormControl('', [...PASSWORD_VALIDATORS, this.matchPasswordValidator]),
+            email: new FormControl('', EMAIL_VALIDATORS),
+            password: new FormControl('', PASSWORD_VALIDATORS),
+            confirmPassword: new FormControl('', [...PASSWORD_VALIDATORS, mismatchPasswordValidator()]),
             token: new FormControl('', [Validators.required]),
         } as MapPick<IResetPassword, keyof IResetPassword, FormControl>);
     }
@@ -57,7 +52,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
 
     submit = (): void => {
         if (this.formGroup.valid) {
-            this.store.dispatch(new ResetPassword(this.formGroup));
+            this.store.dispatch(new ResetPasswordRequest(this.formGroup));
         }
     }
 }

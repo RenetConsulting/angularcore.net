@@ -1,0 +1,18 @@
+<div style="text-align:center">
+    <h1>
+        Welcome to {{ title }}!
+    </h1>
+</div>
+<h2>Here are some links to help you start: </h2>
+<ul>
+    <li><h2><a [routerLink]="['/captcha']">captcha</a></h2></li>
+    <li><h2><a [routerLink]="['/input']">input</a></h2></li>
+    <li><h2><a [routerLink]="['/validator']">validator</a></h2></li>
+    <li><h2><a [routerLink]="['/uploader']">uploader</a></h2></li>
+    <li><h2><a [routerLink]="['/messenger']">messenger</a></h2></li>
+    <li><h2><a [routerLink]="['/storage']">storage</a></h2></li>
+    <li><h2><button class="btn btn-primary btn-lg" (click)="setTheme()">set theme</button></h2></li>
+</ul>
+<div class="container">
+    <router-outlet></router-outlet>
+</div>

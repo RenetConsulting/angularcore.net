@@ -18,7 +18,7 @@ export class ProfileEffects {
         ofType<UpdateProfileRequest>(ProfileTypes.UPDATE_PROFILE_REQUEST),
         mergeMap(x => this.personService.update(x.payload.value).pipe(
             tap(() => x.payload.reset()),
-            mapTo(new UpdateProfileSuccess()),
+            mapTo(new UpdateProfileSuccess(x.payload.value)),
             catchError(e => of(new UpdateProfileError(e.error)))
         ))
     );

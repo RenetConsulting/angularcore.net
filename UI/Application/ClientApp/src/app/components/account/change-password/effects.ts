@@ -2,11 +2,11 @@ import { Inject, Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, filter, map, mapTo, mergeMap, tap } from 'rxjs/operators';
-import { ErrorRequest, MessageRequest } from '~/actions/message.actions';
+import { SetError, SetSuccess } from '~/actions/messenger.actions';
 import { MessagesType } from '~/enums/messages.type';
 import { AccountService } from '~/services/account/account.service';
 import { filterError } from '~/utils/filter.error';
-import { ChangePassword, ChangePasswordError, ChangePasswordSuccess } from './actions';
+import { ChangePasswordError, ChangePasswordRequest, ChangePasswordSuccess } from './actions';
 import { ChangePasswordTypes } from './types';
 
 @Injectable()
@@ -17,8 +17,8 @@ export class ChangePasswordEffects {
         @Inject(AccountService) private accountService: AccountService,
     ) { }
 
-    @Effect() changePassword = this.actions.pipe(
-        ofType<ChangePassword>(ChangePasswordTypes.CHANGE_PASSWORD_REQUEST),
+    @Effect() changePasswordRequest = this.actions.pipe(
+        ofType<ChangePasswordRequest>(ChangePasswordTypes.CHANGE_PASSWORD_REQUEST),
         mergeMap(x => this.accountService.changePassword(x.payload.value).pipe(
             tap(() => x.payload.reset()),
             mapTo(new ChangePasswordSuccess()),
@@ -28,12 +28,12 @@ export class ChangePasswordEffects {
 
     @Effect() changePasswordSuccess = this.actions.pipe(
         ofType<ChangePasswordSuccess>(ChangePasswordTypes.CHANGE_PASSWORD_SUCCESS),
-        mapTo(new MessageRequest(MessagesType.passwordHasChanged))
+        mapTo(new SetSuccess(MessagesType.passwordHasChanged))
     );
 
     @Effect() changePasswordError = this.actions.pipe(
         ofType<ChangePasswordError>(ChangePasswordTypes.CHANGE_PASSWORD_ERROR),
         filter(filterError),
-        map(e => new ErrorRequest(e.error))
+        map(e => new SetError(e.error))
     );
 }

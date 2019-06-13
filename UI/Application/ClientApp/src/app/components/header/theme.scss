@@ -7,8 +7,11 @@
     $foreground: map-get($theme, foreground);
 
     app-header {
-        display: block; /** By default an Angular element doesnt have any styles, that is why it is flattened */
         color: mat-color($primary, default-contrast);
         background: mat-color($primary);
+        display: block; /** By default an Angular element doesnt have any styles, that is why it is flattened */
+        position: absolute;
+        width: 100%;
+        top: 0;
     }
 }

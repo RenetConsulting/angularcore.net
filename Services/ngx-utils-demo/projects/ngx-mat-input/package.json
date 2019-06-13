@@ -1,0 +1,24 @@
+{
+  "name": "@renet-consulting/ngx-mat-input",
+  "version": "0.3.0",
+  "author": "Michael Vasyliv",
+  "license": "MIT",
+  "private": false,
+  "homepage": "https://github.com/RenetConsulting/angularcore.net",
+  "description": "This library has an implementation of the custom mat-input with basic errors that are provided by ``@renet-consulting/ngx-validator`` and ability to pass custom errors.",
+  "bugs": {
+    "url": "https://github.com/RenetConsulting/angularcore.net/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/ngx-mat-input"
+  },
+  "peerDependencies": {
+    "@angular/common": "^7.0.0",
+    "@angular/core": "^7.0.0",
+    "@angular/forms": "^7.0.0",
+    "@angular/material": "^7.0.0",
+    "@renet-consulting/ngx-validator": "^0.0.3",
+    "bootstrap": "^4.0.0"
+  }
+}
