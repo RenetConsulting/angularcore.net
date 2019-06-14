@@ -50,7 +50,7 @@
     "@renet-consulting/ngx-mat-input": "0.2.1",
     "@renet-consulting/ngx-messenger": "0.1.0",
     "@renet-consulting/ngx-validator": "0.1.0",
-    "@renet-consulting/storage": "0.0.3",
+    "@renet-consulting/storage": "0.0.4",
     "@renet-consulting/util": "^0.0.1",
     "aspnet-prerendering": "^3.0.1",
     "bootstrap": "^4.3.1",
