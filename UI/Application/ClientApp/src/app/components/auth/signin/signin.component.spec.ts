@@ -2,40 +2,48 @@ import { TestBed } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { Subscription } from 'rxjs';
+import { StorageService } from '@renet-consulting/storage';
+import { of, Subscription } from 'rxjs';
 import { SetError } from '~/actions/messenger.actions';
+import { IError } from '~/interfaces/error';
 import { IUser } from '~/interfaces/user';
 import { RootStore } from '~/reducers';
 import { SetAuthorized } from '../actions';
 import { ResetError, SigninRequest } from './actions';
 import { SigninComponent } from './signin.component';
-import { IError } from '~/interfaces/error';
 
 describe('SigninComponent', () => {
 
     let component: SigninComponent;
 
     let store: MockStore<RootStore>;
+    let storage: jasmine.SpyObj<StorageService>;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [provideMockStore({})]
         });
         store = TestBed.get(Store);
-        component = new SigninComponent(store);
+        storage = jasmine.createSpyObj<StorageService>('StorageService', ['setStorage']);
+
+        component = new SigninComponent(store, storage);
     });
 
     it('subscription', () => {
         expect(component.subscription instanceof Subscription).toEqual(true);
     });
     it('ngOnInit', () => {
+        const user = { remember: true } as IUser;
+        component.formGroup = { valueChanges: of(user), value: user } as FormGroup;
         spyOn(component, 'setFormGroup');
         spyOn(component, 'patchValue');
-        const user = {} as IUser;
+        spyOn(component, 'setStorage');
         store.setState({ auth: { user } });
         component.ngOnInit();
         expect(component.setFormGroup).toHaveBeenCalled();
         expect(component.patchValue).toHaveBeenCalledWith(user);
+        expect(component.setStorage).toHaveBeenCalledWith(user);
+        expect(component.setStorage).toHaveBeenCalledTimes(2);
         component.ngOnDestroy();
     });
     it('ngOnDestroy', () => {
