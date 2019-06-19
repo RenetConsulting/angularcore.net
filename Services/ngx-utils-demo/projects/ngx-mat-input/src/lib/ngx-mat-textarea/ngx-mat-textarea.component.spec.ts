@@ -14,4 +14,7 @@ describe('NgxMatTextareaComponent', () => {
     it('minRows', () => {
         expect(component.minRows).toEqual(7);
     });
+    it('maxRows', () => {
+        expect(component.maxRows).toEqual(15);
+    });
 });

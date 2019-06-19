@@ -15,6 +15,7 @@ import { InputBase } from '../input.base';
 export class NgxMatTextareaComponent extends InputBase implements ControlValueAccessor, OnChanges, OnInit, OnDestroy {
 
     @Input() minRows = 7;
+    @Input() maxRows = 15;
 
     constructor(
         @Optional() @Self() @Inject(NgControl) control: NgControl,
