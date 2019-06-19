@@ -5,7 +5,7 @@ describe('NgxMatTextareaComponent', () => {
     let component: NgxMatTextareaComponent;
 
     beforeEach(() => {
-        component = new NgxMatTextareaComponent(null, null);
+        component = new NgxMatTextareaComponent(null, null, 7, 15);
     });
 
     it('should create', () => {
