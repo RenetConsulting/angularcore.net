@@ -5,7 +5,7 @@ import { ControlValueAccessorBase } from './control-value-accessor.base';
 
 export abstract class InputBase extends ControlValueAccessorBase implements ControlValueAccessor, OnChanges, OnInit, OnDestroy {
 
-    @ViewChild('inputRef') inputRef: ElementRef
+    @ViewChild('inputRef') inputRef: ElementRef;
     @Input() placeholder: string;
     @Input() readonly: boolean;
     @Input() required: boolean;
