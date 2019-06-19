@@ -2,7 +2,7 @@
     <mat-label>{{placeholder}}</mat-label>
     <textarea #inputRef matInput cdkTextareaAutosize [cdkAutosizeMinRows]="minRows" [cdkAutosizeMaxRows]="maxRows" [label]="label" [required]="required"
               [minlength]="minlength" [maxlength]="maxlength" [readonly]="readonly" [formControl]="ngControl?.control" [placeholder]="placeholder"
-              (validate)="setError($event)"></textarea>
+              (validate)="setError($event)" (blur)="onBlur()"></textarea>
 </mat-form-field>
 <div class="d-flex justify-content-between minh-28">
     <div>

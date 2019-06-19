@@ -1,4 +1,4 @@
-import { ElementRef, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ControlValueAccessorBase } from './control-value-accessor.base';
@@ -15,6 +15,7 @@ export abstract class InputBase extends ControlValueAccessorBase implements Cont
     @Input() label: string;
     /** entry for custom errors */
     @Input() errors: Array<string>;
+    @Output() blur = new EventEmitter<any>();
     readonly subscription = new Subscription();
     /** an error that is provided by {@link NgxValidatorDirective} */
     error: string;
@@ -103,4 +104,6 @@ export abstract class InputBase extends ControlValueAccessorBase implements Cont
         this.setErrorState();
         this.setHintState();
     }
+
+    onBlur = () => this.blur.emit(this.ngControl.control.value);
 }
