@@ -16,21 +16,28 @@ describe('CoreCaptchaDirective', () => {
 
     it('resolve', () => {
         directive.onChange = jasmine.createSpy();
-        directive.onTouched = jasmine.createSpy();
         directive.resolve(model);
         expect(directive.onChange).toHaveBeenCalledWith(model);
+    });
+    it('click', () => {
+        directive.onTouched = jasmine.createSpy();
+        directive.click();
         expect(directive.onTouched).toHaveBeenCalled();
     });
+
     describe('writeValue', () => {
+
         it('empty string', () => {
             directive.writeValue('');
             expect(directive.host.refresh).toHaveBeenCalled();
         });
+
         it('empty string', () => {
             directive.writeValue(null);
             expect(directive.host.refresh).toHaveBeenCalled();
         });
     });
+
     it('registerOnChange', () => {
         const fn = jasmine.createSpy();
         directive.registerOnChange(fn);
