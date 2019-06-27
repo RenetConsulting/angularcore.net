@@ -1,6 +1,6 @@
 <mat-form-field class="w-100 mt-3">
     <mat-label>{{placeholder}}</mat-label>
-    <input #inputRef matInput [autocomplete]="autocomplete" [label]="label" [type]="type" [required]="required" [minlength]="minlength" [maxlength]="maxlength"
+    <input #inputRef matInput [autocomplete]="autocomplete" [name]="name" [label]="label" [type]="type" [required]="required" [minlength]="minlength" [maxlength]="maxlength"
            [readonly]="readonly" [formControl]="ngControl.control" [placeholder]="placeholder" (validate)="setError($event)" (blur)="onBlur()">
 </mat-form-field>
 <div class="d-flex justify-content-between minh-28">
