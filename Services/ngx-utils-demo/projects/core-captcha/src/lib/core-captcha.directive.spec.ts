@@ -19,9 +19,9 @@ describe('CoreCaptchaDirective', () => {
         directive.resolve(model);
         expect(directive.onChange).toHaveBeenCalledWith(model);
     });
-    it('click', () => {
+    it('blur', () => {
         directive.onTouched = jasmine.createSpy();
-        directive.click();
+        directive.blur();
         expect(directive.onTouched).toHaveBeenCalled();
     });
 

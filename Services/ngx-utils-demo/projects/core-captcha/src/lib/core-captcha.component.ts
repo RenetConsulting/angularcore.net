@@ -22,6 +22,7 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
     @Input() placeholder = 'Please type the text above';
     @Input() label = 'Core Captcha';
     @Output() readonly resolved = new EventEmitter<IDecodedCaptcha>();
+    @Output() readonly blur = new EventEmitter<null>();
     @HostBinding('class.d-block') readonly dBlock = true;
     readonly subscription = new Subscription();
     readonly formControl = new FormControl();
@@ -104,4 +105,6 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
 
     mapValidator = (validator: ValidatorFn): ValidatorFn => (): ValidationErrors | null =>
         validator({ value: this.value } as AbstractControl)
+
+    onBlur = () => this.blur.emit(null);
 }

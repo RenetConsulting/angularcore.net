@@ -24,7 +24,7 @@ export class CoreCaptchaDirective implements ControlValueAccessor {
         }
     }
 
-    @HostListener('click') click = (): void => {
+    @HostListener('blur') blur = (): void => {
         if (this.onTouched) {
             this.onTouched();
         }
