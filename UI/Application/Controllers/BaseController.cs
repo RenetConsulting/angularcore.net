@@ -6,9 +6,11 @@
 namespace Application.Controllers
 {
     using Application;
+    using AspNet.Security.OpenIdConnect.Primitives;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
+    using System.Linq;
 
     [ApiController]
     public class BaseController : ControllerBase
@@ -22,5 +24,13 @@ namespace Application.Controllers
         protected AppSettings AppSettings { get; private set; }
 
         protected ILogger Logger { get; private set; }
+
+        protected string UserId
+        {
+            get
+            {
+                return this.User.Claims.Where(c => c.Type == OpenIdConnectConstants.Claims.Subject).Select(c => c.Value).SingleOrDefault() ?? "0";
+            }
+        }
     }
 }
