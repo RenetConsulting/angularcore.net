@@ -43,7 +43,7 @@
     "@ngx-progressbar/http": "^5.3.2",
     "@renet-consulting/auth": "0.0.6",
     "@renet-consulting/core-captcha": "0.2.0",
-    "@renet-consulting/external-auth": "0.0.1",
+    "@renet-consulting/external-auth": "0.0.2",
     "@renet-consulting/interceptors": "0.0.1",
     "@renet-consulting/ngx-http-params": "0.0.3",
     "@renet-consulting/ngx-link-stylesheet": "0.1.1",
