@@ -33,9 +33,9 @@ export class GoogleSigninComponent extends ExternalAuthBase implements OnInit, O
         this.signin();
     }
 
-    setConfig = () => gapi.client.init({ clientId: this.clientId, scope: this.scope }).then(this.initSignin);
-
     init = () => gapi.load(this.apiName, this.setConfig);
+
+    setConfig = () => gapi.client.init({ clientId: this.clientId, scope: this.scope }).then(this.initSignin);
 
     setListener = () => gapi.auth2.getAuthInstance().currentUser.listen(this.authListener);
 
@@ -46,16 +46,7 @@ export class GoogleSigninComponent extends ExternalAuthBase implements OnInit, O
         }
     }
 
-    signin = (): void => {
-        const user = gapi.auth2.getAuthInstance().currentUser.get();
-        const token = user.getAuthResponse();
-        if (token && token.id_token) {
-            this.getToken(token.id_token);
-        }
-        else {
-            gapi.auth2.getAuthInstance().grantOfflineAccess();
-        }
-    }
+    signin = (): void => gapi.auth2.getAuthInstance().grantOfflineAccess();
 
     signout = (): void => gapi.auth2.getAuthInstance().signOut();
 

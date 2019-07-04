@@ -90,26 +90,11 @@ describe('GoogleSigninComponent', () => {
             expect(auth2.getAuthInstance).toHaveBeenCalled();
             expect(currentUser.listen).toHaveBeenCalledWith(component.authListener);
         });
-
-        describe('signin', () => {
-
-            it('has a token', () => {
-                spyOn(component, 'getToken');
-                component.signin();
-                expect(currentUser.get).toHaveBeenCalled();
-                expect(user.getAuthResponse).toHaveBeenCalled();
-                expect(component.getToken).toHaveBeenCalledWith(token.id_token);
-            });
-            it('doesn`t have a token', () => {
-                spyOn(component, 'getToken');
-                user.getAuthResponse.and.returnValue(null);
-                component.signin();
-                expect(currentUser.get).toHaveBeenCalled();
-                expect(user.getAuthResponse).toHaveBeenCalled();
-                expect(grantOfflineAccess).toHaveBeenCalled();
-            });
+        it('signin', () => {
+            component.signin();
+            expect(auth2.getAuthInstance).toHaveBeenCalled();
+            expect(grantOfflineAccess).toHaveBeenCalled();
         });
-
         it('signout', () => {
             component.signout();
             expect(signOut).toHaveBeenCalled();

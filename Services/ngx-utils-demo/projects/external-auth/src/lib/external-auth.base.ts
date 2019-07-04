@@ -59,7 +59,7 @@ export abstract class ExternalAuthBase implements OnInit, OnDestroy {
             this.authService.getToken(token).subscribe(x => {
                 this.tokenService.setToken(x);
                 this.signed.emit(this.provider);
-            }, e => this.signedError.emit(e.error));
+            }, e => this.signedError.emit(e));
         });
     }
 }
