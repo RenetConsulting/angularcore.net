@@ -1,12 +1,12 @@
 {
-  "name": "angular7",
+  "name": "angular",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "npm run clean && ng serve",
     "build": "ng build",
     "build:prod": "ng build --prod",
-    "build:ssr": "ng run angular7:server:production",
+    "build:ssr": "ng run angular:server:production",
     "build:full:prod": "npm i --prod && npm run build:prod && npm run build:ssr",
     "clean": "rimraf dist && rimraf dist-server",
     "lint": "ng lint",

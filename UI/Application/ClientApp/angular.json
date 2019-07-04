@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular7": {
+    "angular": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -67,18 +67,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular7:build"
+            "browserTarget": "angular:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "angular7:build:production"
+              "browserTarget": "angular:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular7:build"
+            "browserTarget": "angular:build"
           }
         },
         "test": {
@@ -130,7 +130,7 @@
         }
       }
     },
-    "angular7-e2e": {
+    "angular-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -139,11 +139,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "angular7:serve"
+            "devServerTarget": "angular:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "angular7:serve:production"
+              "devServerTarget": "angular:serve:production"
             }
           }
         },
@@ -159,5 +159,5 @@
       }
     }
   },
-  "defaultProject": "angular7"
+  "defaultProject": "angular"
 }
