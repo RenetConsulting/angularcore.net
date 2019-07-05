@@ -3,7 +3,7 @@ import { FacebookSigninComponent } from './facebook-signin.component';
 
 declare const window;
 
-fdescribe('FacebookSigninComponent', () => {
+describe('FacebookSigninComponent', () => {
 
     let component: FacebookSigninComponent;
 
