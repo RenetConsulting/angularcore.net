@@ -7,7 +7,6 @@ export const ROUTES: Array<Route> = [
 
     /** public routes */
     { path: 'home', component: HomeComponent },
-    { path: 'counter', loadChildren: () => import('./components/counter/counter.module').then(m => m.CounterModule) },
     { path: 'profile', loadChildren: () => import('./components/profile/profile.module').then(m => m.ProfileModule) },
 
     /** account */
