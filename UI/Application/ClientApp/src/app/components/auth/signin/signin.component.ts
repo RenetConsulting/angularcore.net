@@ -9,7 +9,7 @@ import { EMAIL_VALIDATORS } from '~/consts/email.validators';
 import { PASSWORD_VALIDATORS } from '~/consts/password.validators';
 import { IUser } from '~/interfaces/user';
 import { RootStore } from '~/reducers';
-import { selectFacebookAppId, selectGoogleClientId } from '~/selectors/settings.selectors';
+import { selectCoreCaptchaUrl, selectFacebookAppId, selectGoogleClientId } from '~/selectors/settings.selectors';
 import { SetAuthorized } from '../actions';
 import { selectAuthUser, selectSigninError } from '../selectors';
 import { ResetError, SigninRequest } from './actions';
@@ -25,6 +25,7 @@ export class SigninComponent implements OnInit, OnDestroy {
     readonly errors = this.store.select(selectSigninError).pipe(share());
     readonly facebookAppId = this.store.select(selectFacebookAppId);
     readonly googleClientId = this.store.select(selectGoogleClientId);
+    readonly coreCaptchaUrl = this.store.select(selectCoreCaptchaUrl);
     formGroup: FormGroup;
 
     constructor(

@@ -21,6 +21,7 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
     @Input() width?: number;
     @Input() placeholder = 'Please type the text above';
     @Input() label = 'Core Captcha';
+    @Input() errors: Array<string>;
     @Output() readonly resolved = new EventEmitter<IDecodedCaptcha>();
     @Output() readonly blur = new EventEmitter<null>();
     @HostBinding('class.d-block') readonly dBlock = true;

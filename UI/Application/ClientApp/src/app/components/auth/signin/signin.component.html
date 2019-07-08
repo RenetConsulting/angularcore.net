@@ -7,7 +7,7 @@
                 <ngx-mat-input placeholder="Password" type="password" formControlName="password" [errors]="(errors | async)?.password"></ngx-mat-input>
                 <!-- if the back-end side returns any error we should show captcha, because next call will be checked with captcha -->
                 <!-- the back-end side counts failed calls and checks for a captcha if there are more then one error -->
-                <ngx-core-captcha class="mt-3" *ngIf="(errors | async)" formControlName="captcha"></ngx-core-captcha>
+                <ngx-core-captcha class="mt-3" *ngIf="(errors | async)" formControlName="captcha" [url]="coreCaptchaUrl | async" [errors]="(errors | async)?.captcha"></ngx-core-captcha>
                 <div class="d-flex justify-content-between py-3">
                     <div><mat-checkbox formControlName="remember">Remember me</mat-checkbox></div>
                     <div><a class="text-center d-block font-italic" [routerLink]="['/prep-reset-password']">Reset Password</a></div>

@@ -25,7 +25,8 @@ namespace Application.Controllers
             var options = new
             {
                 this.AppSettings.FacebookAppId,
-                this.AppSettings.GoogleClientId
+                this.AppSettings.GoogleClientId,
+                this.AppSettings.CoreCaptchaUrl
             };
 
             return await Task.FromResult(this.Ok(options));
