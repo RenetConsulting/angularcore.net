@@ -14,6 +14,7 @@ namespace Application.Controllers
     using System.Threading.Tasks;
     using Application.Business;
     using Application.Business.Communications;
+    using Application.Business.CoreCaptcha;
     using Application.Business.Helpers;
     using Application.Business.Models;
     using Application.DataAccess.Entities;
@@ -32,6 +33,7 @@ namespace Application.Controllers
         private readonly ApplicationUserManager<ApplicationUser> userManager;
         private readonly ApplicationSignInManager<ApplicationUser> signInManager;
         private readonly IMailClient mailClient;
+        private readonly ICoreCaptcha coreCaptcha;
 
         public AccountController(
             IGlobalRepository repository,
@@ -39,18 +41,25 @@ namespace Application.Controllers
             ApplicationSignInManager<ApplicationUser> signInManager,
             IOptions<AppSettings> appSettings,
             IMailClient mailClient,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            ICoreCaptcha coreCaptcha)
             : base(appSettings, logger)
         {
             this.userManager = userManager;
             this.mailClient = mailClient;
             this.signInManager = signInManager;
+            this.coreCaptcha = coreCaptcha;
         }
 
         // POST api/account/register
         [HttpPost("register")]
         public async Task<IActionResult> RegisterAsync(UserModel userModel)
         {
+            if (!await this.coreCaptcha.CaptchaValidate(this.Request))
+            {
+                return this.BadRequest("Invalid or missing CoreCaptcha");
+            }
+
             if (!this.ModelState.IsValid)
             {
                 return this.BadRequest(this.ModelState);
