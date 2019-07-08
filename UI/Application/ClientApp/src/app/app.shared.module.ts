@@ -8,7 +8,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressHttpModule, ɵa as NgProgressInterceptor } from '@ngx-progressbar/http';
 import { AuthDefaultOptions, AuthInterceptor, TokenService } from '@renet-consulting/auth';
-import { ApiPrefixInterceptor, NoneCacheInterceptor } from '@renet-consulting/interceptors';
+import { ApiPrefixInterceptor, ExtractErrorInterceptor, NoneCacheInterceptor } from '@renet-consulting/interceptors';
 import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
 import { NgxMessengerModule } from '@renet-consulting/ngx-messenger';
 import { environment } from 'src/environments/environment';
@@ -39,6 +39,7 @@ const initializerFactory = (service: InitializerService) => () => service.initia
         },
         { provide: HTTP_INTERCEPTORS, useClass: NoneCacheInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, deps: [Store], multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: ExtractErrorInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ApiPrefixInterceptor, deps: [BASE_URL], multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: NgProgressInterceptor, multi: true },
         { provide: APP_INITIALIZER, useFactory: initializerFactory, deps: [InitializerService], multi: true },

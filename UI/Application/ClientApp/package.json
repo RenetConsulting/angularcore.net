@@ -43,7 +43,7 @@
     "@renet-consulting/auth": "8.0.0",
     "@renet-consulting/core-captcha": "8.0.0",
     "@renet-consulting/external-auth": "8.0.1",
-    "@renet-consulting/interceptors": "8.0.0",
+    "@renet-consulting/interceptors": "8.1.1",
     "@renet-consulting/ngx-http-params": "8.0.0",
     "@renet-consulting/ngx-link-stylesheet": "8.0.0",
     "@renet-consulting/ngx-mat-input": "8.0.0",

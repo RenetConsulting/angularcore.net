@@ -51,7 +51,7 @@ describe('ResetPasswordEffects', () => {
         });
         it('error', () => {
             const error = 'bob';
-            accountService.resetPassword.and.returnValue(throwError({ error }));
+            accountService.resetPassword.and.returnValue(throwError(error));
             const action = new ResetPasswordRequest(formGroup);
             const completion = new ResetPasswordError(error);
             const expected = cold('--b', { b: completion });

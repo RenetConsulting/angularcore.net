@@ -22,7 +22,7 @@ export class ChangePasswordEffects {
         mergeMap(x => this.accountService.changePassword(x.payload.value).pipe(
             tap(() => x.payload.reset()),
             mapTo(new ChangePasswordSuccess()),
-            catchError(e => of(new ChangePasswordError(e.error)))
+            catchError(e => of(new ChangePasswordError(e)))
         ))
     );
 

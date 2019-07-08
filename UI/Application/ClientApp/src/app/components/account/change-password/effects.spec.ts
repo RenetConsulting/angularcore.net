@@ -51,7 +51,7 @@ describe('ChangePasswordEffects', () => {
         });
         it('error', () => {
             const error = 'bob';
-            accountService.changePassword.and.returnValue(throwError({ error }));
+            accountService.changePassword.and.returnValue(throwError(error));
             const action = new ChangePasswordRequest(formGroup);
             const completion = new ChangePasswordError(error);
             const expected = cold('--b', { b: completion });

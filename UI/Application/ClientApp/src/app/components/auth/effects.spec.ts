@@ -59,7 +59,7 @@ describe('AuthEffects', () => {
         });
         it('error', () => {
             const error = 'bob';
-            authService.signout.and.returnValue(throwError({ error }));
+            authService.signout.and.returnValue(throwError(error));
             const action = new SignoutRequest();
             const completion = new SignoutError();
             const expected = cold('--b', { b: completion });

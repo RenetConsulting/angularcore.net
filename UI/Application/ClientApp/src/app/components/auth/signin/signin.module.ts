@@ -31,7 +31,7 @@ import { SigninComponent } from './signin.component';
         MatCheckboxModule,
         MatCardModule,
         CoreCaptchaModule,
-        EffectsModule.forRoot([SigninEffects]),
+        EffectsModule.forFeature([SigninEffects]),
         ResendConfirmationModule,
         FacebookSigninModule,
         GoogleSigninModule,

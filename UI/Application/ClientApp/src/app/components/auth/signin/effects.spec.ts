@@ -85,7 +85,7 @@ describe('SigninEffects', () => {
         });
         it('error', () => {
             const error = 'bob';
-            authService.signin.and.returnValue(throwError({ error }));
+            authService.signin.and.returnValue(throwError(error));
             const action = new SigninRequest(formGroup);
             const completion = new SigninError(error);
             const expected = cold('--b', { b: completion });
@@ -127,7 +127,6 @@ describe('SigninEffects', () => {
             expect(messengerService.error).toHaveBeenCalledWith(ResendConfirmationComponent);
         });
         it('should have dispatch', () => {
-            console.log(metadata)
             expect(metadata.signinError1001).toEqual({ dispatch: false, resubscribeOnError: true });
         });
     });

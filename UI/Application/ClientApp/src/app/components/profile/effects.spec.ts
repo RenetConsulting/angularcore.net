@@ -50,7 +50,7 @@ describe('ProfileEffects', () => {
         });
         it('error', () => {
             const error = 'bob';
-            personService.update.and.returnValue(throwError({ error }));
+            personService.update.and.returnValue(throwError(error));
             const action = new UpdateProfileRequest(formGroup);
             const completion = new UpdateProfileError(error);
             const expected = cold('--b', { b: completion });
@@ -72,7 +72,7 @@ describe('ProfileEffects', () => {
         });
         it('error', () => {
             const error = 'bob';
-            personService.getProfile.and.returnValue(throwError({ error }));
+            personService.getProfile.and.returnValue(throwError(error));
             const action = new GetProfileRequest();
             const completion = new GetProfileError(error);
             const expected = cold('--b', { b: completion });

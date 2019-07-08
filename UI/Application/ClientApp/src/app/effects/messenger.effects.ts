@@ -4,6 +4,7 @@ import { NgxMessengerService } from '@renet-consulting/ngx-messenger';
 import { filter, map, tap } from 'rxjs/operators';
 import { SetError, SetSuccess } from '~/actions/messenger.actions';
 import { MessagesType } from '~/enums/messages.type';
+import { IError } from '~/interfaces/error';
 import { MessengerTypes } from '~/types/messenger.types';
 
 @Injectable()
@@ -16,8 +17,8 @@ export class MessengerEffects {
 
     @Effect({ dispatch: false }) setError = this.actions.pipe(
         ofType<SetError>(MessengerTypes.SET_ERROR),
-        map(a => a.payload && a.payload.error_description
-            || typeof a.payload === 'string' && a.payload as any
+        map(a => a.payload && (a.payload as IError).error_description
+            || typeof a.payload === 'string' && (a.payload as string).length < 500 && a.payload
             || MessagesType.unspecifiedError),
         tap(this.messenger.error)
     );
