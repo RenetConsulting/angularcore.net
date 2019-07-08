@@ -18,6 +18,8 @@ namespace Application.Business.Models
             this.Password = new List<string>();
 
             this.ConfirmPassword = new List<string>();
+
+            this.Captcha = new List<string>();
         }
 
         public List<string> Email { get; set; }
@@ -27,5 +29,7 @@ namespace Application.Business.Models
         public List<string> Password { get; set; }
 
         public List<string> ConfirmPassword { get; set; }
+
+        public List<string> Captcha { get; set; }
     }
 }

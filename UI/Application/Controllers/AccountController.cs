@@ -57,7 +57,9 @@ namespace Application.Controllers
         {
             if (!await this.coreCaptcha.CaptchaValidate(this.Request))
             {
-                return this.BadRequest("Invalid or missing CoreCaptcha");
+                ErrorListModel errorList = new ErrorListModel();
+                errorList.Captcha.Add("Invalid or missing CoreCaptcha");
+                return this.BadRequest(errorList);
             }
 
             if (!this.ModelState.IsValid)
