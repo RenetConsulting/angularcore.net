@@ -9,6 +9,7 @@ import { CoreCaptchaRequired } from 'projects/core-captcha/src/public_api';
 })
 export class CaptchaComponent {
 
+    readonly errors = ['Please fill captcha'];
     readonly formGroup = new FormGroup({
         captcha: new FormControl(null, [CoreCaptchaRequired])
     });
