@@ -15,6 +15,8 @@ namespace Application
 
         public string GoogleClientId { get; set; }
 
+        public string CoreCaptchaUrl { get; set; }
+
         public string InfoEmail { get; set; }
 
         public string InfoFromEmail { get; set; }

@@ -1,4 +1,4 @@
-import { selectFacebookAppId, selectGoogleClientId } from './settings.selectors';
+import { selectCoreCaptchaUrl, selectFacebookAppId, selectGoogleClientId } from './settings.selectors';
 
 describe('settings selectors', () => {
 
@@ -9,5 +9,9 @@ describe('settings selectors', () => {
     it('selectGoogleClientId', () => {
         const googleClientId = '123-qwe';
         expect(selectGoogleClientId({ settings: { googleClientId } })).toEqual(googleClientId);
+    });
+    it('selectCoreCaptchaUrl', () => {
+        const coreCaptchaUrl = 'https://localhost:44301/api/CaptchaCreate';
+        expect(selectCoreCaptchaUrl({ settings: { coreCaptchaUrl } })).toEqual(coreCaptchaUrl);
     });
 });
