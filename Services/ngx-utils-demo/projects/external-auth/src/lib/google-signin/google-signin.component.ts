@@ -1,6 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Injector, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { ExternalAuthBase } from '../external-auth.base';
+import { IGoogleError } from '../google-error';
 import { GOOGLE_SCRIPT_URL } from '../google-script-url';
 
 declare const window;
@@ -21,7 +22,7 @@ let provider: string;
     styleUrls: ['./google-signin.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GoogleSigninComponent extends ExternalAuthBase implements OnChanges, OnInit, OnDestroy {
+export class GoogleSigninComponent extends ExternalAuthBase<IGoogleError> implements OnChanges, OnInit, OnDestroy {
 
     @Input() clientId: string;
     @Input() scope = 'profile';
@@ -51,7 +52,7 @@ export class GoogleSigninComponent extends ExternalAuthBase implements OnChanges
 
     init = (): void => gapi.load(this.apiName, this.setConfig);
 
-    setConfig = (): void => gapi.client.init({ clientId: this.clientId, scope: this.scope }).then(this.initSignin);
+    setConfig = (): void => gapi.client.init({ clientId: this.clientId, scope: this.scope }).then(this.initSignin, this.handleError);
 
     setListener = (): void => gapi.auth2.getAuthInstance().currentUser.listen(this.authListener);
 
@@ -62,7 +63,7 @@ export class GoogleSigninComponent extends ExternalAuthBase implements OnChanges
         }
     }
 
-    signin = (): void => gapi.auth2.getAuthInstance().grantOfflineAccess();
+    signin = (): void => gapi.auth2.getAuthInstance().grantOfflineAccess().then(null, this.handleError);
 
     signout = (): void => gapi.auth2.getAuthInstance().signOut();
 
@@ -82,5 +83,5 @@ export class GoogleSigninComponent extends ExternalAuthBase implements OnChanges
         }
     }
 
-    emit = () => signed.emit(provider);
+    handleSigned = () => signed.emit(provider);
 }

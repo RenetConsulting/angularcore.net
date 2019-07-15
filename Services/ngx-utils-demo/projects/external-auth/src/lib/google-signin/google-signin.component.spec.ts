@@ -146,7 +146,7 @@ describe('GoogleSigninComponent', () => {
         // test 1
         spyOn(component.signed, 'emit');
         component.ngOnChanges({ provider: {} });
-        setEmitter(component.emit);
+        setEmitter(component.handleSigned);
         emit();
         expect(component.signed.emit).toHaveBeenCalled();
 

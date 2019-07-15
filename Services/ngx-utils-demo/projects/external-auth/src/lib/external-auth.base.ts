@@ -3,14 +3,14 @@ import { EventEmitter, HostBinding, Injector, Input, NgZone, OnDestroy, OnInit, 
 import { AuthService, TokenService } from '@renet-consulting/auth';
 import { Subscription } from 'rxjs';
 
-export abstract class ExternalAuthBase implements OnInit, OnDestroy {
+export abstract class ExternalAuthBase<ErrorType = any> implements OnInit, OnDestroy {
 
     @HostBinding('class.d-block') readonly dBlock = true;
     @Input() provider: string;
     @Input() label: string;
     @Input() iconClass: string;
     @Output() signed = new EventEmitter<string>();
-    @Output() signedError = new EventEmitter<any>();
+    @Output() signedError = new EventEmitter<ErrorType | any>();
     readonly subscription = new Subscription();
     abstract scriptUrl: string;
     abstract init: () => void;
@@ -58,10 +58,12 @@ export abstract class ExternalAuthBase implements OnInit, OnDestroy {
             const token = { grant_type: 'external_identity_token', access_token, state: this.provider, scope: 'offline_access' };
             this.authService.getToken(token).subscribe(x => {
                 this.tokenService.setToken(x);
-                this.emit();
+                this.handleSigned();
             }, e => this.signedError.emit(e));
         });
     }
 
-    emit = () => this.signed.emit(this.provider);
+    handleSigned = () => this.signed.emit(this.provider);
+
+    handleError = (e: ErrorType | any) => this.signedError.emit(e);
 }
