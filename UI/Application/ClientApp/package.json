@@ -37,6 +37,7 @@
     "@aspnet/signalr": "^1.1.4",
     "@fortawesome/fontawesome-free": "^5.9.0",
     "@ngrx/effects": "^8.1.0",
+    "@ngrx/entity": "8.1.0",
     "@ngrx/store": "^8.1.0",
     "@ngrx/store-devtools": "^8.1.0",
     "@nguniversal/module-map-ngfactory-loader": "^8.1.1",
@@ -68,7 +69,7 @@
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-ng-packagr": "^0.13.9",
+    "@angular-devkit/build-ng-packagr": "^0.801.1",
     "@types/jasmine": "^3.3.13",
     "@types/jasminewd2": "^2.0.6",
     "codelyzer": "^5.1.0",

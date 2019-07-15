@@ -18,7 +18,7 @@ describe('HeaderComponent', () => {
             ]
         });
         store = TestBed.get(Store);
-        component = new HeaderComponent(store);
+        component = new HeaderComponent(store, null);
     });
 
     it('collapse', () => {
