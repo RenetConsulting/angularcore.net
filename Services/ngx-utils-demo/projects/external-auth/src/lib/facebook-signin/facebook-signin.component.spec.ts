@@ -51,14 +51,23 @@ describe('FacebookSigninComponent', () => {
             expect(FB.init).toHaveBeenCalledWith({ appId: component.appId, version: component.version });
             expect(component.signin).toHaveBeenCalled();
         });
+        it('fbSignin', () => {
+            FB.login.and.callFake(fn => fn({ authResponse }));
+            spyOn(component, 'getToken');
+            component.fbSignin();
+            expect(FB.login).toHaveBeenCalled();
+            expect(component.getToken).toHaveBeenCalled();
+        });
 
         describe('signin', () => {
 
             it('has a token', () => {
                 FB.getLoginStatus.and.callFake(fn => fn({ authResponse }));
-                spyOn(component, 'getToken');
+                spyOn(component, 'signout').and.callFake(fn => fn());
+                spyOn(component, 'fbSignin');
                 component.signin();
-                expect(component.getToken).toHaveBeenCalledWith(authResponse.accessToken);
+                expect(component.signout).toHaveBeenCalled();
+                expect(component.fbSignin).toHaveBeenCalled();
             });
             it('doesn`t have a token', () => {
                 FB.getLoginStatus.and.callFake(fn => fn({}));

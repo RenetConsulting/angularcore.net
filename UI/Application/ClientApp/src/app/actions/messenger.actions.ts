@@ -4,7 +4,7 @@ import { MessengerTypes } from '../types/messenger.types';
 
 export class SetError implements Action {
     readonly type = MessengerTypes.SET_ERROR;
-    constructor(readonly payload: IError) { }
+    constructor(readonly payload: IError | string) { }
 }
 export class SetSuccess implements Action {
     readonly type = MessengerTypes.SET_SUCCESS;

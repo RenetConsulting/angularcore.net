@@ -36,10 +36,24 @@ export class FacebookSigninComponent extends ExternalAuthBase implements OnInit,
         window.fbAsyncInit = this.init;
     }
 
-    signin = (): void => FB.getLoginStatus(x => x.authResponse ? this.getToken(x.authResponse.accessToken)
-        : FB.login(z => z.authResponse && this.getToken(z.authResponse.accessToken)))
+    fbSignin = (): void => FB.login(x => {
+        if (x.authResponse) {
+            this.getToken(x.authResponse.accessToken);
+        }
+    })
 
-    signout = (): void => FB.logout(null);
+    signin = (): void => {
+        FB.getLoginStatus(x => {
+            if (x.authResponse) {
+                this.signout(() => this.fbSignin());
+            }
+            else {
+                this.fbSignin();
+            }
+        });
+    }
+
+    signout = (fn?: () => void): void => FB.logout(fn);
 
     submit = (): void => {
         if (isPlatformBrowser(this.platformId)) {

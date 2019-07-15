@@ -26,7 +26,7 @@ export class SignupEffects {
         mergeMap(a => this.authService.signup(a.payload.value, { params: this.params.map(a.payload.value.captcha) }).pipe(
             tap(() => a.payload.reset()),
             mapTo(new SignupSuccess()),
-            catchError(e => of(new SignupError(e.error)))
+            catchError(e => of(new SignupError(e)))
         ))
     );
 

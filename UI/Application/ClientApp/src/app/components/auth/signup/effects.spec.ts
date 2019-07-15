@@ -71,7 +71,7 @@ describe('SignupEffects', () => {
         });
         it('error', () => {
             const error = 'bob';
-            authService.signup.and.returnValue(throwError({ error }));
+            authService.signup.and.returnValue(throwError(error));
             const action = new SignupRequest(formGroup);
             const completion = new SignupError(error);
             const expected = cold('--b', { b: completion });

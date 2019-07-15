@@ -13,11 +13,9 @@ namespace Application
 
         public string FacebookAppId { get; set; }
 
-        public string FacebookAppSecret { get; set; }
-
-        public string FacebookClientId { get; set; }
-
         public string GoogleClientId { get; set; }
+
+        public string CoreCaptchaUrl { get; set; }
 
         public string InfoEmail { get; set; }
 

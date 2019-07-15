@@ -26,7 +26,7 @@ export class ResendConfirmationEffects {
         filter(([_, user]) => !!user),
         mergeMap(([_, user]) => this.accountService.resendConfirmation(user.email).pipe(
             mapTo(new ResendConfirmationSuccess()),
-            catchError(e => of(new ResendConfirmationError(e.error)))
+            catchError(e => of(new ResendConfirmationError(e)))
         ))
     );
 

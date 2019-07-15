@@ -55,7 +55,7 @@ describe('ResendConfirmationEffects', () => {
         });
         it('error', () => {
             const error = 'error';
-            accountService.resendConfirmation.and.returnValue(throwError({ error }));
+            accountService.resendConfirmation.and.returnValue(throwError(error));
             const action = new ResendConfirmationRequest();
             const completion = new ResendConfirmationError(error);
             const expected = cold('--b', { b: completion });

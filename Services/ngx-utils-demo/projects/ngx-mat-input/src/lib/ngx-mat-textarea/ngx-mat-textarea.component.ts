@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component, Inject, Input, OnChanges, OnDestroy
 import { ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
 import { errorEnterLeaveAnimation, hintEnterLeaveAnimation } from '../animations';
 import { InputBase } from '../input.base';
+import { NGX_MAX_ROWS_TEXTAREA } from '../max-rows-textarea';
+import { NGX_MIN_ROWS_TEXTAREA } from '../min-rows-textarea';
 
 @Component({
     // tslint:disable-next-line
@@ -14,12 +16,18 @@ import { InputBase } from '../input.base';
 })
 export class NgxMatTextareaComponent extends InputBase implements ControlValueAccessor, OnChanges, OnInit, OnDestroy {
 
-    @Input() minRows = 7;
+    @Input() minRows: number;
+    @Input() maxRows: number;
 
     constructor(
         @Optional() @Self() @Inject(NgControl) control: NgControl,
         @Optional() @Inject(FormGroupDirective) formGroup: FormGroupDirective,
+        @Optional() @Inject(NGX_MIN_ROWS_TEXTAREA) minRows: number,
+        @Optional() @Inject(NGX_MAX_ROWS_TEXTAREA) maxRows: number,
     ) {
         super(control, formGroup);
+
+        this.minRows = minRows;
+        this.maxRows = maxRows;
     }
 }

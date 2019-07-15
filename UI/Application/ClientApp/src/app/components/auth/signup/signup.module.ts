@@ -30,7 +30,7 @@ import { SignupComponent } from './signup.component';
         MatInputModule,
         MatCardModule,
         CoreCaptchaModule,
-        EffectsModule.forRoot([SignupEffects]),
+        EffectsModule.forFeature([SignupEffects]),
     ]
 })
 export class SignupModule { }

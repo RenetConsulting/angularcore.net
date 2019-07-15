@@ -31,10 +31,8 @@ export class NgxValidatorDirective implements OnChanges, OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
 
-    /** internal */
     @HostListener('blur') blur = (): void => this.emitError();
 
-    /** internal */
     get error(): string | null {
         const errors = this.ngControl.errors;
         if (errors) {
@@ -63,14 +61,12 @@ export class NgxValidatorDirective implements OnChanges, OnInit, OnDestroy {
         return null;
     }
 
-    /** internal */
     emitError = (): void => {
         if (this.ngControl.enabled && this.ngControl.touched) {
             this.validate.emit(this.error);
         }
     }
 
-    /** internal */
     setTitle = (): void => {
         this.title = this.label || this.placeholder || this.title;
     }

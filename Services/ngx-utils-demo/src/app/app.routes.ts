@@ -3,12 +3,12 @@ import { Routes } from '@angular/router';
 export const ROUTES: Routes = [
     // { path: '', redirectTo: '', pathMatch: 'full' },
 
-    { path: 'captcha', loadChildren: './captcha/captcha.module#CaptchaModule' },
-    { path: 'input', loadChildren: './input/input.module#InputModule' },
-    { path: 'validator', loadChildren: './validator/validator.module#ValidatorModule' },
-    { path: 'uploader', loadChildren: './uploader/uploader.module#UploaderModule' },
-    { path: 'messenger', loadChildren: './messenger/messenger.module#MessagerModule' },
-    { path: 'storage', loadChildren: './storage/storage.module#StorageModule' },
+    { path: 'captcha', loadChildren: () => import('./captcha/captcha.module').then(m => m.CaptchaModule) },
+    { path: 'input', loadChildren: () => import('./input/input.module').then(m => m.InputModule) },
+    { path: 'validator', loadChildren: () => import('./validator/validator.module').then(m => m.ValidatorModule) },
+    { path: 'uploader', loadChildren: () => import('./uploader/uploader.module').then(m => m.UploaderModule) },
+    { path: 'messenger', loadChildren: () => import('./messenger/messenger.module').then(m => m.MessagerModule) },
+    { path: 'storage', loadChildren: () => import('./storage/storage.module').then(m => m.StorageModule) },
 
     { path: '**', redirectTo: '' }
 ];

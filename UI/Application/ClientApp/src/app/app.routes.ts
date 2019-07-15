@@ -7,18 +7,17 @@ export const ROUTES: Array<Route> = [
 
     /** public routes */
     { path: 'home', component: HomeComponent },
-    { path: 'counter', loadChildren: './components/counter/counter.module#CounterModule' },
-    { path: 'profile', loadChildren: './components/profile/profile.module#ProfileModule' },
+    { path: 'profile', loadChildren: () => import('./components/profile/profile.module').then(m => m.ProfileModule) },
 
     /** account */
-    { path: 'prep-reset-password', loadChildren: './components/account/prep-reset-password/prep-reset-password.module#PrepResetPasswordModule' },
-    { path: 'reset-password', loadChildren: './components/account/reset-password/reset-password.module#ResetPasswordModule' },
-    { path: 'confirm-email', loadChildren: './components/account/confirm-email/confirm-email.module#ConfirmEmailModule' },
-    { path: 'change-password', canActivate: [AuthGuard], loadChildren: './components/account/change-password/change-password.module#ChangePasswordModule' },
+    { path: 'prep-reset-password', loadChildren: () => import('./components/account/prep-reset-password/prep-reset-password.module').then(m => m.PrepResetPasswordModule) },
+    { path: 'reset-password', loadChildren: () => import('./components/account/reset-password/reset-password.module').then(m => m.ResetPasswordModule) },
+    { path: 'confirm-email', loadChildren: () => import('./components/account/confirm-email/confirm-email.module').then(m => m.ConfirmEmailModule) },
+    { path: 'change-password', canActivate: [AuthGuard], loadChildren: () => import('./components/account/change-password/change-password.module').then(m => m.ChangePasswordModule) },
 
     /** auth */
-    { path: 'signin', loadChildren: './components/auth/signin/signin.module#SigninModule' },
-    { path: 'signup', loadChildren: './components/auth/signup/signup.module#SignupModule' },
+    { path: 'signin', loadChildren: () => import('./components/auth/signin/signin.module').then(m => m.SigninModule) },
+    { path: 'signup', loadChildren: () => import('./components/auth/signup/signup.module').then(m => m.SignupModule) },
 
     { path: 'blog', loadChildren: './components/blog-dashboard/blog-dashboard.module#BlogDashboardModule' },
     { path: 'blog/:blogId', loadChildren: './components/blog-detail/blog-detail.module#BlogDetailModule' },

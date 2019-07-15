@@ -85,7 +85,7 @@ describe('ExternalAuthBase', () => {
             expect(authService.getToken).toHaveBeenCalledWith(token);
             expect(tokenService.setToken).not.toHaveBeenCalled();
             expect(base.signed.emit).not.toHaveBeenCalled();
-            expect(base.signedError.emit).toHaveBeenCalledWith(error.error);
+            expect(base.signedError.emit).toHaveBeenCalledWith(error);
         });
     });
 });
