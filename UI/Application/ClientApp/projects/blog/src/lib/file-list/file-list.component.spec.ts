@@ -1,25 +1,33 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { TestBed } from '@angular/core/testing';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { RootBlogStore } from '../reducers';
 import { FileListComponent } from './file-list.component';
 
 describe('FileListComponent', () => {
-  let component: FileListComponent;
-  let fixture: ComponentFixture<FileListComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ FileListComponent ]
-    })
-    .compileComponents();
-  }));
+    let component: FileListComponent;
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(FileListComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    let store: MockStore<RootBlogStore>;
+    let dialogRef: jasmine.SpyObj<MatDialogRef<FileListComponent>>;
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    beforeEach(() => {
+
+        TestBed.configureTestingModule({
+            providers: [
+                provideMockStore({}),
+                { provide: MatDialogRef, useValue: jasmine.createSpyObj<MatDialogRef<FileListComponent>>('MatDialogRef', ['close']) }
+            ]
+        });
+
+        store = TestBed.get(Store);
+        dialogRef = TestBed.get(MatDialogRef);
+
+        component = new FileListComponent(store, dialogRef);
+    });
+
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

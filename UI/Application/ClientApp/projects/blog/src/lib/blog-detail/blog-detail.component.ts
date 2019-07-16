@@ -3,12 +3,13 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
-import { DeleteBlogs, GetBlogRequest, UpdateBlogRequest } from '../actions';
+import { map, shareReplay } from 'rxjs/operators';
+import { GetBlogRequest, UpdateBlogRequest } from '../actions';
 import { BlogModel } from '../blog.model';
 import { RootBlogStore } from '../reducers';
 import { selectSelectedBlog } from '../selectors';
 
+/** TODO: test shareReplay */
 @Component({
     selector: 'lib-blog-detail',
     templateUrl: './blog-detail.component.html',
@@ -16,7 +17,7 @@ import { selectSelectedBlog } from '../selectors';
 })
 export class BlogDetailComponent implements OnInit, OnDestroy {
 
-    readonly item = this.store.select(selectSelectedBlog).pipe(tap(i => this.updateFormGroup(i)));
+    readonly item = this.store.select(selectSelectedBlog).pipe(shareReplay(1));
     readonly subscription = new Subscription();
     formGroup: FormGroup;
 
@@ -27,12 +28,14 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.setFormGroup();
-        this.subscription.add(this.route.params.pipe(map(x => x.blogId)).subscribe(x => this.store.dispatch(new GetBlogRequest(x))));
+        this.subscription.add(this.route.paramMap.pipe(
+            map(x => x.get('blogId'))
+        ).subscribe(x => this.store.dispatch(new GetBlogRequest(x))));
+        this.subscription.add(this.item.subscribe(this.updateFormGroup));
     }
 
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
-        this.store.dispatch(new DeleteBlogs());
     }
 
     setFormGroup = (): void => {

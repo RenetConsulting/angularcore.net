@@ -9,6 +9,7 @@ import { BlogModel } from '../blog.model';
 import { RootBlogStore } from '../reducers';
 import { selectBlogs, selecBlogTotalAmount, selectCreatedBlog, selectUpdatedBlog } from '../selectors';
 
+/** TODO: set up scrilling viewport properly, test whether we can live withot {@link DeleteBlogs} */
 @Component({
     selector: 'lib-blog-list',
     templateUrl: './blog-list.component.html',

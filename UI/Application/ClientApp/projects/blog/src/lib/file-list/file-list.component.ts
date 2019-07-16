@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { InfiniteSource } from '@renet-consulting/infinite-source';
 import { Subscription } from 'rxjs';
@@ -16,12 +17,12 @@ import { selectFiles, selectFileTotalAmount } from './selectors';
 })
 export class FileListComponent implements OnInit, OnDestroy {
 
-    @Input() insertImage: (x: string) => void;
     readonly subscription = new Subscription();
     readonly source = new InfiniteSource<FileModel>();
 
     constructor(
-        @Inject(Store) private store: Store<RootBlogStore>
+        @Inject(Store) private store: Store<RootBlogStore>,
+        @Inject(MatDialogRef) private dialogRef: MatDialogRef<FileListComponent>,
     ) { }
 
     ngOnInit(): void {
@@ -46,5 +47,5 @@ export class FileListComponent implements OnInit, OnDestroy {
 
     onDelete = (x: FileModel) => this.store.dispatch(new DeleteFileRequest(x.fileId));
 
-    onSelect = (x: FileModel) => this.insertImage(x.fileUrl);
+    onSelect = (x: FileModel) => this.dialogRef.close(x.fileUrl);
 }

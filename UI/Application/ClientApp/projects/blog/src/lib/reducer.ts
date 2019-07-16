@@ -21,7 +21,7 @@ export function blogReducer(state = INITIAL_STATE, action: BlogActionsUnion): Bl
     switch (action.type) {
 
         case BlogTypes.GET_BLOGS_SUCCESS: return {
-            ...adapter.addMany(action.success.items, state),
+            ...adapter.upsertMany(action.success.items, state),
             totalAmount: action.success.totalAmount
         };
         case BlogTypes.GET_BLOG_REQUEST: return { ...state, selectedBlogId: null };

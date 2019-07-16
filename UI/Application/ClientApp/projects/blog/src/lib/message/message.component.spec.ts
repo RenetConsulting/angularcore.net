@@ -1,25 +1,27 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { TestBed } from '@angular/core/testing';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MessageComponent } from './message.component';
 
 describe('MessageComponent', () => {
-  let component: MessageComponent;
-  let fixture: ComponentFixture<MessageComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ MessageComponent ]
-    })
-    .compileComponents();
-  }));
+    let component: MessageComponent;
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(MessageComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    let snackBar: jasmine.SpyObj<MatSnackBar>;
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    beforeEach(() => {
+
+        TestBed.configureTestingModule({
+            providers: [
+                { provide: MatSnackBar, useValue: jasmine.createSpyObj<MatSnackBar>('MatSnackBar', ['dismiss']) }
+            ]
+        });
+
+        snackBar = TestBed.get(MatSnackBar);
+
+        component = new MessageComponent(snackBar);
+    });
+
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

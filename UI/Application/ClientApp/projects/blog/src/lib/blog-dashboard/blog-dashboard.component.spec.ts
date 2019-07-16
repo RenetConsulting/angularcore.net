@@ -1,25 +1,44 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { TestBed } from '@angular/core/testing';
+import { FormGroup } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { CreateBlogRequest } from '../actions';
+import { RootBlogStore } from '../reducers';
 import { BlogDashboardComponent } from './blog-dashboard.component';
 
 describe('BlogDashboardComponent', () => {
-  let component: BlogDashboardComponent;
-  let fixture: ComponentFixture<BlogDashboardComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ BlogDashboardComponent ]
-    })
-    .compileComponents();
-  }));
+    let component: BlogDashboardComponent;
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(BlogDashboardComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    let store: MockStore<RootBlogStore>;
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    beforeEach(() => {
+
+        TestBed.configureTestingModule({
+            providers: [provideMockStore({})]
+        });
+
+        store = TestBed.get(Store);
+
+        component = new BlogDashboardComponent(store);
+    });
+
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
+    it('ngOnInit', () => {
+        spyOn(component, 'setFormGroup');
+        component.ngOnInit();
+        expect(component.setFormGroup).toHaveBeenCalled();
+    });
+    it('setFormGroup', () => {
+        component.setFormGroup();
+        expect(component.formGroup instanceof FormGroup).toEqual(true);
+    });
+    it('submit', () => {
+        spyOn(store, 'dispatch');
+        component.formGroup = { valid: true, value: {} } as FormGroup;
+        component.submit();
+        expect(store.dispatch).toHaveBeenCalledWith(new CreateBlogRequest(component.formGroup.value));
+    });
 });

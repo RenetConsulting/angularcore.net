@@ -12,7 +12,7 @@ import { IRequestList } from './request-list';
 })
 export class BlogService {
 
-    private url: string;
+    url: string;
 
     constructor(
         @Inject(HttpClient) private http: HttpClient,

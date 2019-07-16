@@ -13,7 +13,7 @@ import { FileModel } from './file.model';
 })
 export class FileService {
 
-    private url: string;
+    url: string;
 
     constructor(
         @Inject(HttpClient) private http: HttpClient,
