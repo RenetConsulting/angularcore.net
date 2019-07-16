@@ -1,6 +1,6 @@
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { BlogEffects } from '../effects';
@@ -17,7 +17,7 @@ import { BlogModule } from './blog/blog.module';
         BlogListRoutingModule,
         StoreModule.forFeature('blog', blogReducer),
         EffectsModule.forFeature([BlogEffects]),
-        MatButtonModule,
+        ScrollingModule,
         MessageModule,
         BlogModule
     ]

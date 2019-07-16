@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { HubConnectionBuilder } from '@aspnet/signalr';
 import { Store } from '@ngrx/store';
@@ -12,37 +11,31 @@ import { BlogModel } from './blog.model';
 })
 export class BlogHubService {
 
-    /** internal */
     readonly connection = new HubConnectionBuilder()
         .withUrl('/BlogHub', { httpClient: this.httpClient })
         .build();
 
     constructor(
         @Inject(HttpHubClient) private httpClient: HttpHubClient,
-        @Inject(HttpClient) public http: HttpClient,
         @Inject(Store) private store: Store<RootStore>,
     ) { }
 
-    /** internal */
-    update = (x: BlogModel): void => this.store.dispatch(new HubUpdateBlogRequest(x));
+    onUpdate = (x: BlogModel) => this.store.dispatch(new HubUpdateBlogRequest(x));
 
-    /** internal */
-    create = (x: BlogModel): void => this.store.dispatch(new HubCreateBlogRequest(x));
+    onCreate = (x: BlogModel) => this.store.dispatch(new HubCreateBlogRequest(x));
 
-    /** internal */
-    onUpdate = (): void => {
-        this.connection.on('update', this.update);
+    listenUpdate = (): void => {
+        this.connection.on('update', this.onUpdate);
     }
 
-    /** internal */
-    onCreate = (): void => {
-        this.connection.on('create', this.create);
+    listenCreate = (): void => {
+        this.connection.on('create', this.onCreate);
     }
 
     connect = (): void => {
         this.connection.start();
-        this.onUpdate();
-        this.onCreate();
+        this.listenUpdate();
+        this.listenCreate();
     }
 
     disconnect = (): void => {

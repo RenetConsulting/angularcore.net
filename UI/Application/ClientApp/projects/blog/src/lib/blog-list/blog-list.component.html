@@ -1,17 +1,10 @@
-<div class="container" *ngIf="items | async as blogs">
+<div class="container">
     <div class="row">
-        <div class=" mt-3 col-md-12" *ngFor="let item of blogs; trackBy: trackByFn">
-            <lib-blog [item]="item"
-                      [created]="created | async"
-                      [updated]="updated | async"
-                      [routerLink]="['/blog', item.blogId]"></lib-blog>
-        </div>
-    </div>
-    <div class="row">
-        <ng-container *ngIf="itemsTotal | async as total">
-            <ng-container *ngIf="itemsAmount | async as amount">
-                <button mat-raised-button color="primary" class="my-3 py-3 px-5 text-30 rounded-10" type="button" *ngIf="total !== amount" (click)="getItems(total)">Load more blogs</button>
-            </ng-container>
-        </ng-container>
+        <cdk-virtual-scroll-viewport class="mt-3 col-md-12" itemSize="50">
+            <div *cdkVirtualFor="let item of source">
+                <lib-blog [item]="item" [created]="created | async" [updated]="updated | async"
+                    [routerLink]="['/blog', item.blogId]"></lib-blog>
+            </div>
+        </cdk-virtual-scroll-viewport>
     </div>
 </div>

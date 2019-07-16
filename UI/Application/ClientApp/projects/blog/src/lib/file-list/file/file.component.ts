@@ -10,12 +10,12 @@ import { FileModel } from '../file.model';
 export class FileComponent {
 
     @Input() item: FileModel;
-    @Output() readonly deleteChange = new EventEmitter<FileModel>();
-    @Output() readonly selectChange = new EventEmitter<FileModel>();
+    @Output() readonly delete = new EventEmitter<FileModel>();
+    @Output() readonly select = new EventEmitter<FileModel>();
 
     constructor() { }
 
-    delete = () => this.deleteChange.emit(this.item);
+    onDelete = () => this.delete.emit(this.item);
 
-    select = () => this.selectChange.emit(this.item);
+    onSelect = () => this.select.emit(this.item);
 }

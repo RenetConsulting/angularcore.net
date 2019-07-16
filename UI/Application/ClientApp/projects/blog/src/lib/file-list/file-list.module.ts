@@ -1,6 +1,6 @@
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -19,9 +19,9 @@ import { fileReducer } from './reducer';
         MatDialogModule,
         StoreModule.forFeature('file', fileReducer),
         EffectsModule.forFeature([FileEffects]),
-        FileModule,
+        ScrollingModule,
         NgxUploaderModule,
-        MatButtonModule
+        FileModule,
     ]
 })
 export class FileListModule { }
