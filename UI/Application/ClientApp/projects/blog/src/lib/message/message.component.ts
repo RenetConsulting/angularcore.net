@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Inject, Input, Output, ViewRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Output } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subject } from 'rxjs';
 
+/** TODO: test whether a message appears */
 @Component({
     selector: 'lib-message',
     templateUrl: './message.component.html',
@@ -9,22 +11,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class MessageComponent {
 
-    @Output() change = new EventEmitter<boolean>();
-    private _subject;
+    @Output() readonly change = new EventEmitter<boolean>();
+    readonly content = new Subject<string>();
 
     constructor(
         @Inject(MatSnackBar) private snackBar: MatSnackBar,
-        @Inject(ChangeDetectorRef) private viewRef: ViewRef,
     ) { }
 
-    get subject() {
-        return this._subject;
-    }
-
-    @Input() set subject(value) {
-        this._subject = value;
-        !this.viewRef.destroyed && this.viewRef.detectChanges();
-    }
+    setContent = (x: string) => this.content.next(x);
 
     success = (): void => {
         this.snackBar.dismiss();

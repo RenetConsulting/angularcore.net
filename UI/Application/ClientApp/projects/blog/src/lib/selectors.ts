@@ -1,34 +1,18 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { BlogState, getBlogEntities, getBlogs, getBlogsTotal } from './reducer';
+import * as State from './reducer';
 import { RootBlogStore } from './reducers';
 
-const getModule = createFeatureSelector<RootBlogStore, BlogState>('blog');
-
-const getAllBlogs = (s: BlogState) => s && getBlogs(s);
-
-const getSelectedBlogId = (s: BlogState) => s.selectedBlogId;
-
-const getBlogsAmount = (s: BlogState) => s.itemsAmount;
-
-const getCreatedBlog = (s: BlogState) => s.created;
-
-const getUpdatedBlog = (s: BlogState) => s.updated;
-
-const getBlogAllEntities = createSelector(getModule, getBlogEntities);
-
+const getModule = createFeatureSelector<RootBlogStore, State.BlogState>('blog');
+const getAllBlogs = (s: State.BlogState) => s && State.selectAll(s);
+const getSelectedBlogId = (s: State.BlogState) => s.selectedBlogId;
+const getTotalAmount = (s: State.BlogState) => s.totalAmount;
+const getCreatedBlog = (s: State.BlogState) => s.created;
+const getUpdatedBlog = (s: State.BlogState) => s.updated;
+const getBlogAllEntities = createSelector(getModule, State.selectEntities);
 
 export const selectBlogs = createSelector(getModule, getAllBlogs);
-
 export const selectSelectedBlogId = createSelector(getModule, getSelectedBlogId);
-
 export const selectSelectedBlog = createSelector(getBlogAllEntities, selectSelectedBlogId, (entities, id) => entities[id]);
-
-/** returns number of blogs that are in DB */
-export const selectBlogsTotal = createSelector(getModule, getBlogsTotal);
-
-/** returns number of blogs that are in store */
-export const selectBlogsAmount = createSelector(getModule, getBlogsAmount);
-
+export const selecBlogTotalAmount = createSelector(getModule, getTotalAmount);
 export const selectCreatedBlog = createSelector(getModule, getCreatedBlog);
-
 export const selectUpdatedBlog = createSelector(getModule, getUpdatedBlog);

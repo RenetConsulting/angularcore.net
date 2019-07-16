@@ -6,7 +6,7 @@ import { filter, map, withLatestFrom } from 'rxjs/operators';
 import { RootBlogStore } from '../reducers';
 import { DeleteFileRequest, GetFilesRequest, UploadFileRequest } from './actions';
 import { FileModel } from './file.model';
-import { selectFiles, selectFilesTotal } from './selectors';
+import { selectFiles, selectFileTotalAmount } from './selectors';
 
 @Component({
     selector: 'lib-file-list',
@@ -28,7 +28,7 @@ export class FileListComponent implements OnInit, OnDestroy {
         this.getItems(0);
         this.subscription.add(this.store.select(selectFiles).subscribe(this.source.update));
         this.subscription.add(this.source.emitter.pipe(
-            withLatestFrom(this.store.select(selectFilesTotal)),
+            withLatestFrom(this.store.select(selectFileTotalAmount)),
             filter(([end, total]) => end < total),
             map(([end]) => end),
         ).subscribe(this.getItems));

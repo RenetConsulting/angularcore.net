@@ -1,15 +1,10 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { RootBlogStore } from '../reducers';
-import { FileState, getFiles, getFilesTotal } from './reducer';
+import * as State from './reducer';
 
-const getModule = createFeatureSelector<RootBlogStore, FileState>('file');
+const getModule = createFeatureSelector<RootBlogStore, State.FileState>('file');
+const getAll = (s: State.FileState) => s && State.selectAll(s);
+const getTotalAmount = (s: State.FileState) => s.totalAmount;
 
-const getAllFiles = (s: FileState) => s && getFiles(s);
-
-const getFilesAmount = (s: FileState) => s.itemsAmount;
-
-export const selectFiles = createSelector(getModule, getAllFiles);
-
-export const selectFilesTotal = createSelector(getModule, getFilesTotal);
-
-export const selectFilesAmount = createSelector(getModule, getFilesAmount);
+export const selectFiles = createSelector(getModule, getAll);
+export const selectFileTotalAmount = createSelector(getModule, getTotalAmount);

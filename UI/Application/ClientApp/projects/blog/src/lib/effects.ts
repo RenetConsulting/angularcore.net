@@ -65,7 +65,7 @@ export class BlogEffects {
     @Effect() hubCreateBlogRequest = this.actions.pipe(
         ofType<UIActions.HubCreateBlogRequest>(BlogTypes.HUB_CREATE_BLOG_REQUEST),
         map(action => ({ action, instance: this.snackBar.openFromComponent(MessageComponent).instance })),
-        tap(x => x.instance.subject = 'created blog'),
+        tap(x => x.instance.setContent('created blog')),
         mergeMap(x => x.instance.change.pipe(
             filter(z => z),
             map(() => new UIActions.HubCreateBlogSuccess(x.action.payload))
@@ -80,7 +80,7 @@ export class BlogEffects {
     @Effect() hubUpdateBlogRequest = this.actions.pipe(
         ofType<UIActions.HubUpdateBlogRequest>(BlogTypes.HUB_UPDATE_BLOG_REQUEST),
         map(action => ({ action, instance: this.snackBar.openFromComponent(MessageComponent).instance })),
-        tap(x => x.instance.subject = 'updated blog'),
+        tap(x => x.instance.setContent('updated blog')),
         mergeMap(x => x.instance.change.pipe(
             filter(z => z),
             map(() => new UIActions.HubUpdateBlogSuccess(x.action.payload))

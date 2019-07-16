@@ -7,7 +7,7 @@ import { DeleteBlogs, GetBlogsRequest } from '../actions';
 import { BlogHubService } from '../blog-hub.service';
 import { BlogModel } from '../blog.model';
 import { RootBlogStore } from '../reducers';
-import { selectBlogs, selectBlogsTotal, selectCreatedBlog, selectUpdatedBlog } from '../selectors';
+import { selectBlogs, selecBlogTotalAmount, selectCreatedBlog, selectUpdatedBlog } from '../selectors';
 
 @Component({
     selector: 'lib-blog-list',
@@ -32,7 +32,7 @@ export class BlogListComponent implements OnInit, OnDestroy {
         this.blogHub.connect();
         this.subscription.add(this.store.select(selectBlogs).subscribe(this.source.update));
         this.subscription.add(this.source.emitter.pipe(
-            withLatestFrom(this.store.select(selectBlogsTotal)),
+            withLatestFrom(this.store.select(selecBlogTotalAmount)),
             filter(([end, total]) => end < total),
             map(([end]) => end),
         ).subscribe(this.getItems));
