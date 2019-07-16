@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/blog",
-  "version": "0.0.1",
+  "version": "8.0.0",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
@@ -14,17 +14,18 @@
     "url": "https://github.com/RenetConsulting/angularcore.net.git"
   },
   "peerDependencies": {
-    "@angular/common": "^7.2.0",
-    "@angular/core": "^7.2.0",
-    "@angular/material": "^7.3.3",
+    "@angular/common": "^8.0.0",
+    "@angular/core": "^8.0.0",
+    "@angular/material": "^8.0.0",
     "@aspnet/signalr": "^1.1.4",
-    "@ngrx/effects": "^7.3.0",
-    "@ngrx/entity": "7.3.0",
-    "@ngrx/store": "^7.3.0",
-    "@renet-consulting/ngx-mat-input": "^0.0.2",
-    "@renet-consulting/ngx-uploader": "^0.0.1",
-    "@renet-consulting/ngx-validator": "^0.0.2",
-    "@renet-consulting/http-hub-client": "^0.0.1",
+    "@ngrx/effects": "^8.0.0",
+    "@ngrx/entity": "8.0.0",
+    "@ngrx/store": "^8.0.0",
+    "@renet-consulting/ngx-mat-input": "^8.0.0",
+    "@renet-consulting/ngx-uploader": "^8.0.0",
+    "@renet-consulting/ngx-validator": "^8.0.0",
+    "@renet-consulting/http-hub-client": "^8.0.0",
+    "@renet-consulting/infinite-source": "^8.0.0",
     "ngx-quill": "^4.8.0",
     "quill": "1.3.6"
   }
