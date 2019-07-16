@@ -587,6 +587,41 @@
           }
         }
       }
+    },
+    "infinite-source": {
+      "projectType": "library",
+      "root": "projects/infinite-source",
+      "sourceRoot": "projects/infinite-source/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/infinite-source/tsconfig.lib.json",
+            "project": "projects/infinite-source/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/infinite-source/src/test.ts",
+            "tsConfig": "projects/infinite-source/tsconfig.spec.json",
+            "karmaConfig": "projects/infinite-source/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/infinite-source/tsconfig.lib.json",
+              "projects/infinite-source/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "ngx-utils-demo"
