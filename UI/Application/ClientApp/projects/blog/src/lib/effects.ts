@@ -24,23 +24,23 @@ export class BlogEffects {
         mergeMap(a => this.blogService.create(a.payload).pipe(
             map(r => new UIActions.CreateBlogSuccess(r)),
             tap(() => this.router.navigate(['/blogs'])),
-            catchError(e => of(new UIActions.CreateBlogError(e.error)))
+            catchError(e => of(new UIActions.CreateBlogError(e)))
         ))
     );
 
     @Effect() getBlogsRequest = this.actions.pipe(
         ofType<UIActions.GetBlogsRequest>(BlogTypes.GET_BLOGS_REQUEST),
         mergeMap(a => this.blogService.getBlogs({ ...a.payload, count: 10 }).pipe(
-            map(r => new UIActions.GetBlogsSuccess(r, a.payload)),
-            catchError(e => of(new UIActions.GetBlogsError(e.error)))
+            map(r => new UIActions.GetBlogsSuccess(r)),
+            catchError(e => of(new UIActions.GetBlogsError(e)))
         ))
     );
 
     @Effect() getBlogRequest = this.actions.pipe(
         ofType<UIActions.GetBlogRequest>(BlogTypes.GET_BLOG_REQUEST),
         mergeMap(a => this.blogService.getBlog(a.payload).pipe(
-            map(r => new UIActions.GetBlogSuccess(r, a.payload)),
-            catchError(e => of(new UIActions.GetBlogError(e.error)))
+            map(r => new UIActions.GetBlogSuccess(r)),
+            catchError(e => of(new UIActions.GetBlogError(e)))
         ))
     );
 
@@ -49,7 +49,7 @@ export class BlogEffects {
         mergeMap(a => this.blogService.update(a.payload).pipe(
             map(() => new UIActions.UpdateBlogSuccess(a.payload)),
             tap(() => this.router.navigate(['/blogs'])),
-            catchError(e => of(new UIActions.UpdateBlogError(e.error)))
+            catchError(e => of(new UIActions.UpdateBlogError(e)))
         ))
     );
 
@@ -58,7 +58,7 @@ export class BlogEffects {
         mergeMap(a => this.blogService.delete(a.payload).pipe(
             map(() => new UIActions.DeleteBlogSuccess(a.payload)),
             tap(() => this.router.navigate(['/blogs'])),
-            catchError(e => of(new UIActions.DeleteBlogError(e.error)))
+            catchError(e => of(new UIActions.DeleteBlogError(e)))
         ))
     );
 

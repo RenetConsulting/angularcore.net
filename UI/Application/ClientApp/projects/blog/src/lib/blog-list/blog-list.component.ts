@@ -9,7 +9,6 @@ import { BlogModel } from '../blog.model';
 import { RootBlogStore } from '../reducers';
 import { selectBlogs, selecBlogTotalAmount, selectCreatedBlog, selectUpdatedBlog } from '../selectors';
 
-/** TODO: set up scrilling viewport properly, test whether we can live withot {@link DeleteBlogs} */
 @Component({
     selector: 'lib-blog-list',
     templateUrl: './blog-list.component.html',
@@ -29,6 +28,8 @@ export class BlogListComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit(): void {
+        /** to prevent a bug with wrong counting of blogs, on other pages a blog can be added to store */
+        this.store.dispatch(new DeleteBlogs());
         this.getItems(0);
         this.blogHub.connect();
         this.subscription.add(this.store.select(selectBlogs).subscribe(this.source.update));
@@ -41,7 +42,6 @@ export class BlogListComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.blogHub.disconnect();
-        this.store.dispatch(new DeleteBlogs());
         this.subscription.unsubscribe();
     }
 

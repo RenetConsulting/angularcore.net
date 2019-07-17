@@ -18,6 +18,7 @@ describe('ChangePasswordEffects', () => {
     let accountService: jasmine.SpyObj<AccountService>;
 
     beforeEach(() => {
+
         TestBed.configureTestingModule({
             providers: [
                 ChangePasswordEffects,
@@ -33,6 +34,7 @@ describe('ChangePasswordEffects', () => {
     it('should work', () => {
         expect(effects).toBeDefined();
     });
+
     describe('changePasswordRequest', () => {
 
         let formGroup: FormGroup;
@@ -59,6 +61,7 @@ describe('ChangePasswordEffects', () => {
             expect(effects.changePasswordRequest).toBeObservable(expected);
         });
     });
+
     it('changePasswordSuccess', () => {
         const action = new ChangePasswordSuccess();
         const completion = new SetSuccess(MessagesType.passwordHasChanged);

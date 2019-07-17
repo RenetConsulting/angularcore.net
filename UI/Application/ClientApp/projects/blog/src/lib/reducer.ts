@@ -24,8 +24,8 @@ export function blogReducer(state = INITIAL_STATE, action: BlogActionsUnion): Bl
             ...adapter.upsertMany(action.success.items, state),
             totalAmount: action.success.totalAmount
         };
-        case BlogTypes.GET_BLOG_REQUEST: return { ...state, selectedBlogId: null };
-        case BlogTypes.GET_BLOG_SUCCESS: return { ...adapter.upsertOne(action.success, state), selectedBlogId: action.payload };
+        case BlogTypes.GET_BLOG_REQUEST: return { ...state, selectedBlogId: action.payload };
+        case BlogTypes.GET_BLOG_SUCCESS: return adapter.upsertOne(action.success, state);
         case BlogTypes.CREATE_BLOG_SUCCESS: return adapter.addOne(action.success, state);
         case BlogTypes.UPDATE_BLOG_SUCCESS: return adapter.updateOne({ id: action.payload.blogId, changes: action.payload }, state);
         case BlogTypes.DELETE_BLOG_SUCCESS: return adapter.removeOne(action.payload, state);

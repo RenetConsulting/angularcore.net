@@ -23,7 +23,7 @@ export class GetBlogsRequest implements Action {
 }
 export class GetBlogsSuccess implements Action {
     readonly type = BlogTypes.GET_BLOGS_SUCCESS;
-    constructor(readonly success: IResponseList<BlogModel>, readonly payload: IRequestList) { }
+    constructor(readonly success: IResponseList<BlogModel>) { }
 }
 export class GetBlogsError implements Action {
     readonly type = BlogTypes.GET_BLOGS_ERROR;
@@ -36,7 +36,7 @@ export class GetBlogRequest implements Action {
 }
 export class GetBlogSuccess implements Action {
     readonly type = BlogTypes.GET_BLOG_SUCCESS;
-    constructor(readonly success: BlogModel, readonly payload: string) { }
+    constructor(readonly success: BlogModel) { }
 }
 export class GetBlogError implements Action {
     readonly type = BlogTypes.GET_BLOG_ERROR;

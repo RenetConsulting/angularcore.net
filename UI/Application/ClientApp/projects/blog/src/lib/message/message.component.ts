@@ -21,12 +21,12 @@ export class MessageComponent {
     setContent = (x: string) => this.content.next(x);
 
     success = (): void => {
-        this.snackBar.dismiss();
         this.change.emit(true);
+        this.snackBar.dismiss();
     }
 
     close = (): void => {
-        this.snackBar.dismiss();
         this.change.emit(false);
+        this.snackBar.dismiss();
     }
 }

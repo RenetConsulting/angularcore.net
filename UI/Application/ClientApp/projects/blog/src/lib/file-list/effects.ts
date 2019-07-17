@@ -14,11 +14,11 @@ export class FileEffects {
         @Inject(FileService) private fileService: FileService,
     ) { }
 
-    @Effect() createFileRequest = this.actions.pipe(
+    @Effect() uploadFileRequest = this.actions.pipe(
         ofType<UIActions.UploadFileRequest>(FileTypes.UPLOAD_FILE_REQUEST),
         mergeMap(a => this.fileService.upload(a.payload).pipe(
             map(r => new UIActions.UploadFileSuccess(r)),
-            catchError(e => of(new UIActions.UploadFileError(e.error)))
+            catchError(e => of(new UIActions.UploadFileError(e)))
         ))
     );
 
@@ -26,7 +26,7 @@ export class FileEffects {
         ofType<UIActions.GetFilesRequest>(FileTypes.GET_FILES_REQUEST),
         mergeMap(a => this.fileService.getFiles({ ...a.payload, count: 10 }).pipe(
             map(r => new UIActions.GetFilesSuccess(r)),
-            catchError(e => of(new UIActions.GetFilesError(e.error)))
+            catchError(e => of(new UIActions.GetFilesError(e)))
         ))
     );
 
@@ -34,7 +34,7 @@ export class FileEffects {
         ofType<UIActions.DeleteFileRequest>(FileTypes.DELETE_FILE_REQUEST),
         mergeMap(a => this.fileService.delete(a.payload).pipe(
             map(() => new UIActions.DeleteFileSuccess(a.payload)),
-            catchError(e => of(new UIActions.DeleteFileError(e.error)))
+            catchError(e => of(new UIActions.DeleteFileError(e)))
         ))
     );
 }
