@@ -22,7 +22,7 @@ export class NgxMessengerService {
         const component: ComponentType<any> = isString(value) ? NgxErrorDialogComponent : value as ComponentType<T>;
         const ref = this.dialog.open(component, this.dialogConfig);
         if (component === NgxErrorDialogComponent) {
-            (ref.componentInstance as NgxErrorDialogComponent).error = value as string;
+            (ref.componentInstance as NgxErrorDialogComponent).setError(value as string);
         }
         return ref as MatDialogRef<T>;
     }

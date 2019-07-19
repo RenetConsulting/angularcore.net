@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
     selector: 'ngx-error-dialog',
@@ -7,7 +8,9 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 })
 export class NgxErrorDialogComponent {
 
-    @Input() error: string;
+    readonly error = new BehaviorSubject('');
 
     constructor() { }
+
+    setError = (e: string) => this.error.next(e);
 }
