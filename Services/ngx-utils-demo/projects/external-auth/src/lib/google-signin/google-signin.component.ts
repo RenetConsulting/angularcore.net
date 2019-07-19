@@ -12,7 +12,8 @@ declare const gapi;
  * a user can be get correctrly only in the method {@link listen} in other ways a token will be undefined
  * so we have to use a singleton to only one listener and update data dynamically to be sure that events emit correctly
  */
-const listeners = new Map<GoogleSigninComponent, (x) => void>();
+const listeners = new Map<number, (x) => void>();
+let id = 0;
 
 /** to read more see https://developers.google.com/identity/sign-in/web/reference */
 @Component({
@@ -29,6 +30,7 @@ export class GoogleSigninComponent extends ExternalAuthBase<IGoogleError> implem
     provider = 'google';
     label = 'Continue with google';
     readonly apiName = 'client:auth2';
+    readonly id = id++;
 
     constructor(
         @Inject(Injector) injector: Injector,
@@ -39,12 +41,12 @@ export class GoogleSigninComponent extends ExternalAuthBase<IGoogleError> implem
 
     ngOnInit(): void {
         super.ngOnInit();
-        listeners.set(this, this.authListener);
+        listeners.set(this.id, this.authListener);
     }
 
     ngOnDestroy(): void {
         super.ngOnDestroy();
-        listeners.delete(this);
+        listeners.delete(this.id);
     }
 
     initSignin = (): void => {
