@@ -1,5 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, Injector, Input, OnDestroy, OnInit } from '@angular/core';
+import { FAILED_EXTRACT_TOKEN } from '../errors';
 import { ExternalAuthBase } from '../external-auth.base';
 import { IGoogleError } from '../google-error';
 import { GOOGLE_SCRIPT_URL } from '../google-script-url';
@@ -25,7 +26,7 @@ let id = 0;
 export class GoogleSigninComponent extends ExternalAuthBase<IGoogleError> implements OnInit, OnDestroy {
 
     @Input() clientId: string;
-    @Input() scope = 'profile';
+    @Input() scope = 'openid';
     iconClass = 'fab fa-google';
     provider = 'google';
     label = 'Continue with google';
@@ -40,12 +41,10 @@ export class GoogleSigninComponent extends ExternalAuthBase<IGoogleError> implem
     }
 
     ngOnInit(): void {
-        super.ngOnInit();
         listeners.set(this.id, this.authListener);
     }
 
     ngOnDestroy(): void {
-        super.ngOnDestroy();
         listeners.delete(this.id);
     }
 
@@ -65,11 +64,12 @@ export class GoogleSigninComponent extends ExternalAuthBase<IGoogleError> implem
         if (token && token.id_token) {
             this.getToken(token.id_token);
         }
+        else {
+            this.handleError({ error: FAILED_EXTRACT_TOKEN } as IGoogleError);
+        }
     }
 
     signin = (): void => gapi.auth2.getAuthInstance().grantOfflineAccess().then(null, this.handleError);
-
-    signout = (): void => gapi.auth2.getAuthInstance().signOut();
 
     setInit = (): void => {
         window.gAsyncInit = this.init;

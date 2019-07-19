@@ -27,7 +27,6 @@ describe('GoogleSigninComponent', () => {
     let user: { getAuthResponse: jasmine.Spy };
     let currentUser: { listen: jasmine.Spy, get: jasmine.Spy };
     let grantOfflineAccess: jasmine.Spy;
-    let signOut: jasmine.Spy;
     let zone: jasmine.SpyObj<NgZone>;
     let authService: jasmine.SpyObj<AuthService>;
     let tokenService: jasmine.SpyObj<TokenService>;
@@ -47,13 +46,12 @@ describe('GoogleSigninComponent', () => {
         user = { getAuthResponse: jasmine.createSpy() };
         currentUser = jasmine.createSpyObj<ICurrentUser>('User', ['get', 'listen']);
         grantOfflineAccess = jasmine.createSpy();
-        signOut = jasmine.createSpy();
 
         // tslint:disable-next-line:deprecation
         injector.get.and.returnValues(zone, null, null, 'browser', authService, tokenService);
         user.getAuthResponse.and.returnValue(token);
         currentUser.get.and.returnValue(user);
-        auth2.getAuthInstance.and.returnValue({ currentUser, grantOfflineAccess, signOut });
+        auth2.getAuthInstance.and.returnValue({ currentUser, grantOfflineAccess });
         zone.run.and.callFake(fn => fn());
         authService.getToken.and.returnValue(of({} as IToken));
 
@@ -64,7 +62,7 @@ describe('GoogleSigninComponent', () => {
         expect(component).toBeTruthy();
     });
     it('scope', () => {
-        expect(component.scope).toEqual('profile');
+        expect(component.scope).toEqual('openid');
     });
     it('iconClass', () => {
         expect(component.iconClass).toEqual('fab fa-google');
@@ -109,10 +107,6 @@ describe('GoogleSigninComponent', () => {
             expect(auth2.getAuthInstance).toHaveBeenCalled();
             expect(grantOfflineAccess).toHaveBeenCalled();
             expect(promise.then).toHaveBeenCalledWith(null, component.handleError);
-        });
-        it('signout', () => {
-            component.signout();
-            expect(signOut).toHaveBeenCalled();
         });
     });
 

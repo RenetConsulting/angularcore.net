@@ -37,7 +37,17 @@ describe('FacebookSigninComponent', () => {
     it('label', () => {
         expect(component.label).toEqual('Continue with facebook');
     });
-
+    it('ngOnInit', () => {
+        spyOn(component, 'signout');
+        component.ngOnInit();
+        component.signedError.emit('');
+        expect(component.signout).toHaveBeenCalled();
+        component.ngOnDestroy();
+    });
+    it('ngOnDestroy', () => {
+        component.ngOnDestroy();
+        expect(component.subscription.closed).toEqual(true);
+    });
 
     describe('has FB', () => {
 
@@ -107,4 +117,3 @@ describe('FacebookSigninComponent', () => {
         });
     });
 });
-
