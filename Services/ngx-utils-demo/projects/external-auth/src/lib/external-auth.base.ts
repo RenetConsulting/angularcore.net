@@ -59,11 +59,11 @@ export abstract class ExternalAuthBase<ErrorType = any> implements OnInit, OnDes
             this.authService.getToken(token).subscribe(x => {
                 this.tokenService.setToken(x);
                 this.handleSigned();
-            }, e => this.signedError.emit(e));
+            }, this.handleError);
         });
     }
 
     handleSigned = () => this.signed.emit(this.provider);
 
-    handleError = (e: ErrorType | any) => this.signedError.emit(e);
+    handleError = (e: ErrorType | any) => this.zone.run(() => this.signedError.emit(e));
 }

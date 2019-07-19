@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Injector, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Injector, Input, OnDestroy, OnInit } from '@angular/core';
 import { ExternalAuthBase } from '../external-auth.base';
 import { IGoogleError } from '../google-error';
 import { GOOGLE_SCRIPT_URL } from '../google-script-url';
@@ -12,8 +12,7 @@ declare const gapi;
  * a user can be get correctrly only in the method {@link listen} in other ways a token will be undefined
  * so we have to use a singleton to only one listener and update data dynamically to be sure that events emit correctly
  */
-let signed: EventEmitter<string>;
-let provider: string;
+const listeners = new Map<GoogleSigninComponent, (x) => void>();
 
 /** to read more see https://developers.google.com/identity/sign-in/web/reference */
 @Component({
@@ -22,7 +21,7 @@ let provider: string;
     styleUrls: ['./google-signin.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GoogleSigninComponent extends ExternalAuthBase<IGoogleError> implements OnChanges, OnInit, OnDestroy {
+export class GoogleSigninComponent extends ExternalAuthBase<IGoogleError> implements OnInit, OnDestroy {
 
     @Input() clientId: string;
     @Input() scope = 'profile';
@@ -36,13 +35,16 @@ export class GoogleSigninComponent extends ExternalAuthBase<IGoogleError> implem
         @Inject(GOOGLE_SCRIPT_URL) readonly scriptUrl: string
     ) {
         super(injector);
-        signed = this.signed;
     }
 
-    ngOnChanges(e): void {
-        if (e.provider) {
-            provider = this.provider;
-        }
+    ngOnInit(): void {
+        super.ngOnInit();
+        listeners.set(this, this.authListener);
+    }
+
+    ngOnDestroy(): void {
+        super.ngOnDestroy();
+        listeners.delete(this);
     }
 
     initSignin = (): void => {
@@ -54,7 +56,7 @@ export class GoogleSigninComponent extends ExternalAuthBase<IGoogleError> implem
 
     setConfig = (): void => gapi.client.init({ clientId: this.clientId, scope: this.scope }).then(this.initSignin, this.handleError);
 
-    setListener = (): void => gapi.auth2.getAuthInstance().currentUser.listen(this.authListener);
+    setListener = (): void => gapi.auth2.getAuthInstance().currentUser.listen(x => listeners.forEach(listener => listener(x)));
 
     authListener = (x): void => {
         const token = x.getAuthResponse();
@@ -82,6 +84,4 @@ export class GoogleSigninComponent extends ExternalAuthBase<IGoogleError> implem
             }
         }
     }
-
-    handleSigned = () => signed.emit(provider);
 }
