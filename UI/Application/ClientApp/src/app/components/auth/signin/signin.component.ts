@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { GOOGLE_SCRIPT_URL } from '@renet-consulting/external-auth';
 import { StorageService } from '@renet-consulting/storage';
 import { Subscription } from 'rxjs';
 import { filter, share, take } from 'rxjs/operators';
@@ -17,7 +18,8 @@ import { ResetError, SigninRequest } from './actions';
 @Component({
     selector: 'signin',
     templateUrl: './signin.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [{ provide: GOOGLE_SCRIPT_URL, useValue: `//apis.google.com/js/platform.js?onload=gAsyncInit` }]
 })
 export class SigninComponent implements OnInit, OnDestroy {
 
