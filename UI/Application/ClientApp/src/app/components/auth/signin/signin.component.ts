@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { GOOGLE_SCRIPT_URL } from '@renet-consulting/external-auth';
+import { mapErrorCode } from '@renet-consulting/external-auth';
 import { StorageService } from '@renet-consulting/storage';
 import { Subscription } from 'rxjs';
 import { filter, share, take } from 'rxjs/operators';
@@ -19,7 +19,6 @@ import { ResetError, SigninRequest } from './actions';
     selector: 'signin',
     templateUrl: './signin.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [{ provide: GOOGLE_SCRIPT_URL, useValue: `//apis.google.com/js/platform.js?onload=gAsyncInit` }]
 })
 export class SigninComponent implements OnInit, OnDestroy {
 
@@ -66,7 +65,10 @@ export class SigninComponent implements OnInit, OnDestroy {
 
     externalSignin = (provider: string) => this.store.dispatch(new SetAuthorized({ authorized: true, provider }));
 
-    externalSigninError = e => this.store.dispatch(new SetError(e && e.details || e && e.error || e));
+    externalSigninError = e => {
+        const error = mapErrorCode(e && e.error) || e && e.error;
+        this.store.dispatch(new SetError(e && e.details || error || e));
+    }
 
     setStorage = (user: IUser) => this.storage.setStorage(!user.remember);
 }
