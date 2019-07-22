@@ -18,7 +18,7 @@ export class MessagerComponent implements OnInit {
 
     error = () => {
         this.messenger.error('Bob 1');
-        this.messenger.error('Bob 2');
+        this.messenger.error('<p style="color:red">Bob 2</p><a href="javascript:alert(`Hi there`)">javascript</a>');
     }
 
     success = () => {
