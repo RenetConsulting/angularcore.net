@@ -6,6 +6,7 @@
 namespace Application.DataAccess.Repositories
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
@@ -140,6 +141,18 @@ namespace Application.DataAccess.Repositories
         public async Task<Blog> GetBlogAsync(int blogId)
         {
             return await this.context.Blogs.Where(bl => bl.BlogId.Equals(blogId)).FirstOrDefaultAsync();
+        }
+
+        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "ValueTuple.")]
+        public async Task<(List<Blog>, int)> GetBlogsAsync(int index, int count)
+        {
+            int skipSize = this.SkipSize(index, count);
+
+            int totalItems = await this.context.Blogs.CountAsync();
+
+            List<Blog> blogs = await this.context.Blogs.Skip(skipSize).Take(count).ToListAsync();
+
+            return (blogs, totalItems);
         }
 
         public async Task<Blog> AddBlogAsync(Blog blog)
@@ -285,6 +298,15 @@ namespace Application.DataAccess.Repositories
             }
 
             return selector;
+        }
+
+        private int SkipSize(int page, int elementsAmount)
+        {
+            double toSkip = (page - 1) * elementsAmount;
+
+            toSkip = toSkip < 0 ? 0 : toSkip;
+
+            return (int)toSkip;
         }
 
         private static IQueryable<T> ActiveSelector<T>(bool? active, IQueryable<T> selector)

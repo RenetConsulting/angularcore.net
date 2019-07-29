@@ -5,6 +5,7 @@
 
 namespace Application.DataAccess.Entities
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public class Blog : ApplicationEntity
@@ -17,5 +18,7 @@ namespace Application.DataAccess.Entities
         public string Content { get; set; }
 
         public bool Editable { get; set; }
+
+        public ICollection<FileStorage> FileStorages { get; set; }
     }
 }
