@@ -8,7 +8,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { CoreCaptchaModule, NGX_CORE_CAPTCHA_OPTIONS } from '@renet-consulting/core-captcha';
 import { FacebookSigninModule, GoogleSigninModule } from '@renet-consulting/external-auth';
 import { NgxMatInputModule } from '@renet-consulting/ngx-mat-input';
-import { NgxMessengerModule } from '@renet-consulting/ngx-messenger';
 import { SocialMediaModule } from '~/components/social-media/social-media.module';
 import { CORE_CAPTCHA_OPTIONS } from '~/consts/core-captcha-options';
 import { SigninEffects } from './effects';
@@ -19,7 +18,7 @@ import { SigninComponent } from './signin.component';
 @NgModule({
     declarations: [SigninComponent],
     providers: [
-        { provide: NGX_CORE_CAPTCHA_OPTIONS, useValue: CORE_CAPTCHA_OPTIONS }
+        { provide: NGX_CORE_CAPTCHA_OPTIONS, useValue: CORE_CAPTCHA_OPTIONS },
     ],
     imports: [
         CommonModule,
@@ -35,7 +34,6 @@ import { SigninComponent } from './signin.component';
         ResendConfirmationModule,
         FacebookSigninModule,
         GoogleSigninModule,
-        NgxMessengerModule,
     ],
 })
 export class SigninModule { }

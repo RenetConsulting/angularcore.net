@@ -47,7 +47,7 @@
     "@renet-consulting/ngx-http-params": "8.0.0",
     "@renet-consulting/ngx-link-stylesheet": "8.0.0",
     "@renet-consulting/ngx-mat-input": "8.0.1",
-    "@renet-consulting/ngx-messenger": "8.0.1",
+    "@renet-consulting/ngx-messenger": "8.0.2",
     "@renet-consulting/ngx-validator": "8.0.0",
     "@renet-consulting/storage": "8.0.0",
     "@renet-consulting/util": "^0.0.1",
