@@ -4,7 +4,7 @@ import { AuthService, TokenService } from '@renet-consulting/auth';
 
 export abstract class ExternalAuthBase<ErrorType = any> {
 
-    @HostBinding('class.d-block') readonly dBlock = true;
+    @HostBinding('class') readonly class = 'd-block';
     @Input() provider: string;
     @Input() label: string;
     @Input() iconClass: string;

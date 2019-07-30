@@ -38,6 +38,9 @@ describe('ExternalAuthBase', () => {
         base = new Test(injector);
     });
 
+    it('class', () => {
+        expect(base.class).toEqual('d-block');
+    });
     it('signed', () => {
         expect(base.signed instanceof EventEmitter).toEqual(true);
     });

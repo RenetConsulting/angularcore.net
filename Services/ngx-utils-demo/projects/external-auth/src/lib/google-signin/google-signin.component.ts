@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, Injector, Input, OnDestroy, OnInit } from '@angular/core';
-import { FAILED_EXTRACT_TOKEN } from '../errors';
+import { FAILED_EXTRACT_TOKEN } from '../error-codes';
 import { ExternalAuthBase } from '../external-auth.base';
 import { IGoogleError } from '../google-error';
 import { GOOGLE_SCRIPT_URL } from '../google-script-url';
