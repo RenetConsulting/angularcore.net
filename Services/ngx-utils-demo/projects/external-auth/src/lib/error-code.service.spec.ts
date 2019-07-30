@@ -18,12 +18,12 @@ describe('service.map', () => {
     });
     it(FAILED_EXTRACT_TOKEN, () => {
         // tslint:disable-next-line: max-line-length
-        expect(service.map(FAILED_EXTRACT_TOKEN)).toEqual('Failed extract token. The issue could be occurred by using block plugins such as AdBlock, Privacy Badger and other. Please disable plugins before using the external sign in or add the website to whitelist.');
+        expect(service.map(FAILED_EXTRACT_TOKEN)).toEqual('Sign-in failed. Your browser may be blocking Google cookies.');
     });
     it(IMMEDIATE_FAILED, () => {
         expect(service.map(IMMEDIATE_FAILED)).toEqual('No user could be automatically selected without prompting the consent flow.');
     });
     it(POPUP_CLOSED_BY_USER, () => {
-        expect(service.map(POPUP_CLOSED_BY_USER)).toEqual('The user closed the popup before finishing the sign in flow.');
+        expect(service.map(POPUP_CLOSED_BY_USER)).toEqual('The user closed the popup before finishing the sign-in process.');
     });
 });
