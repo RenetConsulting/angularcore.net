@@ -279,7 +279,8 @@ namespace Application
 
             app.UseSignalR(routes =>
             {
-                routes.MapHub<BlogHubBase>("/BlogHubBase");
+                // @params PathString path - a path to {@link BlogHubController}
+                routes.MapHub<BlogHubBase>("/BlogHub");
             });
 
             app.UseMvc(routes =>
