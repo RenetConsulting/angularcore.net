@@ -108,6 +108,12 @@
       ],
       "infinite-source/*": [
         "dist/infinite-source/*"
+      ],
+      "elements": [
+        "dist/elements"
+      ],
+      "elements/*": [
+        "dist/elements/*"
       ]
     }
   }

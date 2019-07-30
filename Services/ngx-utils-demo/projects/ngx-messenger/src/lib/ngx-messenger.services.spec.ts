@@ -13,16 +13,21 @@ describe('NgxMessengerService', () => {
     let dialogConfig: MatDialogConfig;
     let snackBar: jasmine.SpyObj<MatSnackBar>;
     let dialog: jasmine.SpyObj<MatDialog>;
+    let errorDialog: jasmine.SpyObj<NgxErrorDialogComponent>;
 
     beforeEach(() => {
+
         snackBar = jasmine.createSpyObj<MatSnackBar>('MatSnackBar', ['open']);
         dialog = jasmine.createSpyObj<MatDialog>('MatDialog', ['open']);
+        errorDialog = jasmine.createSpyObj<NgxErrorDialogComponent>('NgxErrorDialogComponent', ['setError']);
+
         TestBed.configureTestingModule({
             providers: [
                 { provide: MatSnackBar, useValue: snackBar },
                 { provide: MatDialog, useValue: dialog },
             ]
         });
+
         snackBarConfig = TestBed.get(NGX_SNACK_BAR_CONFIG);
         dialogConfig = TestBed.get(NGX_DIALOG_CONFIG);
         service = TestBed.get(NgxMessengerService);
@@ -31,14 +36,16 @@ describe('NgxMessengerService', () => {
     it('toBeDefined', () => {
         expect(service).toBeDefined();
     });
+
     describe('error', () => {
+
         it('should open NgxErrorDialogComponent', () => {
             const error = 'bob';
-            const ref = { componentInstance: {} } as MatDialogRef<any>;
+            const ref = { componentInstance: errorDialog } as MatDialogRef<any>;
             dialog.open.and.returnValue(ref);
             service.error(error);
             expect(dialog.open).toHaveBeenCalledWith(NgxErrorDialogComponent, dialogConfig);
-            expect(ref.componentInstance.error).toEqual(error);
+            expect(errorDialog.setError).toHaveBeenCalled();
         });
         it('should open component', () => {
             const component: any = () => { };
@@ -48,6 +55,7 @@ describe('NgxMessengerService', () => {
             expect(dialog.open).toHaveBeenCalledWith(component, dialogConfig);
         });
     });
+
     it('success', () => {
         const success = 'bob';
         service.success(success);
