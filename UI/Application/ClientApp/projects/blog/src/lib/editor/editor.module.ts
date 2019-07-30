@@ -12,7 +12,7 @@ import { ValidatorDirective } from './validator.directive';
     exports: [EditorComponent],
     imports: [
         CommonModule,
-        QuillModule,
+        QuillModule.forRoot(),
         ReactiveFormsModule,
         MatDialogModule,
         FileListModule
