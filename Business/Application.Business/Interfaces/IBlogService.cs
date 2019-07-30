@@ -15,6 +15,12 @@ namespace Application.Business.Interfaces
         [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "ValueTuple.")]
         Task<(List<BlogModel>, int)> GetBlogsAsync(int index, int count);
 
-        Task AddBlogAsync(BlogModel model);
+        Task<BlogModel> GetBlogAsync(string blogId);
+
+        Task<BlogModel> AddBlogAsync(BlogModel model);
+
+        Task<BlogModel> UpdateBlogAsync(BlogModel model);
+
+        Task DeleteBlogAsync(string blogId);
     }
 }

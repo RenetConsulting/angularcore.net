@@ -6,9 +6,11 @@
 namespace Application.Controllers
 {
     using System;
-    using System.Collections.Generic;
-    using System.Threading;
+    using System.Threading.Tasks;
+    using Application.Business.Interfaces;
     using Application.Business.Models;
+    using Application.DataAccess.Repositories;
+    using Application.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.SignalR;
 
@@ -16,57 +18,95 @@ namespace Application.Controllers
     [ApiController]
     public class BlogHubController : ControllerBase
     {
-        private readonly IHubContext<BlogHub> hub;
+        private readonly IGlobalRepository repository;
 
-        public BlogHubController(IHubContext<BlogHub> hub)
+        private readonly IHubContext<BlogHubBase> hubContext;
+
+        private readonly IBlogService blogService;
+
+        public BlogHubController(IHubContext<BlogHubBase> hubContext, IGlobalRepository repository, IBlogService blogService)
         {
-            this.hub = hub;
+            this.repository = repository;
+
+            this.blogService = blogService;
+
+            this.hubContext = hubContext;
         }
 
-        [HttpGet("create")]
-        public IActionResult Create()
+        [HttpPost("create")]
+        public async Task<IActionResult> Create(BlogModel model)
         {
-            this.hub.Clients.All.SendAsync("create", Data.GetData(1)[0]);
-
-            return this.Ok(new { Message = "Request Completed" });
-        }
-
-        [HttpGet("update")]
-        public IActionResult Update()
-        {
-            this.hub.Clients.All.SendAsync("update", Data.GetData(1)[0]);
-
-            return this.Ok(new { Message = "Request Completed" });
-        }
-    }
-
-    public class Data
-    {
-        // TODO: delte it"s mock class only for debugging
-        public static List<BlogModel> GetData(int amount, int last = 0)
-        {
-            var items = new List<BlogModel> { };
-            for (int i = 0; i < amount; i++)
+            if (!this.ModelState.IsValid)
             {
-                bool editable = i % 2 == 0;
-                var date = DateTime.Now;
-
-                BlogModel model = new BlogModel()
-                {
-                    BlogId = i + "qq",
-                    Title = "Title " + i,
-                    Content = "Brave new world " + i,
-                    Editable = editable,
-                    CreatedBy = editable ? "Bob" : "Mark",
-                };
-                items.Add(model);
+                return this.BadRequest(this.ModelState);
             }
 
-            return items;
-        }
-    }
+            try
+            {
+                BlogModel result = await this.blogService.AddBlogAsync(model).ConfigureAwait(false);
 
-    public class BlogHub : Hub
-    {
+                await this.hubContext.Clients.All.SendAsync("create", result);
+
+                return this.Ok(new { Message = "Request Completed" });
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("update")]
+        public async Task<IActionResult> Update([FromBody]BlogModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            try
+            {
+                BlogModel result = await this.blogService.UpdateBlogAsync(model).ConfigureAwait(false);
+
+                await this.hubContext.Clients.All.SendAsync("update", result);
+
+                return this.Ok(new { Message = "Request Completed" });
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("delete")]
+        public async Task<IActionResult> Delete(string blogId)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            try
+            {
+                await this.blogService.DeleteBlogAsync(blogId).ConfigureAwait(false);
+
+                await this.hubContext.Clients.All.SendAsync("delete", blogId);
+
+                return this.Ok(new { Message = "Request Completed" });
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(ex.Message);
+            }
+        }
+
+        //public async Task NotifyUpdates()
+        //{
+        //    var hubContext = GlobalHost.ConnectionManager.GetHubContext<StatisticsHub>();
+        //    if (hubContext != null)
+        //    {
+        //        var stats = await this.GenerateStatistics();
+        //        hubContext.Clients.All.updateStatistics(stats);
+        //    }
+        //}
     }
 }

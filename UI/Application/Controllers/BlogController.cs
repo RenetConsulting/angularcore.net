@@ -5,14 +5,14 @@
 
 namespace Application.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Application.Business.Interfaces;
     using Application.Business.Models;
     using Application.DataAccess.Repositories;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Options;
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// TODO: create integaration with SignalR
@@ -38,7 +38,7 @@ namespace Application.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBlog(BlogModel model)
+        public async Task<IActionResult> CreateBlogAsync(BlogModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -58,11 +58,11 @@ namespace Application.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBlogs(int index, int count)
+        public async Task<IActionResult> GetBlogsAsync(int index, int count)
         {
             try
             {
-                (List<BlogModel> items, int itemsAmount) = await this.blogService.GetBlogsAsync(index, count);
+                (List<BlogModel> items, int totalAmount) = await this.blogService.GetBlogsAsync(index, count).ConfigureAwait(false);
 
                 return this.Ok();
             }
@@ -73,23 +73,58 @@ namespace Application.Controllers
         }
 
         [HttpGet("{blogId}")]
-        public IActionResult GetBlog(string blogId)
+        public async Task<IActionResult> GetBlogAsync(string blogId)
         {
-            // BlogModel model = this.items.Find(x => x.BlogId == blogId);
-            return this.Ok();
+            try
+            {
+                BlogModel model = await this.blogService.GetBlogAsync(blogId).ConfigureAwait(false);
+
+                return this.Ok(model);
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(ex.Message);
+            }
         }
 
         [HttpPatch]
-        public IActionResult UpdateBlog(BlogModel model)
+        public async Task<IActionResult> UpdateBlogAsync(BlogModel model)
         {
-            return this.Ok(true);
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            try
+            {
+                BlogModel result = await this.blogService.UpdateBlogAsync(model).ConfigureAwait(false);
+
+                return this.Ok();
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("{blogId}")]
-        public IActionResult DeleteBlog(string blogId)
+        public async Task<IActionResult> DeleteBlogAsync(string blogId)
         {
-            // this.items.Remove(this.items.Find(x => x.BlogId == blogId));
-            return this.Ok();
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            try
+            {
+                await this.blogService.DeleteBlogAsync(blogId).ConfigureAwait(false);
+
+                return this.Ok();
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(ex.Message);
+            }
         }
     }
 }

@@ -5,6 +5,7 @@
 
 namespace Application.Business.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace Application.Business.Services
         {
             try
             {
-                (List<Blog> blogs, int totalItems) = await this.globalRepository.GetBlogsAsync(index, count).ConfigureAwait(false);
+                (List<Blog> blogs, int totalAmount) = await this.globalRepository.GetBlogsAsync(index, count).ConfigureAwait(false);
 
                 List<BlogModel> models = new List<BlogModel>();
                 foreach (Blog blog in blogs)
@@ -37,7 +38,7 @@ namespace Application.Business.Services
                     models.Add(model);
                 }
 
-                return (models, totalItems);
+                return (models, totalAmount);
             }
             catch
             {
@@ -45,11 +46,78 @@ namespace Application.Business.Services
             }
         }
 
-        public async Task AddBlogAsync(BlogModel model)
+        public async Task<BlogModel> GetBlogAsync(string blogId)
         {
             try
             {
-                await this.globalRepository.AddBlogAsync(model.ToEntity()).ConfigureAwait(false);
+                Blog blog = await this.globalRepository.GetBlogAsync(blogId).ConfigureAwait(false);
+
+                BlogModel model = new BlogModel();
+                model.ToModel(blog);
+
+                return model;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        //public void CheckForNewBlogs(object state, int index, int count)
+        //{
+        //    List<BlogModel> blogs = globalRepository.GetBlogsAsync(index, count).Where(a => a.Created > lastTimeChecked).Select(a => new BlogModel(a, user)).ToList();
+
+        //    lastTimeChecked = DateTime.Now;
+
+        //    foreach (BlogModel blog in blogs)
+        //    {
+        //        BroadcastBlog(blog);
+        //    }
+        //}
+
+        public async Task<BlogModel> AddBlogAsync(BlogModel model)
+        {
+            try
+            {
+                model = model ?? throw new ArgumentNullException(nameof(model));
+
+                Blog entity = await this.globalRepository.AddBlogAsync(model.ToEntity()).ConfigureAwait(false);
+
+                BlogModel returnModel = new BlogModel();
+                returnModel.ToModel(entity);
+
+                return returnModel;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<BlogModel> UpdateBlogAsync(BlogModel model)
+        {
+            try
+            {
+                model = model ?? throw new ArgumentNullException(nameof(model));
+
+                Blog entity = await this.globalRepository.UpdateBlogAsync(model.BlogId, model.Title, model.Content, model.Editable).ConfigureAwait(false);
+
+                BlogModel returnModel = new BlogModel();
+                returnModel.ToModel(entity);
+
+                return returnModel;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task DeleteBlogAsync(string blogId)
+        {
+            try
+            {
+                await this.globalRepository.DeleteBlogAsync(blogId).ConfigureAwait(false);
             }
             catch
             {

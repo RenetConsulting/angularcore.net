@@ -138,7 +138,7 @@ namespace Application.DataAccess.Repositories
 
         #region Blog
 
-        public async Task<Blog> GetBlogAsync(int blogId)
+        public async Task<Blog> GetBlogAsync(string blogId)
         {
             return await this.context.Blogs.Where(bl => bl.BlogId.Equals(blogId)).FirstOrDefaultAsync();
         }
@@ -148,11 +148,11 @@ namespace Application.DataAccess.Repositories
         {
             int skipSize = this.SkipSize(index, count);
 
-            int totalItems = await this.context.Blogs.CountAsync();
+            int totalAmount = await this.context.Blogs.CountAsync();
 
             List<Blog> blogs = await this.context.Blogs.Skip(skipSize).Take(count).ToListAsync();
 
-            return (blogs, totalItems);
+            return (blogs, totalAmount);
         }
 
         public async Task<Blog> AddBlogAsync(Blog blog)
@@ -179,7 +179,7 @@ namespace Application.DataAccess.Repositories
         }
 
         // TODO: Review, do we need to update blog with files?
-        public async Task<Blog> UpdateImageAsync(int blogId, string title, string content)
+        public async Task<Blog> UpdateBlogAsync(string blogId, string title, string content, bool editable)
         {
             try
             {
@@ -188,8 +188,8 @@ namespace Application.DataAccess.Repositories
                 if (!Equals(blog, null))
                 {
                     blog.Title = title;
-
                     blog.Content = content;
+                    blog.Editable = editable;
                 }
                 else
                 {
@@ -206,8 +206,7 @@ namespace Application.DataAccess.Repositories
             }
         }
 
-        // TODO: Need to implement code to delete blog with files.
-        public async Task<bool> DeleteBlogAsync(int blogId)
+        public async Task<bool> DeleteBlogAsync(string blogId)
         {
             try
             {
