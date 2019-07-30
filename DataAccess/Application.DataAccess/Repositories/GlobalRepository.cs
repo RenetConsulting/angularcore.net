@@ -146,11 +146,9 @@ namespace Application.DataAccess.Repositories
         [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "ValueTuple.")]
         public async Task<(List<Blog>, int)> GetBlogsAsync(int index, int count)
         {
-            int skipSize = this.SkipSize(index, count);
-
             int totalAmount = await this.context.Blogs.CountAsync();
 
-            List<Blog> blogs = await this.context.Blogs.Skip(skipSize).Take(count).ToListAsync();
+            List<Blog> blogs = await this.context.Blogs.Skip(index).Take(count).ToListAsync();
 
             return (blogs, totalAmount);
         }
