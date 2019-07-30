@@ -276,7 +276,7 @@ namespace Application
 
             app.UseSignalR(routes =>
             {
-                routes.MapHub<BlogHub>("/BlogHub");
+                routes.MapHub<BlogHubBase>("/BlogHubBase");
             });
 
             app.UseMvc(routes =>
