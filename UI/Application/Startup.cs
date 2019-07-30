@@ -12,6 +12,8 @@ namespace Application
     using Application.Business;
     using Application.Business.Communications;
     using Application.Business.CoreCaptcha;
+    using Application.Business.Interfaces;
+    using Application.Business.Services;
     using Application.Controllers;
     using Application.DataAccess;
     using Application.DataAccess.Entities;
@@ -213,6 +215,7 @@ namespace Application
             services.AddScoped<ISendGridClient>(f => new SendGridClient(apiKey));
             services.AddScoped<IMailClient, MailClient>();
             services.AddScoped<IAzureBlobManager, AzureBlobManager>();
+            services.AddScoped<IBlogService, BlogService>();
 
             services.Configure<CoreCaptchaSettings>(this.Configuration.GetSection("CoreCaptcha"));
 
