@@ -1,5 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, Injector, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { ExternalAuthBase } from '../external-auth.base';
 import { FACEBOOK_SCRIPT_URL } from '../facebook-script-url';
 
@@ -16,6 +17,7 @@ export class FacebookSigninComponent extends ExternalAuthBase implements OnInit,
 
     @Input() appId: string;
     @Input() version = 'v3.3';
+    readonly subscription = new Subscription();
     iconClass = 'fab fa-facebook-f';
     provider = 'facebook';
     label = 'Continue with facebook';
@@ -25,6 +27,14 @@ export class FacebookSigninComponent extends ExternalAuthBase implements OnInit,
         @Inject(FACEBOOK_SCRIPT_URL) readonly scriptUrl: string
     ) {
         super(injector);
+    }
+
+    ngOnInit(): void {
+        this.subscription.add(this.signedError.subscribe(this.signout));
+    }
+
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
     }
 
     init = (): void => {
