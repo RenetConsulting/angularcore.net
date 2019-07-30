@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { mapErrorCode } from '@renet-consulting/external-auth';
+import { ErrorCodeService } from '@renet-consulting/external-auth';
 import { StorageService } from '@renet-consulting/storage';
 import { Subscription } from 'rxjs';
 import { filter, share, take } from 'rxjs/operators';
@@ -31,7 +31,8 @@ export class SigninComponent implements OnInit, OnDestroy {
 
     constructor(
         @Inject(Store) private store: Store<RootStore>,
-        @Inject(StorageService) private storage: StorageService
+        @Inject(StorageService) private storage: StorageService,
+        @Inject(ErrorCodeService) private errorCodeService: ErrorCodeService,
     ) { }
 
     ngOnInit(): void {
@@ -66,7 +67,7 @@ export class SigninComponent implements OnInit, OnDestroy {
     externalSignin = (provider: string) => this.store.dispatch(new SetAuthorized({ authorized: true, provider }));
 
     externalSigninError = e => {
-        const error = mapErrorCode(e && e.error) || e && e.error;
+        const error = this.errorCodeService.map(e && e.error) || e && e.error;
         this.store.dispatch(new SetError(e && e.details || error || e));
     }
 

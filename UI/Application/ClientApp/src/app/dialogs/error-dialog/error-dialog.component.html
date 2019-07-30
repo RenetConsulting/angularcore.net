@@ -1,6 +1,6 @@
 <div class="d-flex align-items-center">
     <H1 class="p-2 mat-error"><i class="fas fa-exclamation-circle"></i></H1>
-    <div class="p-2 flex-grow-1" [innerHTML]="error | async" routeTransformer></div>
+    <div class="p-2 flex-grow-1" [innerHTML]="error | async" routeTransformer closeDialog></div>
 </div>
 <div mat-dialog-actions class="d-flex justify-content-end">
     <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>

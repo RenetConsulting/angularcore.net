@@ -18,6 +18,7 @@ export const ROUTES: Array<Route> = [
     /** auth */
     { path: 'signin', loadChildren: () => import('./components/auth/signin/signin.module').then(m => m.SigninModule) },
     { path: 'signup', loadChildren: () => import('./components/auth/signup/signup.module').then(m => m.SignupModule) },
+    { path: 'signin-google-problem', loadChildren: () => import('./components/auth/signin/google-problem/google-problem.module').then(m => m.GoogleProblemModule) },
 
     { path: '**', redirectTo: '/home' }
 ];
