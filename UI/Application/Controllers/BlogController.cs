@@ -11,7 +11,10 @@ namespace Application.Controllers
     using Application.Business.Interfaces;
     using Application.Business.Models;
     using Application.DataAccess.Repositories;
+    using Application.Services;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.SignalR;
     using Microsoft.Extensions.Options;
 
     /// <summary>
@@ -28,15 +31,20 @@ namespace Application.Controllers
 
         private readonly IBlogService blogService;
 
-        public BlogController(IGlobalRepository repository, IOptions<AppSettings> appSettings, IBlogService blogService)
+        private readonly IHubContext<BlogHubBase> hubContext;
+
+        public BlogController(IHubContext<BlogHubBase> hubContext, IGlobalRepository repository, IOptions<AppSettings> appSettings, IBlogService blogService)
         {
             this.repository = repository;
 
             this.appSettings = appSettings;
 
             this.blogService = blogService;
+
+            this.hubContext = hubContext;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateBlogAsync(BlogModel model)
         {
@@ -48,6 +56,8 @@ namespace Application.Controllers
             try
             {
                 BlogModel result = await this.blogService.AddBlogAsync(model).ConfigureAwait(false);
+
+                await this.hubContext.Clients.All.SendAsync("create", result);
 
                 return this.Ok(result);
             }
@@ -87,6 +97,7 @@ namespace Application.Controllers
             }
         }
 
+        [Authorize]
         [HttpPatch]
         public async Task<IActionResult> UpdateBlogAsync(BlogModel model)
         {
@@ -99,6 +110,8 @@ namespace Application.Controllers
             {
                 BlogModel result = await this.blogService.UpdateBlogAsync(model).ConfigureAwait(false);
 
+                await this.hubContext.Clients.All.SendAsync("update", result);
+
                 return this.Ok(result);
             }
             catch (Exception ex)
@@ -107,6 +120,7 @@ namespace Application.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("{blogId}")]
         public async Task<IActionResult> DeleteBlogAsync(string blogId)
         {
@@ -118,6 +132,8 @@ namespace Application.Controllers
             try
             {
                 await this.blogService.DeleteBlogAsync(blogId).ConfigureAwait(false);
+
+                await this.hubContext.Clients.All.SendAsync("delete");
 
                 return this.Ok();
             }

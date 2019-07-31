@@ -7,6 +7,7 @@ namespace Application.Controllers
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Application.Business.Helpers;
     using Application.DataAccess.Repositories;
@@ -76,26 +77,18 @@ namespace Application.Controllers
             }
             catch (Exception ex)
             {
-                // return this.BadRequest(GetInternalErrorMessage(ex));
                 return this.BadRequest(ex.Message);
             }
         }
 
-        // TODO: int index, int count
         [HttpGet]
         public async Task<IActionResult> GetFilesAsync(int index, int count)
         {
-            //var result = new
-            //{
-            //    Items = this.items.GetRange(index, count),
-            //    ItemsAmount = this.items.ToArray().Length
-            //};
-
             List<FileModel> files = await this.fileManager.GetAsync().ConfigureAwait(false);
 
             var result = new
             {
-                Items = files,
+                Items = files.Skip(index).Take(count),
                 ItemsAmount = files.Count
             };
 
