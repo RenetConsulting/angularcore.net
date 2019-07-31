@@ -50,8 +50,6 @@ export class AuthEffects implements OnInitEffects {
     @Effect({ dispatch: false }) setAuthorized = this.actions.pipe(
         ofType<SetAuthorized>(AuthTypes.SET_AUTHORIZED),
         tap(x => this.storageService.set(this.providerKey, x.payload.provider)),
-        filter(x => x.payload.authorized),
-        tap(() => this.router.navigate(['/'])),
     );
 
     ngrxOnInitEffects() {

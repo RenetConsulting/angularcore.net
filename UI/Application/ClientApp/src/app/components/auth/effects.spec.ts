@@ -91,7 +91,6 @@ describe('AuthEffects', () => {
         actions = hot('--a-', { a: action });
         expect(effects.setAuthorized).toBeObservable(expected);
         expect(storageService.set).toHaveBeenCalledWith(effects.providerKey, provider);
-        expect(router.navigate).toHaveBeenCalledWith(['/']);
     });
     it('ngrxOnInitEffects', () => {
         const provider = 'bob';
