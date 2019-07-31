@@ -1,4 +1,4 @@
-import { ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, ViewChild, HostBinding } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ControlValueAccessorBase } from './control-value-accessor.base';
@@ -6,6 +6,7 @@ import { ControlValueAccessorBase } from './control-value-accessor.base';
 export abstract class InputBase extends ControlValueAccessorBase implements ControlValueAccessor, OnChanges, OnInit, OnDestroy {
 
     @ViewChild('inputRef', { static: true }) inputRef: ElementRef;
+    @HostBinding('class') readonly class = 'd-block';
     @Input() placeholder: string;
     @Input() readonly: boolean;
     @Input() required: boolean;
