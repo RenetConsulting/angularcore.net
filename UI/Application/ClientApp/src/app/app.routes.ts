@@ -20,8 +20,8 @@ export const ROUTES: Array<Route> = [
     { path: 'signup', loadChildren: () => import('./components/auth/signup/signup.module').then(m => m.SignupModule) },
     { path: 'signin-google-problem', loadChildren: () => import('./components/auth/signin/google-problem/google-problem.module').then(m => m.GoogleProblemModule) },
 
-    { path: 'blog', loadChildren: './components/blog-dashboard/blog-dashboard.module#BlogDashboardModule' },
-    { path: 'blog/:blogId', loadChildren: './components/blog-detail/blog-detail.module#BlogDetailModule' },
+    { path: 'blog-dashboard', loadChildren: './components/blog-dashboard/blog-dashboard.module#BlogDashboardModule' },
+    { path: 'blog-detail/:blogId', loadChildren: './components/blog-detail/blog-detail.module#BlogDetailModule' },
     { path: 'blogs', loadChildren: './components/blog-list/blog-list.module#BlogListModule' },
 
     { path: '**', redirectTo: '/home' }
