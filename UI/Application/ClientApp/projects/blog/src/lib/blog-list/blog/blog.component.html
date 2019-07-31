@@ -1,7 +1,7 @@
 <mat-card class="p-5 rounded-10" [class.created]="item.blogId === created?.blogId" [class.updated]="item.blogId === updated?.blogId">
     <mat-card-header><mat-card-title><h2><a>{{item.title}}</a></h2></mat-card-title></mat-card-header>
     <mat-card-content [innerHTML]="item.content | bypass"></mat-card-content>
-    <mat-card-footer class="d-flex justify-content-between">
+    <mat-card-footer class="d-flex justify-content-between align-items-center">
         <button mat-button color="primary">Read more &#8250;&#8250;</button>
         <small>Created by <strong>{{item.createdBy}}</strong> on <i>{{item.createdDate | date: 'fullDate'}}</i></small>
     </mat-card-footer>
