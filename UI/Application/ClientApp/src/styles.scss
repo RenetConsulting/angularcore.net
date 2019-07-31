@@ -10,7 +10,6 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "../node_modules/@fortawesome/fontawesome-free/scss/regular";
 @import "../node_modules/@fortawesome/fontawesome-free/scss/solid";
 @import "../node_modules/@fortawesome/fontawesome-free/scss/brands";
-
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Fjalla One', sans-serif;
 }
@@ -49,4 +48,17 @@ a, button {
 }
 .pt-10 {
     padding-top: $spacer * 6;
+}
+.ql-editor p {
+    margin-top: 0 !important;
+    margin-bottom: 1rem !important;
+}
+
+.ql-container {
+    font-size: inherit !important;
+    font-family: "Roboto", sans-serif !important;
+}
+//styles for mat-card
+.mat-card-header-text {
+    margin: 0 !important;
 }

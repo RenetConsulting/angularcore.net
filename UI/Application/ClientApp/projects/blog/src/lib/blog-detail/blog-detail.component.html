@@ -1,8 +1,8 @@
-<form class="container" [formGroup]="formGroup">
-    <mat-card class="row mt-3" *ngIf="item | async as blog">
+<form class="container mt-5" [formGroup]="formGroup">
+    <mat-card class="shadow-sm p-5 my-4 rounded-10" *ngIf="item | async as blog">
         <ngx-mat-input placeholder="Please enter title" label="Title" formControlName="title"></ngx-mat-input>
         <lib-editor label="Content" formControlName="content" [readonly]="!blog.editable" minLength="2" maxLength="1000"></lib-editor>
         <button *ngIf="blog.editable" mat-raised-button type="button" color="primary" [disabled]="formGroup.pristine || formGroup.invalid" (click)="submit()">Update</button>
-        <mat-card-footer *ngIf="!blog.editable" class="text-right px-2">Created by <strong>{{blog.createdBy}}</strong> on <i>{{blog.createdDate | date: 'fullDate'}}</i></mat-card-footer>
+        <mat-card-footer *ngIf="!blog.editable" class="text-right px-2 m-0"><small>Created by <strong>{{blog.createdBy}}</strong> on <i>{{blog.createdDate | date: 'fullDate'}}</i></small></mat-card-footer>
     </mat-card>
 </form>
