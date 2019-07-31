@@ -1,28 +1,33 @@
 <section class="pt-5">
     <div class="container">
         <h2>Unblocking Google Authentication</h2>
-        <mat-card class="shadow-sm p-5 my-5 rounded-10">
+        <mat-card class="shadow-sm p-5 my-4 rounded-10">
             <article>
                 <h3 class="mb-3">Check if accounts.google.com cookies are blocked</h3>
-                <p>Recent Chrome releases (all platforms) and Safari on macOS block or remove cookies used on third-party sites you’ve not visited directly.
-                    To sign into MindMup using Google, your browser needs to allow cookies from <strong>accounts.google.com</strong>.</p>
+                <p>
+                    Recent Chrome releases (all platforms) and Safari on macOS block or remove cookies used on third-party sites you’ve not visited directly.
+                    To sign into MindMup using Google, your browser needs to allow cookies from <strong>accounts.google.com</strong>.
+                </p>
                 <p>This is a service domain which you most likely never visited directly, so those cookies might be blocked.</p>
                 <p>Try adding this domain to the white-list for your browser, or unblocking third-party cookies temporarily.</p>
                 <p>Here are the instructions for <a href="https://support.google.com/chrome/answer/95647">Chrome</a>, <a href="https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/mac">Safari</a> and <a href="https://support.mozilla.org/en-US/kb/enable-and-disable-cookies-website-preferences">Firefox</a>.</p>
             </article>
         </mat-card>
-        <article class="my-5">
-            <h3 class="mb-3">Are you using disconnect, ghostery, privacy badger or some other blocker extension?</h3>
-            <p>Those modules, by design, block requests going out of a web site, so they will block access to Google Authentication and Google Drive from MindMup.</p>
-            <p>In order to use Google Services via MindMup, you will need to whitelist those requests or domains. Check your privacy module documentation about that.</p>
-        </article>
-        <hr />
-        <article class="my-5">
-            <h3 class="mb-3">Are you using an ad blocker?</h3>
-            <p>Some misconfigured ad blockers may think that requests to Google services are trying to load ads.</p>
-            <p>To check if you have this problem, start MindMup in a private (incognito) mode and check if it works.</p>
-            <p>Here are the instructions for <a href="https://support.google.com/chrome/answer/95464?hl=en-GB">Chrome</a> and <a href="https://support.mozilla.org/en-US/kb/private-browsing-use-firefox-without-history">Firefox</a>.</p>
-            <p>You may need to whitelist Google Drive in those ad blockers to allow MindMup to access it.</p>
-        </article>
+        <mat-card class="shadow-sm p-5 my-4 rounded-10">
+            <article class="my-5">
+                <h3 class="mb-3">Are you using disconnect, ghostery, privacy badger or some other blocker extension?</h3>
+                <p>Those modules, by design, block requests going out of a web site, so they will block access to Google Authentication and Google Drive from MindMup.</p>
+                <p>In order to use Google Services via MindMup, you will need to whitelist those requests or domains. Check your privacy module documentation about that.</p>
+            </article>
+        </mat-card>
+        <mat-card class="shadow-sm p-5 my-4 rounded-10">
+            <article class="my-5">
+                <h3 class="mb-3">Are you using an ad blocker?</h3>
+                <p>Some misconfigured ad blockers may think that requests to Google services are trying to load ads.</p>
+                <p>To check if you have this problem, start MindMup in a private (incognito) mode and check if it works.</p>
+                <p>Here are the instructions for <a href="https://support.google.com/chrome/answer/95464?hl=en-GB">Chrome</a> and <a href="https://support.mozilla.org/en-US/kb/private-browsing-use-firefox-without-history">Firefox</a>.</p>
+                <p>You may need to whitelist Google Drive in those ad blockers to allow MindMup to access it.</p>
+            </article>
+        </mat-card>
     </div>
 </section>
