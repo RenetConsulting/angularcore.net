@@ -114,6 +114,12 @@
       ],
       "elements/*": [
         "dist/elements/*"
+      ],
+      "bypass": [
+        "dist/bypass"
+      ],
+      "bypass/*": [
+        "dist/bypass/*"
       ]
     }
   }
