@@ -10,7 +10,10 @@ import { ApiPrefixInterceptor, NoneCacheInterceptor } from 'projects/interceptor
 import { AppComponent } from './app.component';
 import { ROUTES } from './app.routes';
 
-const BASE_URL = new InjectionToken('BASE_URL', { providedIn: 'root', factory: () => typeof window !== 'undefined' ? window.location.origin : '' });
+const BASE_URL = new InjectionToken('BASE_URL', {
+    providedIn: 'root',
+    factory: () => typeof window !== 'undefined' ? window.location.origin : ''
+});
 
 @NgModule({
     declarations: [
@@ -21,7 +24,7 @@ const BASE_URL = new InjectionToken('BASE_URL', { providedIn: 'root', factory: (
         HttpClientModule,
         BrowserAnimationsModule,
         RouterModule.forRoot(ROUTES),
-        NgxAModule
+        NgxAModule,
     ],
     providers: [
         { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } as MatFormFieldDefaultOptions },

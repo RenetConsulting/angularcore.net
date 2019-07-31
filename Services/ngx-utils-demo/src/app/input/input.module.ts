@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgxMatInputModule } from 'projects/ngx-mat-input/src/public-api';
 import { InputRoutingModule } from './input-routing.module';
 import { InputComponent } from './input.component';
+import { ResizeModule } from 'projects/resize/src/public-api';
 
 @NgModule({
     declarations: [InputComponent],
@@ -12,7 +13,8 @@ import { InputComponent } from './input.component';
         CommonModule,
         ReactiveFormsModule,
         InputRoutingModule,
-        NgxMatInputModule
+        NgxMatInputModule,
+        ResizeModule,
     ]
 })
 export class InputModule { }
