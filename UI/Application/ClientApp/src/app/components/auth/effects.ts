@@ -4,7 +4,7 @@ import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
 import { AuthService, TokenService } from '@renet-consulting/auth';
 import { StorageService } from '@renet-consulting/storage';
 import { of } from 'rxjs';
-import { catchError, filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { SetSuccess } from '~/actions/messenger.actions';
 import { Reset } from '~/actions/root.actions';
 import { SetAuthorized, SignoutError, SignoutRequest, SignoutSuccess } from './actions';
