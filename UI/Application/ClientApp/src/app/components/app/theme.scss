@@ -17,9 +17,34 @@
             a, code {
                 color: mat-color($primary) !important;
             }
+            //mat-card
+            mat-card {
+                .mat-card-content::after {
+                    background: linear-gradient(to bottom, mat-color($background, card, 0) 0%, mat-color($background, card, 1) 100%);
+                }
 
-            mat-card-footer {
-                color: mat-color($foreground, text, .5);
+                mat-card-footer {
+                    color: mat-color($foreground, text, .5);
+                }
+            }
+            //editor
+            .ql-editor.ql-blank::before {
+                color: mat-color($foreground, text);
+            }
+
+            .ql-snow {
+                .ql-stroke {
+                    stroke: mat-color($foreground, text);
+                }
+
+                .ql-fill,
+                .ql-stroke.ql-fill {
+                    fill: mat-color($foreground, text);
+                }
+
+                .ql-picker {
+                    color: mat-color($foreground, text);
+                }
             }
         }
     }
