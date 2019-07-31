@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/resize",
-  "version": "8.0.0",
+  "version": "8.0.1",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
@@ -16,5 +16,13 @@
   "peerDependencies": {
     "@angular/core": "^8.0.0",
     "resize-observer-polyfill": "^1.5.1"
-  }
+  },
+  "keywords": [
+    "ResizeObserver",
+    "resize-observer-polyfill",
+    "resize-observer",
+    "angular",
+    "directive",
+    "resize"
+  ]
 }

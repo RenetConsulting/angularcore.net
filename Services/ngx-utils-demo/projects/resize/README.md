@@ -8,7 +8,7 @@ This library depends on ``resize-observer-polyfill``
 
 ## Installation
 
-At first please install dependencies:
+At first please install dependencies ([resize-observer-polyfill](https://www.npmjs.com/package/resize-observer-polyfill)):
 ```
 npm install resize-observer-polyfill --save-dev
 ```
