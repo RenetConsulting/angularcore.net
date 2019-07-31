@@ -120,6 +120,12 @@
       ],
       "bypass/*": [
         "dist/bypass/*"
+      ],
+      "resize": [
+        "dist/resize"
+      ],
+      "resize/*": [
+        "dist/resize/*"
       ]
     }
   }

@@ -29,4 +29,7 @@ export class InputComponent implements OnInit {
     toggle = () => {
         this.errors = this.errors.length === 0 ? [...this.exampleErrors] : [];
     }
+
+    // tslint:disable-next-line
+    resize = console.log
 }
