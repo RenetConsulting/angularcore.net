@@ -1,11 +1,12 @@
 /* tslint:disable:max-line-length */
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-input',
     templateUrl: './input.component.html',
-    styleUrls: ['./input.component.css']
+    styleUrls: ['./input.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InputComponent implements OnInit {
 
@@ -20,6 +21,7 @@ export class InputComponent implements OnInit {
         `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s`
     ];
     errors: Array<string> = [];
+    width: number;
 
     constructor() { }
 
@@ -30,6 +32,8 @@ export class InputComponent implements OnInit {
         this.errors = this.errors.length === 0 ? [...this.exampleErrors] : [];
     }
 
-    // tslint:disable-next-line
-    resize = console.log
+    resize = (e: DOMRectReadOnly) => {
+        this.width = e.width;
+        console.log(e);
+    }
 }
