@@ -47,9 +47,9 @@ namespace Application.Controllers
 
             try
             {
-                await this.blogService.AddBlogAsync(model).ConfigureAwait(false);
+                BlogModel result = await this.blogService.AddBlogAsync(model).ConfigureAwait(false);
 
-                return this.Ok();
+                return this.Ok(result);
             }
             catch (Exception ex)
             {
@@ -99,7 +99,7 @@ namespace Application.Controllers
             {
                 BlogModel result = await this.blogService.UpdateBlogAsync(model).ConfigureAwait(false);
 
-                return this.Ok();
+                return this.Ok(result);
             }
             catch (Exception ex)
             {
