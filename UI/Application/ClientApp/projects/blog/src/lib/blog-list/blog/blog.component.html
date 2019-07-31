@@ -1,5 +1,5 @@
 <mat-card [class.created]="item.blogId === created?.blogId" [class.updated]="item.blogId === updated?.blogId">
     <mat-card-header><mat-card-title><a>{{item.title}}</a></mat-card-title></mat-card-header>
-    <mat-card-content>{{item.content}}</mat-card-content>
+    <mat-card-content [innerHTML]="item.content"></mat-card-content>
     <mat-card-footer class="text-right px-2">Created by <strong>{{item.createdBy}}</strong> on <i>{{item.createdDate | date: 'fullDate'}}</i></mat-card-footer>
 </mat-card>

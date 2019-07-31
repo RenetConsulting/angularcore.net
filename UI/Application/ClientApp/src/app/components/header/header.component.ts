@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { RootStore } from '~/reducers';
@@ -18,7 +17,6 @@ export class HeaderComponent {
 
     constructor(
         @Inject(Store) private store: Store<RootStore>,
-        @Inject(HttpClient) public http: HttpClient,
     ) { }
 
     collapse = (): void => {
@@ -31,15 +29,5 @@ export class HeaderComponent {
 
     signout = (): void => {
         this.store.dispatch(new SignoutRequest());
-    }
-
-    /** TODO: delete, this line just runs hub */
-    runHubCreate = () => {
-        this.http.get('https://localhost:44395/api/BlogHub/create').subscribe();
-    }
-
-    /** TODO: delete, this line just runs hub */
-    runHubUpdate = () => {
-        this.http.get('https://localhost:44395/api/BlogHub/update').subscribe();
     }
 }
