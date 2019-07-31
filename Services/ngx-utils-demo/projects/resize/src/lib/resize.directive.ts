@@ -1,4 +1,4 @@
-import { Directive, ElementRef, EventEmitter, Inject, OnDestroy, OnInit, Output } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, Inject, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
 import { RESIZE_OBSERVER } from './resize-observer.token';
 
 @Directive({
@@ -12,6 +12,7 @@ export class ResizeDirective implements OnInit, OnDestroy {
     constructor(
         @Inject(RESIZE_OBSERVER) private resizeObserver: any,
         @Inject(ElementRef) private elementRef: ElementRef,
+        @Inject(NgZone) private zone: NgZone,
     ) { }
 
     ngOnInit(): void {
@@ -23,5 +24,6 @@ export class ResizeDirective implements OnInit, OnDestroy {
         this.observer.disconnect();
     }
 
-    subscribe = (entries: Array<ResizeObserverEntry>) => entries.forEach(x => this.resize.emit(x.contentRect as DOMRectReadOnly));
+    subscribe = (entries: Array<ResizeObserverEntry>) =>
+        entries.forEach(x => this.zone.run(() => this.resize.emit(x.contentRect as DOMRectReadOnly)))
 }

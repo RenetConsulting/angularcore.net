@@ -1,4 +1,4 @@
-import { ElementRef } from '@angular/core';
+import { ElementRef, NgZone } from '@angular/core';
 import { ResizeDirective } from './resize.directive';
 
 describe('ResizeDirective', () => {
@@ -7,14 +7,16 @@ describe('ResizeDirective', () => {
 
     let resizeObserverFn: jasmine.Spy;
     let resizeObserver: jasmine.SpyObj<ResizeObserver>;
+    let zone: jasmine.SpyObj<NgZone>;
     const elementRef = new ElementRef({});
 
     beforeEach(() => {
 
         resizeObserverFn = jasmine.createSpy();
         resizeObserver = jasmine.createSpyObj<ResizeObserver>('ResizeObserver', ['observe', 'disconnect']);
+        zone = jasmine.createSpyObj<NgZone>('NgZone', ['run']);
 
-        directive = new ResizeDirective(resizeObserverFn as any, elementRef);
+        directive = new ResizeDirective(resizeObserverFn as any, elementRef, zone);
     });
 
     it('should create', () => {
@@ -31,11 +33,13 @@ describe('ResizeDirective', () => {
         directive.ngOnDestroy();
         expect(directive.observer.disconnect).toHaveBeenCalled();
     });
-    it('ngOnDestroy', () => {
+    it('subscribe', () => {
+        zone.run.and.callFake(fn => fn());
         spyOn(directive.resize, 'emit');
         const contentRect = {} as DOMRectReadOnly;
         const entry = { contentRect } as Partial<ResizeObserverEntry> as ResizeObserverEntry;
         directive.subscribe([entry]);
         expect(directive.resize.emit).toHaveBeenCalledWith(entry.contentRect);
+        expect(zone.run).toHaveBeenCalled();
     });
 });
