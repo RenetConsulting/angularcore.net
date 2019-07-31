@@ -1,8 +1,8 @@
 <section>
-    <cdk-virtual-scroll-viewport class="col-md-12" itemSize="298">
+    <cdk-virtual-scroll-viewport class="col-md-12" itemSize="302">
         <div class="container">
-            <article *cdkVirtualFor="let item of source" class="my-4">
-                <lib-blog [item]="item" [created]="created | async" [updated]="updated | async" [routerLink]="['/blog-detail', item.blogId]"></lib-blog>
+            <article *cdkVirtualFor="let item of source; trackBy: trackByFn" class="my-4">
+                <lib-blog [item]="item" [created]="created | async" [updated]="updated | async"></lib-blog>
             </article>
         </div>
     </cdk-virtual-scroll-viewport>
