@@ -37,6 +37,7 @@ namespace Application.Business.Models
                 this.Content = entity.Content;
                 this.Editable = entity.Editable;
                 this.CreatedDate = entity.CreatedDate;
+                this.CreatedBy = entity.CreatedBy;
             }
         }
     }
