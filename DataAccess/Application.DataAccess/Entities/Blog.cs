@@ -7,6 +7,7 @@ namespace Application.DataAccess.Entities
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public class Blog : ApplicationEntity
     {
@@ -17,7 +18,11 @@ namespace Application.DataAccess.Entities
 
         public string Content { get; set; }
 
-        public bool Editable { get; set; }
+        [ForeignKey("ApplicationUser")]
+        [StringLength(450)]
+        public string UserId { get; set; }
+
+        public virtual ApplicationUser ApplicationUser { get; set; }
 
         public ICollection<FileStorage> FileStorages { get; set; }
     }

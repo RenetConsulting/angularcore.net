@@ -17,10 +17,10 @@ namespace Application.Business.Interfaces
 
         Task<BlogModel> GetBlogAsync(string blogId);
 
-        Task<BlogModel> AddBlogAsync(BlogModel model);
+        Task<BlogModel> AddBlogAsync(BlogModel model, string userId);
 
-        Task<BlogModel> UpdateBlogAsync(BlogModel model);
+        Task<BlogModel> UpdateBlogAsync(BlogModel model, string userId);
 
-        Task DeleteBlogAsync(string blogId);
+        Task DeleteBlogAsync(string blogId, string userId);
     }
 }

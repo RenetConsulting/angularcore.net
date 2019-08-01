@@ -17,6 +17,8 @@ namespace Application.Business.Models
 
         public bool Editable { get; set; }
 
+        public string UserId { get; set; }
+
         public Blog ToEntity()
         {
             return new Blog
@@ -38,6 +40,7 @@ namespace Application.Business.Models
                 this.Editable = entity.Editable;
                 this.CreatedDate = entity.CreatedDate;
                 this.CreatedBy = entity.CreatedBy;
+                this.UserId = entity.UserId;
             }
         }
     }

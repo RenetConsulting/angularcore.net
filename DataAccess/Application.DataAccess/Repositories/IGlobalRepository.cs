@@ -46,11 +46,11 @@ namespace Application.DataAccess.Repositories
 
         Task<Blog> AddBlogAsync(Blog blog);
 
-        Task<Blog> UpdateBlogAsync(string blogId, string title, string content, bool editable);
+        Task<Blog> UpdateBlogAsync(string blogId, string title, string content, string userId);
 
         Task<bool> DeleteBlogFileAsync(string fileBlobName);
 
-        Task<bool> DeleteBlogAsync(string blogId);
+        Task<bool> DeleteBlogAsync(string blogId, string userId);
 
         Task<Blog> GetBlogAsync(string blogId);
     }

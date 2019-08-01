@@ -176,8 +176,7 @@ namespace Application.DataAccess.Repositories
             }
         }
 
-        // TODO: Review, do we need to update blog with files?
-        public async Task<Blog> UpdateBlogAsync(string blogId, string title, string content, bool editable)
+        public async Task<Blog> UpdateBlogAsync(string blogId, string title, string content, string userId)
         {
             try
             {
@@ -185,9 +184,13 @@ namespace Application.DataAccess.Repositories
 
                 if (!Equals(blog, null))
                 {
+                    if (!blog.UserId.Equals(userId))
+                    {
+                        throw new Exception("You can update only own blogs!");
+                    }
+
                     blog.Title = title;
                     blog.Content = content;
-                    blog.Editable = editable;
                 }
                 else
                 {
@@ -204,7 +207,7 @@ namespace Application.DataAccess.Repositories
             }
         }
 
-        public async Task<bool> DeleteBlogAsync(string blogId)
+        public async Task<bool> DeleteBlogAsync(string blogId, string userId)
         {
             try
             {
@@ -212,6 +215,11 @@ namespace Application.DataAccess.Repositories
 
                 if (!Equals(deleteBlog, null))
                 {
+                    if (!deleteBlog.UserId.Equals(userId))
+                    {
+                        throw new Exception("You can remove only own blogs!");
+                    }
+
                     this.context.Blogs.Remove(deleteBlog);
                 }
                 else

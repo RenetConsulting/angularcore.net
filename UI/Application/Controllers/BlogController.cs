@@ -10,20 +10,18 @@ namespace Application.Controllers
     using System.Threading.Tasks;
     using Application.Business.Interfaces;
     using Application.Business.Models;
+    using Application.DataAccess.Entities;
     using Application.DataAccess.Repositories;
     using Application.Services;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.SignalR;
+    using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
 
-    /// <summary>
-    /// TODO: create integaration with SignalR
-    /// TODO: create logic
-    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class BlogController : ControllerBase
+    public class BlogController : BaseController
     {
         private readonly IGlobalRepository repository;
 
@@ -33,7 +31,8 @@ namespace Application.Controllers
 
         private readonly IHubContext<BlogHubBase> hubContext;
 
-        public BlogController(IHubContext<BlogHubBase> hubContext, IGlobalRepository repository, IOptions<AppSettings> appSettings, IBlogService blogService)
+        public BlogController(IHubContext<BlogHubBase> hubContext, IGlobalRepository repository, IOptions<AppSettings> appSettings, IBlogService blogService, ILogger<BlogController> logger)
+            : base(appSettings, logger)
         {
             this.repository = repository;
 
@@ -55,7 +54,7 @@ namespace Application.Controllers
 
             try
             {
-                BlogModel result = await this.blogService.AddBlogAsync(model).ConfigureAwait(false);
+                BlogModel result = await this.blogService.AddBlogAsync(model, this.UserId).ConfigureAwait(false);
 
                 await this.hubContext.Clients.All.SendAsync("create", result);
 
@@ -87,6 +86,8 @@ namespace Application.Controllers
         {
             try
             {
+                Blog blog = await this.repository.GetBlogAsync(blogId);
+
                 BlogModel model = await this.blogService.GetBlogAsync(blogId).ConfigureAwait(false);
 
                 return this.Ok(model);
@@ -108,7 +109,7 @@ namespace Application.Controllers
 
             try
             {
-                BlogModel result = await this.blogService.UpdateBlogAsync(model).ConfigureAwait(false);
+                BlogModel result = await this.blogService.UpdateBlogAsync(model, this.UserId).ConfigureAwait(false);
 
                 await this.hubContext.Clients.All.SendAsync("update", result);
 
@@ -131,7 +132,7 @@ namespace Application.Controllers
 
             try
             {
-                await this.blogService.DeleteBlogAsync(blogId).ConfigureAwait(false);
+                await this.blogService.DeleteBlogAsync(blogId, this.UserId).ConfigureAwait(false);
 
                 await this.hubContext.Clients.All.SendAsync("delete");
 

@@ -75,16 +75,21 @@ namespace Application.Business.Services
         //    }
         //}
 
-        public async Task<BlogModel> AddBlogAsync(BlogModel model)
+        public async Task<BlogModel> AddBlogAsync(BlogModel model, string userId)
         {
             try
             {
                 model = model ?? throw new ArgumentNullException(nameof(model));
+
+                userId = userId ?? throw new ArgumentNullException(nameof(userId));
+
+                model.UserId = userId;
 
                 Blog entity = await this.globalRepository.AddBlogAsync(model.ToEntity()).ConfigureAwait(false);
 
                 BlogModel returnModel = new BlogModel();
                 returnModel.ToModel(entity);
+                returnModel.Editable = true;
 
                 return returnModel;
             }
@@ -94,16 +99,19 @@ namespace Application.Business.Services
             }
         }
 
-        public async Task<BlogModel> UpdateBlogAsync(BlogModel model)
+        public async Task<BlogModel> UpdateBlogAsync(BlogModel model, string userId)
         {
             try
             {
                 model = model ?? throw new ArgumentNullException(nameof(model));
 
-                Blog entity = await this.globalRepository.UpdateBlogAsync(model.BlogId, model.Title, model.Content, model.Editable).ConfigureAwait(false);
+                userId = userId ?? throw new ArgumentNullException(nameof(userId));
+
+                Blog entity = await this.globalRepository.UpdateBlogAsync(model.BlogId, model.Title, model.Content, userId).ConfigureAwait(false);
 
                 BlogModel returnModel = new BlogModel();
                 returnModel.ToModel(entity);
+                returnModel.Editable = true;
 
                 return returnModel;
             }
@@ -113,11 +121,14 @@ namespace Application.Business.Services
             }
         }
 
-        public async Task DeleteBlogAsync(string blogId)
+        public async Task DeleteBlogAsync(string blogId, string userId)
         {
             try
             {
-                await this.globalRepository.DeleteBlogAsync(blogId).ConfigureAwait(false);
+                blogId = blogId ?? throw new ArgumentNullException(nameof(blogId));
+                userId = userId ?? throw new ArgumentNullException(nameof(userId));
+
+                await this.globalRepository.DeleteBlogAsync(blogId, userId).ConfigureAwait(false);
             }
             catch
             {
