@@ -1,5 +1,10 @@
-<mat-card [class.created]="item.blogId === created?.blogId" [class.updated]="item.blogId === updated?.blogId">
-    <mat-card-header><mat-card-title><a>{{item.title}}</a></mat-card-title></mat-card-header>
-    <mat-card-content [innerHTML]="item.content | bypass"></mat-card-content>
-    <mat-card-footer class="text-right px-2">Created by <strong>{{item.createdBy}}</strong> on <i>{{item.createdDate | date: 'fullDate'}}</i></mat-card-footer>
+<mat-card class="p-5 rounded-10" [class.created]="item.blogId === created?.blogId" [class.updated]="item.blogId === updated?.blogId">
+    <mat-card-header><mat-card-title><h2><a [routerLink]="['/blog-detail', item.blogId]">{{item.title}}</a></h2></mat-card-title></mat-card-header>
+    <mat-card-content>
+        <section [innerHTML]="item.content | bypass" (resize)="handleResize($event)"></section>
+    </mat-card-content>
+    <mat-card-footer class="d-flex justify-content-between align-items-center">
+        <div><button *ngIf="showButton" mat-button color="primary" [routerLink]="['/blog-detail', item.blogId]">Read more &#8250;&#8250;</button></div>
+        <small>Created by <strong>{{item.createdBy}}</strong> on <i>{{item.createdDate | date: 'fullDate'}}</i></small>
+    </mat-card-footer>
 </mat-card>
