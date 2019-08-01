@@ -2,7 +2,7 @@
     <mat-card class="shadow-sm p-5 mb-5 rounded-10">
         <h2 class="text-center">Create a blog</h2>
         <ngx-mat-input placeholder="Please enter title" label="Title" formControlName="title"></ngx-mat-input>
-        <lib-editor label="Content" formControlName="content" minLength="2" maxLength="1000"></lib-editor>
+        <lib-editor label="Content" formControlName="content" minLength="2" maxLength="1000" [defaultModules]="quillModules"></lib-editor>
         <button mat-raised-button type="button" color="primary" [disabled]="formGroup.pristine || formGroup.invalid" (click)="submit()">Save</button>
     </mat-card>
 </form>
