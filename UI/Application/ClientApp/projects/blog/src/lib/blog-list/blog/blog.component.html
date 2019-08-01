@@ -1,5 +1,9 @@
-<mat-card class="p-5 rounded-10" [class.created]="item.blogId === created?.blogId" [class.updated]="item.blogId === updated?.blogId">
-    <mat-card-header><mat-card-title><h2><a [routerLink]="['/blog-detail', item.blogId]">{{item.title}}</a></h2></mat-card-title></mat-card-header>
+<mat-card class="p-xs-4 p-sm-4 p-md-5 p-lg-5 rounded-10" [class.created]="item.blogId === created?.blogId" [class.updated]="item.blogId === updated?.blogId">
+    <mat-card-header>
+        <mat-card-title>
+            <h2 class="mb-3"><a [routerLink]="['/blog-detail', item.blogId]">{{item.title}}</a></h2>
+        </mat-card-title>
+    </mat-card-header>
     <mat-card-content>
         <section [innerHTML]="item.content | bypass" (resize)="handleResize($event)"></section>
     </mat-card-content>
