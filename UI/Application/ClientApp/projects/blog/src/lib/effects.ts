@@ -5,6 +5,8 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
 import * as UIActions from './actions';
+import { IBlogOptions } from './blog-options';
+import { BLOG_DEFAULT_OPTIONS } from './blog-options.token';
 import { BlogService } from './blog.service';
 import { MessageComponent } from './message/message.component';
 import { BlogTypes } from './types';
@@ -17,6 +19,7 @@ export class BlogEffects {
         @Inject(BlogService) private blogService: BlogService,
         @Inject(Router) private router: Router,
         @Inject(MatSnackBar) private snackBar: MatSnackBar,
+        @Inject(BLOG_DEFAULT_OPTIONS) private options: IBlogOptions,
     ) { }
 
     @Effect() createBlogRequest = this.actions.pipe(
@@ -30,7 +33,7 @@ export class BlogEffects {
 
     @Effect() getBlogsRequest = this.actions.pipe(
         ofType<UIActions.GetBlogsRequest>(BlogTypes.GET_BLOGS_REQUEST),
-        mergeMap(a => this.blogService.getBlogs({ ...a.payload, count: 10 }).pipe(
+        mergeMap(a => this.blogService.getBlogs({ ...a.payload, count: this.options.count }).pipe(
             map(r => new UIActions.GetBlogsSuccess(r)),
             catchError(e => of(new UIActions.GetBlogsError(e)))
         ))

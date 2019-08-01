@@ -216,6 +216,7 @@ namespace Application
             services.AddScoped<IMailClient, MailClient>();
             services.AddScoped<IAzureBlobManager, AzureBlobManager>();
             services.AddScoped<IBlogService, BlogService>();
+            services.AddScoped<IFileManager, AzureFileManager>();
 
             services.Configure<CoreCaptchaSettings>(this.Configuration.GetSection("CoreCaptcha"));
 

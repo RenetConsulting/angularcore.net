@@ -2,6 +2,8 @@ import { Inject, Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
+import { IBlogOptions } from '../blog-options';
+import { BLOG_DEFAULT_OPTIONS } from '../blog-options.token';
 import * as UIActions from './actions';
 import { FileService } from './file.service';
 import { FileTypes } from './types';
@@ -12,6 +14,7 @@ export class FileEffects {
     constructor(
         @Inject(Actions) private actions: Actions,
         @Inject(FileService) private fileService: FileService,
+        @Inject(BLOG_DEFAULT_OPTIONS) private options: IBlogOptions,
     ) { }
 
     @Effect() uploadFileRequest = this.actions.pipe(
@@ -24,7 +27,7 @@ export class FileEffects {
 
     @Effect() getFilesRequest = this.actions.pipe(
         ofType<UIActions.GetFilesRequest>(FileTypes.GET_FILES_REQUEST),
-        mergeMap(a => this.fileService.getFiles({ ...a.payload, count: 10 }).pipe(
+        mergeMap(a => this.fileService.getFiles({ ...a.payload, count: this.options.count }).pipe(
             map(r => new UIActions.GetFilesSuccess(r)),
             catchError(e => of(new UIActions.GetFilesError(e)))
         ))
