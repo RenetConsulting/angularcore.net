@@ -26,7 +26,6 @@ namespace Application.Business.Models
                 BlogId = this.BlogId,
                 Title = this.Title,
                 Content = this.Content,
-                Editable = this.Editable
             };
         }
 
@@ -37,7 +36,6 @@ namespace Application.Business.Models
                 this.BlogId = entity.BlogId;
                 this.Title = entity.Title;
                 this.Content = entity.Content;
-                this.Editable = entity.Editable;
                 this.CreatedDate = entity.CreatedDate;
                 this.CreatedBy = entity.CreatedBy;
                 this.UserId = entity.UserId;
