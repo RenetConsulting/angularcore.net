@@ -63,18 +63,6 @@ namespace Application.Business.Services
             }
         }
 
-        //public void CheckForNewBlogs(object state, int index, int count)
-        //{
-        //    List<BlogModel> blogs = globalRepository.GetBlogsAsync(index, count).Where(a => a.Created > lastTimeChecked).Select(a => new BlogModel(a, user)).ToList();
-
-        //    lastTimeChecked = DateTime.Now;
-
-        //    foreach (BlogModel blog in blogs)
-        //    {
-        //        BroadcastBlog(blog);
-        //    }
-        //}
-
         public async Task<BlogModel> AddBlogAsync(BlogModel model, string userId)
         {
             try

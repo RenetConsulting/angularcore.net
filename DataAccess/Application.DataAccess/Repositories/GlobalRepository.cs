@@ -148,7 +148,7 @@ namespace Application.DataAccess.Repositories
         {
             int totalAmount = await this.context.Blogs.CountAsync();
 
-            List<Blog> blogs = await this.context.Blogs.Skip(index).Take(count).ToListAsync();
+            List<Blog> blogs = await this.context.Blogs.Skip(index).Take(count).OrderBy(a => a.CreatedDate).ToListAsync();
 
             return (blogs, totalAmount);
         }
