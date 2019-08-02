@@ -5,7 +5,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { SetSuccess } from '~/actions/messenger.actions';
-import { MessagesType } from '~/enums/messages.type';
+import { Messages } from '~/consts/messages';
 import { IUser } from '~/interfaces/user';
 import { RootStore } from '~/reducers';
 import { AccountService } from '~/services/account/account.service';
@@ -65,7 +65,7 @@ describe('ResendConfirmationEffects', () => {
     });
     it('resendConfirmationSuccess', () => {
         const action = new ResendConfirmationSuccess();
-        const completion = new SetSuccess(MessagesType.checkEmail);
+        const completion = new SetSuccess(Messages.checkEmail);
         const expected = cold('--b', { b: completion });
         actions = hot('--a-', { a: action });
         expect(effects.resendConfirmationSuccess).toBeObservable(expected);

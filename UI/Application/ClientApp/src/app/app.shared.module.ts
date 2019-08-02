@@ -43,8 +43,8 @@ const initializerFactory = (service: InitializerService) => () => service.initia
             multi: true
         },
         { provide: HTTP_INTERCEPTORS, useClass: NoneCacheInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, deps: [Store], multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ExtractErrorInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, deps: [Store], multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ApiPrefixInterceptor, deps: [BASE_URL], multi: true },
         { provide: BLOG_DEFAULT_OPTIONS, useValue: BLOG_OPTIONS },
         { provide: HTTP_INTERCEPTORS, useClass: NgProgressInterceptor, multi: true },

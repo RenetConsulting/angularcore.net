@@ -4,7 +4,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { SetSuccess } from '~/actions/messenger.actions';
-import { MessagesType } from '~/enums/messages.type';
+import { Messages } from '~/consts/messages';
 import { AccountService } from '~/services/account/account.service';
 import { ConfirmEmailRequest, ConfirmEmailSuccess } from './actions';
 import { ConfirmEmailEffects } from './effects';
@@ -59,7 +59,7 @@ describe('ConfirmEmailEffects', () => {
     });
     it('confirmEmailSuccess', () => {
         const action = new ConfirmEmailSuccess();
-        const completion = new SetSuccess(MessagesType.emailConfirmed);
+        const completion = new SetSuccess(Messages.emailConfirmed);
         const expected = cold('--b', { b: completion });
         actions = hot('--a-', { a: action });
         expect(effects.confirmEmailSuccess).toBeObservable(expected);

@@ -1,6 +1,7 @@
 import { ICoreCaptchaOptions } from '@renet-consulting/core-captcha';
 
-export const CORE_CAPTCHA_OPTIONS: ICoreCaptchaOptions = {
-    height: 80,
-    width: 500,
-};
+export class CoreCaptchaOptions implements ICoreCaptchaOptions {
+
+    readonly height = 80;
+    readonly width = 500;
+}

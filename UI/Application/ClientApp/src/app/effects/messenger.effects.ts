@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { NgxMessengerService } from '@renet-consulting/ngx-messenger';
 import { filter, map, tap } from 'rxjs/operators';
 import { SetError, SetSuccess } from '~/actions/messenger.actions';
-import { MessagesType } from '~/enums/messages.type';
+import { Messages } from '~/consts/messages';
 import { IError } from '~/interfaces/error';
 import { MessengerTypes } from '~/types/messenger.types';
 
@@ -19,7 +19,7 @@ export class MessengerEffects {
         ofType<SetError>(MessengerTypes.SET_ERROR),
         map(a => a.payload && (a.payload as IError).error_description
             || typeof a.payload === 'string' && (a.payload as string).length < 500 && a.payload
-            || MessagesType.unspecifiedError),
+            || Messages.unspecifiedError),
         tap(this.messenger.error)
     );
     @Effect({ dispatch: false }) setSuccess = this.actions.pipe(
