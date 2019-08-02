@@ -5,9 +5,10 @@
 
 namespace Application.Business.Helpers
 {
+    using Application.Business.Models;
     using System;
 
-    public class FileModel
+    public class FileModel 
     {
         public FileModel()
         {
@@ -15,27 +16,28 @@ namespace Application.Business.Helpers
 
         public FileModel(string fileId, BlobMetaData blob)
         {
-            this.Name = fileId;
-            this.Size = blob.Size;
-            this.Created = blob.Created;
-            this.Url = blob.Url;
+            this.FileId = fileId;
+            this.CreatedDate = blob.Created;
+            this.FileUrl = blob.Url;
         }
 
-        public FileModel(string fileId, string url, string description)
+        public FileModel(string fileId, string url, string title)
         {
-            this.Name = fileId;
-            this.Url = url;
-            this.Description = description;
+            this.FileId = fileId;
+            this.Title = title;
+            this.FileUrl = url;
         }
 
-        public string Name { get; set; }
+        public string FileId { get; set; }
 
-        public string Url { get; set; }
+        public string Title { get; set; }
 
-        public string Description { get; set; }
+        public string FileUrl { get; set; }
 
         public long Size { get; set; }
 
-        public DateTime Created { get; set; }
+        public DateTime CreatedDate { get; set; }
+
+        public DateTime? UpdatedDate { get; set; }
     }
 }

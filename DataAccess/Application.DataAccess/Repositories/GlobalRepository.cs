@@ -235,11 +235,11 @@ namespace Application.DataAccess.Repositories
             }
         }
 
-        public async Task<bool> SaveBlogFileAsync(string blogId, string fileBlobName)
+        public async Task<bool> SaveBlogFileAsync(string userId, string fileBlobName)
         {
             try
             {
-                FileStorage blogFile = new FileStorage { FileId = fileBlobName, BlogId = blogId };
+                FileStorage blogFile = new FileStorage { FileId = fileBlobName, UserId = userId };
 
                 this.context.FileStorages.Add(blogFile);
 
@@ -253,7 +253,7 @@ namespace Application.DataAccess.Repositories
 
         public async Task<FileStorage> GetBlogFileAsync(string fileBlobName)
         {
-            return await this.context.FileStorages.FirstOrDefaultAsync(f => f.BlogId.Equals(fileBlobName));
+            return await this.context.FileStorages.FirstOrDefaultAsync(f => f.FileId.Equals(fileBlobName));
         }
 
         public async Task<bool> DeleteBlogFileAsync(string fileBlobName)

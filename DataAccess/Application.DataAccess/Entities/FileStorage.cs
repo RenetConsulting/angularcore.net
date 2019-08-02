@@ -6,6 +6,7 @@
 namespace Application.DataAccess.Entities
 {
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public class FileStorage : ApplicationEntity
     {
@@ -18,8 +19,10 @@ namespace Application.DataAccess.Entities
 
         public string Description { get; set; }
 
-        public string BlogId { get; set; }
+        [ForeignKey("ApplicationUser")]
+        [StringLength(450)]
+        public string UserId { get; set; }
 
-        public Blog Blog { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
     }
 }

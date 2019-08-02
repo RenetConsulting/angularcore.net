@@ -39,7 +39,6 @@ namespace Application.Business.Models
                 this.Content = entity.Content;
                 this.CreatedDate = entity.CreatedDate;
                 this.CreatedBy = entity.CreatedBy;
-                this.UserId = entity.UserId;
             }
         }
     }
