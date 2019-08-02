@@ -12,13 +12,16 @@ namespace Application.Controllers
     using Application.Business.Helpers;
     using Application.DataAccess.Repositories;
     using Application.Services;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
 
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
-    public class BlobController : ControllerBase
+    public class BlobController : BaseController
     {
         private readonly IGlobalRepository repository;
 
@@ -28,7 +31,8 @@ namespace Application.Controllers
 
         private readonly IFileManager fileManager;
 
-        public BlobController(IGlobalRepository repository, IOptions<AppSettings> appSettings, IAzureBlobManager azureBlobManager, IFileManager fileManager)
+        public BlobController(IGlobalRepository repository, IOptions<AppSettings> appSettings, IAzureBlobManager azureBlobManager, IFileManager fileManager, ILogger<BlogController> logger)
+            : base(appSettings, logger)
         {
             this.repository = repository;
             this.appSettings = appSettings;
@@ -38,7 +42,7 @@ namespace Application.Controllers
 
         [HttpPost]
         [DisableRequestSizeLimit]
-        public async Task<IActionResult> UploadFile(IFormFileCollection files, string blogId)
+        public async Task<IActionResult> UploadFile(IFormFileCollection files)
         {
             // IFormFileCollection files = this.HttpContext.Request.Form.Files;
             // Check if the request contains multipart/form-data.
@@ -54,7 +58,7 @@ namespace Application.Controllers
 
             try
             {
-                List<FileModel> addedFiles = await this.fileManager.AddAsync(files, blogId).ConfigureAwait(false);
+                List<FileModel> addedFiles = await this.fileManager.AddAsync(files, this.UserId).ConfigureAwait(false);
 
                 IActionResult result = this.Ok(new { Items = addedFiles });
 
@@ -64,7 +68,7 @@ namespace Application.Controllers
                     {
                         foreach (var file in addedFiles)
                         {
-                            await this.repository.SaveBlogFileAsync(blogId, file.Name).ConfigureAwait(false);
+                            await this.repository.SaveBlogFileAsync(this.UserId, file.Name).ConfigureAwait(false);
                         }
                     }
                     catch (Exception ex)

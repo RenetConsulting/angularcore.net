@@ -15,12 +15,12 @@ namespace Application.Services
     {
         Task<List<FileModel>> GetAsync();
 
-        Task<FileActionResult> DeleteAsync(string fileName, string blogId);
+        Task<FileActionResult> DeleteAsync(string fileName, string userId);
 
-        Task<List<FileModel>> AddAsync(IFormFileCollection files, string blogId);
+        Task<List<FileModel>> AddAsync(IFormFileCollection files, string userId);
 
-        Task<FileModel> AddAsync(MemoryStream file, string fileUrl, string blogId);
+        Task<FileModel> AddAsync(MemoryStream file, string fileUrl, string userId);
 
-        Task<bool> FileExistsAsync(string fileName, string blogId);
+        Task<bool> FileExistsAsync(string fileName, string userId);
     }
 }

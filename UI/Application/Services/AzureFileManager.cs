@@ -71,9 +71,9 @@ namespace Application.Services
             }
         }
 
-        public async Task<FileActionResult> DeleteAsync(string fileName, string blogId)
+        public async Task<FileActionResult> DeleteAsync(string fileName, string userId)
         {
-            string path = this.BuildPath(blogId, fileName);
+            string path = this.BuildPath(userId, fileName);
 
             try
             {
@@ -87,7 +87,7 @@ namespace Application.Services
             }
         }
 
-        public async Task<List<FileModel>> AddAsync(IFormFileCollection files, string blogId)
+        public async Task<List<FileModel>> AddAsync(IFormFileCollection files, string userId)
         {
             try
             {
@@ -97,7 +97,7 @@ namespace Application.Services
                 {
                     string fileId = string.Format("{0}{1}", Guid.NewGuid().ToString(), Path.GetExtension(file.Name));
 
-                    string fileName = this.BuildPath(blogId, fileId);
+                    string fileName = this.BuildPath(userId, fileId);
 
                     BlobMetaData blob;
 
@@ -120,13 +120,13 @@ namespace Application.Services
             }
         }
 
-        public async Task<FileModel> AddAsync(MemoryStream file, string fileUrl, string blogId)
+        public async Task<FileModel> AddAsync(MemoryStream file, string fileUrl, string userId)
         {
             try
             {
                 string fileId = string.Format("{0}{1}", Guid.NewGuid().ToString(), Path.GetExtension(fileUrl));
 
-                string fileName = this.BuildPath(blogId, fileId);
+                string fileName = this.BuildPath(userId, fileId);
 
                 BlobMetaData blob = await this.BlobManager.AddAsync(file, fileName).ConfigureAwait(false);
 
@@ -143,18 +143,18 @@ namespace Application.Services
             }
         }
 
-        public Task<bool> FileExistsAsync(string fileName, string blogId)
+        public Task<bool> FileExistsAsync(string fileName, string userId)
         {
-            string path = this.BuildPath(blogId, fileName);
+            string path = this.BuildPath(userId, fileName);
 
             return this.BlobManager.FileExistsAsync(path);
         }
 
         #region Private methods
 
-        private string BuildPath(string blogId, string fileId)
+        private string BuildPath(string userId, string fileId)
         {
-            return string.Format("{0}/{1}", blogId, fileId);
+            return string.Format("{0}/{1}", userId, fileId);
         }
 
         #endregion
