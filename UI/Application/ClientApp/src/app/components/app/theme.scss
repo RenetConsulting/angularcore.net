@@ -27,50 +27,6 @@
                     color: mat-color($foreground, text, .5);
                 }
             }
-            //editor
-            .ql-editor.ql-blank::before {
-                color: mat-color($foreground, text);
-            }
-
-            .ql-toolbar.ql-snow {
-                .ql-picker.ql-expanded {
-                    .ql-picker-options,
-                    .ql-picker-label {
-                        border-color: mat-color($foreground, text, .2);
-                        outline: 0;
-                    }
-                }
-            }
-
-            .ql-snow {
-                .ql-stroke {
-                    stroke: mat-color($foreground, text);
-                }
-
-                .ql-fill,
-                .ql-stroke.ql-fill {
-                    fill: mat-color($foreground, text);
-                }
-
-                .ql-picker {
-                    color: mat-color($foreground, text);
-                }
-
-                .ql-picker-options {
-                    background-color: mat-color($background, dialog);
-                }
-
-                .ql-tooltip {
-                    background-color: mat-color($background, dialog);
-                    color: mat-color($foreground, text);
-                    border-color: mat-color($foreground, text, .2);
-
-                    input[type=text] {
-                        @extend .ql-tooltip;
-                        outline: 0;
-                    }
-                }
-            }
         }
     }
 }
