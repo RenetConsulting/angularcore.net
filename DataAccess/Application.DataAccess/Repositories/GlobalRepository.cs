@@ -239,7 +239,7 @@ namespace Application.DataAccess.Repositories
         {
             try
             {
-                FileStorage blogFile = new FileStorage { FileId = fileBlobName, BlogId = blogId};
+                FileStorage blogFile = new FileStorage { FileId = fileBlobName, BlogId = blogId };
 
                 this.context.FileStorages.Add(blogFile);
 
@@ -305,15 +305,6 @@ namespace Application.DataAccess.Repositories
             return selector;
         }
 
-        private int SkipSize(int page, int elementsAmount)
-        {
-            double toSkip = (page - 1) * elementsAmount;
-
-            toSkip = toSkip < 0 ? 0 : toSkip;
-
-            return (int)toSkip;
-        }
-
         private static IQueryable<T> ActiveSelector<T>(bool? active, IQueryable<T> selector)
             where T : ApplicationEntity
         {
@@ -342,6 +333,15 @@ namespace Application.DataAccess.Repositories
             }
 
             return selector;
+        }
+
+        private int SkipSize(int page, int elementsAmount)
+        {
+            double toSkip = (page - 1) * elementsAmount;
+
+            toSkip = toSkip < 0 ? 0 : toSkip;
+
+            return (int)toSkip;
         }
     }
 }

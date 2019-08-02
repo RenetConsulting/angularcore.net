@@ -97,8 +97,6 @@ namespace Application.Services
                 {
                     string fileId = string.Format("{0}{1}", Guid.NewGuid().ToString(), Path.GetExtension(file.Name));
 
-                    // FileType fileType = this.CheckFileType(file);
-
                     string fileName = this.BuildPath(blogId, fileId);
 
                     BlobMetaData blob;
@@ -158,16 +156,6 @@ namespace Application.Services
         {
             return string.Format("{0}/{1}", blogId, fileId);
         }
-
-        /*
-        private FileType CheckFileType(IFormFile file)
-        {
-            return file.ContentType.StartsWith("image") ?
-                FileType.Image :
-                file.ContentType.StartsWith("video") ?
-                FileType.Video :
-                FileType.None;
-        }*/
 
         #endregion
     }

@@ -16,7 +16,6 @@ namespace Application.Business.Helpers
         public FileModel(string fileId, BlobMetaData blob)
         {
             this.Name = fileId;
-            // this.FileType = fileType;
             this.Size = blob.Size;
             this.Created = blob.Created;
             this.Url = blob.Url;
@@ -27,7 +26,6 @@ namespace Application.Business.Helpers
             this.Name = fileId;
             this.Url = url;
             this.Description = description;
-            // this.FileType = fileType;
         }
 
         public string Name { get; set; }
@@ -36,14 +34,8 @@ namespace Application.Business.Helpers
 
         public string Description { get; set; }
 
-        // public FileType FileType { get; set; }
-
         public long Size { get; set; }
 
         public DateTime Created { get; set; }
-
-        // public int BindingsCount { get; set; }
-
-        // public int ItemBindingsCount { get; set; }
     }
 }
