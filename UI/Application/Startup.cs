@@ -87,7 +87,6 @@ namespace Application
                     .AllowAnyHeader()
                     .AllowCredentials());
             });
-            services.AddSignalR();
 
             // Add framework services.
             services.AddMvc().AddJsonOptions(options =>
@@ -97,6 +96,8 @@ namespace Application
                 options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddSignalR().AddJsonProtocol(j => j.PayloadSerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc);
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
