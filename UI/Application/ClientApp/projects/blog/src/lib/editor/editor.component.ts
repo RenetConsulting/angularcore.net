@@ -30,7 +30,7 @@ export class EditorComponent extends ControlValueAccessorBase implements OnChang
     errorState: number;
 
     constructor(
-        @Self() @Inject(NgControl) ngControl: NgControl,
+        @Optional() @Self() @Inject(NgControl) ngControl: NgControl,
         @Optional() @Inject(FormGroupDirective) private formGroup: FormGroupDirective,
         @Inject(MatDialog) private dialog: MatDialog,
     ) {
