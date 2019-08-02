@@ -56,7 +56,7 @@ namespace Application.Controllers
             {
                 List<FileModel> addedFiles = await this.fileManager.AddAsync(files, blogId).ConfigureAwait(false);
 
-                IActionResult result = this.Ok(new { ItemsList = addedFiles });
+                IActionResult result = this.Ok(new { Items = addedFiles });
 
                 if (addedFiles != null)
                 {

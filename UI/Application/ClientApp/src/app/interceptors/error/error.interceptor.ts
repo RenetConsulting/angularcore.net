@@ -5,6 +5,7 @@ import { HTTP_HEADER_NAMES } from '@renet-consulting/auth';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { SetError } from '~/actions/messenger.actions';
+import { Messages } from '~/consts/messages';
 import { RootStore } from '~/reducers';
 
 @Injectable({
@@ -24,6 +25,10 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     handleError = (error: HttpErrorResponse, request: HttpRequest<any>) => {
         if (error instanceof HttpErrorResponse) {
+            if (error.status === 401) {
+                this.store.dispatch(new SetError(Messages.error401));
+                return throwError(error);
+            }
             if (!request.headers.has(HTTP_HEADER_NAMES.allowError) || error.status >= 500) {
                 this.store.dispatch(new SetError(error.error));
                 return throwError(error);

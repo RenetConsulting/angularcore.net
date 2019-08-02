@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, filter, map, mapTo, mergeMap, tap } from 'rxjs/operators';
 import { SetError, SetSuccess } from '~/actions/messenger.actions';
-import { MessagesType } from '~/enums/messages.type';
+import { Messages } from '~/consts/messages';
 import { AccountService } from '~/services/account/account.service';
 import { filterError } from '~/utils/filter.error';
 import { ResetPasswordRequest, ResetPasswordError, ResetPasswordSuccess } from './actions';
@@ -28,7 +28,7 @@ export class ResetPasswordEffects {
 
     @Effect() resetPasswordSuccess = this.actions.pipe(
         ofType<ResetPasswordSuccess>(ResetPasswordTypes.RESET_PASSWORD_SUCCESS),
-        mapTo(new SetSuccess(MessagesType.passwordHasChanged))
+        mapTo(new SetSuccess(Messages.passwordHasChanged))
     );
 
 

@@ -50,7 +50,7 @@ describe('EditorComponent', () => {
     });
     it('ngOnChanges', () => {
         spyOn(component, 'setModules');
-        component.ngOnChanges({ readonly: {} });
+        component.ngOnChanges();
         expect(component.setModules).toHaveBeenCalled();
     });
     it('ngOnInit', () => {

@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, filter, mapTo, mergeMap, withLatestFrom } from 'rxjs/operators';
 import { SetSuccess } from '~/actions/messenger.actions';
-import { MessagesType } from '~/enums/messages.type';
+import { Messages } from '~/consts/messages';
 import { RootStore } from '~/reducers';
 import { AccountService } from '~/services/account/account.service';
 import { selectAuthUser } from '../../selectors';
@@ -32,6 +32,6 @@ export class ResendConfirmationEffects {
 
     @Effect() resendConfirmationSuccess = this.actions.pipe(
         ofType<ResendConfirmationSuccess>(ResendConfirmationTypes.RESEND_CONFIRMATION_SUCCESS),
-        mapTo(new SetSuccess(MessagesType.checkEmail))
+        mapTo(new SetSuccess(Messages.checkEmail))
     );
 }

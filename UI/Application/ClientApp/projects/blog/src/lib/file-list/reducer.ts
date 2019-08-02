@@ -18,7 +18,7 @@ export function fileReducer(state = INITIAL_STATE, action: FileActionsUnion): Fi
 
     switch (action.type) {
 
-        case FileTypes.UPLOAD_FILE_SUCCESS: return adapter.addOne(action.success, state);
+        case FileTypes.UPLOAD_FILE_SUCCESS: return adapter.addMany(action.success.items, state);
         case FileTypes.GET_FILES_SUCCESS: return {
             ...adapter.addMany(action.success.items, state),
             totalAmount: action.success.totalAmount
