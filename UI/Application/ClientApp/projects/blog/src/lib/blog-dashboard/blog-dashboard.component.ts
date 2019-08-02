@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { CreateBlogRequest } from '../actions';
 import { BlogModel } from '../blog.model';
 import { RootBlogStore } from '../reducers';
-import { quillModules } from './quill-modules';
 
 @Component({
     selector: 'lib-blog-dashboard',
@@ -13,7 +12,6 @@ import { quillModules } from './quill-modules';
 })
 export class BlogDashboardComponent implements OnInit {
 
-    readonly quillModules = quillModules;
     formGroup: FormGroup;
 
     constructor(
