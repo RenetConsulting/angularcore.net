@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Inject, Input, OnChanges, OnDestroy
 import { ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ControlValueAccessorBase, errorEnterLeaveAnimation } from '@renet-consulting/ngx-mat-input';
-import { QuillModules } from 'ngx-quill';
+import { defaultModules, QuillModules } from 'ngx-quill';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { FileListComponent } from '../file-list/file-list.component';
@@ -23,6 +23,7 @@ export class EditorComponent extends ControlValueAccessorBase implements OnChang
     @Input() minLength: number;
     @Input() maxLength: number;
     @Input() label: number;
+    @Input() defaultModules: QuillModules = defaultModules;
     readonly subscription = new Subscription();
     modules: QuillModules;
     quill;
@@ -37,10 +38,8 @@ export class EditorComponent extends ControlValueAccessorBase implements OnChang
         super(ngControl);
     }
 
-    ngOnChanges(e): void {
-        if (e.readonly) {
-            this.setModules();
-        }
+    ngOnChanges(): void {
+        this.setModules();
     }
 
     ngOnInit(): void {
@@ -69,7 +68,8 @@ export class EditorComponent extends ControlValueAccessorBase implements OnChang
     }
 
     setModules = (): void => {
-        this.modules = this.readonly ? { toolbar: false } : null;
+        console.log(this.defaultModules)
+        this.modules = this.readonly ? { toolbar: false } : this.defaultModules;
     }
 
     onEditorCreated = (quill): void => {

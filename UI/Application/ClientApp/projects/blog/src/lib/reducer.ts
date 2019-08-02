@@ -11,7 +11,7 @@ export interface BlogState extends EntityState<BlogModel> {
 }
 
 const selectId = (i: BlogModel) => i.blogId;
-const sortComparer = (a: BlogModel, b: BlogModel) => new Date(a.createdDate).valueOf() - new Date(b.createdDate).valueOf();
+const sortComparer = (a: BlogModel, b: BlogModel) => new Date(b.createdDate).valueOf() - new Date(a.createdDate).valueOf();
 const adapter = createEntityAdapter({ selectId, sortComparer });
 export const { selectAll, selectEntities, selectTotal } = adapter.getSelectors();
 const INITIAL_STATE: BlogState = adapter.getInitialState({});

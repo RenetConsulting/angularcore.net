@@ -1,7 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { Store } from '@ngrx/store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
+import { BlogState } from '../reducer';
+import { RootBlogStore } from '../reducers';
 import * as UIActions from './actions';
 import { FileEffects } from './effects';
 import { FileModel } from './file.model';
@@ -13,6 +17,7 @@ describe('FileEffects', () => {
 
     let actions: Observable<any>;
     let fileService: jasmine.SpyObj<FileService>;
+    let store: MockStore<RootBlogStore>;
 
     beforeEach(() => {
 
@@ -20,12 +25,14 @@ describe('FileEffects', () => {
             providers: [
                 FileEffects,
                 provideMockActions(() => actions),
+                provideMockStore({}),
                 { provide: FileService, useValue: jasmine.createSpyObj<FileService>('FileService', ['upload', 'getFiles', 'delete']) },
             ],
         });
 
         effects = TestBed.get(FileEffects);
         fileService = TestBed.get(FileService);
+        store = TestBed.get(Store);
     });
 
     it('should work', () => {
@@ -35,6 +42,11 @@ describe('FileEffects', () => {
     describe('uploadFileRequest', () => {
 
         const item = {} as FileModel;
+        const blogId = 'BlogId';
+
+        beforeEach(() => {
+            store.setState({ blog: { selectedBlogId: blogId } as BlogState });
+        });
 
         it('success', () => {
             fileService.upload.and.returnValue(of(item));
@@ -56,6 +68,12 @@ describe('FileEffects', () => {
     });
 
     describe('getFilesRequest', () => {
+
+        const blogId = 'BlogId';
+
+        beforeEach(() => {
+            store.setState({ blog: { selectedBlogId: blogId } as BlogState });
+        });
 
         it('success', () => {
             fileService.getFiles.and.returnValue(of(null));

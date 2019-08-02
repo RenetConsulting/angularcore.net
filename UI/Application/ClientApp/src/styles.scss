@@ -49,6 +49,11 @@ a, button {
 .pt-10 {
     padding-top: $spacer * 6;
 }
+@media (min-width: 320px) {
+    .p-xs-3 {
+        padding: 1.5rem !important;
+    }
+}
 //styles for editor
 .ql-editor p {
     margin-top: 0 !important;
@@ -71,7 +76,9 @@ a, button {
 .ql-font-serif {
     font-family: Georgia, Times New Roman, serif !important;
 }
-
+.ql-tooltip {
+    box-shadow: rgba($black, .2) 0 2px 8px !important;
+}
 //styles for mat-card
 .mat-card-header-text {
     margin: 0 !important;
