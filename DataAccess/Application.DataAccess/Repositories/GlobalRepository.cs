@@ -140,7 +140,7 @@ namespace Application.DataAccess.Repositories
 
         public async Task<Blog> GetBlogAsync(string blogId)
         {
-            return await this.context.Blogs.Where(bl => bl.BlogId.Equals(blogId)).FirstOrDefaultAsync();
+            return await this.context.Blogs.Where(bl => bl.BlogId.Equals(blogId)).OrderByDescending(a => a.CreatedDate.TimeOfDay).ThenBy(a => a.CreatedDate.Date).ThenBy(a => a.CreatedDate.Year).FirstOrDefaultAsync();
         }
 
         [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "ValueTuple.")]
@@ -148,7 +148,7 @@ namespace Application.DataAccess.Repositories
         {
             int totalAmount = await this.context.Blogs.CountAsync();
 
-            List<Blog> blogs = await this.context.Blogs.Skip(index).Take(count).OrderBy(a => a.CreatedDate).ToListAsync();
+            List<Blog> blogs = await this.context.Blogs.Skip(index).Take(count).OrderByDescending(a => a.CreatedDate.TimeOfDay).ThenBy(a => a.CreatedDate.Date).ThenBy(a => a.CreatedDate.Year).ToListAsync();
 
             return (blogs, totalAmount);
         }
