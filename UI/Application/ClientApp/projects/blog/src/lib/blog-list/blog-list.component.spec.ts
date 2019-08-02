@@ -6,6 +6,7 @@ import { BlogHubService } from '../blog-hub.service';
 import { BlogModel } from '../blog.model';
 import { RootBlogStore } from '../reducers';
 import { BlogListComponent } from './blog-list.component';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 describe('BlogListComponent', () => {
 
@@ -35,8 +36,11 @@ describe('BlogListComponent', () => {
     it('ngOnInit', () => {
         spyOn(component, 'getItems');
         spyOn(component.source, 'update');
+        spyOn(component, 'scrollToModel');
         const end = 9;
-        store.setState({ blog: { ids: [], entities: {}, totalAmount: 10 } });
+        const created = {} as BlogModel;
+        const updated = {} as BlogModel;
+        store.setState({ blog: { ids: [], entities: {}, totalAmount: 10, created, updated } });
 
         component.ngOnInit();
 
@@ -46,6 +50,7 @@ describe('BlogListComponent', () => {
         expect(component.getItems).toHaveBeenCalledWith(end);
         expect(component.getItems).toHaveBeenCalledTimes(2);
         expect(component.source.update).toHaveBeenCalled();
+        expect(component.scrollToModel).toHaveBeenCalledTimes(2);
 
         component.ngOnDestroy();
     });
@@ -63,5 +68,20 @@ describe('BlogListComponent', () => {
         const index = 0;
         component.getItems(index);
         expect(store.dispatch).toHaveBeenCalledWith(new GetBlogsRequest({ index }));
+    });
+    it('scrollToIndex', () => {
+        component.cdk = jasmine.createSpyObj<CdkVirtualScrollViewport>('CdkVirtualScrollViewport', ['scrollToIndex']);
+        const index = 24;
+        component.scrollToIndex(index);
+        expect(component.cdk.scrollToIndex).toHaveBeenCalledWith(index, 'smooth');
+    });
+    it('scrollToModel', () => {
+        const model = { blogId: 'blog' } as BlogModel;
+        const blogs = [{} as BlogModel, {} as BlogModel, model];
+        const index = 2;
+        spyOn(component.source.stream, 'getValue').and.returnValue(blogs);
+        spyOn(component, 'scrollToIndex');
+        component.scrollToModel(model);
+        expect(component.scrollToIndex).toHaveBeenCalledWith(index);
     });
 });

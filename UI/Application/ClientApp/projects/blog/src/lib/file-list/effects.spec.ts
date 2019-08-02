@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
+import { IResponseList } from '../response-list';
 import * as UIActions from './actions';
 import { FileEffects } from './effects';
 import { FileModel } from './file.model';
@@ -35,11 +36,12 @@ describe('FileEffects', () => {
     describe('uploadFileRequest', () => {
 
         const item = {} as FileModel;
+        const response = { items: [item] } as IResponseList<FileModel>;
 
         it('success', () => {
-            fileService.upload.and.returnValue(of(item));
+            fileService.upload.and.returnValue(of(response));
             const action = new UIActions.UploadFileRequest(null);
-            const completion = new UIActions.UploadFileSuccess(item);
+            const completion = new UIActions.UploadFileSuccess(response);
             const expected = cold('--b', { b: completion });
             actions = hot('--a-', { a: action });
             expect(effects.uploadFileRequest).toBeObservable(expected);

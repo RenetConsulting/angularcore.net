@@ -29,9 +29,16 @@ export function blogReducer(state = INITIAL_STATE, action: BlogActionsUnion): Bl
         case BlogTypes.CREATE_BLOG_SUCCESS: return adapter.addOne(action.success, state);
         case BlogTypes.UPDATE_BLOG_SUCCESS: return adapter.updateOne({ id: action.payload.blogId, changes: action.payload }, state);
         case BlogTypes.DELETE_BLOG_SUCCESS: return adapter.removeOne(action.payload, state);
-        case BlogTypes.HUB_CREATE_BLOG_SUCCESS: return { ...state, created: action.payload, updated: null };
-        case BlogTypes.HUB_UPDATE_BLOG_SUCCESS: return { ...state, created: null, updated: action.payload };
-        case BlogTypes.DELETE_BLOGS: return { ...adapter.removeAll(state), created: null, updated: null };
+        case BlogTypes.HUB_CREATE_BLOG_SUCCESS: return {
+            ...adapter.addOne(action.payload, state),
+            totalAmount: state.totalAmount + 1,
+            created: action.payload
+        };
+        case BlogTypes.HUB_UPDATE_BLOG_SUCCESS: return {
+            ...adapter.updateOne({ id: action.payload.blogId, changes: action.payload }, state),
+            updated: action.payload
+        };
+        case BlogTypes.DELETE_BLOGS: return INITIAL_STATE;
 
         default: return state;
     }
