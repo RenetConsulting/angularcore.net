@@ -68,7 +68,7 @@ namespace Application.Controllers
                     {
                         foreach (var file in addedFiles)
                         {
-                            await this.repository.SaveBlogFileAsync(this.UserId, file.Name).ConfigureAwait(false);
+                            await this.repository.SaveBlogFileAsync(this.UserId, file.FileId).ConfigureAwait(false);
                         }
                     }
                     catch (Exception ex)
@@ -109,12 +109,12 @@ namespace Application.Controllers
                 return this.BadRequest($"File with {blobName} name not found");
             }
 
-            if (!await this.fileManager.FileExistsAsync(blobName, existingFile.BlogId).ConfigureAwait(false))
+            if (!await this.fileManager.FileExistsAsync(blobName, existingFile.UserId).ConfigureAwait(false))
             {
                 return this.NotFound();
             }
 
-            var result = await this.fileManager.DeleteAsync(blobName, existingFile.BlogId).ConfigureAwait(false);
+            var result = await this.fileManager.DeleteAsync(blobName, existingFile.UserId).ConfigureAwait(false);
 
             if (result.Successful)
             {

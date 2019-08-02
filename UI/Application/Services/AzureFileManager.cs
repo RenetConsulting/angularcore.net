@@ -54,10 +54,10 @@ namespace Application.Services
 
                         files.Add(new FileModel
                         {
-                            Name = blobItem.Name,
+                            FileId = blobItem.Name,
                             Size = blobItem.Properties.Length / 1024,
-                            Created = blobItem.Metadata["Created"] == null ? DateTime.Now : DateTime.Parse(blobItem.Metadata["Created"]),
-                            Url = blobItem.Uri.AbsoluteUri
+                            CreatedDate = blobItem.Metadata["Created"] == null ? DateTime.Now : DateTime.Parse(blobItem.Metadata["Created"]),
+                            FileUrl = blobItem.Uri.AbsoluteUri
                         });
                     }
                 }
