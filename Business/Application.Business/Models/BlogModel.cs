@@ -26,6 +26,7 @@ namespace Application.Business.Models
                 BlogId = this.BlogId,
                 Title = this.Title,
                 Content = this.Content,
+                UserId = this.UserId
             };
         }
 
