@@ -1,14 +1,3 @@
-.minh-28 {
-    min-height: 28px;
-}
-
-.error {
-    color: #f44336;
-
-    div {
-        overflow: hidden;
-    }
-}
 @import "../../../../../src/app/styles/varialles.scss";
 
 .minh-28 {
@@ -16,12 +5,11 @@
 }
 
 .error {
-    color: red;
-
     div {
         overflow: hidden;
     }
 }
+
 //styles for editor
 lib-editor {
     .ql-editor {
