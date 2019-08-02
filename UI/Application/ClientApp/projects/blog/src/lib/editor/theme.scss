@@ -76,8 +76,12 @@
 
             button {
                 &:hover {
-                    rect, rect, circle, polyline, line, path {
+                    rect, rect, circle, polyline, line, path, polygon {
                         stroke: mat-color($primary) !important;
+                    }
+
+                    path {
+                        fill: mat-color($primary) !important;
                     }
                 }
             }
