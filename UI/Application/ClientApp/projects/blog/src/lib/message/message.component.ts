@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Output } from
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
 
-/** TODO: test whether a message appears */
 @Component({
     selector: 'lib-message',
     templateUrl: './message.component.html',

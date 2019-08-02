@@ -75,11 +75,6 @@ export class BlogEffects {
         ))
     );
 
-    @Effect() hubCreateBlogSuccess = this.actions.pipe(
-        ofType<UIActions.HubCreateBlogSuccess>(BlogTypes.HUB_CREATE_BLOG_SUCCESS),
-        map(a => new UIActions.CreateBlogSuccess(a.payload)),
-    );
-
     @Effect() hubUpdateBlogRequest = this.actions.pipe(
         ofType<UIActions.HubUpdateBlogRequest>(BlogTypes.HUB_UPDATE_BLOG_REQUEST),
         map(action => ({ action, instance: this.snackBar.openFromComponent(MessageComponent).instance })),
@@ -88,10 +83,5 @@ export class BlogEffects {
             filter(z => z),
             map(() => new UIActions.HubUpdateBlogSuccess(x.action.payload))
         ))
-    );
-
-    @Effect() hubUpdateBlogSuccess = this.actions.pipe(
-        ofType<UIActions.HubUpdateBlogSuccess>(BlogTypes.HUB_UPDATE_BLOG_SUCCESS),
-        map(a => new UIActions.UpdateBlogSuccess(a.payload)),
     );
 }

@@ -1,0 +1,100 @@
+@mixin editor-theme($theme) {
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+
+    lib-editor {
+        .ql-editor {
+            &.ql-blank {
+                border-bottom: 1px solid mat-color($foreground, text, .42);
+
+                &::before {
+                    color: mat-color($foreground, text, .5);
+                }
+            }
+        }
+
+        .ng-touched {
+            &.ng-valid {
+                .ql-editor {
+                    border-bottom: 2px solid mat-color($primary);
+                }
+            }
+
+            &.ng-invalid {
+                .ql-editor {
+                    &.ql-blank {
+                        border-color: mat-color($warn);
+                    }
+                }
+            }
+        }
+
+        .ql-toolbar.ql-snow {
+            background: mat-color($foreground, text, .1);
+            border-color: mat-color($foreground, text, .2);
+
+            .ql-picker.ql-expanded {
+                .ql-picker-options,
+                .ql-picker-label {
+                    border-color: mat-color($foreground, text, .2);
+                    outline: 0;
+                }
+            }
+        }
+
+        .ql-snow {
+            .ql-stroke {
+                stroke: mat-color($foreground, text);
+            }
+
+            .ql-fill,
+            .ql-stroke.ql-fill {
+                fill: mat-color($foreground, text);
+            }
+
+            .ql-picker {
+                color: mat-color($foreground, text);
+            }
+
+            .ql-picker-options {
+                background-color: mat-color($background, dialog);
+            }
+
+            .ql-tooltip {
+                background-color: mat-color($background, dialog);
+                color: mat-color($foreground, text);
+                border-color: mat-color($foreground, text, .2);
+
+                input[type=text] {
+                    @extend .ql-tooltip;
+                    outline: 0;
+                }
+            }
+
+            button {
+                &:hover {
+                    rect, rect, circle, polyline, line, path, polygon {
+                        stroke: mat-color($primary) !important;
+                    }
+
+                    path {
+                        fill: mat-color($primary) !important;
+                    }
+                }
+            }
+
+            .ql-picker-label {
+                &:hover {
+                    color: mat-color($primary) !important;
+
+                    rect, rect, circle, polyline, line, path, polygon {
+                        stroke: mat-color($primary) !important;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -193,19 +193,4 @@ describe('BlogEffects', () => {
             expect(instance.setContent).toHaveBeenCalledWith('updated blog');
         });
     });
-
-    it('HubCreateBlogSuccess', () => {
-        const action = new UIActions.HubCreateBlogSuccess(null);
-        const completion = new UIActions.CreateBlogSuccess(null);
-        const expected = cold('--b', { b: completion });
-        actions = hot('--a-', { a: action });
-        expect(effects.hubCreateBlogSuccess).toBeObservable(expected);
-    });
-    it('hubUpdateBlogSuccess', () => {
-        const action = new UIActions.HubUpdateBlogSuccess(null);
-        const completion = new UIActions.UpdateBlogSuccess(null);
-        const expected = cold('--b', { b: completion });
-        actions = hot('--a-', { a: action });
-        expect(effects.hubUpdateBlogSuccess).toBeObservable(expected);
-    });
 });

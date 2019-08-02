@@ -55,18 +55,32 @@ describe('blogReducer', () => {
     });
     it('HUB_CREATE_BLOG_SUCCESS', () => {
         const created = { blogId: 'bob' } as BlogModel;
-        expect(blogReducer(state, new UIActions.HubCreateBlogSuccess(created))).toEqual({ ...state, created, updated: null } as BlogState);
+        const totalAmount = 1;
+        expect(blogReducer({
+            ...state,
+            totalAmount
+        }, new UIActions.HubCreateBlogSuccess(created))).toEqual({
+            ids: [created.blogId],
+            entities: { [created.blogId]: created },
+            created,
+            totalAmount: totalAmount + 1
+        } as BlogState);
     });
     it('HUB_UPDATE_BLOG_SUCCESS', () => {
-        const updated = { blogId: 'bob' } as BlogModel;
-        expect(blogReducer(state, new UIActions.HubUpdateBlogSuccess(updated))).toEqual({ ...state, updated, created: null } as BlogState);
-    });
-    it('DELETE_BLOGS', () => {
         const item = { blogId: 'bob' } as BlogModel;
+        const updated = { blogId: item.blogId, content: 'bob' } as BlogModel;
         expect(blogReducer({
             ids: [item.blogId],
             entities: { [item.blogId]: item }
-        }, new UIActions.DeleteBlogs())).toEqual({ ...state, created: null, updated: null } as BlogState);
+        }, new UIActions.HubUpdateBlogSuccess(updated))).toEqual({
+            ids: [updated.blogId],
+            entities: { [updated.blogId]: updated },
+            updated,
+        } as BlogState);
+    });
+    it('DELETE_BLOGS', () => {
+        const item = { blogId: 'bob' } as BlogModel;
+        expect(blogReducer({ ids: [item.blogId], entities: { [item.blogId]: item } }, new UIActions.DeleteBlogs())).toEqual(state);
     });
     it('default', () => {
         expect(blogReducer(state, { type: null } as any)).toEqual(state);

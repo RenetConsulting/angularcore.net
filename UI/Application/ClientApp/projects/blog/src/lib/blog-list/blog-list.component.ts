@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { InfiniteSource } from '@renet-consulting/infinite-source';
 import { Subscription } from 'rxjs';
@@ -7,7 +8,7 @@ import { DeleteBlogs, GetBlogsRequest } from '../actions';
 import { BlogHubService } from '../blog-hub.service';
 import { BlogModel } from '../blog.model';
 import { RootBlogStore } from '../reducers';
-import { selectBlogs, selecBlogTotalAmount, selectCreatedBlog, selectUpdatedBlog } from '../selectors';
+import { selecBlogTotalAmount, selectBlogs, selectCreatedBlog, selectUpdatedBlog } from '../selectors';
 
 @Component({
     selector: 'lib-blog-list',
@@ -17,6 +18,7 @@ import { selectBlogs, selecBlogTotalAmount, selectCreatedBlog, selectUpdatedBlog
 })
 export class BlogListComponent implements OnInit, OnDestroy {
 
+    @ViewChild(CdkVirtualScrollViewport, { static: true }) cdk: CdkVirtualScrollViewport;
     readonly subscription = new Subscription();
     readonly updated = this.store.select(selectUpdatedBlog).pipe(shareReplay(1));
     readonly created = this.store.select(selectCreatedBlog).pipe(shareReplay(1));
@@ -38,6 +40,8 @@ export class BlogListComponent implements OnInit, OnDestroy {
             filter(([end, total]) => end < total),
             map(([end]) => end),
         ).subscribe(this.getItems));
+        this.subscription.add(this.store.select(selectUpdatedBlog).subscribe(this.scrollToModel));
+        this.subscription.add(this.store.select(selectCreatedBlog).subscribe(this.scrollToModel));
     }
 
     ngOnDestroy(): void {
@@ -48,4 +52,11 @@ export class BlogListComponent implements OnInit, OnDestroy {
     trackByFn = (_, x: BlogModel) => x.blogId;
 
     getItems = (index: number): void => this.store.dispatch(new GetBlogsRequest({ index }));
+
+    scrollToIndex = (index: number) => this.cdk.scrollToIndex(index, 'smooth');
+
+    scrollToModel = (x: BlogModel): void => {
+        const blogs = this.source.stream.getValue();
+        this.scrollToIndex(blogs.findIndex(z => z.blogId === x.blogId));
+    }
 }
