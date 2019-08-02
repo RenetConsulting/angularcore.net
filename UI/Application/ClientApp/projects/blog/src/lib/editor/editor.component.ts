@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, Input, OnChanges, OnDestroy, OnInit, Optional, Self } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnChanges, OnDestroy, OnInit, Optional, Self, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ControlValueAccessorBase, errorEnterLeaveAnimation } from '@renet-consulting/ngx-mat-input';
@@ -13,6 +13,7 @@ import { mapMaxLength, mapMinLength } from './validators';
     templateUrl: './editor.component.html',
     styleUrls: ['./editor.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
     animations: [errorEnterLeaveAnimation]
 })
 export class EditorComponent extends ControlValueAccessorBase implements OnChanges, OnInit, OnDestroy, ControlValueAccessor {
