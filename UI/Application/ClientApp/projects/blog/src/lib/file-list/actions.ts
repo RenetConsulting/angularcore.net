@@ -10,7 +10,7 @@ export class UploadFileRequest implements Action {
 }
 export class UploadFileSuccess implements Action {
     readonly type = FileTypes.UPLOAD_FILE_SUCCESS;
-    constructor(readonly success: FileModel) { }
+    constructor(readonly success: IResponseList<FileModel>) { }
 }
 export class UploadFileError implements Action {
     readonly type = FileTypes.UPLOAD_FILE_ERROR;

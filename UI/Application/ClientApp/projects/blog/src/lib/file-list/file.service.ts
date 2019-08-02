@@ -24,7 +24,7 @@ export class FileService {
     }
 
     upload = (items: FileList) => this.http
-        .post<FileModel>(`${this.url}`, getFormData(items))
+        .post<IResponseList<FileModel>>(`${this.url}`, getFormData(items))
 
     getFiles = (request: IRequestList) => this.http
         .get<IResponseList<FileModel>>(`${this.url}`, { params: this.params.map(request) })

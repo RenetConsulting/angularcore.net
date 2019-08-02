@@ -1,3 +1,4 @@
+import { IResponseList } from '../response-list';
 import * as UIActions from './actions';
 import { FileModel } from './file.model';
 import { fileReducer, FileState } from './reducer';
@@ -12,7 +13,7 @@ describe('fileReducer', () => {
 
     it('CREATE_BLOG_SUCCESS', () => {
         const item = { fileId: 'bob' } as FileModel;
-        expect(fileReducer(state, new UIActions.UploadFileSuccess(item))).toEqual({
+        expect(fileReducer(state, new UIActions.UploadFileSuccess({ items: [item] } as IResponseList<FileModel>))).toEqual({
             ids: [item.fileId],
             entities: { [item.fileId]: item }
         } as FileState);
