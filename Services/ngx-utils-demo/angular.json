@@ -731,6 +731,41 @@
           }
         }
       }
+    },
+    "title-strategy": {
+      "projectType": "library",
+      "root": "projects/title-strategy",
+      "sourceRoot": "projects/title-strategy/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/title-strategy/tsconfig.lib.json",
+            "project": "projects/title-strategy/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/title-strategy/src/test.ts",
+            "tsConfig": "projects/title-strategy/tsconfig.spec.json",
+            "karmaConfig": "projects/title-strategy/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/title-strategy/tsconfig.lib.json",
+              "projects/title-strategy/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "ngx-utils-demo"

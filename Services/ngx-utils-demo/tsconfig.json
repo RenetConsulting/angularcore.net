@@ -126,6 +126,12 @@
       ],
       "resize/*": [
         "dist/resize/*"
+      ],
+      "title-strategy": [
+        "dist/title-strategy"
+      ],
+      "title-strategy/*": [
+        "dist/title-strategy/*"
       ]
     }
   }

@@ -3,7 +3,17 @@ import { RouterModule, Routes } from '@angular/router';
 import { StorageComponent } from './storage.component';
 
 const routes: Routes = [
-    { path: '', component: StorageComponent }
+    {
+        path: '',
+        component: StorageComponent,
+        children: [
+            {
+                path: 'test',
+                loadChildren: () => import('../uploader/uploader.module').then(m => m.UploaderModule),
+                data: { title: 'Test' }
+            }
+        ]
+    }
 ];
 
 @NgModule({

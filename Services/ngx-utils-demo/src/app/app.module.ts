@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import 'hammerjs';
 import { NgxAModule } from 'projects/elements/src/lib/ngx-a/ngx-a.module';
 import { ApiPrefixInterceptor, NoneCacheInterceptor } from 'projects/interceptors/src/public-api';
+import { TitleStrategyModule } from 'projects/title-strategy/src/public-api';
 import { AppComponent } from './app.component';
 import { ROUTES } from './app.routes';
 
@@ -25,6 +26,7 @@ const BASE_URL = new InjectionToken('BASE_URL', {
         BrowserAnimationsModule,
         RouterModule.forRoot(ROUTES),
         NgxAModule,
+        TitleStrategyModule
     ],
     providers: [
         { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } as MatFormFieldDefaultOptions },
