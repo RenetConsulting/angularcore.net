@@ -4,8 +4,8 @@ import { BlogListModule as ListModule } from 'projects/blog/src/public-api';
 
 /** here should be a wrapper for lazy lib modules */
 @NgModule({
-  imports: [
-      ListModule
-  ]
+    imports: [
+        ListModule
+    ]
 })
 export class BlogListModule { }

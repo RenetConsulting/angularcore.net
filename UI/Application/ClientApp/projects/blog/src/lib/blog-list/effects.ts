@@ -1,14 +1,14 @@
-import { Inject, Injectable, Optional } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { asyncScheduler, of } from 'rxjs';
+import { of, SchedulerLike } from 'rxjs';
 import { catchError, delay, filter, map, mergeMap, tap } from 'rxjs/operators';
 import * as UIActions from '../actions';
 import { BlogDefaultOptions } from '../blog-default-options';
 import { BlogService } from '../blog.service';
-import { MessageComponent } from '../message/message.component';
 import { SCHEDULER } from '../scheduler';
 import { BlogTypes } from '../types';
+import { MessageDialogComponent } from './message-dialog/message-dialog.component';
 
 @Injectable()
 export class BlogListEffects {
@@ -18,8 +18,7 @@ export class BlogListEffects {
         @Inject(BlogService) private blogService: BlogService,
         @Inject(MatSnackBar) private snackBar: MatSnackBar,
         @Inject(BlogDefaultOptions) private options: BlogDefaultOptions,
-        @Inject(MessageComponent) private dialogComponent: typeof MessageComponent,
-        @Inject(SCHEDULER) @Optional() private scheduler = asyncScheduler
+        @Inject(SCHEDULER) private scheduler: SchedulerLike
     ) { }
 
     @Effect() getBlogsRequest = this.actions.pipe(
@@ -32,7 +31,7 @@ export class BlogListEffects {
 
     @Effect() hubCreateBlogRequest = this.actions.pipe(
         ofType<UIActions.HubCreateBlogRequest>(BlogTypes.HUB_CREATE_BLOG_REQUEST),
-        map(action => ({ action, instance: this.snackBar.openFromComponent(this.dialogComponent).instance })),
+        map(action => ({ action, instance: this.snackBar.openFromComponent(MessageDialogComponent).instance })),
         tap(x => x.instance.setContent('created blog')),
         mergeMap(x => x.instance.change.pipe(
             filter(z => z),
@@ -42,7 +41,7 @@ export class BlogListEffects {
 
     @Effect() hubUpdateBlogRequest = this.actions.pipe(
         ofType<UIActions.HubUpdateBlogRequest>(BlogTypes.HUB_UPDATE_BLOG_REQUEST),
-        map(action => ({ action, instance: this.snackBar.openFromComponent(this.dialogComponent).instance })),
+        map(action => ({ action, instance: this.snackBar.openFromComponent(MessageDialogComponent).instance })),
         tap(x => x.instance.setContent('updated blog')),
         mergeMap(x => x.instance.change.pipe(
             filter(z => z),

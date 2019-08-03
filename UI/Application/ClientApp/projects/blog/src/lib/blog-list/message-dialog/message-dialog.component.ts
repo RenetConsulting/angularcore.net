@@ -1,17 +1,14 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Injectable, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Output } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
 
-@Injectable({
-    providedIn: 'root'
-})
 @Component({
-    selector: 'lib-message',
-    templateUrl: './message.component.html',
-    styleUrls: ['./message.component.scss'],
+    selector: 'lib-message-dialog',
+    templateUrl: './message-dialog.component.html',
+    styleUrls: ['./message-dialog.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MessageComponent {
+export class MessageDialogComponent {
 
     @Output() readonly change = new EventEmitter<boolean>();
     readonly content = new Subject<string>();

@@ -8,9 +8,9 @@ import { Observable, of, throwError } from 'rxjs';
 import * as UIActions from '../actions';
 import { BlogDefaultOptions } from '../blog-default-options';
 import { BlogService } from '../blog.service';
-import { MessageComponent } from '../message/message.component';
 import { SCHEDULER } from '../scheduler';
 import { BlogListEffects } from './effects';
+import { MessageDialogComponent } from './message-dialog/message-dialog.component';
 
 describe('BlogListEffects', () => {
 
@@ -20,11 +20,11 @@ describe('BlogListEffects', () => {
     let blogService: jasmine.SpyObj<BlogService>;
     let snackBar: jasmine.SpyObj<MatSnackBar>;
     const options: Partial<BlogDefaultOptions> = { amountOfTimeViewingModifiedBlog: 10 };
-    let instance: MessageComponent;
+    let instance: MessageDialogComponent;
 
     beforeEach(() => {
 
-        instance = { setContent: jasmine.createSpy() as any, change: of(true) as EventEmitter<boolean> } as MessageComponent;
+        instance = { setContent: jasmine.createSpy() as any, change: of(true) as EventEmitter<boolean> } as MessageDialogComponent;
 
         TestBed.configureTestingModule({
             providers: [
@@ -35,7 +35,7 @@ describe('BlogListEffects', () => {
                 { provide: Router, useValue: jasmine.createSpyObj<Router>('Router', ['navigate']) },
                 { provide: BlogDefaultOptions, useValue: options },
                 { provide: SCHEDULER, useValue: getTestScheduler() },
-                { provide: MessageComponent, useValue: instance },
+                { provide: MessageDialogComponent, useValue: instance },
             ],
         });
 
@@ -43,7 +43,7 @@ describe('BlogListEffects', () => {
         blogService = TestBed.get(BlogService);
         snackBar = TestBed.get(MatSnackBar);
 
-        snackBar.openFromComponent.and.returnValue({ instance } as MatSnackBarRef<MessageComponent>);
+        snackBar.openFromComponent.and.returnValue({ instance } as MatSnackBarRef<MessageDialogComponent>);
     });
 
     it('should work', () => {
