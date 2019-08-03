@@ -4,6 +4,7 @@
         <h2 class="mb-3" *ngIf="!blog.editable">{{blog.title}}</h2>
         <lib-editor label="Content" formControlName="content" [readonly]="!blog.editable" minLength="2" maxLength="1000"></lib-editor>
         <button *ngIf="blog.editable" mat-raised-button type="button" color="primary" [disabled]="formGroup.pristine || formGroup.invalid" (click)="submit()">Update</button>
+        <button *ngIf="blog.editable" mat-raised-button type="button" color="warn" (click)="delete()">Delete</button>
         <mat-card-footer *ngIf="!blog.editable" class="text-right px-2 m-0"><small>Created by <strong>{{blog.createdBy}}</strong> on <i>{{blog.createdDate | date: 'fullDate'}}</i></small></mat-card-footer>
     </mat-card>
 </form>

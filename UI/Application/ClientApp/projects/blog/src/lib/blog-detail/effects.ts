@@ -7,6 +7,7 @@ import * as UIActions from '../actions';
 import { BlogService } from '../blog.service';
 import { BlogTypes } from '../types';
 
+/** TODO: add prompt on delete */
 @Injectable()
 export class BlogDetailEffects {
 

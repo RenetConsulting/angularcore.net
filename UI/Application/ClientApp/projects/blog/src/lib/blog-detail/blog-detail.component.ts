@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { GetBlogRequest, UpdateBlogRequest } from '../actions';
+import { DeleteBlogRequest, GetBlogRequest, UpdateBlogRequest } from '../actions';
 import { BlogModel } from '../blog.model';
 import { RootBlogStore } from '../reducers';
 import { selectSelectedBlog } from '../selectors';
-import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'lib-blog-detail',
@@ -58,5 +58,9 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
         if (this.formGroup.valid) {
             this.store.dispatch(new UpdateBlogRequest(this.formGroup.value));
         }
+    }
+
+    delete = (): void => {
+        this.store.dispatch(new DeleteBlogRequest(this.formGroup.value.blogId));
     }
 }
