@@ -1,0 +1,27 @@
+import { Inject, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { of } from 'rxjs';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import * as UIActions from '../actions';
+import { BlogService } from '../blog.service';
+import { BlogTypes } from '../types';
+
+@Injectable()
+export class BlogDashboardEffects {
+
+    constructor(
+        @Inject(Actions) private actions: Actions,
+        @Inject(BlogService) private blogService: BlogService,
+        @Inject(Router) private router: Router,
+    ) { }
+
+    @Effect() createBlogRequest = this.actions.pipe(
+        ofType<UIActions.CreateBlogRequest>(BlogTypes.CREATE_BLOG_REQUEST),
+        mergeMap(a => this.blogService.create(a.payload).pipe(
+            map(r => new UIActions.CreateBlogSuccess(r)),
+            tap(() => this.router.navigate(['/blogs'])),
+            catchError(e => of(new UIActions.CreateBlogError(e)))
+        ))
+    );
+}

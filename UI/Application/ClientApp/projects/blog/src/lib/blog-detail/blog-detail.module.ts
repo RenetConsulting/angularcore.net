@@ -7,10 +7,10 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { NgxMatInputModule } from '@renet-consulting/ngx-mat-input';
 import { EditorModule } from '../editor/editor.module';
-import { BlogEffects } from '../effects';
 import { blogReducer } from '../reducer';
 import { BlogDetailRoutingModule } from './blog-detail-routing.module';
 import { BlogDetailComponent } from './blog-detail.component';
+import { BlogDetailEffects } from './effects';
 
 @NgModule({
     declarations: [BlogDetailComponent],
@@ -23,7 +23,7 @@ import { BlogDetailComponent } from './blog-detail.component';
         MatButtonModule,
         EditorModule,
         StoreModule.forFeature('blog', blogReducer),
-        EffectsModule.forFeature([BlogEffects]),
+        EffectsModule.forFeature([BlogDetailEffects]),
     ]
 })
 export class BlogDetailModule { }

@@ -7,10 +7,10 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { NgxMatInputModule } from '@renet-consulting/ngx-mat-input';
 import { EditorModule } from '../editor/editor.module';
-import { BlogEffects } from '../effects';
 import { blogReducer } from '../reducer';
 import { BlogDashboardRoutingModule } from './blog-dashboard-routing.module';
 import { BlogDashboardComponent } from './blog-dashboard.component';
+import { BlogDashboardEffects } from './effects';
 
 @NgModule({
     declarations: [BlogDashboardComponent],
@@ -23,7 +23,7 @@ import { BlogDashboardComponent } from './blog-dashboard.component';
         MatButtonModule,
         EditorModule,
         StoreModule.forFeature('blog', blogReducer),
-        EffectsModule.forFeature([BlogEffects]),
+        EffectsModule.forFeature([BlogDashboardEffects]),
     ]
 })
 export class BlogDashboardModule { }

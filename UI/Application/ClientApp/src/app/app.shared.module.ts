@@ -62,7 +62,7 @@ const initializerFactory = (service: InitializerService) => () => service.initia
         NgxMessengerModule,
         NgProgressModule,
         NgProgressHttpModule,
-        ErrorDialogModule,
+        ErrorDialogModule
     ],
 })
 export class AppSharedModule { }
