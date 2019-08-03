@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MessageComponent } from './message.component';
+import { MessageDialogComponent } from './message-dialog.component';
 
-describe('MessageComponent', () => {
+describe('MessageDialogComponent', () => {
 
-    let component: MessageComponent;
+    let component: MessageDialogComponent;
 
     let snackBar: jasmine.SpyObj<MatSnackBar>;
 
@@ -18,7 +18,7 @@ describe('MessageComponent', () => {
 
         snackBar = TestBed.get(MatSnackBar);
 
-        component = new MessageComponent(snackBar);
+        component = new MessageDialogComponent(snackBar);
     });
 
     it('should create', () => {

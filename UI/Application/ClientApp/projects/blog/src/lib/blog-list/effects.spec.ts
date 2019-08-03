@@ -35,7 +35,6 @@ describe('BlogListEffects', () => {
                 { provide: Router, useValue: jasmine.createSpyObj<Router>('Router', ['navigate']) },
                 { provide: BlogDefaultOptions, useValue: options },
                 { provide: SCHEDULER, useValue: getTestScheduler() },
-                { provide: MessageDialogComponent, useValue: instance },
             ],
         });
 
@@ -79,7 +78,7 @@ describe('BlogListEffects', () => {
             const expected = cold('--b', { b: completion });
             actions = hot('--a-', { a: action });
             expect(effects.hubCreateBlogRequest).toBeObservable(expected);
-            expect(snackBar.openFromComponent).toHaveBeenCalledWith(instance);
+            expect(snackBar.openFromComponent).toHaveBeenCalledWith(MessageDialogComponent);
             expect(instance.setContent).toHaveBeenCalledWith('created blog');
         });
         it('hubUpdateBlogRequest', () => {
@@ -88,7 +87,7 @@ describe('BlogListEffects', () => {
             const expected = cold('--b', { b: completion });
             actions = hot('--a-', { a: action });
             expect(effects.hubUpdateBlogRequest).toBeObservable(expected);
-            expect(snackBar.openFromComponent).toHaveBeenCalledWith(instance);
+            expect(snackBar.openFromComponent).toHaveBeenCalledWith(MessageDialogComponent);
             expect(instance.setContent).toHaveBeenCalledWith('updated blog');
         });
     });
