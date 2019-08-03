@@ -10,7 +10,7 @@ import { MessageComponent } from './message.component';
     exports: [MessageComponent],
     entryComponents: [MessageComponent],
     providers: [
-        { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useExisting: NGX_SNACK_BAR_CONFIG }
+        { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useExisting: NGX_SNACK_BAR_CONFIG },
     ],
     imports: [
         CommonModule,

@@ -75,13 +75,22 @@ describe('BlogListComponent', () => {
         component.scrollToIndex(index);
         expect(component.cdk.scrollToIndex).toHaveBeenCalledWith(index, 'smooth');
     });
-    it('scrollToModel', () => {
-        const model = { blogId: 'blog' } as BlogModel;
-        const blogs = [{} as BlogModel, {} as BlogModel, model];
-        const index = 2;
-        spyOn(component.source.stream, 'getValue').and.returnValue(blogs);
-        spyOn(component, 'scrollToIndex');
-        component.scrollToModel(model);
-        expect(component.scrollToIndex).toHaveBeenCalledWith(index);
+
+    describe('scrollToModel', () => {
+
+        it('should call scrollToIndex', () => {
+            const model = { blogId: 'blog' } as BlogModel;
+            const blogs = [{} as BlogModel, {} as BlogModel, model];
+            const index = 2;
+            spyOn(component.source.stream, 'getValue').and.returnValue(blogs);
+            spyOn(component, 'scrollToIndex');
+            component.scrollToModel(model);
+            expect(component.scrollToIndex).toHaveBeenCalledWith(index);
+        });
+        it('should not call scrollToIndex', () => {
+            spyOn(component, 'scrollToIndex');
+            component.scrollToModel(null);
+            expect(component.scrollToIndex).not.toHaveBeenCalled();
+        });
     });
 });

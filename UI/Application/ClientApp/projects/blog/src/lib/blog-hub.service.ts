@@ -4,8 +4,7 @@ import { Store } from '@ngrx/store';
 import { HttpHubClient, HUB_CONNECTION_BUILDER } from '@renet-consulting/http-hub-client';
 import { RootStore } from '~/reducers';
 import { HubCreateBlogRequest, HubUpdateBlogRequest } from './actions';
-import { IBlogOptions } from './blog-options';
-import { BLOG_DEFAULT_OPTIONS } from './blog-options.token';
+import { BlogDefaultOptions } from './blog-default-options';
 import { BlogModel } from './blog.model';
 
 @Injectable({
@@ -21,7 +20,7 @@ export class BlogHubService {
         @Inject(HttpHubClient) private httpHub: HttpHubClient,
         @Inject(HUB_CONNECTION_BUILDER) private hubBuilder: typeof HubConnectionBuilder,
         @Inject(Store) private store: Store<RootStore>,
-        @Inject(BLOG_DEFAULT_OPTIONS) private options: IBlogOptions,
+        @Inject(BlogDefaultOptions) private options: BlogDefaultOptions,
     ) { }
 
     onCreate = (x: BlogModel) => this.store.dispatch(new HubCreateBlogRequest(x));

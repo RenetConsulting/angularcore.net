@@ -2,8 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { IBlogOptions } from '../blog-options';
-import { BLOG_DEFAULT_OPTIONS } from '../blog-options.token';
+import { BlogDefaultOptions } from '../blog-default-options';
 import * as UIActions from './actions';
 import { FileService } from './file.service';
 import { FileTypes } from './types';
@@ -14,7 +13,7 @@ export class FileEffects {
     constructor(
         @Inject(Actions) private actions: Actions,
         @Inject(FileService) private fileService: FileService,
-        @Inject(BLOG_DEFAULT_OPTIONS) private options: IBlogOptions,
+        @Inject(BlogDefaultOptions) private options: BlogDefaultOptions,
     ) { }
 
     @Effect() uploadFileRequest = this.actions.pipe(

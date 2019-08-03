@@ -1,7 +1,10 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Injectable, Output } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
 
+@Injectable({
+    providedIn: 'root'
+})
 @Component({
     selector: 'lib-message',
     templateUrl: './message.component.html',

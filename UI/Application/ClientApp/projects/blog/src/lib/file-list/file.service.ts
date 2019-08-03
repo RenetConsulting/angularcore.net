@@ -2,8 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
 import { getFormData } from '@renet-consulting/ngx-uploader';
-import { IBlogOptions } from '../blog-options';
-import { BLOG_DEFAULT_OPTIONS } from '../blog-options.token';
+import { BlogDefaultOptions } from '../blog-default-options';
 import { IRequestList } from '../request-list';
 import { IResponseList } from '../response-list';
 import { FileModel } from './file.model';
@@ -18,7 +17,7 @@ export class FileService {
     constructor(
         @Inject(HttpClient) private http: HttpClient,
         @Inject(NgxHttpParamsService) private params: NgxHttpParamsService,
-        @Inject(BLOG_DEFAULT_OPTIONS) options: IBlogOptions,
+        @Inject(BlogDefaultOptions) options: BlogDefaultOptions,
     ) {
         this.url = options.entryFileUrl;
     }

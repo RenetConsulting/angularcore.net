@@ -56,7 +56,9 @@ export class BlogListComponent implements OnInit, OnDestroy {
     scrollToIndex = (index: number) => this.cdk.scrollToIndex(index, 'smooth');
 
     scrollToModel = (x: BlogModel): void => {
-        const blogs = this.source.stream.getValue();
-        this.scrollToIndex(blogs.findIndex(z => z.blogId === x.blogId));
+        if (x) {
+            const blogs = this.source.stream.getValue();
+            this.scrollToIndex(blogs.findIndex(z => z.blogId === x.blogId));
+        }
     }
 }

@@ -38,6 +38,8 @@ export function blogReducer(state = INITIAL_STATE, action: BlogActionsUnion): Bl
             ...adapter.updateOne({ id: action.payload.blogId, changes: action.payload }, state),
             updated: action.payload
         };
+        case BlogTypes.DELETE_CREATED_BLOG: return { ...state, created: null };
+        case BlogTypes.DELETE_UPDATED_BLOG: return { ...state, updated: null };
         case BlogTypes.DELETE_BLOGS: return INITIAL_STATE;
 
         default: return state;

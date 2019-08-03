@@ -11,7 +11,7 @@ import { AuthDefaultOptions, AuthInterceptor, TokenService } from '@renet-consul
 import { ApiPrefixInterceptor, ExtractErrorInterceptor, NoneCacheInterceptor } from '@renet-consulting/interceptors';
 import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
 import { NgxDefaultSecurityService, NgxErrorDialogComponent, NgxMessengerModule } from '@renet-consulting/ngx-messenger';
-import { BLOG_DEFAULT_OPTIONS } from 'projects/blog/src/public-api';
+import { BlogDefaultOptions } from 'projects/blog/src/public-api';
 import { environment } from 'src/environments/environment';
 import { ROUTES } from './app.routes';
 import { AppComponent } from './components/app/app.component';
@@ -19,7 +19,7 @@ import { AuthEffects } from './components/auth/effects';
 import { HeaderModule } from './components/header/header.module';
 import { HomeComponent } from './components/home/home.component';
 import { ThemeEffects } from './components/theme-picker/effects';
-import { BLOG_OPTIONS } from './consts/blog-options';
+import { BlogOptions } from './consts/blog-options';
 import { ErrorDialogComponent } from './dialogs/error-dialog/error-dialog.component';
 import { ErrorDialogModule } from './dialogs/error-dialog/error-dialog.module';
 import { MessengerEffects } from './effects/messenger.effects';
@@ -46,7 +46,7 @@ const initializerFactory = (service: InitializerService) => () => service.initia
         { provide: HTTP_INTERCEPTORS, useClass: ExtractErrorInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, deps: [Store], multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ApiPrefixInterceptor, deps: [BASE_URL], multi: true },
-        { provide: BLOG_DEFAULT_OPTIONS, useValue: BLOG_OPTIONS },
+        { provide: BlogDefaultOptions, useClass: BlogOptions },
         { provide: HTTP_INTERCEPTORS, useClass: NgProgressInterceptor, multi: true },
         { provide: APP_INITIALIZER, useFactory: initializerFactory, deps: [InitializerService], multi: true },
         { provide: NgxErrorDialogComponent, useClass: ErrorDialogComponent, deps: [NgxDefaultSecurityService] },

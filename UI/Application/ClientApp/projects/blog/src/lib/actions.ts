@@ -92,6 +92,15 @@ export class DeleteBlogs implements Action {
     constructor() { }
 }
 
+export class DeleteCreatedBlog implements Action {
+    readonly type = BlogTypes.DELETE_CREATED_BLOG;
+    constructor() { }
+}
+export class DeleteUpdatedBlog implements Action {
+    readonly type = BlogTypes.DELETE_UPDATED_BLOG;
+    constructor() { }
+}
+
 export type BlogActionsUnion = CreateBlogRequest
     | CreateBlogSuccess
     | CreateBlogError
@@ -111,4 +120,6 @@ export type BlogActionsUnion = CreateBlogRequest
     | HubCreateBlogSuccess
     | HubUpdateBlogRequest
     | HubUpdateBlogSuccess
-    | DeleteBlogs;
+    | DeleteBlogs
+    | DeleteCreatedBlog
+    | DeleteUpdatedBlog;

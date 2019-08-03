@@ -1,8 +1,9 @@
-import { IBlogOptions } from 'projects/blog/src/public-api';
+import { BlogDefaultOptions } from 'projects/blog/src/public-api';
 
-export const BLOG_OPTIONS: IBlogOptions = {
-    entryBlogUrl: '/api/blog',
-    entryFileUrl: '/api/blob',
-    entryBlogHubUrl: '/blog',
-    count: 10
-};
+export class BlogOptions extends BlogDefaultOptions {
+
+    readonly entryBlogUrl = '/api/blog';
+    readonly entryFileUrl = '/api/blob';
+    readonly entryBlogHubUrl = '/blog';
+    readonly count = 10;
+}
