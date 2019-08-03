@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -16,6 +17,7 @@ describe('BlogDetailComponent', () => {
     let store: MockStore<RootBlogStore>;
     let route: ActivatedRoute;
     let paramMap: jasmine.SpyObj<ParamMap>;
+    let title: jasmine.SpyObj<Title>;
 
     beforeEach(() => {
 
@@ -24,14 +26,16 @@ describe('BlogDetailComponent', () => {
         TestBed.configureTestingModule({
             providers: [
                 provideMockStore({}),
-                { provide: ActivatedRoute, useValue: { paramMap: of(paramMap) } as Partial<ActivatedRoute> }
+                { provide: ActivatedRoute, useValue: { paramMap: of(paramMap) } as Partial<ActivatedRoute> },
+                { provide: Title, useValue: jasmine.createSpyObj<Title>('Title', ['setTitle']) }
             ]
         });
 
         store = TestBed.get(Store);
         route = TestBed.get(ActivatedRoute);
+        title = TestBed.get(Title);
 
-        component = new BlogDetailComponent(store, route);
+        component = new BlogDetailComponent(store, route, title);
     });
 
     it('should create', () => {
@@ -66,6 +70,7 @@ describe('BlogDetailComponent', () => {
             component.updateFormGroup(item);
             expect(component.formGroup.disable).toHaveBeenCalled();
             expect(component.formGroup.patchValue).toHaveBeenCalled();
+            expect(title.setTitle).toHaveBeenCalled();
         });
         it('enable', () => {
             component.formGroup = jasmine.createSpyObj<FormGroup>('FormGroup', ['enable', 'patchValue']);
@@ -73,6 +78,7 @@ describe('BlogDetailComponent', () => {
             component.updateFormGroup(item);
             expect(component.formGroup.enable).toHaveBeenCalled();
             expect(component.formGroup.patchValue).toHaveBeenCalled();
+            expect(title.setTitle).toHaveBeenCalled();
         });
     });
 

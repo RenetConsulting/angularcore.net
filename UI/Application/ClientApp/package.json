@@ -59,6 +59,7 @@
     "@renet-consulting/ngx-validator": "8.0.0",
     "@renet-consulting/resize": "^8.0.2",
     "@renet-consulting/storage": "8.0.0",
+    "@renet-consulting/title-strategy": "8.0.0",
     "@renet-consulting/util": "^0.0.1",
     "aspnet-prerendering": "^3.0.1",
     "bootstrap": "^4.3.1",

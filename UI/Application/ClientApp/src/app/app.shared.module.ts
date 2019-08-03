@@ -11,6 +11,7 @@ import { AuthDefaultOptions, AuthInterceptor, TokenService } from '@renet-consul
 import { ApiPrefixInterceptor, ExtractErrorInterceptor, NoneCacheInterceptor } from '@renet-consulting/interceptors';
 import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
 import { NgxDefaultSecurityService, NgxErrorDialogComponent, NgxMessengerModule } from '@renet-consulting/ngx-messenger';
+import { TitleStrategyModule } from '@renet-consulting/title-strategy';
 import { BlogDefaultOptions } from 'projects/blog/src/public-api';
 import { environment } from 'src/environments/environment';
 import { ROUTES } from './app.routes';
@@ -62,7 +63,8 @@ const initializerFactory = (service: InitializerService) => () => service.initia
         NgxMessengerModule,
         NgProgressModule,
         NgProgressHttpModule,
-        ErrorDialogModule
+        ErrorDialogModule,
+        TitleStrategyModule,
     ],
 })
 export class AppSharedModule { }

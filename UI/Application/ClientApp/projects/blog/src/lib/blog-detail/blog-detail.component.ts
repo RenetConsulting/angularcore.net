@@ -8,8 +8,8 @@ import { GetBlogRequest, UpdateBlogRequest } from '../actions';
 import { BlogModel } from '../blog.model';
 import { RootBlogStore } from '../reducers';
 import { selectSelectedBlog } from '../selectors';
+import { Title } from '@angular/platform-browser';
 
-/** TODO: test shareReplay */
 @Component({
     selector: 'lib-blog-detail',
     templateUrl: './blog-detail.component.html',
@@ -23,7 +23,8 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
 
     constructor(
         @Inject(Store) private store: Store<RootBlogStore>,
-        @Inject(ActivatedRoute) private route: ActivatedRoute
+        @Inject(ActivatedRoute) private route: ActivatedRoute,
+        @Inject(Title) private title: Title,
     ) { }
 
     ngOnInit(): void {
@@ -49,6 +50,7 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
         if (model) {
             model.editable ? this.formGroup.enable() : this.formGroup.disable();
             this.formGroup.patchValue(model);
+            this.title.setTitle(model.title);
         }
     }
 

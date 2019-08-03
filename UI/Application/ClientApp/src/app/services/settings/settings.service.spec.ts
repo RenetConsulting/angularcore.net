@@ -1,5 +1,6 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { HTTP_HEADER_NAMES } from '@renet-consulting/auth';
 import { SettingsService } from './settings.service';
 
 describe('SettingsService', () => {
@@ -29,6 +30,7 @@ describe('SettingsService', () => {
         service.get().subscribe();
         const req = controller.expectOne(`${service.url}`);
         expect(req.request.method).toEqual('GET');
+        expect(req.request.headers.has(HTTP_HEADER_NAMES.allowAnonymous)).toEqual(true);
         req.flush(null);
     });
 });
