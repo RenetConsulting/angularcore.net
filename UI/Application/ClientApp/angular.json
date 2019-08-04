@@ -19,7 +19,7 @@
           "options": {
             "progress": true,
             "extractCss": true,
-            "outputPath": "dist/angular7",
+            "outputPath": "dist/angular",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",

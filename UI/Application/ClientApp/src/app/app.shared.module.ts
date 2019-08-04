@@ -47,7 +47,7 @@ const initializerFactory = (service: InitializerService) => () => service.initia
         { provide: HTTP_INTERCEPTORS, useClass: ExtractErrorInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, deps: [Store], multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ApiPrefixInterceptor, deps: [BASE_URL], multi: true },
-        { provide: BlogDefaultOptions, useClass: BlogOptions },
+        { provide: BlogDefaultOptions, useClass: BlogOptions, deps: [BASE_URL] },
         { provide: HTTP_INTERCEPTORS, useClass: NgProgressInterceptor, multi: true },
         { provide: APP_INITIALIZER, useFactory: initializerFactory, deps: [InitializerService], multi: true },
         { provide: NgxErrorDialogComponent, useClass: ErrorDialogComponent, deps: [NgxDefaultSecurityService] },
