@@ -42,7 +42,7 @@ namespace Application.DataAccess.Repositories
         Task<FileStorage> GetBlogFileAsync(string fileBlobName);
 
         [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "ValueTuple.")]
-        Task<(List<Blog>, int)> GetBlogsAsync(int index, int count);
+        Task<(List<Blog>, int)> GetBlogsAsync(int index, int count, string userId);
 
         Task<Blog> AddBlogAsync(Blog blog);
 

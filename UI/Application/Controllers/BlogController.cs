@@ -71,7 +71,7 @@ namespace Application.Controllers
         {
             try
             {
-                (List<BlogModel> items, int totalAmount) = await this.blogService.GetBlogsAsync(index, count).ConfigureAwait(false);
+                (List<BlogModel> items, int totalAmount) = await this.blogService.GetBlogsAsync(index, count, this.UserId).ConfigureAwait(false);
 
                 return this.Ok(new { Items = items, TotalAmount = totalAmount });
             }

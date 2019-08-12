@@ -24,18 +24,33 @@ namespace Application.Business.Services
         }
 
         [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "ValueTuple.")]
-        public async Task<(List<BlogModel>, int)> GetBlogsAsync(int index, int count)
+        public async Task<(List<BlogModel>, int)> GetBlogsAsync(int index, int count, string userId)
         {
             try
             {
-                (List<Blog> blogs, int totalAmount) = await this.globalRepository.GetBlogsAsync(index, count).ConfigureAwait(false);
+                (List<Blog> blogs, int totalAmount) = await this.globalRepository.GetBlogsAsync(index, count, userId).ConfigureAwait(false);
 
                 List<BlogModel> models = new List<BlogModel>();
-                foreach (Blog blog in blogs)
+
+                if (!Equals(userId, null))
                 {
-                    BlogModel model = new BlogModel();
-                    model.ToModel(blog);
-                    models.Add(model);
+                    foreach (Blog blog in blogs)
+                    {
+                        BlogModel model = new BlogModel();
+                        model.ToModel(blog);
+                        model.Editable = blog.UserId == userId;
+                        models.Add(model);
+                    }
+                }
+                else
+                {
+                    foreach (Blog blog in blogs)
+                    {
+                        BlogModel model = new BlogModel();
+                        model.ToModel(blog);
+                        model.Editable = false;
+                        models.Add(model);
+                    }
                 }
 
                 return (models, totalAmount);

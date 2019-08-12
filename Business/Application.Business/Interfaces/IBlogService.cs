@@ -13,7 +13,7 @@ namespace Application.Business.Interfaces
     public interface IBlogService
     {
         [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "ValueTuple.")]
-        Task<(List<BlogModel>, int)> GetBlogsAsync(int index, int count);
+        Task<(List<BlogModel>, int)> GetBlogsAsync(int index, int count, string userId);
 
         Task<BlogModel> GetBlogAsync(string blogId);
 
