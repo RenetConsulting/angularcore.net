@@ -766,6 +766,41 @@
           }
         }
       }
+    },
+    "control-value-accessor": {
+      "projectType": "library",
+      "root": "projects/control-value-accessor",
+      "sourceRoot": "projects/control-value-accessor/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/control-value-accessor/tsconfig.lib.json",
+            "project": "projects/control-value-accessor/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/control-value-accessor/src/test.ts",
+            "tsConfig": "projects/control-value-accessor/tsconfig.spec.json",
+            "karmaConfig": "projects/control-value-accessor/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/control-value-accessor/tsconfig.lib.json",
+              "projects/control-value-accessor/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "ngx-utils-demo"

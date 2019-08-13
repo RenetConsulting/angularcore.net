@@ -132,6 +132,12 @@
       ],
       "title-strategy/*": [
         "dist/title-strategy/*"
+      ],
+      "control-value-accessor": [
+        "dist/control-value-accessor"
+      ],
+      "control-value-accessor/*": [
+        "dist/control-value-accessor/*"
       ]
     }
   }
