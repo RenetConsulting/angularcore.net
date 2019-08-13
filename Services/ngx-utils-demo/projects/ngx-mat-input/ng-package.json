@@ -3,5 +3,9 @@
   "dest": "../../dist/ngx-mat-input",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "whitelistedNonPeerDependencies": [
+    "@renet-consulting/control-value-accessor",
+    "@renet-consulting/ngx-validator"
+  ]
 }

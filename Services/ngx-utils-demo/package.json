@@ -24,6 +24,7 @@
     "@angular/router": "^8.1.0",
     "@aspnet/signalr": "^1.1.4",
     "@renet-consulting/auth": "^8.0.0",
+    "@renet-consulting/control-value-accessor": "^8.0.0",
     "@renet-consulting/ngx-http-params": "^8.0.0",
     "@renet-consulting/ngx-mat-input": "^8.0.0",
     "@renet-consulting/ngx-validator": "^8.0.0",
