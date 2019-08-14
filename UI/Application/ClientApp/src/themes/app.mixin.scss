@@ -3,6 +3,7 @@
 @import '../app/components/header/theme';
 @import '../app/components/logo/theme';
 @import '../../projects/blog/src/lib/editor/theme.scss';
+@import '../../projects/blog/src/lib/blog-list/blog/theme.scss';
 
 /** Mixin to combine styles for all components */
 @mixin app-theme($theme) {
@@ -17,4 +18,5 @@
     @include header-theme($theme);
     @include logo-theme($theme);
     @include editor-theme($theme);
+    @include blog-theme($theme);
 }
