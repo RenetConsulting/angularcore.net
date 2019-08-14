@@ -5,8 +5,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { EditorModule } from '@renet-consulting/editor';
 import { NgxMatInputModule } from '@renet-consulting/ngx-mat-input';
+import { EditorToolbarModule } from '../editor-toolbar/editor-toolbar.module';
 import { blogReducer } from '../reducer';
 import { BlogDashboardRoutingModule } from './blog-dashboard-routing.module';
 import { BlogDashboardComponent } from './blog-dashboard.component';
@@ -21,7 +21,7 @@ import { BlogDashboardEffects } from './effects';
         MatCardModule,
         NgxMatInputModule,
         MatButtonModule,
-        EditorModule,
+        EditorToolbarModule,
         StoreModule.forFeature('blog', blogReducer),
         EffectsModule.forFeature([BlogDashboardEffects]),
     ]
