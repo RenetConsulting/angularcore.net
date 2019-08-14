@@ -88,15 +88,80 @@ namespace Application.Controllers
         [HttpGet]
         public async Task<IActionResult> GetFilesAsync(int index, int count)
         {
-            List<FileModel> files = await this.fileManager.GetAsync().ConfigureAwait(false);
-
-            var result = new
+            try
             {
-                Items = files.Skip(index).Take(count),
-                ItemsAmount = files.Count
-            };
+                // check existing images
+                await this.CheckExistingImagesAsync().ConfigureAwait(false);
 
-            return this.Ok(result);
+                var result = await this.repository.GetFileStoragesAsync(this.UserId, index, count).ConfigureAwait(false);
+
+                if (result != null)
+                {
+                    List<FileModel> images = result.FileStorages
+                        .Select(i => new FileModel(
+                            i.FileId,
+                            this.GetFileStorageUrl(this.UserId, i.FileId),
+                            i.Title))
+                        .ToList();
+
+                    return this.Ok(new { Items = images, ItemsAmount = result.TotalCount });
+                }
+
+                return this.BadRequest("Error retrieving user images");
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(ex.Message);
+            }
+        }
+
+        public string GetFileStorageUrl(string userId, string fileId)
+        {
+            return string.Format("{0}{1}/{2}/{3}", this.AppSettings.BlobStorageUrl, this.AppSettings.ContainerName, userId, fileId);
+        }
+
+        // one time check function
+        public async Task CheckExistingImagesAsync()
+        {
+            var files = await this.repository.GetAllFilesAsync().ConfigureAwait(false);
+
+            foreach (var file in files)
+            {
+                try
+                {
+                    // check if file exists in Images folder
+                    bool isFileExists = await this.fileManager
+                        .FileExistsAsync(file.FileId, file.UserId)
+                        .ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    if (ex.Message.Contains("The specified blob does not exist."))
+                    {
+                        try
+                        {
+                            // check if file exists in Image folder
+                            bool isFileExists = await this.fileManager
+                                .FileExistsAsync(file.FileId, file.UserId)
+                                .ConfigureAwait(false);
+
+                            if (isFileExists)
+                            {
+                                // if image exists in Image folder - move to Images folder
+                                await this.fileManager.CopyBlobAsync(file.FileId, file.UserId).ConfigureAwait(false);
+                            }
+                        }
+                        catch (Exception ex2)
+                        {
+                            if (ex2.Message.Contains("The specified blob does not exist."))
+                            {
+                                // if image does not exists in any folder - delete it
+                                bool isFileDeleted = await this.repository.DeleteBlogFileAsync(file.FileId, file.UserId).ConfigureAwait(false);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         [HttpDelete("{blobName}")]
@@ -120,7 +185,7 @@ namespace Application.Controllers
             {
                 try
                 {
-                    bool isFileDeleted = await this.repository.DeleteBlogFileAsync(blobName).ConfigureAwait(false);
+                    bool isFileDeleted = await this.repository.DeleteBlogFileAsync(blobName, this.UserId).ConfigureAwait(false);
 
                     if (isFileDeleted)
                     {

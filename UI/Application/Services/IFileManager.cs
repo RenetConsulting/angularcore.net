@@ -22,5 +22,7 @@ namespace Application.Services
         Task<FileModel> AddAsync(MemoryStream file, string fileUrl, string userId);
 
         Task<bool> FileExistsAsync(string fileName, string userId);
+
+        Task CopyBlobAsync(string fileName, string userId);
     }
 }

@@ -30,5 +30,7 @@ namespace Application
         public string ContainerName { get; set; }
 
         public string BlobStorage { get; set; }
+
+        public string BlobStorageUrl { get; set; }
     }
 }

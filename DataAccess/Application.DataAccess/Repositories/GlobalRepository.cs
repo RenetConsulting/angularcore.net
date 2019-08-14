@@ -14,6 +14,7 @@ namespace Application.DataAccess.Repositories
     using System.Threading.Tasks;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Enums;
+    using Application.DataAccess.Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Storage;
@@ -256,9 +257,35 @@ namespace Application.DataAccess.Repositories
             return await this.context.FileStorages.FirstOrDefaultAsync(f => f.FileId.Equals(fileBlobName));
         }
 
-        public async Task<bool> DeleteBlogFileAsync(string fileBlobName)
+        public async Task<List<FileStorage>> GetAllFilesAsync()
         {
-            var deletedFile = await this.context.FileStorages.FirstOrDefaultAsync(f => f.FileId.Equals(fileBlobName));
+            return await this.context.FileStorages.ToListAsync();
+        }
+
+        public async Task<FileStoragesPagingModel> GetFileStoragesAsync(string userId, int page, int pageSize)
+        {
+            try
+            {
+                FileStoragesPagingModel model = new FileStoragesPagingModel();
+
+                int skipSize = this.SkipSize(page, pageSize);
+
+                var fileStorages = this.context.FileStorages.Where(i => i.UserId == userId);
+
+                model.FileStorages = await fileStorages.Skip(skipSize).Take(pageSize).ToListAsync();
+                model.TotalCount = await fileStorages.CountAsync();
+
+                return model;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<bool> DeleteBlogFileAsync(string fileBlobName, string userId)
+        {
+            var deletedFile = await this.context.FileStorages.FirstOrDefaultAsync(f => f.FileId.Equals(fileBlobName) && f.UserId.Equals(userId));
 
             if (deletedFile != null)
             {
