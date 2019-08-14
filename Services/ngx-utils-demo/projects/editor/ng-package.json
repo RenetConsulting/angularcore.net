@@ -5,6 +5,7 @@
     "entryFile": "src/public-api.ts"
   },
   "whitelistedNonPeerDependencies": [
+    "@renet-consulting/animations",
     "@renet-consulting/control-value-accessor",
     "@renet-consulting/ngx-validator",
     "ngx-quill",

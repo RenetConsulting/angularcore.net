@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit, Optional, Self, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormGroupDirective, NgControl, ValidationErrors } from '@angular/forms';
+import { enterLeaveAnimation } from '@renet-consulting/animations';
 import { ProvidedControlValueAccessorBase } from '@renet-consulting/control-value-accessor';
 import { Subscription } from 'rxjs';
 import { EditorService } from './editor.service';
@@ -11,7 +12,8 @@ import { EditorService } from './editor.service';
     styleUrls: ['./editor.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    providers: [EditorService]
+    providers: [EditorService],
+    animations: [enterLeaveAnimation]
 })
 export class EditorComponent extends ProvidedControlValueAccessorBase implements OnInit, OnDestroy, ControlValueAccessor {
 

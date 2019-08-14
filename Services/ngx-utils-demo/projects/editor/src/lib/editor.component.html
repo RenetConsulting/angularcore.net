@@ -2,7 +2,6 @@
               [formControl]="ngControl.control" [label]="label" (onEditorCreated)="onCreated($event)" (onFocus)="onTouched()" 
               (onContentChanged)="onChange($event.html)" (validate)="setError($event)"></quill-editor>
 <quill-view-html *ngIf="!editable" [content]="ngControl.value"></quill-view-html>
-<!-- [@errorEnterLeave]="errorState" -->
-<div class="error mt-1">
+<div [@enterLeave]="errorState" class="error mt-1">
     <div *ngIf="error">{{error}}</div>
 </div>
