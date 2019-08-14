@@ -85,20 +85,6 @@ namespace Application.Controllers
             }
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> GetFilesAsync(int index, int count)
-        //{
-        //    List<FileModel> files = await this.fileManager.GetAsync().ConfigureAwait(false);
-
-        //    var result = new
-        //    {
-        //        Items = files.Skip(index).Take(count),
-        //        ItemsAmount = files.Count
-        //    };
-
-        //    return this.Ok(result);
-        //}
-
         [HttpGet]
         public async Task<IActionResult> GetFilesAsync(int index, int count)
         {
