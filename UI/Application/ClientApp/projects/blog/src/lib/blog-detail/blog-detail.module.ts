@@ -6,7 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { NgxMatInputModule } from '@renet-consulting/ngx-mat-input';
-import { EditorModule } from '../editor/editor.module';
+import { EditorModule } from '@renet-consulting/editor';
 import { blogReducer } from '../reducer';
 import { BlogDetailRoutingModule } from './blog-detail-routing.module';
 import { BlogDetailComponent } from './blog-detail.component';

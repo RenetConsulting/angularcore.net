@@ -1,8 +1,9 @@
-@import '../../node_modules/@angular/material/theming';
-@import '../app/components/app/theme';
-@import '../app/components/header/theme';
-@import '../app/components/logo/theme';
-@import '../../projects/blog/src/lib/editor/theme.scss';
+@import "../../node_modules/@angular/material/theming";
+@import "../app/components/app/theme";
+@import "../app/components/header/theme";
+@import "../app/components/logo/theme";
+/** TODO: add theme */
+// @import "../../node_modules/@renet-consulting/editor/theme.scss";
 
 /** Mixin to combine styles for all components */
 @mixin app-theme($theme) {
@@ -16,5 +17,6 @@
     @include app-root-theme($theme);
     @include header-theme($theme);
     @include logo-theme($theme);
-    @include editor-theme($theme);
+    /** TODO: add theme */
+    // @include editor-theme($theme);
 }
