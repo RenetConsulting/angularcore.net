@@ -1,6 +1,0 @@
-<quill-editor [required]="required" [minLength]="minLength" [maxLength]="maxLength" [readOnly]="readonly" [placeholder]="placeholder"
-              [formControl]="ngControl.control" [modules]="modules" [label]="label" (onEditorCreated)="onEditorCreated($event)"
-              (onFocus)="onTouched()" (onContentChanged)="onChange($event.html)" (lib-validate)="setError($event)"></quill-editor>
-<div class="error mat-error minh-28 mt-1" [@errorEnterLeave]="errorState">
-    <div *ngIf="error">{{error}}</div>
-</div>
