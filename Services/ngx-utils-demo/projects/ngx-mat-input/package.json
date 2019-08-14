@@ -14,6 +14,7 @@
     "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/ngx-mat-input"
   },
   "dependencies": {
+    "@renet-consulting/animations": "^8.0.0",
     "@renet-consulting/control-value-accessor": "^8.0.0",
     "@renet-consulting/ngx-validator": "^8.0.0"
   },
