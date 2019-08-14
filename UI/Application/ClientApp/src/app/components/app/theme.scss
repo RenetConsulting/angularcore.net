@@ -17,31 +17,6 @@
             a, code {
                 color: mat-color($primary) !important;
             }
-            //blog mat-card
-            mat-card {
-                .mat-card-content::after {
-                    background-image: linear-gradient(mat-color($background, card, 0), mat-color($background, card, 1));
-                }
-
-                mat-card-footer {
-                    color: mat-color($foreground, text, .5);
-                }
-
-                &.created {
-                    background-color: if($is-dark-theme, darken(mat-color($primary), 30%), lighten(mat-color($primary), 30%));
-
-                    .mat-card-content::after {
-                    }
-                }
-
-                &.updated {
-                    background-color: mat-color($accent, .1);
-
-                    .mat-card-content::after {
-                        background-image: linear-gradient(to bottom, mat-color($accent, 0) 0%, mat-color($accent, .1) 100%);
-                    }
-                }
-            }
         }
     }
 }
