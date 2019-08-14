@@ -10,6 +10,7 @@ namespace Application.DataAccess.Repositories
     using System.Threading;
     using System.Threading.Tasks;
     using Application.DataAccess.Enums;
+    using Application.DataAccess.Models;
     using Entities;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore.Storage;
@@ -48,10 +49,14 @@ namespace Application.DataAccess.Repositories
 
         Task<Blog> UpdateBlogAsync(string blogId, string title, string content, string userId);
 
-        Task<bool> DeleteBlogFileAsync(string fileBlobName);
+        Task<bool> DeleteBlogFileAsync(string fileBlobName, string userId);
 
         Task<bool> DeleteBlogAsync(string blogId, string userId);
 
         Task<Blog> GetBlogAsync(string blogId);
+
+        Task<List<FileStorage>> GetAllFilesAsync();
+
+        Task<FileStoragesPagingModel> GetFileStoragesAsync(string userId, int page, int pageSize);
     }
 }

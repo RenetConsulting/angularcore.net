@@ -46,7 +46,8 @@ namespace Application.Services
                     BlobResultSegment resultSegment = await this.BlobManager.BlobContainer.ListBlobsSegmentedAsync(token).ConfigureAwait(false);
                     token = resultSegment.ContinuationToken;
 
-                    foreach (IListBlobItem item in resultSegment.Results.Where(bi => bi.GetType() == typeof(CloudBlockBlob)))
+                    foreach (IListBlobItem item in resultSegment.Results.Where(bi => bi.Parent.GetBlockBlobReference(bi.Parent.Container.Name).GetType() == typeof(CloudBlockBlob))
+                        .Select(r => r.Parent.GetBlockBlobReference(r.Parent.Container.Name)))
                     {
                         CloudBlockBlob blobItem = (CloudBlockBlob)item;
 
@@ -140,6 +141,31 @@ namespace Application.Services
             catch
             {
                 throw;
+            }
+        }
+
+        public async Task CopyBlobAsync(string fileName, string userId)
+        {
+            string path = this.BuildPath(userId, fileName);
+
+            string newPath = this.BuildPath(userId, fileName);
+
+            CloudBlockBlob blobCopy = this.BlobManager.BlobContainer.GetBlockBlobReference(newPath);
+
+            if (!await blobCopy.ExistsAsync().ConfigureAwait(false))
+            {
+                CloudBlockBlob blob = this.BlobManager.BlobContainer.GetBlockBlobReference(path);
+
+                if (await blob.ExistsAsync().ConfigureAwait(false))
+                {
+                    await blobCopy.StartCopyAsync(blob).ConfigureAwait(false);
+
+                    await blob.DeleteIfExistsAsync().ConfigureAwait(false);
+                }
+            }
+            else
+            {
+                throw new Exception($"Blob {newPath} is aready exists");
             }
         }
 
