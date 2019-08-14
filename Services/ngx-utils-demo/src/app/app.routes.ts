@@ -33,6 +33,11 @@ export const ROUTES: Routes = [
         loadChildren: () => import('./storage/storage.module').then(m => m.StorageModule),
         data: { title: 'Storage' },
     },
+    {
+        path: 'editor',
+        loadChildren: () => import('./editor/editor.module').then(m => m.EditorModule),
+        data: { title: 'Editor' },
+    },
 
     { path: '**', redirectTo: '' }
 ];

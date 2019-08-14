@@ -138,6 +138,12 @@
       ],
       "control-value-accessor/*": [
         "dist/control-value-accessor/*"
+      ],
+      "editor": [
+        "dist/editor"
+      ],
+      "editor/*": [
+        "dist/editor/*"
       ]
     }
   }

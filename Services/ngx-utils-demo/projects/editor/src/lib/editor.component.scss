@@ -1,0 +1,43 @@
+editor {
+    .ql-editor {
+        padding: 12px 0;
+
+        p {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        &.ql-blank {
+            &::before {
+                font-style: normal;
+                left: 0;
+                right: 0;
+                border: none;
+            }
+        }
+    }
+
+    .ql-snow.ql-disabled {
+        border: none;
+
+        .ql-editor {
+            padding: 0;
+        }
+    }
+
+    .ql-container {
+        font-size: inherit;
+        font-family: "Roboto", sans-serif;
+
+        &.ql-snow {
+            border: none;
+        }
+    }
+
+    .error {
+        min-height: 28px;
+        div {
+            overflow: hidden;
+        }
+    }
+}
