@@ -1,9 +1,9 @@
-import { ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, ViewChild, HostBinding } from '@angular/core';
+import { ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
+import { ProvidedControlValueAccessorBase } from '@renet-consulting/control-value-accessor';
 import { Subscription } from 'rxjs';
-import { ControlValueAccessorBase } from './control-value-accessor.base';
 
-export abstract class InputBase extends ControlValueAccessorBase implements ControlValueAccessor, OnChanges, OnInit, OnDestroy {
+export abstract class InputBase extends ProvidedControlValueAccessorBase implements ControlValueAccessor, OnChanges, OnInit, OnDestroy {
 
     @ViewChild('inputRef', { static: true }) inputRef: ElementRef;
     @HostBinding('class') readonly class = 'd-block';
@@ -25,10 +25,10 @@ export abstract class InputBase extends ControlValueAccessorBase implements Cont
     hintState: number;
 
     constructor(
-        control: NgControl,
+        ngControl: NgControl,
         protected formGroup: FormGroupDirective,
     ) {
-        super(control);
+        super(ngControl);
     }
 
     ngOnChanges(e): void {
