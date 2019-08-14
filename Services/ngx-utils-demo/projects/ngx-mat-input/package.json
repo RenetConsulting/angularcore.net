@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/ngx-mat-input",
-  "version": "8.0.1",
+  "version": "8.2.0",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
@@ -13,12 +13,16 @@
     "type": "git",
     "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/ngx-mat-input"
   },
+  "dependencies": {
+    "@renet-consulting/animations": "^8.0.0",
+    "@renet-consulting/control-value-accessor": "^8.0.0",
+    "@renet-consulting/ngx-validator": "^8.0.0"
+  },
   "peerDependencies": {
     "@angular/common": "^8.0.0",
     "@angular/core": "^8.0.0",
     "@angular/forms": "^8.0.0",
     "@angular/material": "^8.0.0",
-    "@renet-consulting/ngx-validator": "^8.0.0",
     "bootstrap": "^4.3.1"
   }
 }

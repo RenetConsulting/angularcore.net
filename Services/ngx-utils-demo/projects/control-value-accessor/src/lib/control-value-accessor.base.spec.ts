@@ -1,4 +1,3 @@
-import { NgControl } from '@angular/forms';
 import { ControlValueAccessorBase } from './control-value-accessor.base';
 
 class Test extends ControlValueAccessorBase { }
@@ -7,16 +6,11 @@ describe('ControlValueAccessorBase', () => {
 
     let base: ControlValueAccessorBase;
 
-    let ngControl: NgControl;
 
     beforeEach(() => {
-        ngControl = {} as NgControl;
-        base = new Test(ngControl);
+        base = new Test();
     });
 
-    it('ngControl.valueAccessor', () => {
-        expect(ngControl.valueAccessor).toEqual(base);
-    });
     it('writeValue', () => {
         const value = '123';
         base.onChange = jasmine.createSpy();
