@@ -12,7 +12,7 @@ import { ApiPrefixInterceptor, ExtractErrorInterceptor, NoneCacheInterceptor } f
 import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
 import { NgxDefaultSecurityService, NgxErrorDialogComponent, NgxMessengerModule } from '@renet-consulting/ngx-messenger';
 import { TitleStrategyModule } from '@renet-consulting/title-strategy';
-import { BlogDefaultOptions } from 'projects/blog/src/public-api';
+import { BlogConfig } from 'projects/blog/src/public-api';
 import { environment } from 'src/environments/environment';
 import { ROUTES } from './app.routes';
 import { AppComponent } from './components/app/app.component';
@@ -47,7 +47,7 @@ const initializerFactory = (service: InitializerService) => () => service.initia
         { provide: HTTP_INTERCEPTORS, useClass: ExtractErrorInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, deps: [Store], multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ApiPrefixInterceptor, deps: [BASE_URL], multi: true },
-        { provide: BlogDefaultOptions, useClass: BlogOptions, deps: [BASE_URL] },
+        { provide: BlogConfig, useClass: BlogOptions, deps: [BASE_URL] },
         { provide: HTTP_INTERCEPTORS, useClass: NgProgressInterceptor, multi: true },
         { provide: APP_INITIALIZER, useFactory: initializerFactory, deps: [InitializerService], multi: true },
         { provide: NgxErrorDialogComponent, useClass: ErrorDialogComponent, deps: [NgxDefaultSecurityService] },

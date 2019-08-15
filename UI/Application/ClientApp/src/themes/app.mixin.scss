@@ -4,7 +4,7 @@
 @import "../app/components/logo/theme";
 /** TODO: add theme */
 // @import "../../node_modules/@renet-consulting/editor/theme.scss";
-@import '../../projects/blog/src/lib/blog-list/blog/theme.scss';
+@import '../../projects/blog/src/lib/shared/blog-list/blog/theme.scss';
 
 /** Mixin to combine styles for all components */
 @mixin app-theme($theme) {

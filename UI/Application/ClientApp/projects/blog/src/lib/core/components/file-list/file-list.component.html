@@ -1,0 +1,13 @@
+<div class="p-xs-4 p-sm-4 p-md-5 p-lg-5 mb-5">
+    <h2 class="mb-3">You can choose one from previous or upload a new image</h2>
+    <div (ngx-drop)="onUpload($event)">
+        Drop a file here or <a (ngx-select)="onUpload($event)">browse from your computer</a>
+    </div>
+    <mat-dialog-content>
+        <cdk-virtual-scroll-viewport orientation="horizontal" class="mt-3 col-md-12" itemSize="50">
+            <div *cdkVirtualFor="let item of source; trackBy: trackByFn">
+                <lib-file class="mt-3 col-md-12" [item]="item" (delete)="onDelete($event)" (select)="onSelect($event)"></lib-file>
+            </div>
+        </cdk-virtual-scroll-viewport>
+    </mat-dialog-content>
+</div>
