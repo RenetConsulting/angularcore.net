@@ -53,7 +53,7 @@ namespace Application.DataAccess.Repositories
 
         Task<bool> DeleteBlogAsync(string blogId, string userId);
 
-        Task<Blog> GetBlogAsync(string blogId);
+        Task<Blog> GetBlogAsync(string blogId, string userId);
 
         Task<List<FileStorage>> GetAllFilesAsync();
 

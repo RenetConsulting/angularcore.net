@@ -47,7 +47,7 @@
     "@renet-consulting/auth": "8.0.0",
     "@renet-consulting/bypass": "^8.0.0",
     "@renet-consulting/core-captcha": "8.0.1",
-    "@renet-consulting/editor": "^8.0.1",
+    "@renet-consulting/editor": "^8.0.2",
     "@renet-consulting/external-auth": "8.1.1",
     "@renet-consulting/http-hub-client": "8.0.1",
     "@renet-consulting/infinite-source": "^8.0.0",

@@ -139,9 +139,9 @@ namespace Application.DataAccess.Repositories
 
         #region Blog
 
-        public async Task<Blog> GetBlogAsync(string blogId)
+        public async Task<Blog> GetBlogAsync(string blogId, string userId)
         {
-            return await this.context.Blogs.Where(bl => bl.BlogId.Equals(blogId)).OrderByDescending(a => a.CreatedDate).FirstOrDefaultAsync();
+            return await this.context.Blogs.Where(bl => bl.BlogId.Equals(blogId) && bl.UserId.Equals(userId)).OrderByDescending(a => a.CreatedDate).FirstOrDefaultAsync();
         }
 
         [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "ValueTuple.")]

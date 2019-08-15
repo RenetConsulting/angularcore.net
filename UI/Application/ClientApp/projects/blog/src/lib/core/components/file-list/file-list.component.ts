@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { InfiniteSource } from '@renet-consulting/infinite-source';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { filter, map, shareReplay, withLatestFrom } from 'rxjs/operators';
 import { RootBlogStore } from '../../reducers';
-import { DeleteFileRequest, GetFilesRequest, SelectFile, UploadFileRequest, DeleteFiles } from './actions';
+import { DeleteFileRequest, DeleteFiles, GetFilesRequest, SelectFile, UploadFileRequest } from './actions';
 import { FileModel } from './file.model';
 import { selectFiles, selectFileTotalAmount, selectSelectedFile } from './selectors';
 
@@ -17,9 +18,17 @@ import { selectFiles, selectFileTotalAmount, selectSelectedFile } from './select
 })
 export class FileListComponent implements OnInit, OnDestroy {
 
+    @ViewChild(CdkVirtualScrollViewport, { static: true }) viewport: CdkVirtualScrollViewport;
     readonly subscription = new Subscription();
     readonly source = new InfiniteSource<FileModel>();
     readonly selected = this.store.select(selectSelectedFile).pipe(shareReplay(1));
+    readonly nextDisabled = new BehaviorSubject(null);
+    readonly prevDisabled = new BehaviorSubject(null);
+    readonly itemSize = 200;
+    private index: number;
+    private total: number;
+    /** amount of scrolled items */
+    private shift: number;
 
     constructor(
         @Inject(Store) private store: Store<RootBlogStore>,
@@ -34,6 +43,8 @@ export class FileListComponent implements OnInit, OnDestroy {
             filter(([end, total]) => end < total),
             map(([end]) => end),
         ).subscribe(this.getItems));
+        this.subscription.add(this.store.select(selectFileTotalAmount).subscribe(this.setTotal));
+        this.subscription.add(this.viewport.scrolledIndexChange.subscribe(this.setButtonStatus));
     }
 
     ngOnDestroy(): void {
@@ -49,4 +60,33 @@ export class FileListComponent implements OnInit, OnDestroy {
     onDelete = (x: FileModel) => this.store.dispatch(new DeleteFileRequest(x.fileId));
 
     onSelect = (x: FileModel) => this.store.dispatch(new SelectFile(x));
+
+    setButtonStatus = (index: number): void => {
+        this.index = index;
+        this.prevDisabled.next(index <= 0);
+        this.nextDisabled.next(typeof this.total === 'number' ? index >= this.total : true);
+    }
+
+    setTotal = (value: number): void => {
+        if (typeof value === 'number') {
+            const total = value - this.shift;
+            this.total = total < 0 ? 0 : total;
+
+            this.setButtonStatus(this.index);
+        }
+    }
+
+    prev = (): void => {
+        const index = this.index - this.shift;
+        this.viewport.scrollToIndex(index < 0 ? 0 : index, 'smooth');
+    }
+
+    next = (): void => {
+        const index = this.index + this.shift;
+        this.viewport.scrollToIndex(index > this.total ? this.total : index, 'smooth');
+    }
+
+    onResize = (e: DOMRectReadOnly): void => {
+        this.shift = Math.ceil(e.width / this.itemSize);
+    }
 }
