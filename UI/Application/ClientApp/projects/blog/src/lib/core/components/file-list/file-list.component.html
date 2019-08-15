@@ -7,11 +7,13 @@
     </div>
     <mat-dialog-content>
         <img *ngIf="selected | async as selectedFile" [src]="selectedFile?.fileUrl">
-        <cdk-virtual-scroll-viewport orientation="horizontal" class="mt-3" itemSize="200" ngxVirtualSwiper>
-            <div *cdkVirtualFor="let item of source; trackBy: trackByFn" class="swipe-item" [style.width.px]="200">
+        <cdk-virtual-scroll-viewport class="mt-3" orientation="horizontal" ngxVirtualSwiper [itemSize]="itemSize" (resize)="onResize($event)">
+            <div *cdkVirtualFor="let item of source; trackBy: trackByFn" class="swipe-item" [style.width.px]="itemSize">
                 <lib-file class="mt-3 col-md-12" [item]="item" (delete)="onDelete($event)" (select)="onSelect($event)"></lib-file>
             </div>
         </cdk-virtual-scroll-viewport>
+        <button [disabled]="prevDisabled | async" (click)="prev()">prev</button>
+        <button [disabled]="nextDisabled | async" (click)="next()">next</button>
     </mat-dialog-content>
     <mat-dialog-actions>
         <button mat-button [disabled]="!(selected | async)" [mat-dialog-close]="(selected | async)?.fileUrl">Select</button>
