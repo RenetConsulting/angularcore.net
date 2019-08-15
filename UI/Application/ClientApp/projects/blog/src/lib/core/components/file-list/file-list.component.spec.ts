@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { InfiniteSource } from '@renet-consulting/infinite-source';
@@ -14,21 +13,18 @@ describe('FileListComponent', () => {
     let component: FileListComponent;
 
     let store: MockStore<RootBlogStore>;
-    let dialogRef: jasmine.SpyObj<MatDialogRef<FileListComponent>>;
 
     beforeEach(() => {
 
         TestBed.configureTestingModule({
             providers: [
                 provideMockStore({}),
-                { provide: MatDialogRef, useValue: jasmine.createSpyObj<MatDialogRef<FileListComponent>>('MatDialogRef', ['close']) }
             ]
         });
 
         store = TestBed.get(Store);
-        dialogRef = TestBed.get(MatDialogRef);
 
-        component = new FileListComponent(store, dialogRef);
+        component = new FileListComponent(store);
     });
 
     it('should create', () => {
@@ -87,6 +83,6 @@ describe('FileListComponent', () => {
         spyOn(store, 'dispatch');
         const item = { fileUrl: 'bob' } as FileModel;
         component.onSelect(item);
-        expect(dialogRef.close).toHaveBeenCalledWith(item.fileUrl);
+        expect(component.selected).toEqual(item);
     });
 });

@@ -1,3 +1,19 @@
-cdk-virtual-scroll-viewport{
-    height: 500px;
+lib-file-list {
+    img {
+        width: 100%;
+    }
+
+    cdk-virtual-scroll-viewport {
+        height: 200px;
+        overflow: hidden;
+
+        .cdk-virtual-scroll-content-wrapper {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .swipe-item {
+            height: 200px;
+        }
+    }
 }
