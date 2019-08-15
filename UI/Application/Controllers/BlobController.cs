@@ -104,7 +104,7 @@ namespace Application.Controllers
                             i.Title))
                         .ToList();
 
-                    return this.Ok(new { Items = images, ItemsAmount = result.TotalCount });
+                    return this.Ok(new { Items = images, TotalAmount = result.TotalCount });
                 }
 
                 return this.BadRequest("Error retrieving user images");
