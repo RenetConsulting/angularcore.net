@@ -6,6 +6,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { NgxUploaderModule } from '@renet-consulting/ngx-uploader';
+import { ResizeModule } from '@renet-consulting/resize';
 import { NgxVirtualSwiperModule } from 'ngx-virtual-swiper';
 import { FileEffects } from './effects';
 import { FileListComponent } from './file-list.component';
@@ -26,6 +27,7 @@ import { fileReducer } from './reducer';
         ScrollingModule,
         NgxUploaderModule,
         FileModule,
+        ResizeModule
     ]
 })
 export class FileListModule { }
