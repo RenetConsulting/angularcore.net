@@ -1,4 +1,13 @@
 lib-file-list {
+    .file-list-content {
+        max-height: 390px;
+        overflow: hidden;
+    }
+
+    .upload-files {
+        cursor: pointer;
+    }
+
     img {
         width: 100%;
     }

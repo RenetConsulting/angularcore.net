@@ -1,20 +1,23 @@
-<div class="mb-3">
+<div>
     <div class="mb-3">
-        <h2>You can choose one from previous or upload a new image</h2>
-        <div (ngx-drop)="onUpload($event)">
-            Drop a file here or <a (ngx-select)="onUpload($event)">browse from your computer</a>
+        <h2 class="text-center">You can choose one from previous or upload a new image</h2>
+        <div class="upload-files d-flex flex-column justify-content-center align-items-center p-4 border border-light rounded" (ngx-drop)="onUpload($event)">
+            <i class="fas fa-upload h1"></i>
+            <span>Drop a file here or <a (ngx-select)="onUpload($event)">browse from your computer</a></span>
         </div>
     </div>
     <mat-dialog-content>
-        <img *ngIf="selected | async as selectedFile" [src]="selectedFile?.fileUrl">
+        <div class=" d-flex justify-content-center align-items-center file-list-content">
+            <img *ngIf="selected | async as selectedFile" [src]="selectedFile?.fileUrl">
+        </div>
         <cdk-virtual-scroll-viewport orientation="horizontal" class="mt-3" itemSize="200" ngxVirtualSwiper>
             <div *cdkVirtualFor="let item of source; trackBy: trackByFn" class="swipe-item" [style.width.px]="200">
                 <lib-file class="mt-3 col-md-12" [item]="item" (delete)="onDelete($event)" (select)="onSelect($event)"></lib-file>
             </div>
         </cdk-virtual-scroll-viewport>
     </mat-dialog-content>
-    <mat-dialog-actions>
-        <button mat-button [disabled]="!(selected | async)" [mat-dialog-close]="(selected | async)?.fileUrl">Select</button>
+    <mat-dialog-actions class="mb-2">
+        <button  mat-raised-button color="primary" [disabled]="!(selected | async)" [mat-dialog-close]="(selected | async)?.fileUrl">Select</button>
         <button mat-button mat-dialog-close>Close</button>
     </mat-dialog-actions>
 </div>
