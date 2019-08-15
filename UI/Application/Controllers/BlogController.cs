@@ -86,7 +86,7 @@ namespace Application.Controllers
         {
             try
             {
-                BlogModel model = await this.blogService.GetBlogAsync(blogId).ConfigureAwait(false);
+                BlogModel model = await this.blogService.GetBlogAsync(blogId, this.UserId).ConfigureAwait(false);
 
                 return this.Ok(model);
             }

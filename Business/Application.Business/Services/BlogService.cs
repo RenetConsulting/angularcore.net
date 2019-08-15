@@ -61,13 +61,22 @@ namespace Application.Business.Services
             }
         }
 
-        public async Task<BlogModel> GetBlogAsync(string blogId)
+        public async Task<BlogModel> GetBlogAsync(string blogId, string userId)
         {
             try
             {
-                Blog blog = await this.globalRepository.GetBlogAsync(blogId).ConfigureAwait(false);
-
+                Blog blog = await this.globalRepository.GetBlogAsync(blogId, userId).ConfigureAwait(false);
                 BlogModel model = new BlogModel();
+
+                if (!Equals(userId, null))
+                {
+                    model.Editable = blog.UserId == userId;
+                }
+                else
+                {
+                    model.Editable = false;
+                }
+
                 model.ToModel(blog);
 
                 return model;
