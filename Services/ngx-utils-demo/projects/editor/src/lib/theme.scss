@@ -7,7 +7,7 @@
     $background: map-get($theme, background);
     $foreground: map-get($theme, foreground);
 
-    lib-editor {
+    editor {
         .ql-editor {
             &.ql-blank {
                 border-bottom: 1px solid mat-color($foreground, text, 0.42);

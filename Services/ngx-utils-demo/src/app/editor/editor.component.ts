@@ -5,7 +5,7 @@ import { ToolbarHandlersService } from 'projects/editor/src/public-api';
 @Component({
     selector: 'app-editor',
     templateUrl: './editor.component.html',
-    styleUrls: ['./editor.component.css'],
+    styleUrls: ['./editor.component.scss'],
     providers: [{ provide: ToolbarHandlersService, useValue: ({ image: (quill) => console.log(quill.getSelection()) }) }],
 })
 export class EditorComponent implements OnInit {
