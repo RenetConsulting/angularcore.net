@@ -3,7 +3,7 @@
 @import "../app/components/header/theme";
 @import "../app/components/logo/theme";
 /** TODO: add theme */
-// @import "../../node_modules/@renet-consulting/editor/theme.scss";
+@import "../../node_modules/@renet-consulting/editor/theme.scss";
 @import '../../projects/blog/src/lib/shared/blog-list/blog/theme.scss';
 
 /** Mixin to combine styles for all components */
@@ -18,7 +18,6 @@
     @include app-root-theme($theme);
     @include header-theme($theme);
     @include logo-theme($theme);
-    /** TODO: add theme */
-    // @include editor-theme($theme);
+    @include editor-theme($theme);
     @include blog-theme($theme);
 }
