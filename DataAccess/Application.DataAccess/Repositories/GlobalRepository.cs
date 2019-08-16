@@ -262,20 +262,16 @@ namespace Application.DataAccess.Repositories
             return await this.context.FileStorages.ToListAsync();
         }
 
-        public async Task<FileStoragesPagingModel> GetFileStoragesAsync(string userId, int page, int pageSize)
+        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "ValueTuple.")]
+        public async Task<(List<FileStorage>, int)> GetFileStoragesAsync(string userId, int index, int count)
         {
             try
             {
-                FileStoragesPagingModel model = new FileStoragesPagingModel();
+                int totalAmount = await this.context.FileStorages.CountAsync();
 
-                int skipSize = this.SkipSize(page, pageSize);
+                List<FileStorage> fileStorage = await this.context.FileStorages.Skip(index).Take(count).ToListAsync();
 
-                var fileStorages = this.context.FileStorages.Where(i => i.UserId == userId);
-
-                model.FileStorages = await fileStorages.Skip(skipSize).Take(pageSize).ToListAsync();
-                model.TotalCount = await fileStorages.CountAsync();
-
-                return model;
+                return (fileStorage, totalAmount);
             }
             catch
             {

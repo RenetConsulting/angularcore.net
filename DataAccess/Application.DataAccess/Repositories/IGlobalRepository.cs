@@ -57,6 +57,7 @@ namespace Application.DataAccess.Repositories
 
         Task<List<FileStorage>> GetAllFilesAsync();
 
-        Task<FileStoragesPagingModel> GetFileStoragesAsync(string userId, int page, int pageSize);
+        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "ValueTuple.")]
+        Task<(List<FileStorage>, int)> GetFileStoragesAsync(string userId, int index, int count);
     }
 }
