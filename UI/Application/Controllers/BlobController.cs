@@ -10,6 +10,8 @@ namespace Application.Controllers
     using System.Linq;
     using System.Threading.Tasks;
     using Application.Business.Helpers;
+    using Application.Business.Models;
+    using Application.DataAccess.Entities;
     using Application.DataAccess.Repositories;
     using Application.Services;
     using Microsoft.AspNetCore.Authorization;
@@ -90,18 +92,18 @@ namespace Application.Controllers
         {
             try
             {
-                var result = await this.repository.GetFileStoragesAsync(this.UserId, index, count).ConfigureAwait(false);
+                (List<FileStorage> items, int totalAmount) result = await this.repository.GetFileStoragesAsync(this.UserId, index, count).ConfigureAwait(false);
 
-                if (result != null)
+                if (result.items != null)
                 {
-                    List<FileModel> images = result.FileStorages
+                    List<FileModel> images = result.ToTuple().Item1
                         .Select(i => new FileModel(
                             i.FileId,
                             this.GetFileStorageUrl(this.UserId, i.FileId),
                             i.Title))
                         .ToList();
 
-                    return this.Ok(new { Items = images, TotalAmount = result.TotalCount });
+                    return this.Ok(new { Items = images, TotalAmount = result.totalAmount });
                 }
 
                 return this.BadRequest("Error retrieving user images");
