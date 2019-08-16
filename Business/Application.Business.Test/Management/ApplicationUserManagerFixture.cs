@@ -132,7 +132,7 @@ namespace Application.Business.Test.Management
             var result = await mockUserManager.Object.ChangeUserPasswordAsync(userClaims, oldPassword, newPassword, confirmNewPassword);
 
             Assert.NotNull(result);
-            Assert.Equal(identityResult.Succeeded, result.Succeeded);ы
+            Assert.Equal(identityResult.Succeeded, result.Succeeded);
         }
 
         [Fact]
