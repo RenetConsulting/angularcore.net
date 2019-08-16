@@ -873,6 +873,41 @@
           }
         }
       }
+    },
+    "viewport-change": {
+      "projectType": "library",
+      "root": "projects/viewport-change",
+      "sourceRoot": "projects/viewport-change/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/viewport-change/tsconfig.lib.json",
+            "project": "projects/viewport-change/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/viewport-change/src/test.ts",
+            "tsConfig": "projects/viewport-change/tsconfig.spec.json",
+            "karmaConfig": "projects/viewport-change/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/viewport-change/tsconfig.lib.json",
+              "projects/viewport-change/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "ngx-utils-demo"

@@ -150,6 +150,12 @@
       ],
       "animations/*": [
         "dist/animations/*"
+      ],
+      "viewport-change": [
+        "dist/viewport-change"
+      ],
+      "viewport-change/*": [
+        "dist/viewport-change/*"
       ]
     }
   }
