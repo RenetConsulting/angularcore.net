@@ -13,6 +13,6 @@
     "s3-prefix"     : "CoreCaptcha/",
     "template"      : "serverless.template",
     "template-parameters" : "",
-    "s3-bucket"           : "alexbucket19660120",
-    "stack-name"          : "Captcha"
+    "s3-bucket"           : "",
+    "stack-name"          : ""
 }
