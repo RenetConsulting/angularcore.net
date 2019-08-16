@@ -7,7 +7,6 @@ import * as UIActions from '../../core/actions';
 import { BlogService } from '../../core/services/blog.service';
 import { BlogTypes } from '../../core/types';
 
-/** TODO: add prompt on delete */
 @Injectable()
 export class BlogDetailEffects {
 
@@ -29,17 +28,29 @@ export class BlogDetailEffects {
         ofType<UIActions.UpdateBlogRequest>(BlogTypes.UPDATE_BLOG_REQUEST),
         mergeMap(a => this.blogService.update(a.payload).pipe(
             map(() => new UIActions.UpdateBlogSuccess(a.payload)),
-            tap(() => this.router.navigate(['/blogs'])),
             catchError(e => of(new UIActions.UpdateBlogError(e)))
         ))
+    );
+
+    /** TODO: add prompt on delete */
+    @Effect() deleteBlogPreRequest = this.actions.pipe(
+        ofType<UIActions.DeleteBlogPreRequest>(BlogTypes.DELETE_BLOG_PRE_REQUEST),
+        map(a => new UIActions.DeleteBlogRequest(a.payload)),
     );
 
     @Effect() deleteBlogRequest = this.actions.pipe(
         ofType<UIActions.DeleteBlogRequest>(BlogTypes.DELETE_BLOG_REQUEST),
         mergeMap(a => this.blogService.delete(a.payload).pipe(
             map(() => new UIActions.DeleteBlogSuccess(a.payload)),
-            tap(() => this.router.navigate(['/blogs'])),
             catchError(e => of(new UIActions.DeleteBlogError(e)))
         ))
+    );
+
+    @Effect({ dispatch: false }) navigateBlogs = this.actions.pipe(
+        ofType<UIActions.UpdateBlogSuccess | UIActions.DeleteBlogRequest>(
+            BlogTypes.UPDATE_BLOG_SUCCESS,
+            BlogTypes.DELETE_BLOG_SUCCESS
+        ),
+        tap(() => this.router.navigate(['/blogs'])),
     );
 }

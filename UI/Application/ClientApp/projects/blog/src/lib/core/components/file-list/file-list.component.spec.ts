@@ -1,10 +1,11 @@
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { InfiniteSource } from '@renet-consulting/infinite-source';
-import { Subscription } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { RootBlogStore } from '../../reducers';
-import { DeleteFileRequest, GetFilesRequest, UploadFileRequest } from './actions';
+import { DeleteFileRequest, GetFilesRequest, SelectFile, UploadFileRequest } from './actions';
 import { FileListComponent } from './file-list.component';
 import { FileModel } from './file.model';
 
@@ -25,6 +26,7 @@ describe('FileListComponent', () => {
         store = TestBed.get(Store);
 
         component = new FileListComponent(store);
+        component.viewport = { scrolledIndexChange: of(0) } as CdkVirtualScrollViewport;
     });
 
     it('should create', () => {
@@ -38,6 +40,7 @@ describe('FileListComponent', () => {
     });
     it('ngOnInit', () => {
         spyOn(component, 'getItems');
+        spyOn(component, 'onIndexChange');
         spyOn(component.source, 'update');
         const end = 9;
         store.setState({ file: { ids: [], entities: {}, totalAmount: 10 } });
@@ -50,6 +53,7 @@ describe('FileListComponent', () => {
         expect(component.getItems).toHaveBeenCalledWith(end);
         expect(component.getItems).toHaveBeenCalledTimes(2);
         expect(component.source.update).toHaveBeenCalled();
+        expect(component.onIndexChange).toHaveBeenCalled();
 
         component.ngOnDestroy();
     });
@@ -83,6 +87,6 @@ describe('FileListComponent', () => {
         spyOn(store, 'dispatch');
         const item = { fileUrl: 'bob' } as FileModel;
         component.onSelect(item);
-        expect(component.selected).toEqual(item);
+        expect(store.dispatch).toHaveBeenCalledWith(new SelectFile(item));
     });
 });

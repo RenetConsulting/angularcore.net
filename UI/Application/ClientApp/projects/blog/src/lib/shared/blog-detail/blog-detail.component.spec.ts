@@ -86,6 +86,6 @@ describe('BlogDetailComponent', () => {
         spyOn(store, 'dispatch');
         component.formGroup = { valid: true, value: {} } as FormGroup;
         component.submit();
-        expect(store.dispatch).toHaveBeenCalledWith(new UpdateBlogRequest(component.formGroup.value));
+        expect(store.dispatch).toHaveBeenCalledWith(new UpdateBlogRequest({ ...component.formGroup.value, blogId: component.blogId }));
     });
 });

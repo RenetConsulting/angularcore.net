@@ -73,7 +73,6 @@ describe('BlogDetailEffects', () => {
             const expected = cold('--b', { b: completion });
             actions = hot('--a-', { a: action });
             expect(effects.updateBlogRequest).toBeObservable(expected);
-            expect(router.navigate).toHaveBeenCalledWith(['/blogs']);
         });
         it('error', () => {
             const error = 'bob';
@@ -90,12 +89,12 @@ describe('BlogDetailEffects', () => {
 
         it('success', () => {
             blogService.delete.and.returnValue(of(null));
-            const action = new UIActions.DeleteBlogRequest(null);
-            const completion = new UIActions.DeleteBlogSuccess(null);
+            const blogId = '123';
+            const action = new UIActions.DeleteBlogRequest(blogId);
+            const completion = new UIActions.DeleteBlogSuccess(blogId);
             const expected = cold('--b', { b: completion });
             actions = hot('--a-', { a: action });
             expect(effects.deleteBlogRequest).toBeObservable(expected);
-            expect(router.navigate).toHaveBeenCalledWith(['/blogs']);
         });
         it('error', () => {
             const error = 'bob';
@@ -106,5 +105,15 @@ describe('BlogDetailEffects', () => {
             actions = hot('--a-', { a: action });
             expect(effects.deleteBlogRequest).toBeObservable(expected);
         });
+    });
+
+    it('navigateBlogs', () => {
+        const blogId = '123';
+        const action = new UIActions.DeleteBlogSuccess(blogId);
+        const completion = new UIActions.DeleteBlogSuccess(blogId);
+        const expected = cold('--b', { b: completion });
+        actions = hot('--a-', { a: action });
+        expect(effects.navigateBlogs).toBeObservable(expected);
+        expect(router.navigate).toHaveBeenCalledWith(['/blogs']);
     });
 });
