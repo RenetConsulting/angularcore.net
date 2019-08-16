@@ -1,4 +1,4 @@
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { CdkVirtualScrollViewport, CdkVirtualForOf } from '@angular/cdk/scrolling';
 import { EventEmitter, NgZone } from '@angular/core';
 import { of, Subscription } from 'rxjs';
 import { ViewportChangeDirective } from './viewport-change.directive';
@@ -21,6 +21,7 @@ describe('ViewportChangeDirective', () => {
 
         directive = new ViewportChangeDirective(zone);
         directive.viewport = viewport;
+        directive.forOf = { dataStream: of(null) } as CdkVirtualForOf<any>;
     });
 
     it('should create', () => {
@@ -36,12 +37,12 @@ describe('ViewportChangeDirective', () => {
         expect(directive.subscription instanceof Subscription).toEqual(true);
     });
     it('ngOnInit', () => {
-        spyOn(directive, 'onScrolled');
+        spyOn(directive, 'emitViewChange');
 
         viewport.elementScrolled.and.returnValue(of(null));
         directive.ngOnInit();
         expect(viewport.elementScrolled).toHaveBeenCalled();
-        expect(directive.onScrolled).toHaveBeenCalled();
+        expect(directive.emitViewChange).toHaveBeenCalled();
 
         directive.ngOnDestroy();
     });
@@ -49,7 +50,7 @@ describe('ViewportChangeDirective', () => {
         directive.ngOnDestroy();
         expect(directive.subscription.closed).toEqual(true);
     });
-    it('onScrolled', () => {
+    it('emitViewChange', () => {
         spyOn(directive.viewChange, 'emit');
         zone.run.and.callFake(fn => fn());
         viewport.measureScrollOffset.and.returnValue(2500);
@@ -59,7 +60,7 @@ describe('ViewportChangeDirective', () => {
         const end = 17;
         directive.itemSize = 200;
 
-        directive.onScrolled();
+        directive.emitViewChange();
 
         expect(directive.viewChange.emit).toHaveBeenCalledWith({ start, end });
     });
