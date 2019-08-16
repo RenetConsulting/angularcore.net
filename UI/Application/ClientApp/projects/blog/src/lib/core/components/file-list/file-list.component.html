@@ -1,17 +1,19 @@
 <div>
     <div class="mb-3">
         <h2 class="text-center">You can choose one from previous or upload a new image</h2>
-        <div class="upload-files d-flex flex-column justify-content-center align-items-center p-4 border border-light rounded" (ngx-drop)="onUpload($event)">
+        <div class="upload-files d-flex flex-column justify-content-center align-items-center p-4 border border-light rounded" 
+             (ngx-drop)="onUpload($event)" (ngx-select)="onUpload($event)">
             <i class="fas fa-upload h1"></i>
-            <span>Drop a file here or <a (ngx-select)="onUpload($event)">browse from your computer</a></span>
+            <span>Drop a file here or browse from your computer</span>
         </div>
     </div>
     <mat-dialog-content>
-        <div class=" d-flex justify-content-center align-items-center file-list-content">
-            <img *ngIf="selected | async as selectedFile" [src]="selectedFile?.fileUrl">
+        <div class="d-flex justify-content-center align-items-center file-list-content" *ngIf="selected | async as selectedFile">
+            <img [src]="selectedFile?.fileUrl">
         </div>
         <cdk-virtual-scroll-viewport class="mt-3" orientation="horizontal" ngxVirtualSwiper [itemSize]="itemSize" (resize)="onResize($event)">
-            <div *cdkVirtualFor="let item of source; trackBy: trackByFn" class="swipe-item" [style.width.px]="itemSize">
+            <div *cdkVirtualFor="let item of source; trackBy: trackByFn" class="swipe-item" [style.width.px]="itemSize" 
+                 [class.active]="(selected | async)?.fileId === item?.fileId">
                 <lib-file class="mt-3 col-md-12" [item]="item" (delete)="onDelete($event)" (select)="onSelect($event)"></lib-file>
             </div>
         </cdk-virtual-scroll-viewport>
