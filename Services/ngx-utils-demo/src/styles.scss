@@ -4,7 +4,7 @@
 
 $primary: mat-palette($mat-blue);
 $accent: mat-palette($mat-green, A200, A100, A400);
-// $theme: mat-dark-theme($primary, $accent);
+//$theme: mat-dark-theme($primary, $accent);
 $theme: mat-light-theme($primary, $accent);
 
 @include mat-core();
