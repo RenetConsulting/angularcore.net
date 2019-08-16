@@ -5,6 +5,7 @@
 /** TODO: add theme */
 @import "../../node_modules/@renet-consulting/editor/theme.scss";
 @import '../../projects/blog/src/lib/shared/blog-list/blog/theme.scss';
+@import '../../projects/blog/src/lib/core/components/file-list/theme.scss';
 
 /** Mixin to combine styles for all components */
 @mixin app-theme($theme) {
@@ -20,4 +21,5 @@
     @include logo-theme($theme);
     @include editor-theme($theme);
     @include blog-theme($theme);
+    @include lib-file-list-theme($theme);
 }
