@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { IResponseList } from '../../response-list';
@@ -21,6 +22,7 @@ describe('FileEffects', () => {
             providers: [
                 FileEffects,
                 provideMockActions(() => actions),
+                provideMockStore({}),
                 { provide: FileService, useValue: jasmine.createSpyObj<FileService>('FileService', ['upload', 'getFiles', 'delete']) },
             ],
         });

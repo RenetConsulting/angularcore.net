@@ -4,8 +4,8 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
-import { DeleteBlogRequest, GetBlogRequest, UpdateBlogRequest } from '../../core/actions';
+import { map, shareReplay, tap } from 'rxjs/operators';
+import { DeleteBlogPreRequest, GetBlogRequest, UpdateBlogRequest } from '../../core/actions';
 import { BlogModel } from '../../core/blog.model';
 import { RootBlogStore } from '../../core/reducers';
 import { selectSelectedBlog } from '../../core/selectors';
@@ -20,6 +20,7 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
     readonly item = this.store.select(selectSelectedBlog).pipe(shareReplay(1));
     readonly subscription = new Subscription();
     formGroup: FormGroup;
+    blogId: string;
 
     constructor(
         @Inject(Store) private store: Store<RootBlogStore>,
@@ -30,7 +31,8 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.setFormGroup();
         this.subscription.add(this.route.paramMap.pipe(
-            map(x => x.get('blogId'))
+            map(x => x.get('blogId')),
+            tap(x => this.blogId = x)
         ).subscribe(x => this.store.dispatch(new GetBlogRequest(x))));
         this.subscription.add(this.item.subscribe(this.updateFormGroup));
     }
@@ -56,11 +58,9 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
 
     submit = (): void => {
         if (this.formGroup.valid) {
-            this.store.dispatch(new UpdateBlogRequest(this.formGroup.value));
+            this.store.dispatch(new UpdateBlogRequest({ ...this.formGroup.value, blogId: this.blogId }));
         }
     }
 
-    delete = (): void => {
-        this.store.dispatch(new DeleteBlogRequest(this.formGroup.value.blogId));
-    }
+    delete = () => this.store.dispatch(new DeleteBlogPreRequest(this.blogId));
 }
