@@ -24,6 +24,7 @@ export class FileListComponent implements OnInit, OnDestroy {
     readonly selected = this.store.select(selectSelectedFile).pipe(shareReplay(1));
     readonly nextDisabled = new BehaviorSubject(null);
     readonly prevDisabled = new BehaviorSubject(null);
+    readonly behavior = 'smooth';
     readonly itemSize = 200;
     private index: number;
     private total: number;
@@ -44,7 +45,7 @@ export class FileListComponent implements OnInit, OnDestroy {
             map(([end]) => end),
         ).subscribe(this.getItems));
         this.subscription.add(this.store.select(selectFileTotalAmount).subscribe(this.setTotal));
-        this.subscription.add(this.viewport.scrolledIndexChange.subscribe(this.setButtonStatus));
+        this.subscription.add(this.viewport.scrolledIndexChange.subscribe(this.onIndexChange));
     }
 
     ngOnDestroy(): void {
@@ -61,29 +62,29 @@ export class FileListComponent implements OnInit, OnDestroy {
 
     onSelect = (x: FileModel) => this.store.dispatch(new SelectFile(x));
 
-    setButtonStatus = (index: number): void => {
-        this.index = index;
-        this.prevDisabled.next(index <= 0);
-        this.nextDisabled.next(typeof this.total === 'number' ? index >= this.total : true);
+    onIndexChange = (x: number): void => {
+        this.index = x;
+        this.prevDisabled.next(x <= 0);
+        this.nextDisabled.next(typeof this.total === 'number' ? x >= this.total : true);
     }
 
-    setTotal = (value: number): void => {
-        if (typeof value === 'number') {
-            const total = value - this.shift;
+    setTotal = (x: number): void => {
+        if (typeof x === 'number') {
+            const total = x - this.shift;
             this.total = total < 0 ? 0 : total;
 
-            this.setButtonStatus(this.index);
+            this.onIndexChange(this.index);
         }
     }
 
     prev = (): void => {
         const index = this.index - this.shift;
-        this.viewport.scrollToIndex(index < 0 ? 0 : index, 'smooth');
+        this.viewport.scrollToIndex(index < 0 ? 0 : index, this.behavior);
     }
 
     next = (): void => {
         const index = this.index + this.shift;
-        this.viewport.scrollToIndex(index > this.total ? this.total : index, 'smooth');
+        this.viewport.scrollToIndex(index > this.total ? this.total : index, this.behavior);
     }
 
     onResize = (e: DOMRectReadOnly): void => {
