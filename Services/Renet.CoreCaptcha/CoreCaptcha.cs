@@ -121,8 +121,24 @@
                         {
                             httpStatusCode = HttpStatusCode.OK;
                         }
+                        else
+                        {
+                            log.LogDebug("hash is invalid");
+                        }
+                    }
+                    else
+                    {
+                        log.LogDebug("clientId is null");
                     }
                 }
+                else
+                {
+                    log.LogDebug("captcha is null");
+                }
+            }
+            else
+            {
+                log.LogDebug("hash is null");
             }
 
             return httpStatusCode;
