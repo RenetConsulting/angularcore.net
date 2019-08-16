@@ -5,6 +5,22 @@
 
   "Resources" : {
 
+   "ApiCoreCaptcha": {
+        "Type": "AWS::ApiGateway::RestApi",
+        "Properties": {
+            "Name": "ApiCoreCaptcha",
+			 "Description" : "Created by VS Template",
+			 "EndpointConfiguration" : {
+			  "Types" : ["REGIONAL"]
+			 }
+        }
+    },
+
+
+
+
+
+
 
     "CapchaCreate" : {
         "Type" : "AWS::Lambda::Function",
