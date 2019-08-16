@@ -56,6 +56,10 @@ export class UpdateBlogError implements Action {
     constructor(readonly error) { }
 }
 
+export class DeleteBlogPreRequest implements Action {
+    readonly type = BlogTypes.DELETE_BLOG_PRE_REQUEST;
+    constructor(readonly payload: string) { }
+}
 export class DeleteBlogRequest implements Action {
     readonly type = BlogTypes.DELETE_BLOG_REQUEST;
     constructor(readonly payload: string) { }
@@ -113,6 +117,7 @@ export type BlogActionsUnion = CreateBlogRequest
     | UpdateBlogRequest
     | UpdateBlogSuccess
     | UpdateBlogError
+    | DeleteBlogPreRequest
     | DeleteBlogRequest
     | DeleteBlogSuccess
     | DeleteBlogError
