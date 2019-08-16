@@ -90,9 +90,6 @@ namespace Application.Controllers
         {
             try
             {
-                // check existing images
-                await this.CheckExistingImagesAsync().ConfigureAwait(false);
-
                 var result = await this.repository.GetFileStoragesAsync(this.UserId, index, count).ConfigureAwait(false);
 
                 if (result != null)
@@ -118,50 +115,6 @@ namespace Application.Controllers
         public string GetFileStorageUrl(string userId, string fileId)
         {
             return string.Format("{0}{1}/{2}/{3}", this.AppSettings.BlobStorageUrl, this.AppSettings.ContainerName, userId, fileId);
-        }
-
-        // one time check function
-        public async Task CheckExistingImagesAsync()
-        {
-            var files = await this.repository.GetAllFilesAsync().ConfigureAwait(false);
-
-            foreach (var file in files)
-            {
-                try
-                {
-                    // check if file exists in Images folder
-                    bool isFileExists = await this.fileManager
-                        .FileExistsAsync(file.FileId, file.UserId)
-                        .ConfigureAwait(false);
-                }
-                catch (Exception ex)
-                {
-                    if (ex.Message.Contains("The specified blob does not exist."))
-                    {
-                        try
-                        {
-                            // check if file exists in Image folder
-                            bool isFileExists = await this.fileManager
-                                .FileExistsAsync(file.FileId, file.UserId)
-                                .ConfigureAwait(false);
-
-                            if (isFileExists)
-                            {
-                                // if image exists in Image folder - move to Images folder
-                                await this.fileManager.CopyBlobAsync(file.FileId, file.UserId).ConfigureAwait(false);
-                            }
-                        }
-                        catch (Exception ex2)
-                        {
-                            if (ex2.Message.Contains("The specified blob does not exist."))
-                            {
-                                // if image does not exists in any folder - delete it
-                                bool isFileDeleted = await this.repository.DeleteBlogFileAsync(file.FileId, file.UserId).ConfigureAwait(false);
-                            }
-                        }
-                    }
-                }
-            }
         }
 
         [HttpDelete("{blobName}")]
