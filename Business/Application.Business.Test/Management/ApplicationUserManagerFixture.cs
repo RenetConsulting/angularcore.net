@@ -118,21 +118,21 @@ namespace Application.Business.Test.Management
             string confirmNewPassword = "12345qwerty!!";
 
             ApplicationUser user = new ApplicationUser { UserName = "Andrew", Id = "FE9E0A84-39CF-4569-9732-ACDE93F9A127" };
-            user = await this.userManager.GetUserAsync(userClaims);
             IdentityResult identityResult = IdentityResult.Success;
 
-            var cp = new Mock<ClaimsPrincipal>();
-            cp.Setup(m => m.HasClaim(It.IsAny<string>(), It.IsAny<string>()))
-              .Returns(true);
-
             // Setup Moq
-            this.mockIUserManager.Setup(x => x.ChangePasswordAsync(user, oldPassword, newPassword))
-                .Returns(Task.FromResult(identityResult)).Verifiable();
+            this.mockIUserManager.Setup(u => u.ChangePasswordAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(identityResult);
 
-            var result = await this.userManager.ChangeUserPasswordAsync(userClaims, oldPassword, newPassword, confirmNewPassword);
+            Mock<ApplicationUserManager<ApplicationUser>> mockUserManager = new Mock<ApplicationUserManager<ApplicationUser>>(this.mockStore.Object, null, null, null, null, null, null, null, null);
+            mockUserManager.Setup(u => u.GetUserAsync(It.IsAny<ClaimsPrincipal>())).ReturnsAsync(user);
+
+            ApplicationUserManager<ApplicationUser> userMngr = mockUserManager.Object;
+            userMngr.Me = this.mockIUserManager.Object;
+
+            var result = await mockUserManager.Object.ChangeUserPasswordAsync(userClaims, oldPassword, newPassword, confirmNewPassword);
 
             Assert.NotNull(result);
-            Assert.Equal(identityResult.Succeeded, result.Succeeded);
+            Assert.Equal(identityResult.Succeeded, result.Succeeded);ы
         }
 
         [Fact]
