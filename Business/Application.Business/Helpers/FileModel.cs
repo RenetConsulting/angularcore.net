@@ -5,10 +5,9 @@
 
 namespace Application.Business.Helpers
 {
-    using Application.Business.Models;
     using System;
 
-    public class FileModel 
+    public class FileModel
     {
         public FileModel()
         {
