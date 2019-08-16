@@ -1,6 +1,6 @@
 /** the theme is based on @angular/material */
 @mixin editor-theme($theme) {
-    
+
     $primary: map-get($theme, primary);
     $accent: map-get($theme, accent);
     $warn: map-get($theme, warn);
@@ -9,13 +9,8 @@
 
     editor {
         .ql-editor {
-            &.ql-blank {
-                border-bottom: 1px solid mat-color($foreground, text, 0.42);
-
-                &::before {
-                    color: mat-color($foreground, text, 0.5);
-                }
-            }
+            border-bottom: 1px solid mat-color($foreground, text, 0.42);
+            color: mat-color($foreground, text);
         }
 
         .ng-touched {
@@ -32,6 +27,10 @@
                     }
                 }
             }
+        }
+
+        .error {
+            color: mat-color($warn);
         }
 
         .ql-toolbar.ql-snow {
@@ -76,37 +75,88 @@
                 }
             }
 
-            button {
-                &:hover {
-                    rect,
-                    rect,
-                    circle,
-                    polyline,
-                    line,
-                    path,
-                    polygon {
-                        stroke: mat-color($primary) !important;
-                    }
+            &.ql-toolbar button:hover,
+            .ql-toolbar button:hover,
+            &.ql-toolbar button:focus,
+            .ql-toolbar button:focus,
+            &.ql-toolbar button.ql-active,
+            .ql-toolbar button.ql-active,
+            &.ql-toolbar .ql-picker-label:hover,
+            .ql-toolbar .ql-picker-label:hover,
+            &.ql-toolbar .ql-picker-label.ql-active,
+            .ql-toolbar .ql-picker-label.ql-active,
+            &.ql-toolbar .ql-picker-item:hover,
+            .ql-toolbar .ql-picker-item:hover,
+            &.ql-toolbar .ql-picker-item.ql-selected,
+            .ql-toolbar .ql-picker-item.ql-selected {
+                color: mat-color($primary) !important;
+            }
 
-                    path {
-                        fill: mat-color($primary) !important;
-                    }
-                }
+            &.ql-toolbar button:hover .ql-stroke,
+            .ql-toolbar button:hover .ql-stroke,
+            &.ql-toolbar button:focus .ql-stroke,
+            .ql-toolbar button:focus .ql-stroke,
+            &.ql-toolbar button.ql-active .ql-stroke,
+            .ql-toolbar button.ql-active .ql-stroke,
+            &.ql-toolbar .ql-picker-label:hover .ql-stroke,
+            .ql-toolbar .ql-picker-label:hover .ql-stroke,
+            &.ql-toolbar .ql-picker-label.ql-active .ql-stroke,
+            .ql-toolbar .ql-picker-label.ql-active .ql-stroke,
+            &.ql-toolbar .ql-picker-item:hover .ql-stroke,
+            .ql-toolbar .ql-picker-item:hover .ql-stroke,
+            &.ql-toolbar .ql-picker-item.ql-selected .ql-stroke,
+            .ql-toolbar .ql-picker-item.ql-selected .ql-stroke,
+            &.ql-toolbar button:hover .ql-stroke-miter,
+            .ql-toolbar button:hover .ql-stroke-miter,
+            &.ql-toolbar button:focus .ql-stroke-miter,
+            .ql-toolbar button:focus .ql-stroke-miter,
+            &.ql-toolbar button.ql-active .ql-stroke-miter,
+            .ql-toolbar button.ql-active .ql-stroke-miter,
+            &.ql-toolbar .ql-picker-label:hover .ql-stroke-miter,
+            .ql-toolbar .ql-picker-label:hover .ql-stroke-miter,
+            &.ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter,
+            .ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter,
+            &.ql-toolbar .ql-picker-item:hover .ql-stroke-miter,
+            .ql-toolbar .ql-picker-item:hover .ql-stroke-miter,
+            &.ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter,
+            .ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter {
+                stroke: mat-color($primary) !important;
+            }
+
+            &.ql-toolbar button:hover .ql-fill,
+            .ql-toolbar button:hover .ql-fill,
+            &.ql-toolbar button:focus .ql-fill,
+            .ql-toolbar button:focus .ql-fill,
+            &.ql-toolbar button.ql-active .ql-fill,
+            .ql-toolbar button.ql-active .ql-fill,
+            &.ql-toolbar .ql-picker-label:hover .ql-fill,
+            .ql-toolbar .ql-picker-label:hover .ql-fill,
+            &.ql-toolbar .ql-picker-label.ql-active .ql-fill,
+            .ql-toolbar .ql-picker-label.ql-active .ql-fill,
+            &.ql-toolbar .ql-picker-item:hover .ql-fill,
+            .ql-toolbar .ql-picker-item:hover .ql-fill,
+            &.ql-toolbar .ql-picker-item.ql-selected .ql-fill,
+            .ql-toolbar .ql-picker-item.ql-selected .ql-fill,
+            &.ql-toolbar button:hover .ql-stroke.ql-fill,
+            .ql-toolbar button:hover .ql-stroke.ql-fill,
+            &.ql-toolbar button:focus .ql-stroke.ql-fill,
+            .ql-toolbar button:focus .ql-stroke.ql-fill,
+            &.ql-toolbar button.ql-active .ql-stroke.ql-fill,
+            .ql-toolbar button.ql-active .ql-stroke.ql-fill,
+            &.ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill,
+            .ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill,
+            &.ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill,
+            .ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill,
+            &.ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill,
+            .ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill,
+            &.ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill,
+            .ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill {
+                fill: mat-color($primary) !important;
             }
 
             .ql-picker-label {
                 &:hover {
                     color: mat-color($primary) !important;
-
-                    rect,
-                    rect,
-                    circle,
-                    polyline,
-                    line,
-                    path,
-                    polygon {
-                        stroke: mat-color($primary) !important;
-                    }
                 }
             }
         }
