@@ -36,9 +36,6 @@
                 loggingBuilder.AddConfiguration(this.Configuration.GetSection("Logging"));
                 loggingBuilder.AddConsole();
                 loggingBuilder.AddDebug();
-#if AZURE
-                loggingBuilder.AddAzureWebAppDiagnostics();
-#endif
             });
 
             services.AddScoped<ICoreCaptcha, CoreCaptcha>();
