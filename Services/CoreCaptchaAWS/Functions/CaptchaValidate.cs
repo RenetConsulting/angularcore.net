@@ -11,9 +11,9 @@ namespace AwsCoreCaptcha
     using System.Net;
     using System.Threading.Tasks;
 
-    public class CapchaValidate : Function
+    public class CaptchaValidate : Function
     {
-        public CapchaValidate() : base()
+        public CaptchaValidate() : base()
         {
             Logger = this.ServiceProvider.GetRequiredService<ILogger<CaptchaCreate>>();
         }

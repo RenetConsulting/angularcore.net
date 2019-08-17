@@ -7,6 +7,10 @@
 
    "ApiCoreCaptcha": {
         "Type": "AWS::ApiGateway::RestApi",
+		"DependsOn": [	
+			"CaptchaCreate",
+			"CaptchaValidate"
+		],
         "Properties": {
             "Name": "ApiCoreCaptcha",
 			 "Description" : "Created by VS Template",
@@ -16,24 +20,13 @@
         }
     },
 
-	"ApiProxyResource": {
-        "Type": "AWS::ApiGateway::Resource",
-        "Properties": {
-            "RestApiId": {
-                "Ref": "ApiCoreCaptcha"
-            },
-			 "ParentId": {
-                "Fn::GetAtt": [
-                    "ApiCoreCaptcha",
-                    "RootResourceId"
-                ]
-            },
-            "PathPart": "CoreCaptcha"
-        }
-    },
-
 	"ApiCoreCaptchaDeployment" : {
 	  "Type" : "AWS::ApiGateway::Deployment",
+		"DependsOn": [	
+			"ApiCoreCaptcha",
+			"CaptchaCreateApi",
+			"CaptchaValidateApi"
+		],
 	  "Properties" : {
 		  "RestApiId": {
 					"Ref": "ApiCoreCaptcha"
@@ -43,6 +36,10 @@
 
 	"ApiCoreCaptchaStage": {
 		"Type" : "AWS::ApiGateway::Stage",
+		"DependsOn": [	
+			"ApiCoreCaptcha",
+			"ApiCoreCaptchaDeployment"
+		],
 		"Properties" : {
 			"RestApiId": {
 					"Ref": "ApiCoreCaptcha"
@@ -56,40 +53,45 @@
 
 
 
-	"APIGatewayToLambdaPermission": {
-            "Type": "AWS::Lambda::Permission", 
+	"CaptchaCreatePermission": {
+            "Type": "AWS::Lambda::Permission",
+			"DependsOn": [		
+				"CaptchaCreate",
+				"ApiCoreCaptcha"
+			],
             "Properties": {
                 "Action": "lambda:InvokeFunction", 
-                "FunctionName": "CapchaCreate", 
+                "FunctionName": "CaptchaCreate", 
                 "Principal": "apigateway.amazonaws.com"
             }
-        },
+     },
 
+	"CaptchaCreateResource": {
+        "Type": "AWS::ApiGateway::Resource",
+        "Properties": {
+            "RestApiId": {
+                "Ref": "ApiCoreCaptcha"
+            },
+			 "ParentId": {
+                "Fn::GetAtt": [
+                    "ApiCoreCaptcha",
+                    "RootResourceId"
+                ]
+            },
+            "PathPart": "CaptchaCreate"
+        }
+    },
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	"CapchaCreateApi": {
+	"CaptchaCreateApi": {
 	  "Type" : "AWS::ApiGateway::Method",
 	  "DependsOn": [
-		"APIGatewayToLambdaPermission",
-		"CapchaCreate"
+		"CaptchaCreatePermission",
+		"CaptchaCreate"
 	  ],
 	  "Properties" : {
 		  "ApiKeyRequired" : false,
 		   "ResourceId": {
-                 "Ref": "ApiProxyResource"
+                 "Ref": "CaptchaCreateResource"
             },
 		  "HttpMethod" : "ANY",
 		  "AuthorizationType": "NONE",
@@ -107,7 +109,7 @@
                         "lambda:path/2015-03-31/functions/",
 						{
 							"Fn::GetAtt": [
-								"CapchaCreate",
+								"CaptchaCreate",
 								"Arn"
 							]
 						},
@@ -127,10 +129,83 @@
 	},
 
 
+	"CaptchaValidateResource": {
+        "Type": "AWS::ApiGateway::Resource",
+        "Properties": {
+            "RestApiId": {
+                "Ref": "ApiCoreCaptcha"
+            },
+			 "ParentId": {
+                "Fn::GetAtt": [
+                    "ApiCoreCaptcha",
+                    "RootResourceId"
+                ]
+            },
+            "PathPart": "CaptchaValidate"
+        }
+    },
+
+	"CaptchaValidatePermission": {
+            "Type": "AWS::Lambda::Permission", 
+			"DependsOn": [		
+				"CaptchaValidate",
+				"ApiCoreCaptcha"
+			],
+            "Properties": {
+                "Action": "lambda:InvokeFunction", 
+                "FunctionName": "CaptchaValidate", 
+                "Principal": "apigateway.amazonaws.com"
+            }
+        },
+
+	"CaptchaValidateApi": {
+	  "Type" : "AWS::ApiGateway::Method",
+	  "DependsOn": [
+		"CaptchaValidatePermission",
+		"CaptchaValidate"
+	  ],
+	  "Properties" : {
+		  "ApiKeyRequired" : false,
+		   "ResourceId": {
+                 "Ref": "CaptchaValidateResource"
+            },
+		  "HttpMethod" : "ANY",
+		  "AuthorizationType": "NONE",
+		  "Integration" : {
+		    "IntegrationHttpMethod" : "POST",
+			"Type" : "AWS_PROXY",
+			"Uri" : {			 
+                "Fn::Join": [
+                    "", [
+                        "arn:aws:apigateway:",
+                        {
+                            "Ref": "AWS::Region"
+                        },
+                        ":",
+                        "lambda:path/2015-03-31/functions/",
+						{
+							"Fn::GetAtt": [
+								"CaptchaValidate",
+								"Arn"
+							]
+						},
+                        "/invocations"
+                    ]
+                ]   
+            }
+		  },
+		  "MethodResponses": [{
+                "StatusCode": 200
+				}],
+		  "RestApiId" : 
+		  {
+			"Ref": "ApiCoreCaptcha"
+		  }
+		}
+	},
 
 
-
-    "CapchaCreate" : {
+    "CaptchaCreate" : {
         "Type" : "AWS::Lambda::Function",
         "Properties" : {
             "Handler" : "CoreCaptchaAWS::CloudCoreCaptcha.CaptchaCreate::CaptchaCreateHandler",
@@ -138,20 +213,20 @@
             "Runtime" : "dotnetcore2.1",
             "MemorySize" : 256,
             "Timeout" : 30,
-			"FunctionName" : "CapchaCreate"
+			"FunctionName" : "CaptchaCreate"
 			
         }
     },
 
-	"CapchaValidate" : {
+	"CaptchaValidate" : {
         "Type" : "AWS::Lambda::Function",
         "Properties" : {
-            "Handler" : "CoreCaptchaAWS::AwsCoreCaptcha.CapchaValidate::CaptchaValidateHandler",
+            "Handler" : "CoreCaptchaAWS::AwsCoreCaptcha.CaptchaValidate::CaptchaValidateHandler",
             "Role"    : {"Fn::GetAtt" : [ "LambdaRole", "Arn"]},
             "Runtime" : "dotnetcore2.1",
             "MemorySize" : 256,
             "Timeout" : 30,
-            "FunctionName" : "CapchaValidate"
+            "FunctionName" : "CaptchaValidate"
         }
     },
 
@@ -179,7 +254,6 @@
             ]
        }
     }
-
 
   },
 
