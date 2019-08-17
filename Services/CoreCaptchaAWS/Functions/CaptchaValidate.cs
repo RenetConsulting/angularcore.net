@@ -1,15 +1,11 @@
-namespace AwsCoreCaptcha
+namespace CoreCaptchaAWS
 {
     using Amazon.Lambda.APIGatewayEvents;
     using Amazon.Lambda.Core;
-    using CloudCoreCaptcha;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Renet.CoreCaptcha;
-    using System;
-    using System.IO;
     using System.Net;
-    using System.Threading.Tasks;
 
     public class CaptchaValidate : Function
     {

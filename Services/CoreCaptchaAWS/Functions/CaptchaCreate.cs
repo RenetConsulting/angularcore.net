@@ -1,6 +1,6 @@
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: Amazon.Lambda.Core.LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
-namespace CloudCoreCaptcha
+namespace CoreCaptchaAWS
 {
     using Amazon.Lambda.APIGatewayEvents;
     using Amazon.Lambda.Core;

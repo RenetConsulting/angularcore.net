@@ -1,4 +1,4 @@
-﻿namespace CloudCoreCaptcha
+﻿namespace CoreCaptchaAWS
 {
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;

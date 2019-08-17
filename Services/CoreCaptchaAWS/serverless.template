@@ -208,7 +208,7 @@
     "CaptchaCreate" : {
         "Type" : "AWS::Lambda::Function",
         "Properties" : {
-            "Handler" : "CoreCaptchaAWS::CloudCoreCaptcha.CaptchaCreate::CaptchaCreateHandler",
+            "Handler" : "CoreCaptchaAWS::CoreCaptchaAWS.CaptchaCreate::CaptchaCreateHandler",
             "Role"    : {"Fn::GetAtt" : [ "LambdaRole", "Arn"]},
             "Runtime" : "dotnetcore2.1",
             "MemorySize" : 256,
@@ -221,7 +221,7 @@
 	"CaptchaValidate" : {
         "Type" : "AWS::Lambda::Function",
         "Properties" : {
-            "Handler" : "CoreCaptchaAWS::AwsCoreCaptcha.CaptchaValidate::CaptchaValidateHandler",
+            "Handler" : "CoreCaptchaAWS::CoreCaptchaAWS.CaptchaValidate::CaptchaValidateHandler",
             "Role"    : {"Fn::GetAtt" : [ "LambdaRole", "Arn"]},
             "Runtime" : "dotnetcore2.1",
             "MemorySize" : 256,
