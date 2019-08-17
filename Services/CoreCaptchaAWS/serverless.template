@@ -16,7 +16,115 @@
         }
     },
 
+	"ApiProxyResource": {
+        "Type": "AWS::ApiGateway::Resource",
+        "Properties": {
+            "RestApiId": {
+                "Ref": "ApiCoreCaptcha"
+            },
+			 "ParentId": {
+                "Fn::GetAtt": [
+                    "ApiCoreCaptcha",
+                    "RootResourceId"
+                ]
+            },
+            "PathPart": "CoreCaptcha"
+        }
+    },
 
+	"ApiCoreCaptchaDeployment" : {
+	  "Type" : "AWS::ApiGateway::Deployment",
+	  "Properties" : {
+		  "RestApiId": {
+					"Ref": "ApiCoreCaptcha"
+			}
+		}
+	},
+
+	"ApiCoreCaptchaStage": {
+		"Type" : "AWS::ApiGateway::Stage",
+		"Properties" : {
+			"RestApiId": {
+					"Ref": "ApiCoreCaptcha"
+				},
+			"StageName" : "api",
+			"DeploymentId": {
+                    "Ref": "ApiCoreCaptchaDeployment"
+                }
+		}
+	},
+
+
+
+	"APIGatewayToLambdaPermission": {
+            "Type": "AWS::Lambda::Permission", 
+            "Properties": {
+                "Action": "lambda:InvokeFunction", 
+                "FunctionName": "CapchaCreate", 
+                "Principal": "apigateway.amazonaws.com"
+            }
+        },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	"CapchaCreateApi": {
+	  "Type" : "AWS::ApiGateway::Method",
+	  "DependsOn": [
+		"APIGatewayToLambdaPermission",
+		"CapchaCreate"
+	  ],
+	  "Properties" : {
+		  "ApiKeyRequired" : false,
+		   "ResourceId": {
+                 "Ref": "ApiProxyResource"
+            },
+		  "HttpMethod" : "ANY",
+		  "AuthorizationType": "NONE",
+		  "Integration" : {
+		    "IntegrationHttpMethod" : "POST",
+			"Type" : "AWS_PROXY",
+			"Uri" : {			 
+                "Fn::Join": [
+                    "", [
+                        "arn:aws:apigateway:",
+                        {
+                            "Ref": "AWS::Region"
+                        },
+                        ":",
+                        "lambda:path/2015-03-31/functions/",
+						{
+							"Fn::GetAtt": [
+								"CapchaCreate",
+								"Arn"
+							]
+						},
+                        "/invocations"
+                    ]
+                ]   
+            }
+		  },
+		  "MethodResponses": [{
+                "StatusCode": 200
+				}],
+		  "RestApiId" : 
+		  {
+			"Ref": "ApiCoreCaptcha"
+		  }
+		}
+	},
 
 
 
