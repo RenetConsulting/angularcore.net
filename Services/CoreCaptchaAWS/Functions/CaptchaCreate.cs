@@ -8,6 +8,7 @@ namespace CoreCaptchaAWS
     using Microsoft.Extensions.Logging;
     using Renet.CoreCaptcha;
     using System;
+    using System.IO;
     using System.Threading.Tasks;
 
     public class CaptchaCreate : Function
@@ -26,7 +27,7 @@ namespace CoreCaptchaAWS
 
             ICoreCaptcha coreCaptcha = this.ServiceProvider.GetRequiredService<ICoreCaptcha>();
 
-            CoreCaptchaCreateResponse response = await coreCaptcha.CaptchaCreate(Logger, ClientId, 5, input?.QueryStringParameters);
+            CoreCaptchaCreateResponse response = await coreCaptcha.CaptchaCreate(Logger, ClientId, 5, input?.QueryStringParameters, Directory.GetCurrentDirectory());
 
             return new APIGatewayProxyResponse { Headers = response.Headers,  Body = response.Body, StatusCode = (int) response.StatusCode };
         }

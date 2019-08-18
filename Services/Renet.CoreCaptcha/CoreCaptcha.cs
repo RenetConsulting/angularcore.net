@@ -21,7 +21,7 @@
         private readonly int DefaultWidth = 180;
         private readonly int DefaultHeight = 40;
 
-        public async Task<CoreCaptchaCreateResponse> CaptchaCreate(ILogger log, string clientId, int size, IEnumerable<KeyValuePair<string, string>> queryParam)
+        public async Task<CoreCaptchaCreateResponse> CaptchaCreate(ILogger log, string clientId, int size, IEnumerable<KeyValuePair<string, string>> queryParam, string functionAppDirectory)
         {
             CoreCaptchaCreateResponse response = new CoreCaptchaCreateResponse();
 
@@ -46,7 +46,7 @@
             model.Hash = hash;
 
             CaptchaSoundMp3 captchaSoundMp3 = new CaptchaSoundMp3();
-            byte[] soundData = await captchaSoundMp3.GenerateCaptchaSound(captchaCode, Directory.GetCurrentDirectory());
+            byte[] soundData = await captchaSoundMp3.GenerateCaptchaSound(captchaCode, functionAppDirectory);
 
             model.Sound = soundHeader + Convert.ToBase64String(soundData);
 
