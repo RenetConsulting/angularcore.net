@@ -27,7 +27,7 @@ namespace CoreCaptchaAWS
 
             ICoreCaptcha coreCaptcha = this.ServiceProvider.GetRequiredService<ICoreCaptcha>();
 
-            CoreCaptchaCreateResponse response = await coreCaptcha.CaptchaCreate(Logger, ClientId, 5, input?.QueryStringParameters, Directory.GetCurrentDirectory());
+            CoreCaptchaCreateResponse response = await coreCaptcha.CaptchaCreateAsync(Logger, ClientId, 5, input?.QueryStringParameters, Directory.GetCurrentDirectory());
 
             return new APIGatewayProxyResponse { Headers = response.Headers,  Body = response.BodyJson, StatusCode = (int) response.StatusCode };
         }

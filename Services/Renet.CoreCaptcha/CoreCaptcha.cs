@@ -21,7 +21,7 @@
         private readonly int DefaultWidth = 180;
         private readonly int DefaultHeight = 40;
 
-        public async Task<CoreCaptchaCreateResponse> CaptchaCreate(ILogger log, string clientId, int size, IEnumerable<KeyValuePair<string, string>> queryParam, string functionAppDirectory)
+        public async Task<CoreCaptchaCreateResponse> CaptchaCreateAsync(ILogger log, string clientId, int size, IEnumerable<KeyValuePair<string, string>> queryParam, string functionAppDirectory)
         {
             CoreCaptchaCreateResponse response = new CoreCaptchaCreateResponse();
 

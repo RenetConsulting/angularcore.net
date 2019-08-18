@@ -33,7 +33,7 @@ namespace CoreCaptchaAzure
 
             this.Logger.LogInformation("CaptchaCreateHandler trigger function processed a request.");
             
-            CoreCaptchaCreateResponse response = await this.CoreCaptcha.CaptchaCreate(Logger, ClientId, 5, req.GetQueryParameterDictionary(), context.FunctionAppDirectory);
+            CoreCaptchaCreateResponse response = await this.CoreCaptcha.CaptchaCreateAsync(Logger, ClientId, 5, req.GetQueryParameterDictionary(), context.FunctionAppDirectory);
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
