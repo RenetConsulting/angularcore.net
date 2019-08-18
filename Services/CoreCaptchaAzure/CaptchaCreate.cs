@@ -28,7 +28,7 @@ namespace CoreCaptchaAzure
         public static readonly string ClientId = Environment.GetEnvironmentVariable("ClientId");
 
         [FunctionName("CaptchaCreate")]
-        public async  Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]HttpRequest req, ExecutionContext context)
+        public async  Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)]HttpRequest req, ExecutionContext context)
         {
 
             this.Logger.LogInformation("CaptchaCreateHandler trigger function processed a request.");
