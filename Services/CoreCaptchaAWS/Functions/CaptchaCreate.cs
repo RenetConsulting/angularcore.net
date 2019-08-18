@@ -29,7 +29,7 @@ namespace CoreCaptchaAWS
 
             CoreCaptchaCreateResponse response = await coreCaptcha.CaptchaCreate(Logger, ClientId, 5, input?.QueryStringParameters, Directory.GetCurrentDirectory());
 
-            return new APIGatewayProxyResponse { Headers = response.Headers,  Body = response.Body, StatusCode = (int) response.StatusCode };
+            return new APIGatewayProxyResponse { Headers = response.Headers,  Body = response.BodyJson, StatusCode = (int) response.StatusCode };
         }
     }
 }

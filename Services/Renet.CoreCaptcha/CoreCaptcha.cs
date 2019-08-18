@@ -66,7 +66,9 @@
                 Formatting = Formatting.Indented
             };
 
-            response.Body = JsonConvert.SerializeObject(model, formatter);
+            response.CaptchaModel = model;
+
+            response.BodyJson = JsonConvert.SerializeObject(model, formatter);
 
             return response;
         }

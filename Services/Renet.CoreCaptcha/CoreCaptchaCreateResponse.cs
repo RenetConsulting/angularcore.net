@@ -10,7 +10,9 @@
             Headers = new Dictionary<string, string>();
         }
 
-        public string Body { get; set; }
+        public CaptchaModel CaptchaModel { get; set; }
+
+        public string BodyJson { get; set; } 
 
         public IDictionary<string, string> Headers { get; private set; }
 

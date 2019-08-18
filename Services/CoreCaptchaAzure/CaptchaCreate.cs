@@ -28,7 +28,7 @@ namespace CoreCaptchaAzure
         public static readonly string ClientId = Environment.GetEnvironmentVariable("ClientId");
 
         [FunctionName("CaptchaCreate")]
-        public async  Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)]HttpRequest req, ExecutionContext context)
+        public async  Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "options", Route = null)]HttpRequest req, ExecutionContext context)
         {
 
             this.Logger.LogInformation("CaptchaCreateHandler trigger function processed a request.");
@@ -37,12 +37,20 @@ namespace CoreCaptchaAzure
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
+                var headers = req.HttpContext.Response.Headers;
                 foreach (var element in response.Headers)
                 {
-                    req.HttpContext.Response.Headers.Add(element.Key, element.Value);
+                    if (headers.ContainsKey(element.Key))
+                    {
+                        headers[element.Key] = element.Value;
+                    }
+                    else
+                    {
+                        headers.Add(element.Key, element.Value);
+                    }
                 }
 
-                return new OkObjectResult(response.Body);
+                return new JsonResult(response.CaptchaModel) { StatusCode = (int)response.StatusCode };
             }
             else
             {
