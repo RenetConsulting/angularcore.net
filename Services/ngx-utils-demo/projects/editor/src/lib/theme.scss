@@ -9,8 +9,21 @@
 
     editor {
         .ql-editor {
-            border-bottom: 1px solid mat-color($foreground, text, 0.42);
             color: mat-color($foreground, text);
+
+            &.ql-blank {
+                &::before {
+                    color: mat-color($foreground, text);
+                }
+            }
+        }
+
+        .ng-untouched {
+            &.ng-valid {
+                .ql-editor {
+                    border-bottom: 1px solid mat-color($foreground, text, 0.42);
+                }
+            }
         }
 
         .ng-touched {
@@ -22,9 +35,7 @@
 
             &.ng-invalid {
                 .ql-editor {
-                    &.ql-blank {
-                        border-color: mat-color($warn);
-                    }
+                    border-bottom: 1px solid mat-color($warn);
                 }
             }
         }
