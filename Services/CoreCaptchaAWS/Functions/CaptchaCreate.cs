@@ -13,9 +13,17 @@ namespace CoreCaptchaAWS
 
     public class CaptchaCreate : Function
     {
+        private Func<ICoreCaptcha> serviceProviderDelegate;
+
         public CaptchaCreate() : base()
         {
-            Logger = this.ServiceProvider.GetRequiredService<ILogger<CaptchaCreate>>();
+            this.Logger = this.ServiceProvider.GetRequiredService<ILogger<CaptchaCreate>>();
+            this.serviceProviderDelegate = this.ServiceProvider.GetRequiredService<ICoreCaptcha>;
+        }
+
+        public CaptchaCreate(Func<ICoreCaptcha> serviceProvider, ILogger logger) : base (logger)
+        {
+            this.serviceProviderDelegate = serviceProvider;
         }
 
         public static readonly string ClientId = Environment.GetEnvironmentVariable("ClientId");
@@ -23,9 +31,9 @@ namespace CoreCaptchaAWS
         [LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
         public async Task<APIGatewayProxyResponse> CaptchaCreateHandler(APIGatewayProxyRequest input, ILambdaContext context)
         {
-            Logger.LogInformation("CaptchaCreateHandler trigger function processed a request.");
+            this.Logger.LogInformation("CaptchaCreateHandler trigger function processed a request.");
 
-            ICoreCaptcha coreCaptcha = this.ServiceProvider.GetRequiredService<ICoreCaptcha>();
+            ICoreCaptcha coreCaptcha = this.serviceProviderDelegate();
 
             CoreCaptchaCreateResponse response = await coreCaptcha.CaptchaCreateAsync(Logger, ClientId, 5, input?.QueryStringParameters, Directory.GetCurrentDirectory());
 

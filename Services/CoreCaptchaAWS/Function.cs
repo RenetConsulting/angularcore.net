@@ -2,12 +2,13 @@
 {
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using System;
 
     public abstract class Function
     {
         protected ILogger Logger { get; set; }
 
-        protected ServiceProvider ServiceProvider { get; private set; }
+        protected IServiceProvider ServiceProvider { get; private set; }
 
         public Function()
         {
@@ -17,10 +18,15 @@
 
             startup.ConfigureServices(services);
 
-            this.ServiceProvider = services.BuildServiceProvider(); 
+            this.ServiceProvider = services.BuildServiceProvider();
 
-            Logger  = this.ServiceProvider.GetRequiredService<ILogger<Function>>();
-            
+            Logger = this.ServiceProvider.GetRequiredService<ILogger<Function>>();
+        }
+
+        public Function(ILogger logger)
+        {
+            this.Logger = logger;
+            //this.ServiceProvider = serviceProvider;
         }
     }
 }
