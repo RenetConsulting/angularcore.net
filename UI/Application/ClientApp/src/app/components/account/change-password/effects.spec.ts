@@ -4,7 +4,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { SetError, SetSuccess } from '~/actions/messenger.actions';
-import { MessagesType } from '~/enums/messages.type';
+import { Messages } from '~/consts/messages';
 import { IError } from '~/interfaces/error';
 import { AccountService } from '~/services/account/account.service';
 import { ChangePasswordError, ChangePasswordRequest, ChangePasswordSuccess } from './actions';
@@ -18,6 +18,7 @@ describe('ChangePasswordEffects', () => {
     let accountService: jasmine.SpyObj<AccountService>;
 
     beforeEach(() => {
+
         TestBed.configureTestingModule({
             providers: [
                 ChangePasswordEffects,
@@ -33,6 +34,7 @@ describe('ChangePasswordEffects', () => {
     it('should work', () => {
         expect(effects).toBeDefined();
     });
+
     describe('changePasswordRequest', () => {
 
         let formGroup: FormGroup;
@@ -51,7 +53,7 @@ describe('ChangePasswordEffects', () => {
         });
         it('error', () => {
             const error = 'bob';
-            accountService.changePassword.and.returnValue(throwError({ error }));
+            accountService.changePassword.and.returnValue(throwError(error));
             const action = new ChangePasswordRequest(formGroup);
             const completion = new ChangePasswordError(error);
             const expected = cold('--b', { b: completion });
@@ -59,9 +61,10 @@ describe('ChangePasswordEffects', () => {
             expect(effects.changePasswordRequest).toBeObservable(expected);
         });
     });
+
     it('changePasswordSuccess', () => {
         const action = new ChangePasswordSuccess();
-        const completion = new SetSuccess(MessagesType.passwordHasChanged);
+        const completion = new SetSuccess(Messages.passwordHasChanged);
         const expected = cold('--b', { b: completion });
         actions = hot('--a-', { a: action });
         expect(effects.changePasswordSuccess).toBeObservable(expected);

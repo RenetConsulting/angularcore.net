@@ -1,0 +1,20 @@
+@import 'file/file.component.scss';
+@mixin lib-file-list-theme($theme) {
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+    $primary: map-get($theme, primary);
+
+    lib-file-list {
+        .upload-files {
+            background: mat-color($foreground, text, .1);
+            color: mat-color($foreground, text);
+            outline: 2px dashed mat-color($foreground, text, .5);
+        }
+
+        .swipe-item {
+            &.active .mat-card {
+                border: 2px solid mat-color($primary, .75);
+            }
+        }
+    }
+}

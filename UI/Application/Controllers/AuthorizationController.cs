@@ -13,6 +13,7 @@ namespace Application.Controllers
     using Application.Business;
     using Application.Business.CoreCaptcha;
     using Application.Business.Helpers;
+    using Application.Business.Models;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Enums;
     using AspNet.Security.OpenIdConnect.Extensions;
@@ -118,11 +119,9 @@ namespace Application.Controllers
                 // validate captcha
                 if (!await this.coreCaptcha.CaptchaValidate(this.Request))
                 {
-                    return this.BadRequest(new OpenIdConnectResponse
-                    {
-                        Error = "InvalidCoreCaptcha",
-                        ErrorDescription = "Invalid or missing CoreCaptcha"
-                    });
+                    ErrorListModel errorList = new ErrorListModel();
+                    errorList.Captcha.Add("Invalid or missing CoreCaptcha");
+                    return this.BadRequest(errorList);
                 }
             }
 

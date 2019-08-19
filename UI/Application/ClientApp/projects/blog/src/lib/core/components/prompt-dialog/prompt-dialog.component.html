@@ -1,0 +1,7 @@
+<mat-dialog-content>
+    <p [innerHTML]="content | async"></p>
+</mat-dialog-content>
+<div mat-dialog-actions>
+    <button mat-button color="warn" [mat-dialog-close]="true">Ok</button>
+    <button mat-button mat-dialog-close cdkFocusInitial>Close</button>
+</div>

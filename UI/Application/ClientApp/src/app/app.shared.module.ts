@@ -8,9 +8,11 @@ import { Store, StoreModule } from '@ngrx/store';
 import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressHttpModule, ɵa as NgProgressInterceptor } from '@ngx-progressbar/http';
 import { AuthDefaultOptions, AuthInterceptor, TokenService } from '@renet-consulting/auth';
-import { ApiPrefixInterceptor, NoneCacheInterceptor } from '@renet-consulting/interceptors';
+import { ApiPrefixInterceptor, ExtractErrorInterceptor, NoneCacheInterceptor } from '@renet-consulting/interceptors';
 import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
-import { NgxMessengerModule } from '@renet-consulting/ngx-messenger';
+import { NgxDefaultSecurityService, NgxErrorDialogComponent, NgxMessengerModule } from '@renet-consulting/ngx-messenger';
+import { TitleStrategyModule } from '@renet-consulting/title-strategy';
+import { BlogConfig } from 'projects/blog/src/public-api';
 import { environment } from 'src/environments/environment';
 import { ROUTES } from './app.routes';
 import { AppComponent } from './components/app/app.component';
@@ -18,6 +20,9 @@ import { AuthEffects } from './components/auth/effects';
 import { HeaderModule } from './components/header/header.module';
 import { HomeComponent } from './components/home/home.component';
 import { ThemeEffects } from './components/theme-picker/effects';
+import { BlogOptions } from './consts/blog-options';
+import { ErrorDialogComponent } from './dialogs/error-dialog/error-dialog.component';
+import { ErrorDialogModule } from './dialogs/error-dialog/error-dialog.module';
 import { MessengerEffects } from './effects/messenger.effects';
 import { ErrorInterceptor } from './interceptors/error/error.interceptor';
 import { REDUCERS } from './reducers';
@@ -35,13 +40,17 @@ const initializerFactory = (service: InitializerService) => () => service.initia
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthInterceptor,
-            deps: [TokenService, NgxHttpParamsService, AuthDefaultOptions], multi: true
+            deps: [TokenService, NgxHttpParamsService, AuthDefaultOptions],
+            multi: true
         },
         { provide: HTTP_INTERCEPTORS, useClass: NoneCacheInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: ExtractErrorInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, deps: [Store], multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ApiPrefixInterceptor, deps: [BASE_URL], multi: true },
+        { provide: BlogConfig, useClass: BlogOptions, deps: [BASE_URL] },
         { provide: HTTP_INTERCEPTORS, useClass: NgProgressInterceptor, multi: true },
         { provide: APP_INITIALIZER, useFactory: initializerFactory, deps: [InitializerService], multi: true },
+        { provide: NgxErrorDialogComponent, useClass: ErrorDialogComponent, deps: [NgxDefaultSecurityService] },
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -53,7 +62,9 @@ const initializerFactory = (service: InitializerService) => () => service.initia
         HeaderModule,
         NgxMessengerModule,
         NgProgressModule,
-        NgProgressHttpModule
+        NgProgressHttpModule,
+        ErrorDialogModule,
+        TitleStrategyModule,
     ],
 })
 export class AppSharedModule { }

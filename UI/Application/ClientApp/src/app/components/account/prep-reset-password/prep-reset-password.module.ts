@@ -18,7 +18,7 @@ import { PrepResetPasswordComponent } from './prep-reset-password.component';
         MatButtonModule,
         MatCardModule,
         NgxMatInputModule,
-        EffectsModule.forRoot([PrepResetPasswordEffects]),
+        EffectsModule.forFeature([PrepResetPasswordEffects]),
     ],
 })
 export class PrepResetPasswordModule { }

@@ -18,7 +18,7 @@ import { ConfirmEmailEffects } from './effects';
         NgxMatInputModule,
         MatButtonModule,
         MatCardModule,
-        EffectsModule.forRoot([ConfirmEmailEffects]),
+        EffectsModule.forFeature([ConfirmEmailEffects]),
     ],
 })
 export class ConfirmEmailModule { }

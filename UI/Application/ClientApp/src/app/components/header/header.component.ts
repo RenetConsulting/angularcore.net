@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { shareReplay } from 'rxjs/operators';
 import { RootStore } from '~/reducers';
 import { SignoutRequest } from '../auth/actions';
 import { selectAuthorized } from '../auth/selectors';
@@ -8,11 +9,12 @@ import { selectAuthorized } from '../auth/selectors';
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None
 })
 export class HeaderComponent {
 
-    readonly authorized = this.store.select(selectAuthorized);
+    readonly authorized = this.store.select(selectAuthorized).pipe(shareReplay(1));
     expanded: boolean;
 
     constructor(

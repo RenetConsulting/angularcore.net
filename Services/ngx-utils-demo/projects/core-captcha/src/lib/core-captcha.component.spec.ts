@@ -129,4 +129,9 @@ describe('CoreCaptchaComponent', () => {
         component.mapValidator(validator)(null);
         expect(validator).toHaveBeenCalledWith({ value: component.value });
     });
+    it('onBlur', () => {
+        spyOn(component.blur, 'emit');
+        component.onBlur();
+        expect(component.blur.emit).toHaveBeenCalledWith(null);
+    });
 });

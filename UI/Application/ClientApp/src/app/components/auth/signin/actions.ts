@@ -19,5 +19,9 @@ export class SigninError implements Action {
 export class ResetError implements Action {
     readonly type = SigninTypes.RESET_ERROR;
 }
+export class ExternalSignin implements Action {
+    readonly type = SigninTypes.EXTERNAL_SIGNIN;
+    constructor(readonly payload: string) { }
+}
 
-export type SigninActionsUnion = SigninRequest | SigninSuccess | SigninError | ResetError;
+export type SigninActionsUnion = SigninRequest | SigninSuccess | SigninError | ResetError | ExternalSignin;

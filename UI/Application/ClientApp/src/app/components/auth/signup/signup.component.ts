@@ -8,6 +8,7 @@ import { EMAIL_VALIDATORS } from '~/consts/email.validators';
 import { PASSWORD_VALIDATORS } from '~/consts/password.validators';
 import { IUser } from '~/interfaces/user';
 import { RootStore } from '~/reducers';
+import { selectCoreCaptchaUrl } from '~/selectors/settings.selectors';
 import { selectSignupError } from '../selectors';
 import { SignupRequest } from './actions';
 
@@ -19,6 +20,7 @@ import { SignupRequest } from './actions';
 export class SignupComponent implements OnInit {
 
     readonly errors = this.store.select(selectSignupError).pipe(share());
+    readonly coreCaptchaUrl = this.store.select(selectCoreCaptchaUrl);
     formGroup: FormGroup;
 
     constructor(

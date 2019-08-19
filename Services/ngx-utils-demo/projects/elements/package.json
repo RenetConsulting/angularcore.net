@@ -1,0 +1,23 @@
+{
+  "name": "@renet-consulting/elements",
+  "version": "8.0.0",
+  "author": "Michael Vasyliv",
+  "license": "MIT",
+  "private": false,
+  "homepage": "https://github.com/RenetConsulting/angularcore.net",
+  "description": "Custom Angular elements",
+  "bugs": {
+    "url": "https://github.com/RenetConsulting/angularcore.net/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/elements"
+  },
+  "peerDependencies": {
+    "@angular/elements": "^8.0.0",
+    "@angular/common": "^8.0.0",
+    "@angular/core": "^8.0.0",
+    "@webcomponents/webcomponentsjs": "^2.2.10",
+    "document-register-element": "1.13.3"
+  }
+}

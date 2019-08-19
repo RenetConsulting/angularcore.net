@@ -6,7 +6,6 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { AuthService, IToken, TokenService } from '@renet-consulting/auth';
 import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
 import { NgxMessengerService } from '@renet-consulting/ngx-messenger';
-import { StorageService } from '@renet-consulting/storage';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { SetError } from '~/actions/messenger.actions';
@@ -14,7 +13,7 @@ import { ErrorCodeType } from '~/consts/error-code.type';
 import { IError } from '~/interfaces/error';
 import { IUser } from '~/interfaces/user';
 import { SetAuthorized } from '../actions';
-import { SigninError, SigninRequest, SigninSuccess } from './actions';
+import { SigninError, SigninRequest, SigninSuccess, ExternalSignin } from './actions';
 import { SigninEffects } from './effects';
 import { ResendConfirmationComponent } from './resend-confirmation/resend-confirmation.component';
 
@@ -24,7 +23,6 @@ describe('SigninEffects', () => {
 
     let actions: Observable<any>;
     let authService: jasmine.SpyObj<AuthService>;
-    let storageService: jasmine.SpyObj<StorageService>;
     let tokenService: jasmine.SpyObj<TokenService>;
     let router: jasmine.SpyObj<Router>;
     let messengerService: jasmine.SpyObj<NgxMessengerService>;
@@ -40,7 +38,6 @@ describe('SigninEffects', () => {
                     provide: AuthService,
                     useValue: jasmine.createSpyObj<AuthService>('AuthService', ['signin'])
                 },
-                { provide: StorageService, useValue: jasmine.createSpyObj<StorageService>('StorageService', ['setStorage']) },
                 { provide: TokenService, useValue: jasmine.createSpyObj<TokenService>('TokenService', ['setToken']) },
                 { provide: Router, useValue: jasmine.createSpyObj<Router>('Router', ['navigate']) },
                 { provide: NgxMessengerService, useValue: jasmine.createSpyObj<NgxMessengerService>('NgxMessengerService', ['error']) },
@@ -50,7 +47,6 @@ describe('SigninEffects', () => {
 
         effects = TestBed.get(SigninEffects);
         authService = TestBed.get(AuthService);
-        storageService = TestBed.get(StorageService);
         tokenService = TestBed.get(TokenService);
         router = TestBed.get(Router);
         messengerService = TestBed.get(NgxMessengerService);
@@ -85,12 +81,11 @@ describe('SigninEffects', () => {
             actions = hot('--a-', { a: action });
             expect(effects.signinRequest).toBeObservable(expected);
             expect(reset).toHaveBeenCalled();
-            expect(storageService.setStorage).toHaveBeenCalled();
             expect(params.map).toHaveBeenCalled();
         });
         it('error', () => {
             const error = 'bob';
-            authService.signin.and.returnValue(throwError({ error }));
+            authService.signin.and.returnValue(throwError(error));
             const action = new SigninRequest(formGroup);
             const completion = new SigninError(error);
             const expected = cold('--b', { b: completion });
@@ -104,7 +99,7 @@ describe('SigninEffects', () => {
         const formGroup = {} as FormGroup;
         const token = {} as IToken;
         const action = new SigninSuccess(formGroup, token);
-        const completion = new SetAuthorized({ authorized: true});
+        const completion = new SetAuthorized({ authorized: true });
         const expected = cold('--b', { b: completion });
         actions = hot('--a-', { a: action });
         expect(effects.signinSuccess).toBeObservable(expected);
@@ -119,6 +114,14 @@ describe('SigninEffects', () => {
         actions = hot('--a-', { a: action });
         expect(effects.signinError).toBeObservable(expected);
     });
+    it('externalSignin', () => {
+        const provider = 'provider';
+        const action = new ExternalSignin(provider);
+        const completion = new SetAuthorized({ authorized: true, provider });
+        const expected = cold('--b', { b: completion });
+        actions = hot('--a-', { a: action });
+        expect(effects.externalSignin).toBeObservable(expected);
+    });
 
     describe('signinError1001', () => {
 
@@ -132,7 +135,18 @@ describe('SigninEffects', () => {
             expect(messengerService.error).toHaveBeenCalledWith(ResendConfirmationComponent);
         });
         it('should have dispatch', () => {
-            expect(metadata.signinError1001).toEqual({ dispatch: false });
+            expect(metadata.signinError1001).toEqual({ dispatch: false, resubscribeOnError: true });
         });
+    });
+
+    it('navigate', () => {
+        const formGroup = {} as FormGroup;
+        const token = {} as IToken;
+        const action = new SigninSuccess(formGroup, token);
+        const completion = new SigninSuccess(formGroup, token);
+        const expected = cold('--b', { b: completion });
+        actions = hot('--a-', { a: action });
+        expect(effects.navigate).toBeObservable(expected);
+        expect(router.navigate).toHaveBeenCalledWith(['/']);
     });
 });

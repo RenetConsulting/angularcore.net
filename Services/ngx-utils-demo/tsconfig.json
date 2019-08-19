@@ -2,10 +2,11 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
+    "downlevelIteration": true,
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
-    "module": "es2015",
+    "module": "esnext",
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -98,6 +99,63 @@
       ],
       "external-auth/*": [
         "dist/external-auth/*"
+      ],
+      "core-js/es7/reflect": [
+        "node_modules/core-js/proposals/reflect-metadata"
+      ],
+      "infinite-source": [
+        "dist/infinite-source"
+      ],
+      "infinite-source/*": [
+        "dist/infinite-source/*"
+      ],
+      "elements": [
+        "dist/elements"
+      ],
+      "elements/*": [
+        "dist/elements/*"
+      ],
+      "bypass": [
+        "dist/bypass"
+      ],
+      "bypass/*": [
+        "dist/bypass/*"
+      ],
+      "resize": [
+        "dist/resize"
+      ],
+      "resize/*": [
+        "dist/resize/*"
+      ],
+      "title-strategy": [
+        "dist/title-strategy"
+      ],
+      "title-strategy/*": [
+        "dist/title-strategy/*"
+      ],
+      "control-value-accessor": [
+        "dist/control-value-accessor"
+      ],
+      "control-value-accessor/*": [
+        "dist/control-value-accessor/*"
+      ],
+      "editor": [
+        "dist/editor"
+      ],
+      "editor/*": [
+        "dist/editor/*"
+      ],
+      "animations": [
+        "dist/animations"
+      ],
+      "animations/*": [
+        "dist/animations/*"
+      ],
+      "viewport-change": [
+        "dist/viewport-change"
+      ],
+      "viewport-change/*": [
+        "dist/viewport-change/*"
       ]
     }
   }

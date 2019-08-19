@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, Input, OnChanges, OnDestroy, OnInit, Optional, Self, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
-import { errorEnterLeaveAnimation, hintEnterLeaveAnimation } from '../animations';
+import { enterLeaveAnimation } from '@renet-consulting/animations';
 import { InputBase } from '../input.base';
 
 @Component({
@@ -10,11 +10,12 @@ import { InputBase } from '../input.base';
     styleUrls: ['./ngx-mat-input.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: [errorEnterLeaveAnimation, hintEnterLeaveAnimation]
+    animations: [enterLeaveAnimation]
 })
 export class NgxMatInputComponent extends InputBase implements ControlValueAccessor, OnChanges, OnInit, OnDestroy {
 
-    @Input() autocomplete: 'on' | 'off' = 'off';
+    @Input() autocomplete = 'off';
+    @Input() name: string;
     @Input() type = 'text';
 
     constructor(

@@ -6,11 +6,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { EffectsModule } from '@ngrx/effects';
 import { CoreCaptchaModule, NGX_CORE_CAPTCHA_OPTIONS } from '@renet-consulting/core-captcha';
-import { FacebookSigninModule, GoogleSigninModule } from '@renet-consulting/external-auth';
+import { ErrorCodeService, FacebookSigninModule, FAILED_EXTRACT_TOKEN_TOKEN, GoogleSigninModule } from '@renet-consulting/external-auth';
 import { NgxMatInputModule } from '@renet-consulting/ngx-mat-input';
-import { NgxMessengerModule } from '@renet-consulting/ngx-messenger';
 import { SocialMediaModule } from '~/components/social-media/social-media.module';
-import { CORE_CAPTCHA_OPTIONS } from '~/consts/core-captcha-options';
+import { CoreCaptchaOptions } from '~/consts/core-captcha-options';
+import { FAILED_EXTRACT_TOKEN_MESSAGE } from '~/consts/falied-extract-token-message';
 import { SigninEffects } from './effects';
 import { ResendConfirmationModule } from './resend-confirmation/resend-confirmation.module';
 import { SigninRoutingModule } from './signin-routing.module';
@@ -19,7 +19,9 @@ import { SigninComponent } from './signin.component';
 @NgModule({
     declarations: [SigninComponent],
     providers: [
-        { provide: NGX_CORE_CAPTCHA_OPTIONS, useValue: CORE_CAPTCHA_OPTIONS }
+        ErrorCodeService,
+        { provide: NGX_CORE_CAPTCHA_OPTIONS, useClass: CoreCaptchaOptions },
+        { provide: FAILED_EXTRACT_TOKEN_TOKEN, useValue: FAILED_EXTRACT_TOKEN_MESSAGE },
     ],
     imports: [
         CommonModule,
@@ -31,11 +33,10 @@ import { SigninComponent } from './signin.component';
         MatCheckboxModule,
         MatCardModule,
         CoreCaptchaModule,
-        EffectsModule.forRoot([SigninEffects]),
+        EffectsModule.forFeature([SigninEffects]),
         ResendConfirmationModule,
         FacebookSigninModule,
         GoogleSigninModule,
-        NgxMessengerModule,
     ],
 })
 export class SigninModule { }

@@ -7,7 +7,7 @@ import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { SetError, SetSuccess } from '~/actions/messenger.actions';
-import { MessagesType } from '~/enums/messages.type';
+import { Messages } from '~/consts/messages';
 import { IError } from '~/interfaces/error';
 import { IUser } from '~/interfaces/user';
 import { SignupError, SignupRequest, SignupSuccess } from './actions';
@@ -71,7 +71,7 @@ describe('SignupEffects', () => {
         });
         it('error', () => {
             const error = 'bob';
-            authService.signup.and.returnValue(throwError({ error }));
+            authService.signup.and.returnValue(throwError(error));
             const action = new SignupRequest(formGroup);
             const completion = new SignupError(error);
             const expected = cold('--b', { b: completion });
@@ -82,7 +82,7 @@ describe('SignupEffects', () => {
     });
     it('signupSuccess', () => {
         const action = new SignupSuccess();
-        const completion = new SetSuccess(MessagesType.checkEmail);
+        const completion = new SetSuccess(Messages.checkEmail);
         const expected = cold('--b', { b: completion });
         actions = hot('--a-', { a: action });
         expect(effects.signupSuccess).toBeObservable(expected);

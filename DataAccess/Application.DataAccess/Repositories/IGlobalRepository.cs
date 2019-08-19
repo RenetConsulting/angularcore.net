@@ -5,10 +5,12 @@
 
 namespace Application.DataAccess.Repositories
 {
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
     using Application.DataAccess.Enums;
+    using Application.DataAccess.Models;
     using Entities;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore.Storage;
@@ -35,5 +37,27 @@ namespace Application.DataAccess.Repositories
 
         Task<T> FindByIdAsync<T>(params object[] keys)
             where T : ApplicationEntity;
+
+        Task<bool> SaveBlogFileAsync(string blogId, string fileBlobName);
+
+        Task<FileStorage> GetBlogFileAsync(string fileBlobName);
+
+        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "ValueTuple.")]
+        Task<(List<Blog>, int)> GetBlogsAsync(int index, int count);
+
+        Task<Blog> AddBlogAsync(Blog blog);
+
+        Task<Blog> UpdateBlogAsync(string blogId, string title, string content, string userId);
+
+        Task<bool> DeleteBlogFileAsync(string fileBlobName, string userId);
+
+        Task<bool> DeleteBlogAsync(string blogId, string userId);
+
+        Task<Blog> GetBlogAsync(string blogId);
+
+        Task<List<FileStorage>> GetAllFilesAsync();
+
+        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "ValueTuple.")]
+        Task<(List<FileStorage>, int)> GetFileStoragesAsync(string userId, int index, int count);
     }
 }

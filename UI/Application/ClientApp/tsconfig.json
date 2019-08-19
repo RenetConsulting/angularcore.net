@@ -1,6 +1,8 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "downlevelIteration": true,
+    "module": "esnext",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "baseUrl": ".",
@@ -19,7 +21,12 @@
       "dom"
     ],
     "paths": {
-      "~/*": [ "src/app/*" ]
+      "~/*": [ "src/app/*" ],
+      "blog": [ "dist/blog" ],
+      "blog/*": [ "dist/blog/*" ],
+      "core-js/es7/reflect": [ "node_modules/core-js/proposals/reflect-metadata" ],
+      "core-js/es6/*": [ "node_modules/core-js/es" ],
+      "core-js/es7/*": [ "node_modules/core-js/es" ]
     }
   }
 }
