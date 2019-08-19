@@ -6,7 +6,7 @@ import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
 import { of } from 'rxjs';
 import { catchError, filter, map, mapTo, mergeMap, tap } from 'rxjs/operators';
 import { SetError, SetSuccess } from '~/actions/messenger.actions';
-import { MessagesType } from '~/enums/messages.type';
+import { Messages } from '~/consts/messages';
 import { filterError } from '~/utils/filter.error';
 import { SignupError, SignupRequest, SignupSuccess } from './actions';
 import { SignupTypes } from './types';
@@ -33,7 +33,7 @@ export class SignupEffects {
     @Effect() signupSuccess = this.actions.pipe(
         ofType<SignupSuccess>(SignupTypes.SIGNUP_SUCCESS),
         tap(() => this.router.navigate(['/signin'])),
-        mapTo(new SetSuccess(MessagesType.checkEmail))
+        mapTo(new SetSuccess(Messages.checkEmail))
     );
 
     @Effect() signupError = this.actions.pipe(

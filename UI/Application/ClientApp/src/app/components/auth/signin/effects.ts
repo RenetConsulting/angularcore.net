@@ -10,7 +10,7 @@ import { SetError } from '~/actions/messenger.actions';
 import { ErrorCodeType } from '~/consts/error-code.type';
 import { filterError } from '~/utils/filter.error';
 import { SetAuthorized } from '../actions';
-import { SigninError, SigninRequest, SigninSuccess } from './actions';
+import { ExternalSignin, SigninError, SigninRequest, SigninSuccess } from './actions';
 import { ResendConfirmationComponent } from './resend-confirmation/resend-confirmation.component';
 import { SigninTypes } from './types';
 
@@ -37,7 +37,6 @@ export class SigninEffects {
 
     @Effect() signinSuccess = this.actions.pipe(
         ofType<SigninSuccess>(SigninTypes.SIGNIN_SUCCESS),
-        tap(() => this.router.navigate(['/'])),
         tap(a => this.tokenService.setToken(a.success)),
         map(() => new SetAuthorized({ authorized: true }))
     );
@@ -49,10 +48,20 @@ export class SigninEffects {
         map(e => new SetError(e.error))
     );
 
+    @Effect() externalSignin = this.actions.pipe(
+        ofType<ExternalSignin>(SigninTypes.EXTERNAL_SIGNIN),
+        map(a => new SetAuthorized({ authorized: true, provider: a.payload })),
+    );
+
     @Effect({ dispatch: false }) signinError1001 = this.actions.pipe(
         ofType<SigninError>(SigninTypes.SIGNIN_ERROR),
         filter(filterError),
         filter(e => e.error.code === ErrorCodeType.unconfirmedEmail),
         tap(e => this.messenger.error(ResendConfirmationComponent).componentInstance.error = e.error.error_description)
+    );
+
+    @Effect({ dispatch: false }) navigate = this.actions.pipe(
+        ofType<ExternalSignin | SigninSuccess>(SigninTypes.EXTERNAL_SIGNIN, SigninTypes.SIGNIN_SUCCESS),
+        tap(() => this.router.navigate(['/'])),
     );
 }

@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { EMPTY } from 'rxjs';
 import { catchError, mapTo, mergeMap, tap } from 'rxjs/operators';
 import { SetSuccess } from '~/actions/messenger.actions';
-import { MessagesType } from '~/enums/messages.type';
+import { Messages } from '~/consts/messages';
 import { AccountService } from '~/services/account/account.service';
 import { ConfirmEmailRequest, ConfirmEmailSuccess } from './actions';
 import { ConfirmEmailTypes } from './types';
@@ -27,6 +27,6 @@ export class ConfirmEmailEffects {
 
     @Effect() confirmEmailSuccess = this.actions.pipe(
         ofType<ConfirmEmailSuccess>(ConfirmEmailTypes.CONFIRM_EMAIL_SUCCESS),
-        mapTo(new SetSuccess(MessagesType.emailConfirmed))
+        mapTo(new SetSuccess(Messages.emailConfirmed))
     );
 }

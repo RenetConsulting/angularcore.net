@@ -1,0 +1,43 @@
+@mixin blog-theme($theme) {
+    $is-dark-theme: map-get($theme, is-dark);
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+
+    $background-light: rgba(0, 0, 0, 0.02);
+    $background-dark: mat-color($background, card, 0.92);
+
+    $created: if($is-dark-theme, darken(mat-color($primary), 30%), lighten(mat-color($primary), 30%));
+    $updated: if($is-dark-theme, darken(mat-color($accent), 40%), lighten(mat-color($accent), 30%));
+
+    //blog mat-card
+    lib-blog {
+        mat-card {
+            .mat-card-content::after {
+                background-image: linear-gradient(mat-color($background, card, 0), mat-color($background, card, 1));
+            }
+
+            mat-card-footer {
+                color: mat-color($foreground, text, .5);
+            }
+
+            &.created {
+                background-color: $created;
+
+                .mat-card-content::after {
+                    background-image: linear-gradient(transparent, $created);
+                }
+            }
+
+            &.updated {
+                background-color: $updated;
+
+                .mat-card-content::after {
+                    background-image: linear-gradient(transparent, $updated);
+                }
+            }
+        }
+    }
+}

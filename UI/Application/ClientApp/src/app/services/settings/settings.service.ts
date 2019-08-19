@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { HTTP_HEADERS } from '@renet-consulting/auth';
 import { ISettings } from '~/interfaces/settings';
 
 @Injectable({
@@ -13,5 +14,5 @@ export class SettingsService {
         @Inject(HttpClient) private http: HttpClient,
     ) { }
 
-    get = () => this.http.get<ISettings>(`${this.url}`);
+    get = () => this.http.get<ISettings>(`${this.url}`, { headers: HTTP_HEADERS.allowAnonymous });
 }

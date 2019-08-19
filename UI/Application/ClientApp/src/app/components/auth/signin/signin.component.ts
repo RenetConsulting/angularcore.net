@@ -11,9 +11,8 @@ import { PASSWORD_VALIDATORS } from '~/consts/password.validators';
 import { IUser } from '~/interfaces/user';
 import { RootStore } from '~/reducers';
 import { selectCoreCaptchaUrl, selectFacebookAppId, selectGoogleClientId } from '~/selectors/settings.selectors';
-import { SetAuthorized } from '../actions';
 import { selectAuthUser, selectSigninError } from '../selectors';
-import { ResetError, SigninRequest } from './actions';
+import { ExternalSignin, ResetError, SigninRequest } from './actions';
 
 @Component({
     selector: 'signin',
@@ -64,7 +63,7 @@ export class SigninComponent implements OnInit, OnDestroy {
         }
     }
 
-    externalSignin = (provider: string) => this.store.dispatch(new SetAuthorized({ authorized: true, provider }));
+    externalSignin = (provider: string) => this.store.dispatch(new ExternalSignin(provider));
 
     externalSigninError = e => {
         const error = this.errorCodeService.map(e && e.error) || e && e.error;
