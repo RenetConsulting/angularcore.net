@@ -1,15 +1,17 @@
-﻿namespace CoreCaptchaAWS
+﻿// -----------------------------------------------------------------------
+// <copyright file="Function.cs" company="Renet Consulting, Inc">
+// Copyright (c) Renet Consulting, Inc. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+namespace CoreCaptchaAWS
 {
+    using System;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
-    using System;
 
     public abstract class Function
     {
-        protected ILogger Logger { get; set; }
-
-        protected IServiceProvider ServiceProvider { get; private set; }
-
         public Function()
         {
             Startup startup = new Startup();
@@ -20,13 +22,16 @@
 
             this.ServiceProvider = services.BuildServiceProvider();
 
-            Logger = this.ServiceProvider.GetRequiredService<ILogger<Function>>();
+            this.Logger = this.ServiceProvider.GetRequiredService<ILogger<Function>>();
         }
 
         public Function(ILogger logger)
         {
             this.Logger = logger;
-            //this.ServiceProvider = serviceProvider;
         }
+
+        protected ILogger Logger { get; set; }
+
+        protected IServiceProvider ServiceProvider { get; private set; }
     }
 }

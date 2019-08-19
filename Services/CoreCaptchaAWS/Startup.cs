@@ -1,11 +1,17 @@
-﻿namespace CoreCaptchaAWS
+﻿// -----------------------------------------------------------------------
+// <copyright file="Startup.cs" company="Renet Consulting, Inc">
+// Copyright (c) Renet Consulting, Inc. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+namespace CoreCaptchaAWS
 {
+    using System;
+    using System.IO;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Renet.CoreCaptcha;
-    using System;
-    using System.IO;
 
     public class Startup
     {
@@ -13,8 +19,6 @@
         {
             this.Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         public Startup()
         {
@@ -28,6 +32,8 @@
 
             this.Configuration = builder.Build();
         }
+
+        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
