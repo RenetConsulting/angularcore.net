@@ -1,11 +1,11 @@
 /** the theme is based on @angular/material */
 @mixin editor-theme($theme) {
-
     $primary: map-get($theme, primary);
     $accent: map-get($theme, accent);
     $warn: map-get($theme, warn);
     $background: map-get($theme, background);
     $foreground: map-get($theme, foreground);
+    $is-dark-theme: map-get($theme, is-dark);
 
     editor {
         .ql-editor {
@@ -13,7 +13,7 @@
 
             &.ql-blank {
                 &::before {
-                    color: mat-color($foreground, text);
+                    color: mat-color($foreground, secondary-text, if($is-dark-theme, 0.5, 0.42));
                 }
             }
         }
