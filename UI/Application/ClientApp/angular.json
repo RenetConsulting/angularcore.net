@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular7": {
+    "angular": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -17,9 +17,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "progress": true,
+            "progress": false,
             "extractCss": true,
-            "outputPath": "dist",
+            "outputPath": "dist/angular",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -39,7 +39,9 @@
                 "input": "src/themes/purple-green.theme.scss",
                 "lazy": true,
                 "bundleName": "assets/purple-green.theme"
-              }
+              },
+              "node_modules/quill/dist/quill.core.css",
+              "node_modules/quill/dist/quill.snow.css"
             ],
             "scripts": []
           },
@@ -67,18 +69,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular7:build"
+            "browserTarget": "angular:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "angular7:build:production"
+              "browserTarget": "angular:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular7:build"
+            "browserTarget": "angular:build"
           }
         },
         "test": {
@@ -130,7 +132,7 @@
         }
       }
     },
-    "angular7-e2e": {
+    "angular-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -139,11 +141,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "angular7:serve"
+            "devServerTarget": "angular:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "angular7:serve:production"
+              "devServerTarget": "angular:serve:production"
             }
           }
         },
@@ -157,7 +159,47 @@
           }
         }
       }
+    },
+    "blog": {
+      "root": "projects/blog",
+      "sourceRoot": "projects/blog/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/blog/tsconfig.lib.json",
+            "project": "projects/blog/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/blog/src/test.ts",
+            "tsConfig": "projects/blog/tsconfig.spec.json",
+            "karmaConfig": "projects/blog/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/blog/tsconfig.lib.json",
+              "projects/blog/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
-  "defaultProject": "angular7"
+  "defaultProject": "angular"
 }

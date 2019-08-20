@@ -15,6 +15,8 @@ namespace Application
 
         public string GoogleClientId { get; set; }
 
+        public string CoreCaptchaUrl { get; set; }
+
         public string InfoEmail { get; set; }
 
         public string InfoFromEmail { get; set; }
@@ -24,5 +26,11 @@ namespace Application
         public string SendGridKey { get; set; }
 
         public string SiteHost { get; set; }
+
+        public string ContainerName { get; set; }
+
+        public string BlobStorage { get; set; }
+
+        public string BlobStorageUrl { get; set; }
     }
 }

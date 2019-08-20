@@ -1,0 +1,4 @@
+{
+    "entry": "./projects/editor/src/lib/theme.scss",
+    "dest": "./dist/editor/theme.scss"
+}

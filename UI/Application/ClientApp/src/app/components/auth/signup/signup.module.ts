@@ -9,7 +9,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { CoreCaptchaModule, NGX_CORE_CAPTCHA_OPTIONS } from '@renet-consulting/core-captcha';
 import { NgxMatInputModule } from '@renet-consulting/ngx-mat-input';
 import { SocialMediaModule } from '~/components/social-media/social-media.module';
-import { CORE_CAPTCHA_OPTIONS } from '~/consts/core-captcha-options';
+import { CoreCaptchaOptions } from '~/consts/core-captcha-options';
 import { SignupEffects } from './effects';
 import { SignupRoutingModule } from './signup-routing.module';
 import { SignupComponent } from './signup.component';
@@ -17,7 +17,7 @@ import { SignupComponent } from './signup.component';
 @NgModule({
     declarations: [SignupComponent],
     providers: [
-        { provide: NGX_CORE_CAPTCHA_OPTIONS, useValue: CORE_CAPTCHA_OPTIONS }
+        { provide: NGX_CORE_CAPTCHA_OPTIONS, useClass: CoreCaptchaOptions }
     ],
     imports: [
         CommonModule,
@@ -30,7 +30,7 @@ import { SignupComponent } from './signup.component';
         MatInputModule,
         MatCardModule,
         CoreCaptchaModule,
-        EffectsModule.forRoot([SignupEffects]),
+        EffectsModule.forFeature([SignupEffects]),
     ]
 })
 export class SignupModule { }

@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, filter, map, mapTo, mergeMap, tap } from 'rxjs/operators';
 import { SetError, SetSuccess } from '~/actions/messenger.actions';
-import { MessagesType } from '~/enums/messages.type';
+import { Messages } from '~/consts/messages';
 import { AccountService } from '~/services/account/account.service';
 import { filterError } from '~/utils/filter.error';
 import { ChangePasswordError, ChangePasswordRequest, ChangePasswordSuccess } from './actions';
@@ -22,13 +22,13 @@ export class ChangePasswordEffects {
         mergeMap(x => this.accountService.changePassword(x.payload.value).pipe(
             tap(() => x.payload.reset()),
             mapTo(new ChangePasswordSuccess()),
-            catchError(e => of(new ChangePasswordError(e.error)))
+            catchError(e => of(new ChangePasswordError(e)))
         ))
     );
 
     @Effect() changePasswordSuccess = this.actions.pipe(
         ofType<ChangePasswordSuccess>(ChangePasswordTypes.CHANGE_PASSWORD_SUCCESS),
-        mapTo(new SetSuccess(MessagesType.passwordHasChanged))
+        mapTo(new SetSuccess(Messages.passwordHasChanged))
     );
 
     @Effect() changePasswordError = this.actions.pipe(

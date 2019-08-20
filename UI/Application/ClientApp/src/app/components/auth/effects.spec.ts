@@ -59,7 +59,7 @@ describe('AuthEffects', () => {
         });
         it('error', () => {
             const error = 'bob';
-            authService.signout.and.returnValue(throwError({ error }));
+            authService.signout.and.returnValue(throwError(error));
             const action = new SignoutRequest();
             const completion = new SignoutError();
             const expected = cold('--b', { b: completion });
@@ -91,7 +91,6 @@ describe('AuthEffects', () => {
         actions = hot('--a-', { a: action });
         expect(effects.setAuthorized).toBeObservable(expected);
         expect(storageService.set).toHaveBeenCalledWith(effects.providerKey, provider);
-        expect(router.navigate).toHaveBeenCalledWith(['/']);
     });
     it('ngrxOnInitEffects', () => {
         const provider = 'bob';

@@ -11,18 +11,24 @@ import { NGX_DIALOG_CONFIG, NGX_SNACK_BAR_CONFIG } from './tokens';
 })
 export class NgxMessengerService {
 
+    /** a constructor of error component */
+    cnstr: ComponentType<any>;
+
     constructor(
         @Inject(NGX_SNACK_BAR_CONFIG) private snackBarConfig: MatSnackBarConfig,
         @Inject(NGX_DIALOG_CONFIG) private dialogConfig: MatDialogConfig,
         @Inject(MatSnackBar) private snackBar: MatSnackBar,
         @Inject(MatDialog) private dialog: MatDialog,
-    ) { }
+        @Inject(NgxErrorDialogComponent) errorComponent: NgxErrorDialogComponent
+    ) {
+        this.cnstr = errorComponent.constructor as ComponentType<any>;
+    }
 
     error = <T = any>(value: string | ComponentType<T>) => {
-        const component: ComponentType<any> = isString(value) ? NgxErrorDialogComponent : value as ComponentType<T>;
-        const ref = this.dialog.open(component, this.dialogConfig);
-        if (component === NgxErrorDialogComponent) {
-            (ref.componentInstance as NgxErrorDialogComponent).error = value as string;
+        const component = isString(value) ? this.cnstr : value;
+        const ref = this.dialog.open(component as ComponentType<any>, this.dialogConfig);
+        if (component === this.cnstr) {
+            (ref.componentInstance as NgxErrorDialogComponent).setError(value as string);
         }
         return ref as MatDialogRef<T>;
     }

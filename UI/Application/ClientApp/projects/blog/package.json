@@ -1,0 +1,33 @@
+{
+  "name": "@renet-consulting/blog",
+  "version": "8.0.0",
+  "author": "Michael Vasyliv",
+  "license": "MIT",
+  "private": false,
+  "homepage": "https://github.com/RenetConsulting/angularcore.net",
+  "description": "Utils",
+  "bugs": {
+    "url": "https://github.com/RenetConsulting/angularcore.net/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RenetConsulting/angularcore.net.git"
+  },
+  "dependencies": {
+    "@renet-consulting/bypass": "^8.0.0",
+    "@renet-consulting/ngx-mat-input": "^8.0.0",
+    "@renet-consulting/ngx-uploader": "^8.0.0",
+    "@renet-consulting/ngx-validator": "^8.0.0",
+    "@renet-consulting/http-hub-client": "^8.0.0",
+    "@renet-consulting/infinite-source": "^8.0.0"
+  },
+  "peerDependencies": {
+    "@angular/common": "^8.0.0",
+    "@angular/core": "^8.0.0",
+    "@angular/material": "^8.0.0",
+    "@aspnet/signalr": "^1.1.4",
+    "@ngrx/effects": "^8.0.0",
+    "@ngrx/entity": "8.0.0",
+    "@ngrx/store": "^8.0.0"
+  }
+}

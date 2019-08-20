@@ -42,6 +42,10 @@ namespace Application.DataAccess
 
         public virtual DbSet<TermsOfService> TermsOfServices { get; set; }
 
+        public virtual DbSet<Blog> Blogs { get; set; }
+
+        public virtual DbSet<FileStorage> FileStorages { get; set; }
+
         public virtual DbSet<Person> Person { get; set; }
 
         internal string UserName

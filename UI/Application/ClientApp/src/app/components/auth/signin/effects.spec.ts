@@ -13,7 +13,7 @@ import { ErrorCodeType } from '~/consts/error-code.type';
 import { IError } from '~/interfaces/error';
 import { IUser } from '~/interfaces/user';
 import { SetAuthorized } from '../actions';
-import { SigninError, SigninRequest, SigninSuccess } from './actions';
+import { SigninError, SigninRequest, SigninSuccess, ExternalSignin } from './actions';
 import { SigninEffects } from './effects';
 import { ResendConfirmationComponent } from './resend-confirmation/resend-confirmation.component';
 
@@ -85,7 +85,7 @@ describe('SigninEffects', () => {
         });
         it('error', () => {
             const error = 'bob';
-            authService.signin.and.returnValue(throwError({ error }));
+            authService.signin.and.returnValue(throwError(error));
             const action = new SigninRequest(formGroup);
             const completion = new SigninError(error);
             const expected = cold('--b', { b: completion });
@@ -99,7 +99,7 @@ describe('SigninEffects', () => {
         const formGroup = {} as FormGroup;
         const token = {} as IToken;
         const action = new SigninSuccess(formGroup, token);
-        const completion = new SetAuthorized({ authorized: true});
+        const completion = new SetAuthorized({ authorized: true });
         const expected = cold('--b', { b: completion });
         actions = hot('--a-', { a: action });
         expect(effects.signinSuccess).toBeObservable(expected);
@@ -114,6 +114,14 @@ describe('SigninEffects', () => {
         actions = hot('--a-', { a: action });
         expect(effects.signinError).toBeObservable(expected);
     });
+    it('externalSignin', () => {
+        const provider = 'provider';
+        const action = new ExternalSignin(provider);
+        const completion = new SetAuthorized({ authorized: true, provider });
+        const expected = cold('--b', { b: completion });
+        actions = hot('--a-', { a: action });
+        expect(effects.externalSignin).toBeObservable(expected);
+    });
 
     describe('signinError1001', () => {
 
@@ -127,7 +135,18 @@ describe('SigninEffects', () => {
             expect(messengerService.error).toHaveBeenCalledWith(ResendConfirmationComponent);
         });
         it('should have dispatch', () => {
-            expect(metadata.signinError1001).toEqual({ dispatch: false });
+            expect(metadata.signinError1001).toEqual({ dispatch: false, resubscribeOnError: true });
         });
+    });
+
+    it('navigate', () => {
+        const formGroup = {} as FormGroup;
+        const token = {} as IToken;
+        const action = new SigninSuccess(formGroup, token);
+        const completion = new SigninSuccess(formGroup, token);
+        const expected = cold('--b', { b: completion });
+        actions = hot('--a-', { a: action });
+        expect(effects.navigate).toBeObservable(expected);
+        expect(router.navigate).toHaveBeenCalledWith(['/']);
     });
 });

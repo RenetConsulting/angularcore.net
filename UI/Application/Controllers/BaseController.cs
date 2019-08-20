@@ -5,6 +5,7 @@
 
 namespace Application.Controllers
 {
+    using System.Linq;
     using Application;
     using AspNet.Security.OpenIdConnect.Primitives;
     using Microsoft.AspNetCore.Mvc;
@@ -29,7 +30,7 @@ namespace Application.Controllers
         {
             get
             {
-                return this.User.Claims.Where(c => c.Type == OpenIdConnectConstants.Claims.Subject).Select(c => c.Value).SingleOrDefault() ?? "0";
+                return this.User.Claims.Where(c => c.Type == OpenIdConnectConstants.Claims.Subject).Select(c => c.Value).SingleOrDefault();
             }
         }
     }

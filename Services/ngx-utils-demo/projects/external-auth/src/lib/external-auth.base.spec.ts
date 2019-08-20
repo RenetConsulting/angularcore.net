@@ -19,24 +19,28 @@ describe('ExternalAuthBase', () => {
 
     const doc = { head: {} };
     let injector: jasmine.SpyObj<Injector>;
-    let zone: NgZone;
+    let zone: jasmine.SpyObj<NgZone>;
     let renderer: jasmine.SpyObj<Renderer2>;
     let authService: jasmine.SpyObj<AuthService>;
     let tokenService: jasmine.SpyObj<TokenService>;
 
     beforeEach(() => {
         injector = jasmine.createSpyObj<Injector>('Injector', ['get']);
-        zone = { run: (fn) => fn() } as NgZone;
+        zone = jasmine.createSpyObj<NgZone>('NgZone', ['run']);
         renderer = jasmine.createSpyObj<Renderer2>('Renderer2', ['createElement', 'setAttribute', 'appendChild']);
         authService = jasmine.createSpyObj<AuthService>('AuthService', ['getToken']);
         tokenService = jasmine.createSpyObj<TokenService>('TokenService', ['setToken']);
 
+        zone.run.and.callFake(fn => fn());
         // tslint:disable-next-line:deprecation
         injector.get.and.returnValues(zone, doc, renderer, {}, authService, tokenService);
 
         base = new Test(injector);
     });
 
+    it('class', () => {
+        expect(base.class).toEqual('d-block');
+    });
     it('signed', () => {
         expect(base.signed instanceof EventEmitter).toEqual(true);
     });
@@ -85,7 +89,20 @@ describe('ExternalAuthBase', () => {
             expect(authService.getToken).toHaveBeenCalledWith(token);
             expect(tokenService.setToken).not.toHaveBeenCalled();
             expect(base.signed.emit).not.toHaveBeenCalled();
-            expect(base.signedError.emit).toHaveBeenCalledWith(error.error);
+            expect(base.signedError.emit).toHaveBeenCalledWith(error);
+        });
+    });
+
+    describe('handleError', () => {
+
+        it('should call emit', () => {
+            spyOn(base.signedError, 'emit');
+            base.handleError(null);
+            expect(base.signedError.emit).toHaveBeenCalled();
+        });
+        it('should call run', () => {
+            base.handleError(null);
+            expect(zone.run).toHaveBeenCalled();
         });
     });
 });

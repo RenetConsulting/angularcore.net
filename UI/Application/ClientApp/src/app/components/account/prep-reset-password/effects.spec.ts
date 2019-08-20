@@ -4,7 +4,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { SetSuccess } from '~/actions/messenger.actions';
-import { MessagesType } from '~/enums/messages.type';
+import { Messages } from '~/consts/messages';
 import { AccountService } from '~/services/account/account.service';
 import { PrepResetPasswordRequest, PrepResetPasswordSuccess } from './actions';
 import { PrepResetPasswordEffects } from './effects';
@@ -63,7 +63,7 @@ describe('PrepResetPasswordEffects', () => {
     });
     it('prepResetPasswordSuccess', () => {
         const action = new PrepResetPasswordSuccess();
-        const completion = new SetSuccess(MessagesType.checkEmail);
+        const completion = new SetSuccess(Messages.checkEmail);
         const expected = cold('--b', { b: completion });
         actions = hot('--a-', { a: action });
         expect(effects.prepResetPasswordSuccess).toBeObservable(expected);

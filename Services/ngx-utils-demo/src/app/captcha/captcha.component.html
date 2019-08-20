@@ -2,7 +2,7 @@
     <button class="btn btn-primary btn-lg" type="button" (click)="toggled = !toggled">toggle</button>
     <form *ngIf="!toggled" [formGroup]="formGroup" (ngSubmit)="submit()">
         <button class="btn btn-primary btn-lg" type="button" (click)="formGroup.reset()">reset form</button>
-        <ngx-core-captcha class="mt-3 mb-5" formControlName="captcha" (resolved)="resolved($event)"></ngx-core-captcha>
+        <ngx-core-captcha class="mt-3 mb-5" formControlName="captcha" [errors]="errors" (resolved)="resolved($event)"></ngx-core-captcha>
         <div>touched {{formGroup.controls.captcha.touched}}</div>
         <div>valid {{formGroup.controls.captcha.valid}}</div>
         <div>dirty {{formGroup.controls.captcha.dirty}}</div>

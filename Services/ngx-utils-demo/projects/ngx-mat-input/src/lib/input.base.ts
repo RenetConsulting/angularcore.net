@@ -1,11 +1,12 @@
-import { ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
+import { ProvidedControlValueAccessorBase } from '@renet-consulting/control-value-accessor';
 import { Subscription } from 'rxjs';
-import { ControlValueAccessorBase } from './control-value-accessor.base';
 
-export abstract class InputBase extends ControlValueAccessorBase implements ControlValueAccessor, OnChanges, OnInit, OnDestroy {
+export abstract class InputBase extends ProvidedControlValueAccessorBase implements ControlValueAccessor, OnChanges, OnInit, OnDestroy {
 
-    @ViewChild('inputRef') inputRef: ElementRef;
+    @ViewChild('inputRef', { static: true }) inputRef: ElementRef;
+    @HostBinding('class') readonly class = 'd-block';
     @Input() placeholder: string;
     @Input() readonly: boolean;
     @Input() required: boolean;
@@ -15,7 +16,7 @@ export abstract class InputBase extends ControlValueAccessorBase implements Cont
     @Input() label: string;
     /** entry for custom errors */
     @Input() errors: Array<string>;
-    @Output() blur = new EventEmitter<any>();
+    @Output() readonly blur = new EventEmitter<any>();
     readonly subscription = new Subscription();
     /** an error that is provided by {@link NgxValidatorDirective} */
     error: string;
@@ -24,10 +25,10 @@ export abstract class InputBase extends ControlValueAccessorBase implements Cont
     hintState: number;
 
     constructor(
-        control: NgControl,
+        ngControl: NgControl,
         protected formGroup: FormGroupDirective,
     ) {
-        super(control);
+        super(ngControl);
     }
 
     ngOnChanges(e): void {
@@ -58,29 +59,24 @@ export abstract class InputBase extends ControlValueAccessorBase implements Cont
         return this.ngControl && this.ngControl.control && this.ngControl.control.validator;
     }
 
-    /** internal */
     setErrorState = (): void => {
         this.errorState = this.error ? 1 : 0;
     }
 
-    /** internal */
     setHintState = (): void => {
         this.hintState = this.showHint ? 1 : 0;
     }
 
-    /** internal */
     setErrorsState = (): void => {
         this.errorsState = this.errors ? this.errors.length : 0;
     }
 
-    /** internal */
     updateControl = (): void => {
         this.ngControl.control.markAsDirty();
         this.ngControl.control.markAsTouched();
         this.ngControl.control.updateValueAndValidity();
     }
 
-    /** internal */
     setRequired = (): void => {
         const validator = this.validator;
         if (!this.required && validator) {
@@ -89,7 +85,6 @@ export abstract class InputBase extends ControlValueAccessorBase implements Cont
         }
     }
 
-    /** internal */
     setMaxlength = (): void => {
         const validator = this.validator;
         if (!this.maxlength && validator) {

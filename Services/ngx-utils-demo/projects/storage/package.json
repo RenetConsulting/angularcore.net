@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/storage",
-  "version": "0.0.4",
+  "version": "8.0.0",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
@@ -14,7 +14,7 @@
     "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/storage"
   },
   "peerDependencies": {
-    "@angular/common": "^7.2.0",
-    "@angular/core": "^7.2.0"
+    "@angular/common": "^8.0.0",
+    "@angular/core": "^8.0.0"
   }
 }

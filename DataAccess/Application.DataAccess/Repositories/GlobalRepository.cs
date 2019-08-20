@@ -6,6 +6,7 @@
 namespace Application.DataAccess.Repositories
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
@@ -13,6 +14,7 @@ namespace Application.DataAccess.Repositories
     using System.Threading.Tasks;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Enums;
+    using Application.DataAccess.Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Storage;
@@ -135,6 +137,172 @@ namespace Application.DataAccess.Repositories
             return await this.ItemList<TEntity>(entity, skip, take, active, propertyInfo, sortOrder);
         }
 
+        #region Blog
+
+        // any user should see a blog
+        public async Task<Blog> GetBlogAsync(string blogId)
+        {
+            return await this.context.Blogs.Where(bl => bl.BlogId.Equals(blogId)).OrderByDescending(a => a.CreatedDate).FirstOrDefaultAsync();
+        }
+
+        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "ValueTuple.")]
+        public async Task<(List<Blog>, int)> GetBlogsAsync(int index, int count)
+        {
+            int totalAmount = await this.context.Blogs.CountAsync();
+
+            List<Blog> blogs = await this.context.Blogs.OrderByDescending(a => a.CreatedDate).Skip(index).Take(count).ToListAsync();
+
+            return (blogs, totalAmount);
+        }
+
+        public async Task<Blog> AddBlogAsync(Blog blog)
+        {
+            using (IDbContextTransaction dbContextTransaction = await this.BeginTransactionAsync())
+            {
+                try
+                {
+                    this.context.Blogs.Add(blog);
+
+                    await this.context.SaveChangesAsync();
+
+                    dbContextTransaction.Commit();
+
+                    return blog;
+                }
+                catch (Exception ex)
+                {
+                    dbContextTransaction.Rollback();
+
+                    throw ex;
+                }
+            }
+        }
+
+        public async Task<Blog> UpdateBlogAsync(string blogId, string title, string content, string userId)
+        {
+            try
+            {
+                Blog blog = await this.context.Blogs.FirstOrDefaultAsync(bl => bl.IsActive.Value && bl.BlogId.Equals(blogId));
+
+                if (!Equals(blog, null))
+                {
+                    if (!blog.UserId.Equals(userId))
+                    {
+                        throw new Exception("You can update only own blogs!");
+                    }
+
+                    blog.Title = title;
+                    blog.Content = content;
+                }
+                else
+                {
+                    throw new Exception($"Blog with id {blogId} not found.");
+                }
+
+                await this.context.SaveChangesAsync();
+
+                return blog;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<bool> DeleteBlogAsync(string blogId, string userId)
+        {
+            try
+            {
+                Blog deleteBlog = await this.context.Blogs.FirstOrDefaultAsync(a => a.IsActive.Value && a.BlogId.Equals(blogId));
+
+                if (!Equals(deleteBlog, null))
+                {
+                    if (!deleteBlog.UserId.Equals(userId))
+                    {
+                        throw new Exception("You can remove only own blogs!");
+                    }
+
+                    this.context.Blogs.Remove(deleteBlog);
+                }
+                else
+                {
+                    throw new Exception($"Blog with id {blogId} not found.");
+                }
+
+                return await this.context.SaveChangesAsync() > 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<bool> SaveBlogFileAsync(string userId, string fileBlobName)
+        {
+            try
+            {
+                FileStorage blogFile = new FileStorage { FileId = fileBlobName, UserId = userId };
+
+                this.context.FileStorages.Add(blogFile);
+
+                return await this.context.SaveChangesAsync() > 0;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<FileStorage> GetBlogFileAsync(string fileBlobName)
+        {
+            return await this.context.FileStorages.FirstOrDefaultAsync(f => f.FileId.Equals(fileBlobName));
+        }
+
+        public async Task<List<FileStorage>> GetAllFilesAsync()
+        {
+            return await this.context.FileStorages.ToListAsync();
+        }
+
+        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "ValueTuple.")]
+        public async Task<(List<FileStorage>, int)> GetFileStoragesAsync(string userId, int index, int count)
+        {
+            try
+            {
+                var filesQuery = this.context.FileStorages.Where(x => x.UserId == userId);
+                int totalAmount = await filesQuery.CountAsync();
+
+                List<FileStorage> fileStorage = await filesQuery
+                    .OrderByDescending(a => a.CreatedDate)
+                    .Skip(index)
+                    .Take(count)
+                    .ToListAsync();
+
+                return (fileStorage, totalAmount);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<bool> DeleteBlogFileAsync(string fileBlobName, string userId)
+        {
+            var deletedFile = await this.context.FileStorages.FirstOrDefaultAsync(f => f.FileId.Equals(fileBlobName) && f.UserId.Equals(userId));
+
+            if (deletedFile != null)
+            {
+                this.context.FileStorages.Remove(deletedFile);
+
+                return await this.context.SaveChangesAsync() > 0;
+            }
+            else
+            {
+                throw new Exception($"File with {fileBlobName} name not found");
+            }
+        }
+
+        #endregion
+
         public async Task<Person> GetUserProfileAsync(string userId)
         {
             return await this.context.Person.Where(p => p.UserId.Equals(userId)).FirstOrDefaultAsync();
@@ -210,6 +378,15 @@ namespace Application.DataAccess.Repositories
             }
 
             return selector;
+        }
+
+        private int SkipSize(int page, int elementsAmount)
+        {
+            double toSkip = (page - 1) * elementsAmount;
+
+            toSkip = toSkip < 0 ? 0 : toSkip;
+
+            return (int)toSkip;
         }
     }
 }
