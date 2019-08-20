@@ -22,6 +22,9 @@ export class CoreCaptchaDirective implements ControlValueAccessor {
         if (this.onChange) {
             this.onChange(model);
         }
+    }
+
+    @HostListener('blur') blur = (): void => {
         if (this.onTouched) {
             this.onTouched();
         }

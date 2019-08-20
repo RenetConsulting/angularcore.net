@@ -35,5 +35,9 @@ namespace Application.DataAccess.Repositories
 
         Task<T> FindByIdAsync<T>(params object[] keys)
             where T : ApplicationEntity;
+
+        Task<Person> GetUserProfileAsync(string userId);
+
+        Task<Person> UpdateUserProfileAsync(Person person);
     }
 }

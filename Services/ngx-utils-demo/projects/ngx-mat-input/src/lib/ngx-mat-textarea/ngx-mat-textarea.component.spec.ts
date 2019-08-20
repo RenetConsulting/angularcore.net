@@ -5,7 +5,7 @@ describe('NgxMatTextareaComponent', () => {
     let component: NgxMatTextareaComponent;
 
     beforeEach(() => {
-        component = new NgxMatTextareaComponent(null, null);
+        component = new NgxMatTextareaComponent(null, null, 7, 15);
     });
 
     it('should create', () => {
@@ -13,5 +13,8 @@ describe('NgxMatTextareaComponent', () => {
     });
     it('minRows', () => {
         expect(component.minRows).toEqual(7);
+    });
+    it('maxRows', () => {
+        expect(component.maxRows).toEqual(15);
     });
 });

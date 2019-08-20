@@ -135,6 +135,22 @@ namespace Application.DataAccess.Repositories
             return await this.ItemList<TEntity>(entity, skip, take, active, propertyInfo, sortOrder);
         }
 
+        public async Task<Person> GetUserProfileAsync(string userId)
+        {
+            return await this.context.Person.Where(p => p.UserId.Equals(userId)).FirstOrDefaultAsync();
+        }
+
+        public async Task<Person> UpdateUserProfileAsync(Person person)
+        {
+            person = person ?? throw new ArgumentNullException(nameof(person));
+
+            this.context.Update(person);
+
+            await this.context.SaveChangesAsync();
+
+            return person;
+        }
+
         internal IQueryable<TEntity> WhereSelector<TEntity, KAndObject, KOrObject>(KAndObject whereAnd, KOrObject whereOr)
              where TEntity : ApplicationEntity
         {

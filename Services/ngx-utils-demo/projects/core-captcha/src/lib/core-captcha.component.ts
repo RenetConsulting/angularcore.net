@@ -22,6 +22,7 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
     @Input() placeholder = 'Please type the text above';
     @Input() label = 'Core Captcha';
     @Output() readonly resolved = new EventEmitter<IDecodedCaptcha>();
+    @Output() readonly blur = new EventEmitter<null>();
     @HostBinding('class.d-block') readonly dBlock = true;
     readonly subscription = new Subscription();
     readonly formControl = new FormControl();
@@ -63,7 +64,6 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
         this.subscription.unsubscribe();
     }
 
-    /** internal */
     get query() {
         return this.width && this.height ? `?width=${this.width}&height=${this.height}` : '';
     }
@@ -78,17 +78,14 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
         this.formControl.updateValueAndValidity();
     }
 
-    /** internal */
-    emitDecodedCaptcha = (): void => this.resolved.emit(this.value);
+    emitDecodedCaptcha = () => this.resolved.emit(this.value);
 
-    /** internal */
     destroy = (): void => {
         this.captcha = null;
         this.captchaAsync = null;
         this.formControl.reset();
     }
 
-    /** internal */
     setCaptchaAsync = (): void => {
         if (this.url) {
             this.destroy();
@@ -96,12 +93,9 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
         }
     }
 
-    refresh = (): void => this.setCaptchaAsync();
+    refresh = () => this.setCaptchaAsync();
 
-    /**
-     *  internal
-     *  override {@link ngx-mat-input} validator
-     */
+    /**  override {@link ngx-mat-input} validator */
     setValidator = (): void => {
         const validator = this.ngControl && this.ngControl.control && this.ngControl.control.validator;
         if (validator) {
@@ -109,9 +103,8 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
         }
     }
 
-    /** internal */
-    mapValidator = (validator: ValidatorFn): ValidatorFn => (): ValidationErrors | null => {
-        const control: AbstractControl = { value: this.value } as AbstractControl;
-        return validator(control);
-    }
+    mapValidator = (validator: ValidatorFn): ValidatorFn => (): ValidationErrors | null =>
+        validator({ value: this.value } as AbstractControl)
+
+    onBlur = () => this.blur.emit(null);
 }

@@ -14,7 +14,8 @@ import { InputBase } from '../input.base';
 })
 export class NgxMatInputComponent extends InputBase implements ControlValueAccessor, OnChanges, OnInit, OnDestroy {
 
-    @Input() autocomplete: 'on' | 'off' = 'off';
+    @Input() autocomplete = 'off';
+    @Input() name: string;
     @Input() type = 'text';
 
     constructor(
