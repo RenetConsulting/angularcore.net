@@ -9,7 +9,7 @@ import { RootBlogStore } from '../reducers';
 
 class MockHubBuilder implements Partial<HubConnectionBuilder> {
 
-    catch = jasmine.createSpy();
+    catch = jasmine.createSpy().and.callFake(fn => fn());
     withUrl = jasmine.createSpy().and.returnValue(this);
     build = jasmine.createSpy().and.returnValue(this);
     on = jasmine.createSpy();
@@ -23,6 +23,7 @@ describe('BlogHubService', () => {
     let service: BlogHubService;
 
     let store: jasmine.SpyObj<Store<RootBlogStore>>;
+    let connection: MockHubBuilder;
 
     beforeEach(() => {
 
@@ -37,6 +38,7 @@ describe('BlogHubService', () => {
 
         service = TestBed.get(BlogHubService);
         store = TestBed.get(Store);
+        connection = service.connection as Partial<HubConnectionBuilder> as MockHubBuilder;
     });
 
     it('should be created', () => {
@@ -51,15 +53,21 @@ describe('BlogHubService', () => {
         expect(store.dispatch).toHaveBeenCalledWith(new HubUpdateBlogRequest(null));
     });
     it('connect', () => {
+        spyOn(service, 'log');
         service.connect();
-        expect(service.connection.start).toHaveBeenCalled();
-        expect(service.connection.on).toHaveBeenCalledWith(service.createEvent, service.onCreate);
-        expect(service.connection.on).toHaveBeenCalledWith(service.updateEvent, service.onUpdate);
+        expect(connection.start).toHaveBeenCalled();
+        expect(connection.on).toHaveBeenCalledWith(service.createEvent, service.onCreate);
+        expect(connection.on).toHaveBeenCalledWith(service.updateEvent, service.onUpdate);
+        expect(connection.catch).toHaveBeenCalled();
+        expect(service.log).toHaveBeenCalledWith('Error: connection.start');
     });
     it('disconnect', () => {
+        spyOn(service, 'log');
         service.disconnect();
-        expect(service.connection.stop).toHaveBeenCalled();
-        expect(service.connection.off).toHaveBeenCalledWith(service.createEvent, service.onCreate);
-        expect(service.connection.off).toHaveBeenCalledWith(service.updateEvent, service.onUpdate);
+        expect(connection.stop).toHaveBeenCalled();
+        expect(connection.off).toHaveBeenCalledWith(service.createEvent, service.onCreate);
+        expect(connection.off).toHaveBeenCalledWith(service.updateEvent, service.onUpdate);
+        expect(connection.catch).toHaveBeenCalled();
+        expect(service.log).toHaveBeenCalledWith('Error: connection.stop');
     });
 });

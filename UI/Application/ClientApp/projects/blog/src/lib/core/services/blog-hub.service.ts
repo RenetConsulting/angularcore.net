@@ -30,14 +30,16 @@ export class BlogHubService {
     onUpdate = (x: BlogModel) => this.store.dispatch(new HubUpdateBlogRequest(x));
 
     connect = (): void => {
-        this.connection.start().catch(x => console.warn(x.message));
+        this.connection.start().catch(x => this.log(x && x.message || 'Error: connection.start'));
         this.connection.on(this.createEvent, this.onCreate);
         this.connection.on(this.updateEvent, this.onUpdate);
     }
 
     disconnect = (): void => {
-        this.connection.stop().catch(x => console.warn(x.message));
+        this.connection.stop().catch(x => this.log(x && x.message || 'Error: connection.stop'));
         this.connection.off(this.createEvent, this.onCreate);
         this.connection.off(this.updateEvent, this.onUpdate);
     }
+
+    log = (...args: Array<any>) => console.warn(...args);
 }
