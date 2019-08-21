@@ -1,6 +1,8 @@
-﻿[assembly: Microsoft.Azure.WebJobs.Hosting.WebJobsStartup(typeof(CoreCaptchaAzure.Startup))]
+﻿//[assembly: Microsoft.Azure.WebJobs.Hosting.WebJobsStartup(typeof(CoreCaptchaAzure.Startup))]
+[assembly: Microsoft.Azure.Functions.Extensions.DependencyInjection.FunctionsStartup(typeof(CoreCaptchaAzure.Startup))]
 namespace CoreCaptchaAzure
 {
+    using Microsoft.Azure.Functions.Extensions.DependencyInjection;
     using Microsoft.Azure.WebJobs;
     using Microsoft.Azure.WebJobs.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -9,9 +11,13 @@ namespace CoreCaptchaAzure
     using Renet.CoreCaptcha;
     using System;
 
-    public class Startup : IWebJobsStartup
+    public class Startup : FunctionsStartup //IWebJobsStartup
     {
-        public Startup(IConfiguration configuration)
+        public Startup()
+        {
+
+        }
+            public Startup(IConfiguration configuration)
         {
             this.Configuration = configuration;
         }
@@ -31,7 +37,8 @@ namespace CoreCaptchaAzure
             services.AddScoped<ICoreCaptcha, CoreCaptcha>();
         }
 
-        public void Configure(IWebJobsBuilder builder)
+        //public void Configure(IWebJobsBuilder builder)
+        public override void Configure(IFunctionsHostBuilder builder)
         {
             var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
