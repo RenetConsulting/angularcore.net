@@ -4,13 +4,12 @@
 /** override styles of material */
 @import "./app/styles/dialog.scss";
 @import "./app/styles/checkbox.scss";
-/** imports of fontawesome */
+/** fontawesome */
 $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "../node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
 @import "../node_modules/@fortawesome/fontawesome-free/scss/regular";
 @import "../node_modules/@fortawesome/fontawesome-free/scss/solid";
 @import "../node_modules/@fortawesome/fontawesome-free/scss/brands";
-
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Fjalla One', sans-serif;
 }
@@ -46,4 +45,26 @@ a, button {
 }
 .rounded-10 {
     border-radius: 10px !important;
+}
+.pt-10 {
+    padding-top: $spacer * 6;
+}
+@media (min-width: 320px) {
+    .p-xs-3 {
+        padding: 1.5rem !important;
+    }
+}
+//styles for editor
+.ql-font-monospace {
+    font-family: Monaco, Courier New, monospace !important;
+}
+.ql-font-serif {
+    font-family: Georgia, Times New Roman, serif !important;
+}
+.ql-tooltip {
+    box-shadow: rgba($black, .2) 0 2px 8px !important;
+}
+//styles for mat-card
+.mat-card-header-text {
+    margin: 0 !important;
 }

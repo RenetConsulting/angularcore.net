@@ -1,0 +1,20 @@
+{
+  "name": "@renet-consulting/interceptors",
+  "version": "8.1.1",
+  "author": "Michael Vasyliv",
+  "license": "MIT",
+  "private": false,
+  "homepage": "https://github.com/RenetConsulting/angularcore.net",
+  "description": "interceptors",
+  "bugs": {
+    "url": "https://github.com/RenetConsulting/angularcore.net/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/interceptors"
+  },
+  "peerDependencies": {
+    "@angular/common": "^8.0.0",
+    "rxjs": "^6.5.2"
+  }
+}

@@ -12,9 +12,13 @@ namespace Application
     using Application.Business;
     using Application.Business.Communications;
     using Application.Business.CoreCaptcha;
+    using Application.Business.Interfaces;
+    using Application.Business.Services;
+    using Application.Controllers;
     using Application.DataAccess;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Repositories;
+    using Application.Services;
     using AspNet.Security.OAuth.Validation;
     using AspNet.Security.OpenIdConnect.Primitives;
     using Microsoft.AspNetCore.Builder;
@@ -35,9 +39,12 @@ namespace Application
 
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly ILogger logger;
+
+        public Startup(IConfiguration configuration, ILogger<Startup> logger)
         {
             this.Configuration = configuration;
+            this.logger = logger;
         }
 
         public Startup(IHostingEnvironment env)
@@ -47,6 +54,7 @@ namespace Application
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("secrets.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
@@ -70,6 +78,16 @@ namespace Application
 
             services.Configure<AppSettings>(this.Configuration.GetSection("AppSettings"));
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy(
+                    "CorsPolicy",
+                    builder => builder
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+
             // Add framework services.
             services.AddMvc().AddJsonOptions(options =>
             {
@@ -79,10 +97,12 @@ namespace Application
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            services.AddSignalR().AddJsonProtocol(j => j.PayloadSerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc);
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "ClientApp/dist";
+                configuration.RootPath = "ClientApp/dist/angular";
             });
 
             services.AddDbContext<DataContext>(options =>
@@ -159,14 +179,11 @@ namespace Application
                     // Enable the authorization, logout, token and userinfo endpoints.
                     options.EnableTokenEndpoint("/connect/token");
 
-                    // This end point for logoff. Should be Post or Get
-                    options.EnableLogoutEndpoint("/connect/logout");
-
                     // Note: the Mvc.Client sample only uses the code flow and the password flow, but you
                     // can enable the other flows if you need to support implicit or client credentials.
                     options.AllowPasswordFlow()
-                           .AllowRefreshTokenFlow()
-                           .AllowCustomFlow("external_identity_token");
+                           .AllowCustomFlow("external_identity_token")
+                           .AllowRefreshTokenFlow();
 
                     // Mark the "email", "profile" and "roles" scopes as supported scopes.
                     options.RegisterScopes(
@@ -198,6 +215,9 @@ namespace Application
             string apiKey = this.Configuration["AppSettings:SendGridKey"];
             services.AddScoped<ISendGridClient>(f => new SendGridClient(apiKey));
             services.AddScoped<IMailClient, MailClient>();
+            services.AddScoped<IAzureBlobManager, AzureBlobManager>();
+            services.AddScoped<IBlogService, BlogService>();
+            services.AddScoped<IFileManager, AzureFileManager>();
 
             services.Configure<CoreCaptchaSettings>(this.Configuration.GetSection("CoreCaptcha"));
 
@@ -257,6 +277,14 @@ namespace Application
 
             app.UseSpaStaticFiles(StaticFileOptions(env));
 
+            app.UseCors("CorsPolicy");
+
+            app.UseSignalR(routes =>
+            {
+                // @params PathString path - a path to {@link BlogController}
+                routes.MapHub<BlogHubBase>("/Blog");
+            });
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -270,12 +298,16 @@ namespace Application
                 // see https://go.microsoft.com/fwlink/?linkid=864501
                 spa.Options.SourcePath = "ClientApp";
 
+                this.logger.LogInformation("env is " + env.EnvironmentName);
+
                 if (env.IsDevelopment())
                 {
                     spa.UseAngularCliServer(npmScript: "start");
                 }
                 else
                 {
+                    this.logger.LogInformation("SSR has started work.");
+
                     // SSR is enabled only in production
                     spa.UseSpaPrerendering(options =>
                     {

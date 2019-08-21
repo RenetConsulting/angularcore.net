@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/core-captcha",
-  "version": "0.1.1",
+  "version": "8.0.1",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
@@ -11,13 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/RenetConsulting/angularcore.net.git"
+    "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/core-captcha"
   },
   "peerDependencies": {
-    "@angular/animations": "^7.0.0",
-    "@angular/common": "^7.0.0",
-    "@angular/core": "^7.0.0",
-    "@angular/material": "^7.0.0",
-    "bootstrap": "^4.0.0"
+    "@angular/animations": "^8.0.0",
+    "@angular/common": "^8.0.0",
+    "@angular/core": "^8.0.0",
+    "@angular/material": "^8.0.0",
+    "@renet-consulting/ngx-mat-input": "^8.0.0",
+    "@renet-consulting/ngx-validator": "^8.0.0",
+    "bootstrap": "^4.3.1"
   }
 }

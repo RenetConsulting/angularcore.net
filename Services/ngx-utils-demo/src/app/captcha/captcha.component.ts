@@ -9,18 +9,18 @@ import { CoreCaptchaRequired } from 'projects/core-captcha/src/public_api';
 })
 export class CaptchaComponent {
 
+    readonly errors = ['Please fill captcha'];
     readonly formGroup = new FormGroup({
         captcha: new FormControl(null, [CoreCaptchaRequired])
     });
     url = 'https://corecaptcha.azurewebsites.net/api/CaptchaCreate';
     toggled: boolean;
 
-    constructor() {
-        console.log('constructor', this.formGroup.value);
-    }
+    constructor() { }
+
+    submit = console.log;
 
     resolved = (e) => {
         console.log('resolved', e, this.formGroup.value);
     }
-
 }

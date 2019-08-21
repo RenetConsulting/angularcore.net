@@ -1,0 +1,31 @@
+{
+  "name": "@renet-consulting/editor",
+  "version": "8.0.4",
+  "author": "Michael Vasyliv",
+  "license": "MIT",
+  "private": false,
+  "homepage": "https://github.com/RenetConsulting/angularcore.net",
+  "description": "This library has an implementation of editor.",
+  "bugs": {
+    "url": "https://github.com/RenetConsulting/angularcore.net/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/editor"
+  },
+  "dependencies": {
+    "@renet-consulting/animations": "^8.0.0",
+    "@renet-consulting/control-value-accessor": "^8.0.0",
+    "@renet-consulting/ngx-validator": "^8.0.0",
+    "ngx-quill": "^7.1.2",
+    "quill": "^1.3.6"
+  },
+  "peerDependencies": {
+    "@angular/common": "^8.0.0",
+    "@angular/core": "^8.0.0",
+    "@angular/forms": "^8.0.0"
+  },
+  "files": [
+    "*"
+  ]
+}

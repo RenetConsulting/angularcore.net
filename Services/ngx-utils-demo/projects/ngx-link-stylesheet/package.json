@@ -1,20 +1,20 @@
 {
   "name": "@renet-consulting/ngx-link-stylesheet",
-  "version": "0.0.1",
+  "version": "8.0.0",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
   "homepage": "https://github.com/RenetConsulting/angularcore.net",
-  "description": "CoreCaptcha for automatization deployments on Azure",
+  "description": "The library provides a service ``NgxLinkStylesheetService`` to manage additional style files.",
   "bugs": {
     "url": "https://github.com/RenetConsulting/angularcore.net/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/RenetConsulting/angularcore.net.git"
+    "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/ngx-link-stylesheet"
   },
   "peerDependencies": {
-    "@angular/common": "^7.0.0",
-    "@angular/core": "^7.0.0"
+    "@angular/common": "^8.0.0",
+    "@angular/core": "^8.0.0"
   }
 }

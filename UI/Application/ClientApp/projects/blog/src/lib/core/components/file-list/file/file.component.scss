@@ -1,0 +1,10 @@
+.image-file-content {
+    height: 100px;
+    overflow: hidden;
+    margin: -16px -16px -6px -16px;
+    border-radius: 4px 4px 0 0;
+
+    .mat-card-image:first-child {
+        margin-top: 0;
+    }
+}

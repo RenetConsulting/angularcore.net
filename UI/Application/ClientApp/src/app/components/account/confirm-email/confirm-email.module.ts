@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { EffectsModule } from '@ngrx/effects';
-import { ControlInputModule } from '~/components/control-input/control-input.module';
+import { NgxMatInputModule } from '@renet-consulting/ngx-mat-input';
 import { ConfirmEmailRoutingModule } from './confirm-email-routing.module';
 import { ConfirmEmailComponent } from './confirm-email.component';
 import { ConfirmEmailEffects } from './effects';
@@ -15,10 +15,10 @@ import { ConfirmEmailEffects } from './effects';
         CommonModule,
         ConfirmEmailRoutingModule,
         ReactiveFormsModule,
-        ControlInputModule,
+        NgxMatInputModule,
         MatButtonModule,
         MatCardModule,
-        EffectsModule.forRoot([ConfirmEmailEffects]),
+        EffectsModule.forFeature([ConfirmEmailEffects]),
     ],
 })
 export class ConfirmEmailModule { }

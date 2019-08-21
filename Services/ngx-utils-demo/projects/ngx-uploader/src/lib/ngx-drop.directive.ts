@@ -1,44 +1,44 @@
 import { Directive, ElementRef, EventEmitter, HostListener, Inject, Input, Output, Renderer2 } from '@angular/core';
-import { FileError, FileOption } from './models';
-import { emitOpload } from './utils';
+import { NgxUploaderBase } from './ngx-uploader.base';
 
 @Directive({
     selector: '[ngx-drop]'
 })
-export class NgxDropDirective {
+export class NgxDropDirective extends NgxUploaderBase {
 
-    @Input() accept: string;
-    @Input() multiple: boolean;
     @Input() dropClass = 'drop';
-    @Input() options: FileOption = {};
-    @Output('ngx-drop') readonly emitter = new EventEmitter<File | File[] | FileError>();
+    @Output('ngx-drop') readonly emitter = new EventEmitter<Array<File>>();
 
     constructor(
-        @Inject(ElementRef) private elm: ElementRef,
-        @Inject(Renderer2) private render: Renderer2
-    ) { }
+        @Inject(ElementRef) private elementRef: ElementRef,
+        @Inject(Renderer2) private renderer: Renderer2
+    ) {
+        super();
+    }
 
-    @HostListener('drop', ['$event'])  drop(e: any) {
+    get element() {
+        return this.elementRef.nativeElement;
+    }
+
+    @HostListener('drop', ['$event']) drop = (e): void => {
         this.stopEvent(e);
-        this.render.removeClass(this.elm.nativeElement, this.dropClass);
-
-        this.emitter.emit(
-            emitOpload(e.dataTransfer.files, this.accept, this.multiple, this.options)
-        );
+        this.renderer.removeClass(this.element, this.dropClass);
+        this.emit(e.dataTransfer.files);
     }
 
     @HostListener('dragover', ['$event'])
-    @HostListener('dragenter', ['$event'])  dragenter(e: any) {
+    @HostListener('dragenter', ['$event']) dragenter = (e): void => {
         this.stopEvent(e);
-        this.render.addClass(this.elm.nativeElement, this.dropClass);
+        this.renderer.addClass(this.element, this.dropClass);
     }
 
-    @HostListener('dragleave', ['$event'])  dragleave(e: any) {
+    @HostListener('dragleave', ['$event']) dragleave = (e): void => {
         this.stopEvent(e);
-        this.render.removeClass(this.elm.nativeElement, this.dropClass);
+        this.renderer.removeClass(this.element, this.dropClass);
     }
 
-    stopEvent(e: any) {
+    /** internal */
+    stopEvent = (e): void => {
         e.stopPropagation();
         e.preventDefault();
     }

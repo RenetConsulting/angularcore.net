@@ -6,17 +6,23 @@
 namespace Application.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
+    using System.Net.Http;
     using System.Threading.Tasks;
     using Application.Business;
     using Application.Business.CoreCaptcha;
+    using Application.Business.Helpers;
+    using Application.Business.Models;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Enums;
     using AspNet.Security.OpenIdConnect.Extensions;
     using AspNet.Security.OpenIdConnect.Primitives;
     using AspNet.Security.OpenIdConnect.Server;
     using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json;
     using OpenIddict.Abstractions;
     using OpenIddict.Mvc.Internal;
 
@@ -47,11 +53,23 @@ namespace Application.Controllers
             {
                 return await this.PasswordGrantTypeAsync(request);
             }
-
-            // grant_type=refresh_token&refresh_token=tGzv3JOkF0XG5Qx2TlKWIA
-            if (request.IsRefreshTokenGrantType())
+            else if (request.IsRefreshTokenGrantType())
             {
                 return await this.RefreshTokenGrantTypeAsync(request);
+            }
+            else if (request.GrantType == "external_identity_token")
+            {
+                try
+                {
+                    return await this.ExternalSignInAsync(request);
+                }
+                catch (Exception ex)
+                {
+                    return this.BadRequest(new OpenIdConnectResponse
+                    {
+                        ErrorDescription = ex.Message
+                    });
+                }
             }
 
             return this.BadRequest(new OpenIdConnectResponse
@@ -64,30 +82,13 @@ namespace Application.Controllers
         [HttpDelete("~/connect/signout")]
         public async Task<IActionResult> SignOutAsync()
         {
-            await this.HttpContext.SignOutAsync("Identity.Application")
-                .ConfigureAwait(false);
+            await this.HttpContext.SignOutAsync("Identity.Application").ConfigureAwait(false);
 
-            await this.HttpContext.SignOutAsync("Identity.External")
-                .ConfigureAwait(false);
+            await this.HttpContext.SignOutAsync("Identity.External").ConfigureAwait(false);
 
-            await this.signInManager.SignOutAsync()
-                .ConfigureAwait(false);
+            await this.signInManager.SignOutAsync().ConfigureAwait(false);
 
             return this.Ok();
-        }
-
-        [HttpPost("~/connect/logout")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LogoutAsync()
-        {
-            // Ask ASP.NET Core Identity to delete the local and external cookies created
-            // when the user agent is redirected from the external identity provider
-            // after a successful authentication flow (e.g Google or Facebook).
-            await this.signInManager.SignOutAsync();
-
-            // Returning a SignOutResult will ask OpenIddict to redirect the user agent
-            // to the post_logout_redirect_uri specified by the client application.
-            return this.SignOut(OpenIdConnectServerDefaults.AuthenticationScheme);
         }
 
         internal async Task<IActionResult> PasswordGrantTypeAsync([ModelBinder(typeof(OpenIddictMvcBinder))] OpenIdConnectRequest request)
@@ -118,11 +119,9 @@ namespace Application.Controllers
                 // validate captcha
                 if (!await this.coreCaptcha.CaptchaValidate(this.Request))
                 {
-                    return this.BadRequest(new OpenIdConnectResponse
-                    {
-                        Error = "InvalidCoreCaptcha",
-                        ErrorDescription = "Invalid or missing CoreCaptcha"
-                    });
+                    ErrorListModel errorList = new ErrorListModel();
+                    errorList.Captcha.Add("Invalid or missing CoreCaptcha");
+                    return this.BadRequest(errorList);
                 }
             }
 
@@ -213,10 +212,108 @@ namespace Application.Controllers
             }
         }
 
-        private async Task<AuthenticationTicket> CreateTicketAsync(
-            OpenIdConnectRequest request,
-            ApplicationUser user,
-            AuthenticationProperties properties = null)
+        internal async Task<IActionResult> ExternalSignInAsync(OpenIdConnectRequest request)
+        {
+            ApplicationUser user = null;
+
+            var provider = request.State.ToLower();
+
+            switch (provider)
+            {
+                case "facebook":
+                    {
+                        user = await this.ProviderSignInAsync(
+                            provider,
+                            "id",
+                            "https://graph.facebook.com/v3.3/",
+                            string.Format("me?scope=email&access_token={0}&fields=id,name,email", request.AccessToken));
+                        break;
+                    }
+
+                case "google":
+                    {
+                        // sub - the unique-identifier key for the user
+                        user = await this.ProviderSignInAsync(
+                            provider,
+                            "sub",
+                            "https://www.googleapis.com/oauth2/v3/tokeninfo",
+                            string.Format("?id_token={0}", request.AccessToken));
+                        break;
+                    }
+
+                default:
+                    {
+                        throw new Exception("Provider is not found.");
+                    }
+            }
+
+            // Create a new authentication ticket.
+            var ticket = await this.CreateTicketAsync(request, user).ConfigureAwait(false);
+
+            return this.SignIn(ticket.Principal, ticket.Properties, ticket.AuthenticationScheme);
+        }
+
+        internal async Task<ApplicationUser> ProviderSignInAsync(string provider, string keyId, string url, string queryString)
+        {
+            string result = null;
+
+            using (var http = new HttpClient())
+            {
+                http.BaseAddress = new Uri(url);
+                var response = await http.GetAsync(queryString);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    result = await response.Content.ReadAsStringAsync();
+                }
+                else
+                {
+                    throw new Exception("Authentication error.");
+                }
+            }
+
+            var dic = JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
+            string id = dic[keyId];
+            string email = dic["email"];
+            var info = new UserLoginInfo(provider, id, provider);
+            var user = await this.userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+
+            if (!Equals(user, null))
+            {
+                return user;
+            }
+
+            if (Equals(email, null))
+            {
+                throw new Exception(string.Format("Can not extract an email from the response of the provider: {0}.", provider));
+            }
+
+            return await this.CreateUserAync(info, email);
+        }
+
+        internal async Task<ApplicationUser> CreateUserAync(UserLoginInfo info, string email)
+        {
+            ApplicationUser user = new ApplicationUser()
+            {
+                SecurityStamp = Guid.NewGuid().ToString(),
+                UserName = string.Format("{0}-{1}-{2}", info.LoginProvider, info.ProviderKey, Guid.NewGuid().ToString("N")),
+                Email = email,
+                EmailConfirmed = true,
+                LockoutEnabled = false
+            };
+
+            await this.userManager.CreateAsync(user, DataHelper.GenerateRandomPassword());
+            var ir = await this.userManager.AddLoginAsync(user, info);
+
+            if (!ir.Succeeded)
+            {
+                throw new Exception(ir.Errors.FirstOrDefault().Description);
+            }
+
+            return user;
+        }
+
+        internal async Task<AuthenticationTicket> CreateTicketAsync(OpenIdConnectRequest request, ApplicationUser user, AuthenticationProperties properties = null)
         {
             // Create a new ClaimsPrincipal containing the claims that
             // will be used to create an id_token, a token or a code.

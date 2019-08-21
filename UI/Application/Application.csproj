@@ -11,20 +11,22 @@
     <!-- Set this to true if you enable server-side prerendering -->
     <BuildServerSideRenderer>true</BuildServerSideRenderer>
     <Configurations>Debug;Release;TestingProduction</Configurations>
+    <UserSecretsId>68af3fd4-95d0-42fd-bdab-34766dea176a</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <NoWarn>1701;1702;1705;SA1652;SA1636</NoWarn>
+    <NoWarn>1701;1702;1705;SA1652;SA1636;SA1124</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestingProduction|AnyCPU'">
-    <NoWarn>1701;1702;1705;SA1652;SA1636</NoWarn>
+    <NoWarn>1701;1702;1705;SA1652;SA1636;SA1124</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.AzureAppServices" Version="2.2.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.2.0" />
     <PackageReference Include="AspNet.Security.OAuth.Validation" Version="2.0.0" />

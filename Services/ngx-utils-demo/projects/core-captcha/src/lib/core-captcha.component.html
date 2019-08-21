@@ -7,14 +7,6 @@
         <ngx-core-captcha-audio [sound]="item?.sound"></ngx-core-captcha-audio>
     </div>
 </div>
-<div class="mt-3">
-    <mat-form-field class="d-block">
-        <input matInput autocomplete="off" [placeholder]="placeholder" [formControl]="formControl">
-    </mat-form-field>
-</div>
+<ngx-mat-input [label]="label" [placeholder]="placeholder" [formControl]="formControl" [errors]="errors" (blur)="onBlur()"></ngx-mat-input>
 
-<ng-template #loadingRef>
-    <div class="d-flex justify-content-center">
-        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-    </div>
-</ng-template>
+<ng-template #loadingRef><div class="d-flex justify-content-center"><mat-progress-spinner mode="indeterminate"></mat-progress-spinner></div></ng-template>

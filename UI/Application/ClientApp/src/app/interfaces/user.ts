@@ -4,7 +4,7 @@ export interface IUser {
     email: string;
     password: string;
     confirmPassword: string;
-    isRemember?: boolean;
+    remember?: boolean;
     readTerms?: boolean;
     captcha?: IDecodedCaptcha;
 }

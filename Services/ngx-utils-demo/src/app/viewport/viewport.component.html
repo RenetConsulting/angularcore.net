@@ -1,0 +1,5 @@
+<cdk-virtual-scroll-viewport itemSize="50" class="example-viewport" (viewChange)="change($event)">
+    <div *cdkVirtualFor="let item of items" class="example-item">{{item}}</div>
+</cdk-virtual-scroll-viewport>
+<button (click)="create()">create</button>
+<button (click)="delete()">delete</button>

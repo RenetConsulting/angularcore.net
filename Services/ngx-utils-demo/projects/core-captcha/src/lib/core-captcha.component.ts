@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Inject, Input, OnChanges, OnDestroy, OnInit, Optional, Output, Self } from '@angular/core';
-import { FormControl, FormGroupDirective, NgControl } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroupDirective, NgControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { IDecodedCaptcha } from './decoded-captcha';
@@ -20,12 +20,16 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
     @Input() url?: string;
     @Input() width?: number;
     @Input() placeholder = 'Please type the text above';
+    @Input() label = 'Core Captcha';
+    @Input() errors: Array<string>;
     @Output() readonly resolved = new EventEmitter<IDecodedCaptcha>();
+    @Output() readonly blur = new EventEmitter<null>();
     @HostBinding('class.d-block') readonly dBlock = true;
     readonly subscription = new Subscription();
     readonly formControl = new FormControl();
     captcha?: IEncodedCaptcha;
     captchaAsync: Observable<IEncodedCaptcha>;
+    validator: ValidatorFn;
 
     constructor(
         @Inject(NGX_CORE_CAPTCHA_OPTIONS) options: ICoreCaptchaOptions,
@@ -49,12 +53,9 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
 
     ngOnInit(): void {
         this.setCaptchaAsync();
+        this.setValidator();
         if (this.formGroup) {
-            this.subscription.add(this.formGroup.ngSubmit.subscribe(() => {
-                this.ngControl.control.markAsDirty();
-                this.ngControl.control.markAsTouched();
-                this.ngControl.control.updateValueAndValidity();
-            }));
+            this.subscription.add(this.formGroup.ngSubmit.subscribe(this.updateControl));
         }
         this.subscription.add(this.formControl.valueChanges.subscribe(this.emitDecodedCaptcha));
     }
@@ -64,23 +65,28 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
         this.subscription.unsubscribe();
     }
 
-    /** internal */
     get query() {
         return this.width && this.height ? `?width=${this.width}&height=${this.height}` : '';
     }
 
-    /** internal */
-    emitDecodedCaptcha = (captcha: string): void =>
-        this.resolved.emit({ captcha, hash: this.captcha && this.captcha.hash })
+    get value() {
+        return { captcha: this.formControl.value, hash: this.captcha && this.captcha.hash } as IDecodedCaptcha;
+    }
 
-    /** internal */
+    updateControl = (): void => {
+        this.formControl.markAsDirty();
+        this.formControl.markAsTouched();
+        this.formControl.updateValueAndValidity();
+    }
+
+    emitDecodedCaptcha = () => this.resolved.emit(this.value);
+
     destroy = (): void => {
         this.captcha = null;
         this.captchaAsync = null;
         this.formControl.reset();
     }
 
-    /** internal */
     setCaptchaAsync = (): void => {
         if (this.url) {
             this.destroy();
@@ -88,6 +94,18 @@ export class CoreCaptchaComponent implements OnInit, OnDestroy, OnChanges {
         }
     }
 
-    refresh = (): void =>
-        this.setCaptchaAsync()
+    refresh = () => this.setCaptchaAsync();
+
+    /**  override {@link ngx-mat-input} validator */
+    setValidator = (): void => {
+        const validator = this.ngControl && this.ngControl.control && this.ngControl.control.validator;
+        if (validator) {
+            this.formControl.validator = this.mapValidator(validator);
+        }
+    }
+
+    mapValidator = (validator: ValidatorFn): ValidatorFn => (): ValidationErrors | null =>
+        validator({ value: this.value } as AbstractControl)
+
+    onBlur = () => this.blur.emit(null);
 }

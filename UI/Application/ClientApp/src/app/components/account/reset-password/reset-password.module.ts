@@ -5,8 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { environment } from 'src/environments/environment';
-import { ControlInputModule } from '~/components/control-input/control-input.module';
+import { NgxMatInputModule } from '@renet-consulting/ngx-mat-input';
 import { ResetPasswordEffects } from './effects';
 import { resetPasswordReducer } from './reducer';
 import { ResetPasswordRoutingModule } from './reset-password-routing.module';
@@ -20,9 +19,9 @@ import { ResetPasswordComponent } from './reset-password.component';
         ReactiveFormsModule,
         MatButtonModule,
         MatCardModule,
-        ControlInputModule,
-        StoreModule.forRoot({ resetPassword: resetPasswordReducer }, { metaReducers: environment.metaReducers }),
-        EffectsModule.forRoot([ResetPasswordEffects]),
+        NgxMatInputModule,
+        StoreModule.forFeature('resetPassword', resetPasswordReducer),
+        EffectsModule.forFeature([ResetPasswordEffects]),
     ],
 })
 export class ResetPasswordModule { }

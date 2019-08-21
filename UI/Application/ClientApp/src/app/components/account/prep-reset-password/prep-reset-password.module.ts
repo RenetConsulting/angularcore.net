@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { EffectsModule } from '@ngrx/effects';
-import { ControlInputModule } from '~/components/control-input/control-input.module';
+import { NgxMatInputModule } from '@renet-consulting/ngx-mat-input';
 import { PrepResetPasswordEffects } from './effects';
 import { PrepResetPasswordRoutingModule } from './prep-reset-password-routing.module';
 import { PrepResetPasswordComponent } from './prep-reset-password.component';
@@ -17,8 +17,8 @@ import { PrepResetPasswordComponent } from './prep-reset-password.component';
         ReactiveFormsModule,
         MatButtonModule,
         MatCardModule,
-        ControlInputModule,
-        EffectsModule.forRoot([PrepResetPasswordEffects]),
+        NgxMatInputModule,
+        EffectsModule.forFeature([PrepResetPasswordEffects]),
     ],
 })
 export class PrepResetPasswordModule { }
