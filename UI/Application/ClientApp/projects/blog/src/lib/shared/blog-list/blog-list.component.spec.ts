@@ -1,12 +1,13 @@
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { ɵPLATFORM_BROWSER_ID } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { GetBlogsRequest } from '../../core/actions';
-import { BlogHubService } from '../../core/services/blog-hub.service';
 import { BlogModel } from '../../core/blog.model';
 import { RootBlogStore } from '../../core/reducers';
+import { BlogHubService } from '../../core/services/blog-hub.service';
 import { BlogListComponent } from './blog-list.component';
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 describe('BlogListComponent', () => {
 
@@ -27,7 +28,7 @@ describe('BlogListComponent', () => {
         store = TestBed.get(Store);
         blogHub = TestBed.get(BlogHubService);
 
-        component = new BlogListComponent(store, blogHub);
+        component = new BlogListComponent(store, blogHub, ɵPLATFORM_BROWSER_ID);
     });
 
     it('should create', () => {

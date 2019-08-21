@@ -28,7 +28,7 @@ export class BlogListComponent implements OnInit, OnDestroy {
     constructor(
         @Inject(Store) private store: Store<RootBlogStore>,
         @Inject(BlogHubService) private blogHub: BlogHubService,
-        @Inject(PLATFORM_ID) private platformId: Object
+        @Inject(PLATFORM_ID) private platformId: string
     ) { }
 
     ngOnInit(): void {

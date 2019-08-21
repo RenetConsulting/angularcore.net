@@ -9,11 +9,13 @@ import { RootBlogStore } from '../reducers';
 
 class MockHubBuilder implements Partial<HubConnectionBuilder> {
 
+    catch = jasmine.createSpy();
     withUrl = jasmine.createSpy().and.returnValue(this);
     build = jasmine.createSpy().and.returnValue(this);
     on = jasmine.createSpy();
-    start = jasmine.createSpy();
-    stop = jasmine.createSpy();
+    off = jasmine.createSpy();
+    start = jasmine.createSpy().and.returnValue({ catch: this.catch });
+    stop = jasmine.createSpy().and.returnValue({ catch: this.catch });
 }
 
 describe('BlogHubService', () => {
@@ -23,6 +25,7 @@ describe('BlogHubService', () => {
     let store: jasmine.SpyObj<Store<RootBlogStore>>;
 
     beforeEach(() => {
+
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
             providers: [
@@ -47,24 +50,16 @@ describe('BlogHubService', () => {
         service.onUpdate(null);
         expect(store.dispatch).toHaveBeenCalledWith(new HubUpdateBlogRequest(null));
     });
-    it('listenCreate', () => {
-        service.listenCreate();
-        expect(service.connection.on).toHaveBeenCalledWith('create', service.onCreate);
-    });
-    it('listenUpdate', () => {
-        service.listenUpdate();
-        expect(service.connection.on).toHaveBeenCalledWith('update', service.onUpdate);
-    });
     it('connect', () => {
-        spyOn(service, 'listenCreate');
-        spyOn(service, 'listenUpdate');
         service.connect();
         expect(service.connection.start).toHaveBeenCalled();
-        expect(service.listenCreate).toHaveBeenCalled();
-        expect(service.listenUpdate).toHaveBeenCalled();
+        expect(service.connection.on).toHaveBeenCalledWith(service.createEvent, service.onCreate);
+        expect(service.connection.on).toHaveBeenCalledWith(service.updateEvent, service.onUpdate);
     });
     it('disconnect', () => {
         service.disconnect();
         expect(service.connection.stop).toHaveBeenCalled();
+        expect(service.connection.off).toHaveBeenCalledWith(service.createEvent, service.onCreate);
+        expect(service.connection.off).toHaveBeenCalledWith(service.updateEvent, service.onUpdate);
     });
 });
