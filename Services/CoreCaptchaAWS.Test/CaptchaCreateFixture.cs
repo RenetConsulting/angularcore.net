@@ -13,28 +13,54 @@
 
     public class CaptchaCreateFixture
     {
-        [Fact]
-        public async Task CaptchaCreateTest()
+        Mock<IServiceProvider> serviceProviderMock;
+
+        Mock<ILogger> loggerMock;
+
+        Mock<ICoreCaptcha> coreCaptchaMock;
+
+        Mock<ILambdaContext> lambdaContextMock;
+
+        Func<ICoreCaptcha> func;
+
+        CaptchaCreate captchaCreate;
+
+        APIGatewayProxyRequest input;
+
+        CoreCaptchaCreateResponse responseMock;
+
+        public CaptchaCreateFixture()
         {
-            Mock<IServiceProvider> serviceProviderMock = new Mock<IServiceProvider>();
+            serviceProviderMock = new Mock<IServiceProvider>();
 
-            Mock<ILogger> loggerMock = new Mock<ILogger>();
+            loggerMock = new Mock<ILogger>();
 
-            Mock<ICoreCaptcha> coreCaptchaMock = new Mock<ICoreCaptcha>();
+            coreCaptchaMock = new Mock<ICoreCaptcha>();
 
-            Mock<ILambdaContext> lambdaContextMock = new Mock<ILambdaContext>();
+            lambdaContextMock = new Mock<ILambdaContext>();
 
-            Func<ICoreCaptcha> func = () => coreCaptchaMock.Object;
+            func = () => coreCaptchaMock.Object;
 
-            CaptchaCreate captchaCreate = new CaptchaCreate(func, loggerMock.Object);
+            captchaCreate = new CaptchaCreate(func, loggerMock.Object);
 
-            APIGatewayProxyRequest input = new APIGatewayProxyRequest();
-
-            CoreCaptchaCreateResponse responseMock = new CoreCaptchaCreateResponse
+            responseMock = new CoreCaptchaCreateResponse
             {
                 BodyJson = "{}",
                 StatusCode = System.Net.HttpStatusCode.OK
             };
+        }
+
+        [Fact]
+        public void CaptchaCreateTest_Constructor()
+        {
+            var captchaCreate = new CaptchaCreate();
+
+            Assert.NotNull(captchaCreate);
+        }
+        [Fact]
+        public async Task CaptchaCreateTest_APIGatewayProxyRequestIsNull()
+        {
+            input = null;
 
             // Setup Moq
             coreCaptchaMock.Setup(x => x.CaptchaCreateAsync(loggerMock.Object, null, 5, null, Directory.GetCurrentDirectory()))
@@ -50,9 +76,27 @@
                 It.IsAny<Func<object, Exception, string>>()));
 
             Assert.Equal(result.Body, responseMock.BodyJson);
+        }
+        [Fact]
+        public async Task CaptchaCreateTest_APIGatewayProxyRequestIsSet()
+        {
+            input = new APIGatewayProxyRequest() ;
 
+            // Setup Moq
+            coreCaptchaMock.Setup(x => x.CaptchaCreateAsync(loggerMock.Object, null, 5, input.QueryStringParameters, Directory.GetCurrentDirectory()))
+                .Returns(Task.FromResult(responseMock)).Verifiable();
+
+            var result = await captchaCreate.CaptchaCreateHandler(input, lambdaContextMock.Object);
+
+            // Verify logger
+            loggerMock.Verify(l => l.Log(LogLevel.Information,
+                0,
+                It.IsAny<Microsoft.Extensions.Logging.Internal.FormattedLogValues>(),
+                It.IsAny<Exception>(),
+                It.IsAny<Func<object, Exception, string>>()));
+
+            Assert.Equal(result.Body, responseMock.BodyJson);
         }
     }
-
 }
 

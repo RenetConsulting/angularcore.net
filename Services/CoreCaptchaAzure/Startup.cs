@@ -8,7 +8,6 @@ namespace CoreCaptchaAzure
     using Microsoft.Extensions.Logging;
     using Renet.CoreCaptcha;
     using System;
-    using System.IO;
 
     public class Startup : IWebJobsStartup
     {
