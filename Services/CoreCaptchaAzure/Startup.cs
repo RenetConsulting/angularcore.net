@@ -1,23 +1,28 @@
-﻿//[assembly: Microsoft.Azure.WebJobs.Hosting.WebJobsStartup(typeof(CoreCaptchaAzure.Startup))]
+﻿// -----------------------------------------------------------------------
+// <copyright file="Startup.cs" company="Renet Consulting, Inc">
+// Copyright (c) Renet Consulting, Inc. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
 [assembly: Microsoft.Azure.Functions.Extensions.DependencyInjection.FunctionsStartup(typeof(CoreCaptchaAzure.Startup))]
+
 namespace CoreCaptchaAzure
 {
+    using System;
     using Microsoft.Azure.Functions.Extensions.DependencyInjection;
-    using Microsoft.Azure.WebJobs;
-    using Microsoft.Azure.WebJobs.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Renet.CoreCaptcha;
-    using System;
 
-    public class Startup : FunctionsStartup //IWebJobsStartup
+    public class Startup : FunctionsStartup
     {
         public Startup()
         {
-
         }
-            public Startup(IConfiguration configuration)
+
+        public Startup(IConfiguration configuration)
         {
             this.Configuration = configuration;
         }
@@ -30,14 +35,14 @@ namespace CoreCaptchaAzure
             {
                 loggingBuilder.AddConfiguration(this.Configuration.GetSection("Logging"));
                 loggingBuilder.AddConsole();
-//                loggingBuilder.AddDebug();
                 loggingBuilder.AddAzureWebAppDiagnostics();
+
+                // Do not add Debug. The local execution vill failed. [loggingBuilder.AddDebug();]
             });
 
             services.AddScoped<ICoreCaptcha, CoreCaptcha>();
         }
 
-        //public void Configure(IWebJobsBuilder builder)
         public override void Configure(IFunctionsHostBuilder builder)
         {
             var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");

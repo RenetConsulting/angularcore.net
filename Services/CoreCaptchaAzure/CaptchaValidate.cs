@@ -1,34 +1,37 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using Renet.CoreCaptcha;
-using System;
-using System.Net;
-
+// -----------------------------------------------------------------------
+// <copyright file="CaptchaValidate.cs" company="Renet Consulting, Inc">
+// Copyright (c) Renet Consulting, Inc. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
 namespace CoreCaptchaAzure
 {
-    public  class CaptchaValidate
-    {
-        ICoreCaptcha CoreCaptcha { get; set; }
+    using System.Net;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Azure.WebJobs;
+    using Microsoft.Azure.WebJobs.Extensions.Http;
+    using Microsoft.Extensions.Logging;
+    using Renet.CoreCaptcha;
 
-        ILogger Logger { get; set; }
+    public class CaptchaValidate
+    {
+        private readonly ICoreCaptcha coreCaptcha;
+
+        private readonly ILogger logger;
 
         public CaptchaValidate(ICoreCaptcha coreCaptcha, ILogger<CaptchaCreate> logger)
         {
-            this.CoreCaptcha = coreCaptcha;
-            this.Logger = logger;
+            this.coreCaptcha = coreCaptcha;
+            this.logger = logger;
         }
-
-        public static readonly string ClientId = Environment.GetEnvironmentVariable("ClientId");
 
         [FunctionName("CaptchaValidate")]
         public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)]HttpRequest req)
         {
-            this.Logger.LogInformation("CaptchaValidate trigger function processed a request.");
+            this.logger.LogInformation("CaptchaValidate trigger function processed a request.");
 
-            HttpStatusCode response = this.CoreCaptcha.CaptchaValidate(Logger, req.GetQueryParameterDictionary());
+            HttpStatusCode response = this.coreCaptcha.CaptchaValidate(this.logger, req.GetQueryParameterDictionary());
 
             return new StatusCodeResult((int)response);
         }

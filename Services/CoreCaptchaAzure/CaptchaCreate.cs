@@ -1,38 +1,40 @@
-
-using System.IO;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Azure.WebJobs.Host;
-using Newtonsoft.Json;
-using Microsoft.Extensions.Logging;
-using Renet.CoreCaptcha;
-using System;
-using System.Threading.Tasks;
-
+// -----------------------------------------------------------------------
+// <copyright file="CaptchaCreate.cs" company="Renet Consulting, Inc">
+// Copyright (c) Renet Consulting, Inc. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
 namespace CoreCaptchaAzure
 {
-    public  class CaptchaCreate
-    {
-        ICoreCaptcha CoreCaptcha { get; set; }
+    using System;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Azure.WebJobs;
+    using Microsoft.Azure.WebJobs.Extensions.Http;
+    using Microsoft.Extensions.Logging;
+    using Renet.CoreCaptcha;
 
-        ILogger Logger { get; set; }
+    public class CaptchaCreate
+    {
+        public static readonly string ClientId = Environment.GetEnvironmentVariable("ClientId");
+
+        private readonly ICoreCaptcha coreCaptcha;
+
+        private readonly ILogger logger;
 
         public CaptchaCreate(ICoreCaptcha coreCaptcha, ILogger<CaptchaCreate> logger)
         {
-            this.CoreCaptcha = coreCaptcha;
-            this.Logger = logger;
+            this.coreCaptcha = coreCaptcha;
+            this.logger = logger;
         }
 
-        public static readonly string ClientId = Environment.GetEnvironmentVariable("ClientId");
-
         [FunctionName("CaptchaCreate")]
-        public async  Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "options", Route = null)]HttpRequest req, ExecutionContext context)
+        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "options", Route = null)]HttpRequest req, ExecutionContext context)
         {
-            this.Logger.LogInformation("CaptchaCreateHandler trigger function processed a request.");
-            
-            CoreCaptchaCreateResponse response = await this.CoreCaptcha.CaptchaCreateAsync(Logger, ClientId, 5, req.GetQueryParameterDictionary(), context.FunctionAppDirectory);
+            this.logger.LogInformation("CaptchaCreateHandler trigger function processed a request.");
+
+            CoreCaptchaCreateResponse response = await this.coreCaptcha.CaptchaCreateAsync(this.logger, ClientId, 5, req.GetQueryParameterDictionary(), context.FunctionAppDirectory);
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
