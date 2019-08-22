@@ -12,10 +12,13 @@ namespace Application.DataAccess.Entities
     public class Blog : ApplicationEntity
     {
         [Key]
+        [StringLength(26)]
         public string BlogId { get; set; }
 
+        [StringLength(75)]
         public string Title { get; set; }
 
+        [StringLength(255)]
         public string Content { get; set; }
 
         [ForeignKey("ApplicationUser")]
