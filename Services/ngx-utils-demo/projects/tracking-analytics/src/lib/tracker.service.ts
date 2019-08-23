@@ -13,7 +13,7 @@ export class NgxTrackerService {
 
     readonly clientIdKey = '_ga';
     readonly keySize: number = 16;
-    private window: any = typeof window !== undefined ? window : null;
+    private window: any = typeof window !== 'undefined' ? window : null;
 
     constructor(
         @Inject(DOCUMENT) private document: any,
