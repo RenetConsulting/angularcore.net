@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/ngx-messenger",
-  "version": "8.0.2",
+  "version": "8.0.3",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
@@ -13,10 +13,12 @@
     "type": "git",
     "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/ngx-messenger"
   },
+  "dependencies": {
+    "@renet-consulting/util": "^0.0.1"
+  },
   "peerDependencies": {
     "@angular/common": "^8.0.0",
     "@angular/core": "^8.0.0",
-    "@angular/material": "^8.0.0",
-    "@renet-consulting/util": "^0.0.1"
+    "@angular/material": "^8.0.0"
   }
 }
