@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/external-auth",
-  "version": "8.1.1",
+  "version": "8.1.2",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
@@ -13,9 +13,11 @@
     "type": "git",
     "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/external-auth"
   },
+  "dependencies": {
+    "@renet-consulting/auth": "^8.0.0"
+  },
   "peerDependencies": {
     "@angular/common": "^8.0.0",
-    "@angular/core": "^8.0.0",
-    "@renet-consulting/auth": "^8.0.0"
+    "@angular/core": "^8.0.0"
   }
 }
