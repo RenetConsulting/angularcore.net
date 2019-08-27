@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, Input, OnChanges, OnDestroy, OnInit, Optional, Self, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnChanges, OnDestroy, OnInit, Optional, Renderer2, Self, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
 import { enterLeaveAnimation } from '@renet-consulting/animations';
 import { InputBase } from '../input.base';
@@ -19,9 +19,30 @@ export class NgxMatInputComponent extends InputBase implements ControlValueAcces
     @Input() type = 'text';
 
     constructor(
+        @Inject(Renderer2) private renderer: Renderer2,
         @Optional() @Self() @Inject(NgControl) control: NgControl,
         @Optional() @Inject(FormGroupDirective) formGroup: FormGroupDirective,
     ) {
         super(control, formGroup);
+    }
+
+    ngOnChanges(e): void {
+        super.ngOnChanges(e);
+        if (e.name) {
+            this.toggleAttribute();
+        }
+    }
+
+    ngOnInit(): void {
+        super.ngOnInit();
+        this.toggleAttribute();
+    }
+
+    toggleAttribute = (): void => {
+        const el = this.inputRef && this.inputRef.nativeElement;
+        if (el) {
+            const name = 'name';
+            this.name ? this.renderer.setAttribute(el, name, this.name) : this.renderer.removeAttribute(el, name);
+        }
     }
 }

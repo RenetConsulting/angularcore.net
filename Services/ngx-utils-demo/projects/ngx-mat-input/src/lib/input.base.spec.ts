@@ -14,6 +14,7 @@ describe('NgxMatInputBase', () => {
     let control: jasmine.SpyObj<AbstractControl>;
 
     beforeEach(() => {
+
         control = jasmine.createSpyObj<AbstractControl>('AbstractControl', [
             'markAsDirty',
             'markAsTouched',
@@ -22,6 +23,7 @@ describe('NgxMatInputBase', () => {
         ]);
         ngControl = { control: control as AbstractControl } as NgControl;
         formGroup = {} as FormGroupDirective;
+
         base = new Test(ngControl, formGroup);
     });
 

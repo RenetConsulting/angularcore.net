@@ -3,5 +3,9 @@
   "dest": "../../dist/auth",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "whitelistedNonPeerDependencies": [
+    "@renet-consulting/ngx-http-params",
+    "@renet-consulting/storage"
+  ]
 }
