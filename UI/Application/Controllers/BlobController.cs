@@ -117,6 +117,15 @@ namespace Application.Controllers
 
         public string GetFileStorageUrl(string userId, string fileId)
         {
+            if (string.IsNullOrEmpty(this.AppSettings.BlobStorageUrl))
+            {
+                throw new Exception("Blob url not found.");
+            }
+            else if (string.IsNullOrEmpty(this.AppSettings.BlobStorage))
+            {
+                throw new Exception("Blob storage not found.");
+            }
+
             return string.Format("{0}{1}/{2}/{3}", this.AppSettings.BlobStorageUrl, this.AppSettings.ContainerName, userId, fileId);
         }
 
