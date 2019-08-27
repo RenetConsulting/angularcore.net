@@ -237,11 +237,11 @@ namespace Application.DataAccess.Repositories
             }
         }
 
-        public async Task<bool> SaveBlogFileAsync(string userId, string fileBlobName)
+        public async Task<bool> SaveBlogFileAsync(string userId, string fileBlobName, string title)
         {
             try
             {
-                FileStorage blogFile = new FileStorage { FileId = fileBlobName, UserId = userId };
+                FileStorage blogFile = new FileStorage { FileId = fileBlobName, UserId = userId, Title = title ?? string.Empty };
 
                 this.context.FileStorages.Add(blogFile);
 

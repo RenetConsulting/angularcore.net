@@ -70,7 +70,7 @@ namespace Application.Controllers
                     {
                         foreach (var file in addedFiles)
                         {
-                            await this.repository.SaveBlogFileAsync(this.UserId, file.FileId).ConfigureAwait(false);
+                            await this.repository.SaveBlogFileAsync(this.UserId, file.FileId, file.Title).ConfigureAwait(false);
                         }
                     }
                     catch (Exception ex)

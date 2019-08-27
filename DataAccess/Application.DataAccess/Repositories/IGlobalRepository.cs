@@ -38,7 +38,7 @@ namespace Application.DataAccess.Repositories
         Task<T> FindByIdAsync<T>(params object[] keys)
             where T : ApplicationEntity;
 
-        Task<bool> SaveBlogFileAsync(string blogId, string fileBlobName);
+        Task<bool> SaveBlogFileAsync(string blogId, string fileBlobName, string title);
 
         Task<FileStorage> GetBlogFileAsync(string fileBlobName);
 
