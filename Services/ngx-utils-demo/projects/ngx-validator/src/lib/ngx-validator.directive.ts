@@ -15,7 +15,7 @@ export class NgxValidatorDirective implements OnChanges, OnInit, OnDestroy {
     title = 'Field';
 
     constructor(
-        @Inject(NgControl) private ngControl: NgControl
+        @Inject(NgControl) protected ngControl: NgControl
     ) { }
 
     ngOnChanges(): void {
