@@ -33,7 +33,7 @@ export class NgxValidatorDirective implements OnChanges, OnInit, OnDestroy {
 
     @HostListener('blur') blur = (): void => this.emitError();
 
-    get error(): string | null {
+    getError(): string | null {
         const errors = this.ngControl.errors;
         if (errors) {
             /**
@@ -69,7 +69,7 @@ export class NgxValidatorDirective implements OnChanges, OnInit, OnDestroy {
 
     emitError = (): void => {
         if (this.ngControl.enabled && this.ngControl.touched) {
-            this.validate.emit(this.error);
+            this.validate.emit(this.getError());
         }
     }
 
