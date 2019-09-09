@@ -11,12 +11,16 @@ namespace Application.DataAccess.Entities
     public class FileStorage : ApplicationEntity
     {
         [Key]
+        [StringLength(125)]
         public string FileId { get; set; }
 
+        [StringLength(255)]
         public string Url { get; set; }
 
+        [StringLength(75)]
         public string Title { get; set; }
 
+        [StringLength(255)]
         public string Description { get; set; }
 
         [ForeignKey("ApplicationUser")]

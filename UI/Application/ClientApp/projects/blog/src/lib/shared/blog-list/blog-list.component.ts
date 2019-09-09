@@ -1,14 +1,15 @@
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { InfiniteSource } from '@renet-consulting/infinite-source';
 import { Subscription } from 'rxjs';
 import { filter, map, shareReplay, withLatestFrom } from 'rxjs/operators';
 import { DeleteBlogs, GetBlogsRequest } from '../../core/actions';
-import { BlogHubService } from '../../core/services/blog-hub.service';
 import { BlogModel } from '../../core/blog.model';
 import { RootBlogStore } from '../../core/reducers';
 import { selecBlogTotalAmount, selectBlogs, selectCreatedBlog, selectUpdatedBlog } from '../../core/selectors';
+import { BlogHubService } from '../../core/services/blog-hub.service';
 
 @Component({
     selector: 'lib-blog-list',
@@ -27,13 +28,13 @@ export class BlogListComponent implements OnInit, OnDestroy {
     constructor(
         @Inject(Store) private store: Store<RootBlogStore>,
         @Inject(BlogHubService) private blogHub: BlogHubService,
+        @Inject(PLATFORM_ID) private platformId: string
     ) { }
 
     ngOnInit(): void {
         /** to prevent a bug with wrong counting of blogs, on other pages a blog can be added to store */
         this.store.dispatch(new DeleteBlogs());
         this.getItems(0);
-        this.blogHub.connect();
         this.subscription.add(this.store.select(selectBlogs).subscribe(this.source.update));
         this.subscription.add(this.source.emitter.pipe(
             withLatestFrom(this.store.select(selecBlogTotalAmount)),
@@ -42,17 +43,22 @@ export class BlogListComponent implements OnInit, OnDestroy {
         ).subscribe(this.getItems));
         this.subscription.add(this.store.select(selectUpdatedBlog).subscribe(this.scrollToModel));
         this.subscription.add(this.store.select(selectCreatedBlog).subscribe(this.scrollToModel));
+        if (isPlatformBrowser(this.platformId)) {
+            this.blogHub.connect();
+        }
     }
 
     ngOnDestroy(): void {
         this.store.dispatch(new DeleteBlogs());
-        this.blogHub.disconnect();
         this.subscription.unsubscribe();
+        if (isPlatformBrowser(this.platformId)) {
+            this.blogHub.disconnect();
+        }
     }
 
     trackByFn = (_, x: BlogModel) => x.blogId;
 
-    getItems = (index: number): void => this.store.dispatch(new GetBlogsRequest({ index }));
+    getItems = (index: number) => this.store.dispatch(new GetBlogsRequest({ index }));
 
     scrollToIndex = (index: number) => this.cdk.scrollToIndex(index, 'smooth');
 

@@ -4,14 +4,16 @@ using Application.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Application.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190821123205_UpdateStringLength")]
+    partial class UpdateStringLength
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -205,50 +207,6 @@ namespace Application.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("FileStorages");
-                });
-
-            modelBuilder.Entity("Application.DataAccess.Entities.Person", b =>
-                {
-                    b.Property<int>("PersonId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("City")
-                        .HasMaxLength(30);
-
-                    b.Property<string>("Country")
-                        .HasMaxLength(30);
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(255);
-
-                    b.Property<string>("FirstName")
-                        .HasMaxLength(30);
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Phone")
-                        .HasMaxLength(30);
-
-                    b.Property<string>("Region")
-                        .HasMaxLength(30);
-
-                    b.Property<string>("UserId")
-                        .HasMaxLength(450);
-
-                    b.Property<string>("ZipCode")
-                        .HasMaxLength(10);
-
-                    b.HasKey("PersonId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Person");
                 });
 
             modelBuilder.Entity("Application.DataAccess.Entities.TermsOfService", b =>
@@ -543,13 +501,6 @@ namespace Application.Migrations
                         .WithMany("FileStorages")
                         .HasForeignKey("BlogId");
 
-                    b.HasOne("Application.DataAccess.Entities.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("Application.DataAccess.Entities.Person", b =>
-                {
                     b.HasOne("Application.DataAccess.Entities.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");

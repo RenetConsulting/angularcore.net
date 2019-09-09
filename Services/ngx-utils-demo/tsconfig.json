@@ -156,6 +156,12 @@
       ],
       "viewport-change/*": [
         "dist/viewport-change/*"
+      ],
+      "tracking-analytics": [
+        "dist/tracking-analytics"
+      ],
+      "tracking-analytics/*": [
+        "dist/tracking-analytics/*"
       ]
     }
   }

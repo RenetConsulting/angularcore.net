@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/ngx-http-params",
-  "version": "8.0.0",
+  "version": "8.0.1",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
@@ -13,9 +13,11 @@
     "type": "git",
     "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/ngx-http-params"
   },
+  "dependencies": {
+    "@renet-consulting/util": "^0.0.1"
+  },
   "peerDependencies": {
     "@angular/common": "^8.0.0",
-    "@angular/core": "^8.0.0",
-    "@renet-consulting/util": "^0.0.1"
+    "@angular/core": "^8.0.0"
   }
 }
