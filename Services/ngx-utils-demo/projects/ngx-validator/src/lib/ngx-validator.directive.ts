@@ -52,6 +52,12 @@ export class NgxValidatorDirective implements OnChanges, OnInit, OnDestroy {
             else if (errors.maxlength) {
                 return `The length of the ${this.title} must be at most ${errors.maxlength.requiredLength} characters long.`;
             }
+            else if (errors.min) {
+                return `The min value of the ${this.title} must be at least ${errors.min.min}.`;
+            }
+            else if (errors.max) {
+                return `The max value of the ${this.title} must be at most ${errors.max.max}.`;
+            }
 
             /** for all not specified and custom errors */
             else if (errors.errorMessage) {
