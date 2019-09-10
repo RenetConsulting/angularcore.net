@@ -13,8 +13,8 @@ namespace Application
     using Application.Business.Communications;
     using Application.Business.CoreCaptcha;
     using Application.Business.Interfaces;
+    using Application.Business.Managements;
     using Application.Business.Services;
-    using Application.Controllers;
     using Application.DataAccess;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Repositories;
@@ -32,7 +32,6 @@ namespace Application
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Options;
     using Microsoft.Net.Http.Headers;
     using OpenIddict.Abstractions;
     using SendGrid;
@@ -49,8 +48,6 @@ namespace Application
 
         public Startup(IHostingEnvironment env)
         {
-            this.Environment = env;
-
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -62,8 +59,6 @@ namespace Application
         }
 
         public IConfiguration Configuration { get; }
-
-        private IHostingEnvironment Environment { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -218,6 +213,7 @@ namespace Application
             services.AddScoped<IAzureBlobManager, AzureBlobManager>();
             services.AddScoped<IBlogService, BlogService>();
             services.AddScoped<IFileManager, AzureFileManager>();
+            services.AddScoped<IPersonManagement, PersonManagement>();
 
             services.Configure<CoreCaptchaSettings>(this.Configuration.GetSection("CoreCaptcha"));
 
