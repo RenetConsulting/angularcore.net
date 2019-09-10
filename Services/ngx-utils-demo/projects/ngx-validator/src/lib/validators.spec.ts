@@ -41,11 +41,27 @@ describe('validators', () => {
             const control = { value } as AbstractControl;
             expect(phoneValidator(null)(control)).toEqual(null);
         });
-        it('should return errorMessage', () => {
-            const value = 'KSSdJMASJn 1j^%1,';
-            const control = { value } as AbstractControl;
-            const errorMessage = 'bob';
-            expect(phoneValidator(phoneUSRegExp, errorMessage)(control)).toEqual({ errorMessage });
+
+        describe('phoneUSRegExp', () => {
+
+            it('should return errorMessage', () => {
+                const value = 'KSSdJMASJn 1j^%1,';
+                const control = { value } as AbstractControl;
+                const errorMessage = 'bob';
+                expect(phoneValidator(phoneUSRegExp, errorMessage)(control)).toEqual({ errorMessage });
+            });
+            it('should return errorMessage', () => {
+                const value = '12345678901';
+                const control = { value } as AbstractControl;
+                const errorMessage = 'bob';
+                const result = [
+                    phoneValidator(phoneUSRegExp, errorMessage)(control),
+                    phoneValidator(phoneUSRegExp, errorMessage)(control),
+                    phoneValidator(phoneUSRegExp, errorMessage)(control),
+                    phoneValidator(phoneUSRegExp, errorMessage)(control)
+                ];
+                expect(result).toEqual(Array.from({ length: result.length }).fill(null));
+            });
         });
 
         describe('phone is right', () => {
