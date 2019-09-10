@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Application.Migrations
 {
-    public partial class AddingBlogDesigner : Migration
+    public partial class AddDataBlogItems : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -151,15 +151,15 @@ namespace Application.Migrations
                 name: "Blogs",
                 columns: table => new
                 {
-                    BlogId = table.Column<string>(nullable: false),
+                    BlogId = table.Column<string>(maxLength: 26, nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "DateTime2", nullable: false, defaultValueSql: "GETDATE()"),
                     UpdatedDate = table.Column<DateTime>(type: "DateTime2", nullable: true, computedColumnSql: "GETDATE()"),
                     IsActive = table.Column<bool>(nullable: false, defaultValueSql: "1"),
                     RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
                     CreatedBy = table.Column<string>(maxLength: 450, nullable: false),
                     UpdatedBy = table.Column<string>(maxLength: 450, nullable: true),
-                    Title = table.Column<string>(nullable: true),
-                    Content = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(maxLength: 75, nullable: true),
+                    Content = table.Column<string>(maxLength: 255, nullable: true),
                     UserId = table.Column<string>(maxLength: 450, nullable: true)
                 },
                 constraints: table =>
@@ -177,16 +177,16 @@ namespace Application.Migrations
                 name: "FileStorages",
                 columns: table => new
                 {
-                    FileId = table.Column<string>(nullable: false),
+                    FileId = table.Column<string>(maxLength: 125, nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "DateTime2", nullable: false, defaultValueSql: "GETDATE()"),
                     UpdatedDate = table.Column<DateTime>(type: "DateTime2", nullable: true, computedColumnSql: "GETDATE()"),
                     IsActive = table.Column<bool>(nullable: false, defaultValueSql: "1"),
                     RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
                     CreatedBy = table.Column<string>(maxLength: 450, nullable: false),
                     UpdatedBy = table.Column<string>(maxLength: 450, nullable: true),
-                    Url = table.Column<string>(nullable: true),
-                    Title = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
+                    Url = table.Column<string>(maxLength: 255, nullable: true),
+                    Title = table.Column<string>(maxLength: 75, nullable: true),
+                    Description = table.Column<string>(maxLength: 255, nullable: true),
                     UserId = table.Column<string>(maxLength: 450, nullable: true),
                     BlogId = table.Column<string>(nullable: true)
                 },

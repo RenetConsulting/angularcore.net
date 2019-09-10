@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Application.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190819161251_AddingBlog.Designer")]
-    partial class AddingBlogDesigner
+    [Migration("20190909134531_AddDataBlogItems")]
+    partial class AddDataBlogItems
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -99,9 +99,11 @@ namespace Application.Migrations
             modelBuilder.Entity("Application.DataAccess.Entities.Blog", b =>
                 {
                     b.Property<string>("BlogId")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(26);
 
-                    b.Property<string>("Content");
+                    b.Property<string>("Content")
+                        .HasMaxLength(255);
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -121,7 +123,8 @@ namespace Application.Migrations
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
 
-                    b.Property<string>("Title");
+                    b.Property<string>("Title")
+                        .HasMaxLength(75);
 
                     b.Property<string>("UpdatedBy")
                         .HasMaxLength(450);
@@ -154,7 +157,8 @@ namespace Application.Migrations
             modelBuilder.Entity("Application.DataAccess.Entities.FileStorage", b =>
                 {
                     b.Property<string>("FileId")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(125);
 
                     b.Property<string>("BlogId");
 
@@ -167,7 +171,8 @@ namespace Application.Migrations
                         .HasColumnType("DateTime2")
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .HasMaxLength(255);
 
                     b.Property<bool?>("IsActive")
                         .IsRequired()
@@ -178,7 +183,8 @@ namespace Application.Migrations
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
 
-                    b.Property<string>("Title");
+                    b.Property<string>("Title")
+                        .HasMaxLength(75);
 
                     b.Property<string>("UpdatedBy")
                         .HasMaxLength(450);
@@ -188,7 +194,8 @@ namespace Application.Migrations
                         .HasColumnType("DateTime2")
                         .HasComputedColumnSql("GETDATE()");
 
-                    b.Property<string>("Url");
+                    b.Property<string>("Url")
+                        .HasMaxLength(255);
 
                     b.Property<string>("UserId")
                         .HasMaxLength(450);
