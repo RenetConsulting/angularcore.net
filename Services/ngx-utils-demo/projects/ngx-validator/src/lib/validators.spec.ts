@@ -50,7 +50,7 @@ describe('validators', () => {
                 const errorMessage = 'bob';
                 expect(phoneValidator(phoneUSRegExp, errorMessage)(control)).toEqual({ errorMessage });
             });
-            it('should return errorMessage', () => {
+            it('should return null when call few times', () => {
                 const value = '12345678901';
                 const control = { value } as AbstractControl;
                 const errorMessage = 'bob';
