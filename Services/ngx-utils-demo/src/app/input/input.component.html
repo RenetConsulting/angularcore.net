@@ -3,7 +3,7 @@
     <form [formGroup]="formGroup" (resize)="resize($event)">
         !{{width}}!
         <button class="btn btn-primary btn-lg" type="button" (click)="toggle()">toggle</button>
-        <ngx-mat-input placeholder="Please write your name" label="Name" formControlName="input" [errors]="errors"></ngx-mat-input>
+        <ngx-mat-input class="red" placeholder="Please write your name" label="Name" formControlName="input" [errors]="errors"></ngx-mat-input>
         <ngx-mat-input placeholder="Last name" formControlName="placeholder" [errors]="errors"></ngx-mat-input>
         <ngx-mat-input placeholder="Organization" formControlName="organization" autocomplete="organization" name="cname" type="text"></ngx-mat-input>
         <ngx-mat-textarea placeholder="Please write your name" label="Name" formControlName="textarea"></ngx-mat-textarea>
