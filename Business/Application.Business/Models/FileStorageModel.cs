@@ -5,16 +5,21 @@
 
 namespace Application.Business.Models
 {
+    using System.ComponentModel.DataAnnotations;
     using Application.DataAccess.Entities;
 
     public class FileStorageModel : ApplicationModel, IEntityModel<FileStorage>
     {
+        [StringLength(125)]
         public string FileId { get; set; }
 
+        [StringLength(255)]
         public string Url { get; set; }
 
+        [StringLength(75)]
         public string Title { get; set; }
 
+        [StringLength(255)]
         public string Description { get; set; }
 
         public FileStorage ToEntity()

@@ -5,18 +5,23 @@
 
 namespace Application.Business.Models
 {
+    using System.ComponentModel.DataAnnotations;
     using Application.DataAccess.Entities;
 
     public class BlogModel : ApplicationModel, IEntityModel<Blog>
     {
+        [StringLength(26)]
         public string BlogId { get; set; }
 
+        [StringLength(75)]
         public string Title { get; set; }
 
+        [StringLength(255)]
         public string Content { get; set; }
 
         public bool Editable { get; set; }
 
+        [StringLength(450)]
         public string UserId { get; set; }
 
         public Blog ToEntity()
