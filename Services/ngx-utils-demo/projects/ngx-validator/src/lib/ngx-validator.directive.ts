@@ -15,7 +15,7 @@ export class NgxValidatorDirective implements OnChanges, OnInit, OnDestroy {
     title = 'Field';
 
     constructor(
-        @Inject(NgControl) private ngControl: NgControl
+        @Inject(NgControl) protected ngControl: NgControl
     ) { }
 
     ngOnChanges(): void {
@@ -33,7 +33,7 @@ export class NgxValidatorDirective implements OnChanges, OnInit, OnDestroy {
 
     @HostListener('blur') blur = (): void => this.emitError();
 
-    get error(): string | null {
+    getError(): string | null {
         const errors = this.ngControl.errors;
         if (errors) {
             /**
@@ -52,6 +52,12 @@ export class NgxValidatorDirective implements OnChanges, OnInit, OnDestroy {
             else if (errors.maxlength) {
                 return `The length of the ${this.title} must be at most ${errors.maxlength.requiredLength} characters long.`;
             }
+            else if (errors.min) {
+                return `The min value of the ${this.title} must be at least ${errors.min.min}.`;
+            }
+            else if (errors.max) {
+                return `The max value of the ${this.title} must be at most ${errors.max.max}.`;
+            }
 
             /** for all not specified and custom errors */
             else if (errors.errorMessage) {
@@ -63,7 +69,7 @@ export class NgxValidatorDirective implements OnChanges, OnInit, OnDestroy {
 
     emitError = (): void => {
         if (this.ngControl.enabled && this.ngControl.touched) {
-            this.validate.emit(this.error);
+            this.validate.emit(this.getError());
         }
     }
 

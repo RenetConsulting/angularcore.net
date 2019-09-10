@@ -36,6 +36,7 @@ describe('NgxValidatorDirective', () => {
         spyOn(directive.subscription, 'add');
         directive.ngOnInit();
         expect(directive.subscription.add).toHaveBeenCalled();
+        // tslint:disable-next-line: deprecation
         expect(statusChanges.subscribe).toHaveBeenCalledWith(directive.emitError);
     });
     it('ngOnDestroy', () => {
@@ -47,44 +48,49 @@ describe('NgxValidatorDirective', () => {
         directive.blur();
         expect(directive.emitError).toHaveBeenCalled();
     });
+
     describe('error', () => {
+
         it('required', () => {
             Object.defineProperty(ngControl, 'errors', { get: () => ({ required: true }) });
-            expect(directive.error).toEqual(`The ${directive.title} is required.`);
+            expect(directive.getError()).toEqual(`The ${directive.title} is required.`);
         });
         it('email', () => {
             Object.defineProperty(ngControl, 'errors', { get: () => ({ email: true }) });
-            expect(directive.error).toEqual(`The ${directive.title} is invalid.`);
+            expect(directive.getError()).toEqual(`The ${directive.title} is invalid.`);
         });
         it('minlength', () => {
             const requiredLength = 5;
             Object.defineProperty(ngControl, 'errors', { get: () => ({ minlength: { requiredLength } }) });
-            expect(directive.error).toEqual(`The length of the ${directive.title} must be at least ${requiredLength} characters long.`);
+            expect(directive.getError())
+                .toEqual(`The length of the ${directive.title} must be at least ${requiredLength} characters long.`);
         });
         it('maxlength', () => {
             const requiredLength = 5;
             Object.defineProperty(ngControl, 'errors', { get: () => ({ maxlength: { requiredLength } }) });
-            expect(directive.error).toEqual(`The length of the ${directive.title} must be at most ${requiredLength} characters long.`);
+            expect(directive.getError()).toEqual(`The length of the ${directive.title} must be at most ${requiredLength} characters long.`);
         });
         it('errorMessage', () => {
             const errorMessage = 'Hello Bob';
             Object.defineProperty(ngControl, 'errors', { get: () => ({ errorMessage }) });
-            expect(directive.error).toEqual(errorMessage);
+            expect(directive.getError()).toEqual(errorMessage);
         });
         it('null', () => {
             Object.defineProperty(ngControl, 'errors', { get: () => null });
-            expect(directive.error).toEqual(null);
+            expect(directive.getError()).toEqual(null);
         });
         it('not specified error', () => {
             Object.defineProperty(ngControl, 'errors', { get: () => ({ notSpecifiedError: true }) });
-            expect(directive.error).toEqual(null);
+            expect(directive.getError()).toEqual(null);
         });
     });
+
     describe('emitError', () => {
+
         it('it has to call', () => {
             spyOn(directive.validate, 'emit');
             const error = 'Hello Bob';
-            Object.defineProperty(directive, 'error', { get: () => error });
+            spyOn(directive, 'getError').and.returnValue(error);
             Object.defineProperty(ngControl, 'enabled', { get: () => true });
             Object.defineProperty(ngControl, 'touched', { get: () => true });
             directive.emitError();
@@ -93,14 +99,16 @@ describe('NgxValidatorDirective', () => {
         it('it has not to call', () => {
             spyOn(directive.validate, 'emit');
             const error = 'Hello Bob';
-            Object.defineProperty(directive, 'error', { get: () => error });
+            spyOn(directive, 'getError').and.returnValue(error);
             Object.defineProperty(ngControl, 'enabled', { get: () => true });
             Object.defineProperty(ngControl, 'touched', { get: () => false });
             directive.emitError();
             expect(directive.validate.emit).not.toHaveBeenCalled();
         });
     });
+
     describe('setTitle', () => {
+
         it('label', () => {
             const value = 'bob';
             directive.label = value;
