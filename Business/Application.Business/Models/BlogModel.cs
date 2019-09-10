@@ -13,10 +13,10 @@ namespace Application.Business.Models
         [StringLength(50)]
         public string BlogId { get; set; }
 
-        [StringLength(75)]
+        [StringLength(255)]
         public string Title { get; set; }
 
-        [StringLength(255)]
+        [StringLength(2550)]
         public string Content { get; set; }
 
         public bool Editable { get; set; }
