@@ -63,5 +63,7 @@ namespace Application.DataAccess.Repositories
         Task<Person> GetUserProfileAsync(string userId);
 
         Task<Person> UpdateUserProfileAsync(Person person);
+
+        Task<Person> AddPersonIfDataBaseIsEmpty(string userId);
     }
 }

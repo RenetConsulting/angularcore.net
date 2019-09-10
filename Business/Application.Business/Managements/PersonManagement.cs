@@ -23,9 +23,15 @@
                 userId = userId ?? throw new ArgumentNullException(nameof(userId));
 
                 Person entity = await this.Repository.GetUserProfileAsync(userId);
-
                 PersonModel model = new PersonModel();
-                model.ToModel(entity);
+                if (entity != null)
+                {
+                    model.ToModel(entity);
+                }
+                else
+                {
+                    await this.Repository.AddPersonIfDataBaseIsEmpty(userId);
+                }
 
                 return model;
             }

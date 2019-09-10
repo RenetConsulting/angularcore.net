@@ -305,7 +305,34 @@ namespace Application.DataAccess.Repositories
 
         public async Task<Person> GetUserProfileAsync(string userId)
         {
+            userId = userId ?? throw new ArgumentNullException(nameof(userId));
             return await this.context.Person.Where(p => p.UserId.Equals(userId)).FirstOrDefaultAsync();
+        }
+
+        public async Task<Person> AddPersonIfDataBaseIsEmpty(string userId)
+        {
+            userId = userId ?? throw new ArgumentNullException(nameof(userId));
+
+            List<Person> existPerson = await this.context.Person.Where(p => p.UserId.Equals(userId)).ToListAsync();
+            Person person = await this.context.Person.Where(p => p.UserId.Equals(userId)).FirstOrDefaultAsync();
+
+            if (existPerson == null)
+            {
+                existPerson.Add(new Person
+                {
+                    Address = "Please, enter your address.",
+                    City = "Please, enter your city.",
+                    Country = "Please, enter your country.",
+                    Email = person.ApplicationUser.Email,
+                    FirstName = "Please, enter your first name.",
+                    LastName = "Please, enter your last name.",
+                    Phone = "Please, enter your phone.",
+                    Region = "Please, enter your region.",
+                    ZipCode = "Please, enter your zip code."
+                });
+            }
+
+            return person;
         }
 
         public async Task<Person> UpdateUserProfileAsync(Person person)
