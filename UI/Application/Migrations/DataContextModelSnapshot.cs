@@ -15,7 +15,7 @@ namespace Application.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
+                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -94,51 +94,6 @@ namespace Application.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Application.DataAccess.Entities.Blog", b =>
-                {
-                    b.Property<string>("BlogId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Content");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasMaxLength(450);
-
-                    b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("DateTime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<bool?>("IsActive")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("1");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
-                    b.Property<string>("Title");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasMaxLength(450);
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("DateTime2")
-                        .HasComputedColumnSql("GETDATE()");
-
-                    b.Property<string>("UserId")
-                        .HasMaxLength(450);
-
-                    b.HasKey("BlogId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Blogs");
-                });
-
             modelBuilder.Entity("Application.DataAccess.Entities.CompleteMigration", b =>
                 {
                     b.Property<string>("CompleteMigrationId")
@@ -147,101 +102,6 @@ namespace Application.Migrations
                     b.HasKey("CompleteMigrationId");
 
                     b.ToTable("CompleteMigrations");
-                });
-
-            modelBuilder.Entity("Application.DataAccess.Entities.FileStorage", b =>
-                {
-                    b.Property<string>("FileId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("BlogId");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasMaxLength(450);
-
-                    b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("DateTime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<string>("Description");
-
-                    b.Property<bool?>("IsActive")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("1");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
-                    b.Property<string>("Title");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasMaxLength(450);
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("DateTime2")
-                        .HasComputedColumnSql("GETDATE()");
-
-                    b.Property<string>("Url");
-
-                    b.Property<string>("UserId")
-                        .HasMaxLength(450);
-
-                    b.HasKey("FileId");
-
-                    b.HasIndex("BlogId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("FileStorages");
-                });
-
-            modelBuilder.Entity("Application.DataAccess.Entities.Person", b =>
-                {
-                    b.Property<int>("PersonId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("City")
-                        .HasMaxLength(30);
-
-                    b.Property<string>("Country")
-                        .HasMaxLength(30);
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(255);
-
-                    b.Property<string>("FirstName")
-                        .HasMaxLength(30);
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Phone")
-                        .HasMaxLength(30);
-
-                    b.Property<string>("Region")
-                        .HasMaxLength(30);
-
-                    b.Property<string>("UserId")
-                        .HasMaxLength(450);
-
-                    b.Property<string>("ZipCode")
-                        .HasMaxLength(10);
-
-                    b.HasKey("PersonId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Person");
                 });
 
             modelBuilder.Entity("Application.DataAccess.Entities.TermsOfService", b =>
@@ -328,9 +188,11 @@ namespace Application.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider");
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128);
 
-                    b.Property<string>("ProviderKey");
+                    b.Property<string>("ProviderKey")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -361,9 +223,11 @@ namespace Application.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider");
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Value");
 
@@ -378,14 +242,12 @@ namespace Application.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ClientId")
-                        .IsRequired()
-                        .HasMaxLength(100);
+                        .IsRequired();
 
                     b.Property<string>("ClientSecret");
 
                     b.Property<string>("ConcurrencyToken")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(50);
+                        .IsConcurrencyToken();
 
                     b.Property<string>("ConsentType");
 
@@ -400,8 +262,7 @@ namespace Application.Migrations
                     b.Property<string>("RedirectUris");
 
                     b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(25);
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -419,28 +280,24 @@ namespace Application.Migrations
                     b.Property<string>("ApplicationId");
 
                     b.Property<string>("ConcurrencyToken")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(50);
+                        .IsConcurrencyToken();
 
                     b.Property<string>("Properties");
 
                     b.Property<string>("Scopes");
 
                     b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(25);
+                        .IsRequired();
 
                     b.Property<string>("Subject")
-                        .IsRequired()
-                        .HasMaxLength(450);
+                        .IsRequired();
 
                     b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(25);
+                        .IsRequired();
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationId", "Status", "Subject", "Type");
+                    b.HasIndex("ApplicationId");
 
                     b.ToTable("OpenIddictAuthorizations");
                 });
@@ -451,16 +308,14 @@ namespace Application.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ConcurrencyToken")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(50);
+                        .IsConcurrencyToken();
 
                     b.Property<string>("Description");
 
                     b.Property<string>("DisplayName");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200);
+                        .IsRequired();
 
                     b.Property<string>("Properties");
 
@@ -484,8 +339,7 @@ namespace Application.Migrations
                     b.Property<string>("AuthorizationId");
 
                     b.Property<string>("ConcurrencyToken")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(50);
+                        .IsConcurrencyToken();
 
                     b.Property<DateTimeOffset?>("CreationDate");
 
@@ -495,22 +349,19 @@ namespace Application.Migrations
 
                     b.Property<string>("Properties");
 
-                    b.Property<string>("ReferenceId")
-                        .HasMaxLength(100);
+                    b.Property<string>("ReferenceId");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(25);
+                    b.Property<string>("Status");
 
                     b.Property<string>("Subject")
-                        .IsRequired()
-                        .HasMaxLength(450);
+                        .IsRequired();
 
                     b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(25);
+                        .IsRequired();
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationId");
 
                     b.HasIndex("AuthorizationId");
 
@@ -518,34 +369,7 @@ namespace Application.Migrations
                         .IsUnique()
                         .HasFilter("[ReferenceId] IS NOT NULL");
 
-                    b.HasIndex("ApplicationId", "Status", "Subject", "Type");
-
                     b.ToTable("OpenIddictTokens");
-                });
-
-            modelBuilder.Entity("Application.DataAccess.Entities.Blog", b =>
-                {
-                    b.HasOne("Application.DataAccess.Entities.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("Application.DataAccess.Entities.FileStorage", b =>
-                {
-                    b.HasOne("Application.DataAccess.Entities.Blog")
-                        .WithMany("FileStorages")
-                        .HasForeignKey("BlogId");
-
-                    b.HasOne("Application.DataAccess.Entities.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("Application.DataAccess.Entities.Person", b =>
-                {
-                    b.HasOne("Application.DataAccess.Entities.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
