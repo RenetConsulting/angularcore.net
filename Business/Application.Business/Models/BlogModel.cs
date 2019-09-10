@@ -10,7 +10,7 @@ namespace Application.Business.Models
 
     public class BlogModel : ApplicationModel, IEntityModel<Blog>
     {
-        [StringLength(26)]
+        [StringLength(50)]
         public string BlogId { get; set; }
 
         [StringLength(75)]
