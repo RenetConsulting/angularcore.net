@@ -98,10 +98,10 @@ namespace Application.Migrations
                 {
                     b.Property<string>("BlogId")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(26);
+                        .HasMaxLength(50);
 
                     b.Property<string>("Content")
-                        .HasMaxLength(255);
+                        .HasMaxLength(2550);
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -122,7 +122,7 @@ namespace Application.Migrations
                         .ValueGeneratedOnAddOrUpdate();
 
                     b.Property<string>("Title")
-                        .HasMaxLength(75);
+                        .HasMaxLength(255);
 
                     b.Property<string>("UpdatedBy")
                         .HasMaxLength(450);
