@@ -8,6 +8,7 @@ export abstract class ExternalAuthBase<ErrorType = any> {
     @Input() provider: string;
     @Input() label: string;
     @Input() iconClass: string;
+    @Input() disabled: boolean;
     @Output() signed = new EventEmitter<string>();
     @Output() signedError = new EventEmitter<ErrorType | any>();
     abstract scriptUrl: string;
