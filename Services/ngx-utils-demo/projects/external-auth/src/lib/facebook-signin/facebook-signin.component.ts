@@ -18,7 +18,7 @@ export class FacebookSigninComponent extends ExternalAuthBase implements OnInit,
     @Input() appId: string;
     @Input() version = 'v3.3';
     readonly subscription = new Subscription();
-    iconClass = 'fab fa-facebook-f';
+    iconClass = 'fab fa-facebook-square';
     provider = 'facebook';
     label = 'Continue with facebook';
 
