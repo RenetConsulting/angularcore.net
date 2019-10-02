@@ -16,8 +16,8 @@ declare const FB;
 export class FacebookSigninComponent extends ExternalAuthBase implements OnInit, OnDestroy {
 
     @Input() appId: string;
-    @Input() version = 'v3.3';
-    @Input() options = { scope: 'email,id,name', return_scopes: true };
+    @Input() version = 'v4.0';
+    @Input() options = { scope: 'email', return_scopes: true };
     readonly subscription = new Subscription();
     iconClass = 'fab fa-facebook-square';
     provider = 'facebook';
