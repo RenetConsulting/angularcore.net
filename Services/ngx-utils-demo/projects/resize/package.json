@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/resize",
-  "version": "8.0.2",
+  "version": "8.1.0",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
@@ -19,10 +19,10 @@
   },
   "keywords": [
     "ResizeObserver",
-    "resize-observer-polyfill",
-    "resize-observer",
     "angular",
     "directive",
-    "resize"
+    "resize",
+    "resize-observer-polyfill",
+    "resize-observer"
   ]
 }

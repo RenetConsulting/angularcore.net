@@ -6,7 +6,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
     selector: 'app-input',
     templateUrl: './input.component.html',
     styleUrls: ['./input.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    // providers: [{ provide: RESIZE_OBSERVER, useValue: null }]
 })
 export class InputComponent implements OnInit {
 
