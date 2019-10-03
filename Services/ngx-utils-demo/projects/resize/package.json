@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/resize",
-  "version": "8.1.0",
+  "version": "8.1.1",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
@@ -14,8 +14,7 @@
     "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/resize"
   },
   "peerDependencies": {
-    "@angular/core": "^8.0.0",
-    "resize-observer-polyfill": "^1.5.1"
+    "@angular/core": "^8.0.0"
   },
   "keywords": [
     "ResizeObserver",
