@@ -1,6 +1,6 @@
 import { EventEmitter, Injector, NgZone, Renderer2 } from '@angular/core';
-import { AuthService, IToken, TokenService } from '@renet-consulting/auth';
-import { of, throwError } from 'rxjs';
+import { ExternalTokenHandlerService } from 'external-auth/public-api';
+import { Observable } from 'rxjs';
 import { ExternalAuthBase } from './external-auth.base';
 
 class Test extends ExternalAuthBase {
@@ -21,19 +21,17 @@ describe('ExternalAuthBase', () => {
     let injector: jasmine.SpyObj<Injector>;
     let zone: jasmine.SpyObj<NgZone>;
     let renderer: jasmine.SpyObj<Renderer2>;
-    let authService: jasmine.SpyObj<AuthService>;
-    let tokenService: jasmine.SpyObj<TokenService>;
+    let tokenHandler: jasmine.SpyObj<ExternalTokenHandlerService>;
 
     beforeEach(() => {
         injector = jasmine.createSpyObj<Injector>('Injector', ['get']);
         zone = jasmine.createSpyObj<NgZone>('NgZone', ['run']);
         renderer = jasmine.createSpyObj<Renderer2>('Renderer2', ['createElement', 'setAttribute', 'appendChild']);
-        authService = jasmine.createSpyObj<AuthService>('AuthService', ['getToken']);
-        tokenService = jasmine.createSpyObj<TokenService>('TokenService', ['setToken']);
+        tokenHandler = jasmine.createSpyObj<ExternalTokenHandlerService>('ExternalTokenHandlerService', ['handle']);
 
         zone.run.and.callFake(fn => fn());
         // tslint:disable-next-line:deprecation
-        injector.get.and.returnValues(zone, doc, renderer, {}, authService, tokenService);
+        injector.get.and.returnValues(zone, doc, renderer, {}, tokenHandler);
 
         base = new Test(injector);
     });
@@ -57,39 +55,20 @@ describe('ExternalAuthBase', () => {
         expect(renderer.createElement).toHaveBeenCalledWith('script');
         expect(renderer.setAttribute).toHaveBeenCalledWith(script, 'src', base.scriptUrl);
         expect(renderer.setAttribute).toHaveBeenCalledWith(script, 'defer', '');
-        expect(renderer.setAttribute).toHaveBeenCalledWith(script, 'async', '');
         expect(renderer.appendChild).toHaveBeenCalledWith(doc.head, script);
     });
-
-    describe('getToken', () => {
-
+    it('getToken', () => {
         const provider = 'google';
         const access_token = 'bob';
-        const token = { grant_type: 'external_identity_token', access_token, state: provider, scope: 'offline_access' };
-        const result = {} as IToken;
-
-        beforeEach(() => {
-            base.provider = provider;
-        });
-
-        it('success', () => {
-            spyOn(base.signed, 'emit');
-            authService.getToken.and.returnValue(of(result));
-            base.getToken(access_token);
-            expect(authService.getToken).toHaveBeenCalledWith(token);
-            expect(tokenService.setToken).toHaveBeenCalledWith(result);
-            expect(base.signed.emit).toHaveBeenCalledWith(base.provider);
-        });
-        it('error', () => {
-            const error = { error: provider };
-            spyOn(base.signed, 'emit');
-            spyOn(base.signedError, 'emit');
-            authService.getToken.and.returnValue(throwError(error));
-            base.getToken(access_token);
-            expect(authService.getToken).toHaveBeenCalledWith(token);
-            expect(tokenService.setToken).not.toHaveBeenCalled();
-            expect(base.signed.emit).not.toHaveBeenCalled();
-            expect(base.signedError.emit).toHaveBeenCalledWith(error);
+        const obs = jasmine.createSpyObj<Observable<any>>('Observable', ['subscribe']);
+        base.provider = provider;
+        tokenHandler.handle.and.returnValue(obs);
+        base.getToken(access_token);
+        expect(tokenHandler.handle).toHaveBeenCalledWith(access_token, provider);
+        // tslint:disable-next-line: deprecation
+        expect(obs.subscribe).toHaveBeenCalledWith({
+            next: base.handleSigned,
+            error: base.handleError
         });
     });
 

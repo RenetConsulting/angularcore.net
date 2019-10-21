@@ -11,6 +11,7 @@ export const ROUTES: Routes = [
     { path: 'storage', loadChildren: () => import('./storage/storage.module').then(m => m.StorageModule), data: { title: 'Storage' }, },
     { path: 'editor', loadChildren: () => import('./editor/editor.module').then(m => m.EditorModule), data: { title: 'Editor' }, },
     { path: 'viewport', loadChildren: () => import('./viewport/viewport.module').then(m => m.ViewportModule), data: { title: 'Viewport' }, },
+    { path: 'external', loadChildren: () => import('./external/external.module').then(m => m.ExternalModule), data: { title: 'External' }, },
 
     { path: '**', redirectTo: '' }
 ];

@@ -1,7 +1,8 @@
 import { InjectionToken } from '@angular/core';
-import ResizeObserver from 'resize-observer-polyfill';
 
-export const RESIZE_OBSERVER = new InjectionToken<typeof ResizeObserver>('resize_observer', {
+declare const ResizeObserver: any;
+
+export const RESIZE_OBSERVER = new InjectionToken<any>('resize_observer', {
     providedIn: 'root',
-    factory: () => ResizeObserver
+    factory: () => typeof ResizeObserver !== 'undefined' ? ResizeObserver : null
 });
