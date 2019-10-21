@@ -16,7 +16,6 @@ namespace Application.Business.Models
         [StringLength(255)]
         public string Title { get; set; }
 
-        [StringLength(2550)]
         public string Content { get; set; }
 
         public bool Editable { get; set; }
