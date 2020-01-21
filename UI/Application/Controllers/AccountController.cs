@@ -331,17 +331,17 @@ namespace Application.Controllers
                 var assembly = Assembly.Load(new AssemblyName("Application"));
 
                 // TODO: Uncoment when template will create
-                // const string resourceName = "ConfirmEmail.html";
+                const string resourceName = "ConfirmEmail.html";
 
-                // string emailHtmlTamplate = string.Empty;
+                string emailHtmlTamplate = string.Empty;
 
-                // using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-                // {
-                //    using (StreamReader reader = new StreamReader(stream))
-                //    {
-                //        emailHtmlTamplate = reader.ReadToEnd();
-                //    }
-                // }
+                using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+                {
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        emailHtmlTamplate = reader.ReadToEnd();
+                    }
+                }
 
                 // update template with images and links
                 var emailToken = await this.userManager.GenerateEmailTokenAsync(userId).ConfigureAwait(false);
