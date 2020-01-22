@@ -5,23 +5,33 @@
                 <h1 class="text-center">Profile</h1>
                 <form [formGroup]="formGroup" (ngSubmit)="submit()">
                     <div class="row">
-                        <ngx-mat-input class="col" placeholder="First Name" formControlName="firstName"></ngx-mat-input>
-                        <ngx-mat-input class="col" placeholder="Last Name" formControlName="lastName"></ngx-mat-input>
-                    </div>
-                    <div class="row">
-                        <ngx-mat-input class="col" placeholder="Email" formControlName="email"></ngx-mat-input>
-                    </div>
-                    <div class="row">
-                        <ngx-mat-input class="col" type="tel" placeholder="Phone" formControlName="phone"></ngx-mat-input>
-                    </div>
-                    <div class="row">
-                        <ngx-mat-input class="col-md-8" placeholder="Address" formControlName="address"></ngx-mat-input>
-                        <ngx-mat-input class="col-md-4" placeholder="Zip Code" formControlName="zipCode"></ngx-mat-input>
-                    </div>
-                    <div class="row">
-                        <ngx-mat-input class="col" placeholder="City" formControlName="city"></ngx-mat-input>
-                        <ngx-mat-input class="col" placeholder="Region" formControlName="region"></ngx-mat-input>
-                        <ngx-mat-input class="col" placeholder="Country" formControlName="country"></ngx-mat-input>
+                        <div class="col-md-6">
+                            <ngx-mat-input placeholder="First Name" formControlName="firstName"></ngx-mat-input>
+                        </div>
+                        <div class="col-md-6">
+                            <ngx-mat-input placeholder="Last Name" formControlName="lastName"></ngx-mat-input>
+                        </div>
+                        <div class="col-12">
+                            <ngx-mat-input placeholder="Email" formControlName="email"></ngx-mat-input>
+                        </div>
+                        <div class="col-12">
+                            <ngx-mat-input class="col-12" type="tel" placeholder="Phone" formControlName="phone"></ngx-mat-input>
+                        </div>
+                        <div class="col-md-8">
+                            <ngx-mat-input placeholder="Address" formControlName="address"></ngx-mat-input>
+                        </div>
+                        <div class="col-md-4">
+                            <ngx-mat-input placeholder="Zip Code" formControlName="zipCode"></ngx-mat-input>
+                        </div>
+                        <div class="col-md-4">
+                            <ngx-mat-input placeholder="City" formControlName="city"></ngx-mat-input>
+                        </div>
+                        <div class="col-md-4">
+                            <ngx-mat-input placeholder="Region" formControlName="region"></ngx-mat-input>
+                        </div>
+                        <div class="col-md-4">
+                            <ngx-mat-input placeholder="Country" formControlName="country"></ngx-mat-input>
+                        </div>
                     </div>
                     <div class="d-flex justify-content-center my-4">
                         <button mat-raised-button color="primary" class="py-3 px-5 text-30 rounded-10" [class.disabled]="formGroup.invalid" type="submit">Submit</button>
