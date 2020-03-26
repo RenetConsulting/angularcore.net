@@ -101,7 +101,7 @@ namespace Application
             .AddMvcOptions(o => o.EnableEndpointRouting = false);
 
             // TODO: Review need
-            services.AddSignalR().AddJsonProtocol(a => ProcessDateTimeWithCustomConverter());
+            services.AddSignalR();
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -330,6 +330,8 @@ namespace Application
             }
         }
 
+        // TODO: Need to review adding date to signalR
+        /*
         private static void ProcessDateTimeWithCustomConverter()
         {
             JsonSerializerOptions options = new JsonSerializerOptions();
@@ -344,7 +346,7 @@ namespace Application
             string resultDateTimeJson = JsonSerializer.Serialize(DateTime.Parse(testDateTimeStr), options);
             Console.WriteLine(Regex.Unescape(resultDateTimeJson));
         }
-
+        */
         private static StaticFileOptions StaticFileOptions(IWebHostEnvironment env)
         {
             return new StaticFileOptions
