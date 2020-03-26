@@ -5,9 +5,13 @@
 namespace Application
 {
     using System;
+    using System.Diagnostics;
     using System.IO.Compression;
     using System.Linq;
     using System.Security.Principal;
+    using System.Text.Json;
+    using System.Text.Json.Serialization;
+    using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using Application.Business;
     using Application.Business.Communications;
@@ -89,15 +93,17 @@ namespace Application
             });
 
             // Add framework services.
-            services.AddMvc().AddJsonOptions(options =>
+            services.AddMvc().AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc;
                 options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
             })
-            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+            .AddMvcOptions(o => o.EnableEndpointRouting = false);
 
-            services.AddSignalR().AddJsonProtocol(j => j.PayloadSerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc);
+            // TODO: Review need
+            services.AddSignalR().AddJsonProtocol(a => ProcessDateTimeWithCustomConverter());
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -107,6 +113,8 @@ namespace Application
 
             services.AddDbContext<DataContext>(options =>
             {
+                string dsd = this.Configuration["Data:ConnectionString"];
+
                 // Configure the context to use Microsoft SQL Server.
                 options.UseSqlServer(this.Configuration["Data:ConnectionString"], o => o.MigrationsAssembly("Application"));
 
@@ -114,6 +122,8 @@ namespace Application
                 // Note: use the generic overload if you need
                 // to replace the default OpenIddict entities.
                 options.UseOpenIddict();
+
+                options.EnableSensitiveDataLogging();
             });
 
             // add identity
@@ -298,22 +308,11 @@ namespace Application
                 // see https://go.microsoft.com/fwlink/?linkid=864501
                 spa.Options.SourcePath = "ClientApp";
 
-                this.logger.LogInformation("env is " + env.EnvironmentName);
-
                 if (env.IsDevelopment())
                 {
-                    spa.UseAngularCliServer(npmScript: "start");
-                }
-                else
-                {
-                    this.logger.LogInformation("SSR has started work.");
-
-                    // SSR is enabled only in production
-                    spa.UseSpaPrerendering(options =>
-                    {
-                        options.BootModulePath = $"{spa.Options.SourcePath}/dist-server/main.js";
-                        options.ExcludeUrls = new[] { "/sockjs-node" };
-                    });
+                    // use: npm start --vendorSourceMap
+                    // See: https://docs.microsoft.com/en-us/aspnet/core/client-side/spa/angular?view=aspnetcore-3.1&tabs=visual-studio
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
                 }
             });
 
@@ -333,6 +332,21 @@ namespace Application
                     }
                 }
             }
+        }
+
+        private static void ProcessDateTimeWithCustomConverter()
+        {
+            JsonSerializerOptions options = new JsonSerializerOptions();
+            options.Converters.Add(new DateTimeConverterUsingDateTimeParse());
+
+            string testDateTimeStr = "04-10-2008 6:30 AM";
+            string testDateTimeJson = @"""" + testDateTimeStr + @"""";
+
+            DateTime resultDateTime = JsonSerializer.Deserialize<DateTime>(testDateTimeJson, options);
+            Console.WriteLine(resultDateTime);
+
+            string resultDateTimeJson = JsonSerializer.Serialize(DateTime.Parse(testDateTimeStr), options);
+            Console.WriteLine(Regex.Unescape(resultDateTimeJson));
         }
 
         private static StaticFileOptions StaticFileOptions(IHostingEnvironment env)
@@ -382,6 +396,20 @@ namespace Application
                     }
                 }
             };
+        }
+    }
+
+    public class DateTimeConverterUsingDateTimeParse : JsonConverter<DateTime>
+    {
+        public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            Debug.Assert(typeToConvert == typeof(DateTime));
+            return DateTime.Parse(reader.GetString());
+        }
+
+        public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
+        {
+            writer.WriteStringValue(value.ToString());
         }
     }
 }
