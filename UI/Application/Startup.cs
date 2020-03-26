@@ -18,7 +18,6 @@ namespace Application
     using Application.Business.CoreCaptcha;
     using Application.Business.Interfaces;
     using Application.Business.Services;
-    using Application.Controllers;
     using Application.DataAccess;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Repositories;
@@ -31,12 +30,11 @@ namespace Application
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.ResponseCompression;
-    using Microsoft.AspNetCore.SpaServices.AngularCli;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Options;
     using Microsoft.Net.Http.Headers;
     using OpenIddict.Abstractions;
     using SendGrid;
@@ -51,7 +49,7 @@ namespace Application
             this.logger = logger;
         }
 
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
             this.Environment = env;
 
@@ -67,7 +65,7 @@ namespace Application
 
         public IConfiguration Configuration { get; }
 
-        private IHostingEnvironment Environment { get; set; }
+        private IWebHostEnvironment Environment { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -259,11 +257,10 @@ namespace Application
             {
                 options.Level = CompressionLevel.Fastest;
             });
-            services.AddNodeServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -289,10 +286,9 @@ namespace Application
 
             app.UseCors("CorsPolicy");
 
-            app.UseSignalR(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                // @params PathString path - a path to {@link BlogController}
-                routes.MapHub<BlogHubBase>("/Blog");
+                endpoints.MapHub<BlogHubBase>("/Blog");
             });
 
             app.UseMvc(routes =>
@@ -349,7 +345,7 @@ namespace Application
             Console.WriteLine(Regex.Unescape(resultDateTimeJson));
         }
 
-        private static StaticFileOptions StaticFileOptions(IHostingEnvironment env)
+        private static StaticFileOptions StaticFileOptions(IWebHostEnvironment env)
         {
             return new StaticFileOptions
             {
@@ -396,20 +392,6 @@ namespace Application
                     }
                 }
             };
-        }
-    }
-
-    public class DateTimeConverterUsingDateTimeParse : JsonConverter<DateTime>
-    {
-        public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-        {
-            Debug.Assert(typeToConvert == typeof(DateTime));
-            return DateTime.Parse(reader.GetString());
-        }
-
-        public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
-        {
-            writer.WriteStringValue(value.ToString());
         }
     }
 }
