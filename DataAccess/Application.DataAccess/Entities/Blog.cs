@@ -14,8 +14,10 @@ namespace Application.DataAccess.Entities
         [Key]
         public string BlogId { get; set; }
 
+        [StringLength(100)]
         public string Title { get; set; }
 
+        [StringLength(2500)]
         public string Content { get; set; }
 
         [ForeignKey("ApplicationUser")]
