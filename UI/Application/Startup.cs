@@ -126,12 +126,8 @@ namespace Application
 
             // add identity
             services.AddIdentity<ApplicationUser, ApplicationRole>()
-                .AddRoles<ApplicationRole>()
-                .AddRoleManager<RoleManager<ApplicationRole>>()
-                .AddUserManager<ApplicationUserManager<ApplicationUser>>()
-                .AddSignInManager<ApplicationSignInManager<ApplicationUser>>()
-                .AddEntityFrameworkStores<DataContext>()
-                .AddDefaultTokenProviders();
+             .AddEntityFrameworkStores<DataContext>()
+             .AddDefaultTokenProviders();
 
             // Configure Identity to use the same JWT claims as OpenIddict instead
             // of the legacy WS-Federation claims it uses by default (ClaimTypes),
