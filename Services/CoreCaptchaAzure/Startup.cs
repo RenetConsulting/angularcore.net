@@ -37,7 +37,7 @@ namespace CoreCaptchaAzure
                 loggingBuilder.AddConsole();
                 loggingBuilder.AddAzureWebAppDiagnostics();
 
-                // Do not add Debug. The local execution vill failed. [loggingBuilder.AddDebug();]
+                // Do not add Debug. The local execution will failed. [loggingBuilder.AddDebug();]
             });
 
             services.AddScoped<ICoreCaptcha, CoreCaptcha>();
