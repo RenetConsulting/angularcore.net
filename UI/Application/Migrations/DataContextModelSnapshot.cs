@@ -15,7 +15,7 @@ namespace Application.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.1-servicing-10028")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -98,10 +98,9 @@ namespace Application.Migrations
                 {
                     b.Property<string>("BlogId")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(26);
+                        .HasMaxLength(50);
 
-                    b.Property<string>("Content")
-                        .HasMaxLength(255);
+                    b.Property<string>("Content");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -122,7 +121,7 @@ namespace Application.Migrations
                         .ValueGeneratedOnAddOrUpdate();
 
                     b.Property<string>("Title")
-                        .HasMaxLength(75);
+                        .HasMaxLength(255);
 
                     b.Property<string>("UpdatedBy")
                         .HasMaxLength(450);

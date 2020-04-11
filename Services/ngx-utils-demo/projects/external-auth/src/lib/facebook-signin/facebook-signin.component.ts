@@ -16,9 +16,10 @@ declare const FB;
 export class FacebookSigninComponent extends ExternalAuthBase implements OnInit, OnDestroy {
 
     @Input() appId: string;
-    @Input() version = 'v3.3';
+    @Input() version = 'v4.0';
+    @Input() options = { scope: 'email', return_scopes: true };
     readonly subscription = new Subscription();
-    iconClass = 'fab fa-facebook-f';
+    iconClass = 'fab fa-facebook-square';
     provider = 'facebook';
     label = 'Continue with facebook';
 
@@ -50,7 +51,7 @@ export class FacebookSigninComponent extends ExternalAuthBase implements OnInit,
         if (x.authResponse) {
             this.getToken(x.authResponse.accessToken);
         }
-    })
+    }, this.options)
 
     signin = (): void => {
         FB.getLoginStatus(x => {

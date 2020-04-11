@@ -5,6 +5,7 @@
 export * from './lib/error-code.service';
 export * from './lib/error-codes';
 export * from './lib/external-auth.base';
+export * from './lib/external-token-handler.service';
 export * from './lib/facebook-script-url';
 export * from './lib/facebook-signin/facebook-signin.module';
 export * from './lib/google-script-url';

@@ -14,6 +14,7 @@ describe('NgxMatInputBase', () => {
     let control: jasmine.SpyObj<AbstractControl>;
 
     beforeEach(() => {
+
         control = jasmine.createSpyObj<AbstractControl>('AbstractControl', [
             'markAsDirty',
             'markAsTouched',
@@ -22,6 +23,7 @@ describe('NgxMatInputBase', () => {
         ]);
         ngControl = { control: control as AbstractControl } as NgControl;
         formGroup = {} as FormGroupDirective;
+
         base = new Test(ngControl, formGroup);
     });
 
@@ -36,11 +38,13 @@ describe('NgxMatInputBase', () => {
         spyOn(base, 'setHintState');
         spyOn(base, 'setRequired');
         spyOn(base, 'setMaxlength');
-        base.ngOnChanges({ errors: {} });
+        spyOn(base, 'setClass');
+        base.ngOnChanges({ errors: {}, class: {} });
         expect(base.setErrorsState).toHaveBeenCalled();
         expect(base.setHintState).toHaveBeenCalled();
         expect(base.setRequired).toHaveBeenCalled();
         expect(base.setMaxlength).toHaveBeenCalled();
+        expect(base.setClass).toHaveBeenCalled();
     });
     it('ngOnInit', () => {
         spyOn(base, 'updateControl');
@@ -63,7 +67,9 @@ describe('NgxMatInputBase', () => {
         base.errors = [];
         expect(base.showHint).toEqual(true);
     });
+
     describe('setErrorState', () => {
+
         it('should be 0', () => {
             base.setErrorState();
             expect(base.errorState).toEqual(0);
@@ -74,7 +80,9 @@ describe('NgxMatInputBase', () => {
             expect(base.errorState).toEqual(1);
         });
     });
+
     describe('setHintState', () => {
+
         it('should be 0', () => {
             Object.defineProperty(base, 'showHint', { get: () => false });
             base.setHintState();
@@ -85,7 +93,9 @@ describe('NgxMatInputBase', () => {
             expect(base.hintState).toEqual(1);
         });
     });
+
     describe('setErrorsState', () => {
+
         it('should be 0', () => {
             base.setErrorsState();
             expect(base.errorsState).toEqual(0);
@@ -96,13 +106,16 @@ describe('NgxMatInputBase', () => {
             expect(base.errorsState).toEqual(base.errors.length);
         });
     });
+
     it('updateControl', () => {
         base.updateControl();
         expect(ngControl.control.markAsDirty).toHaveBeenCalled();
         expect(ngControl.control.markAsTouched).toHaveBeenCalled();
         expect(ngControl.control.updateValueAndValidity).toHaveBeenCalled();
     });
+
     describe('setRequired', () => {
+
         it('should set required', () => {
             control.validator.and.returnValue({ required: true });
             base.setRequired();
@@ -120,7 +133,9 @@ describe('NgxMatInputBase', () => {
             expect(base.required).toBeUndefined();
         });
     });
+
     describe('setMaxlength', () => {
+
         it('should set maxlength', () => {
             const requiredLength = 26;
             control.validator.and.returnValue({ maxlength: { requiredLength } });
@@ -147,5 +162,10 @@ describe('NgxMatInputBase', () => {
         expect(base.error).toEqual(error);
         expect(base.setErrorState).toHaveBeenCalled();
         expect(base.setHintState).toHaveBeenCalled();
+    });
+    it('setClass', () => {
+        base.class = 'bob';
+        base.setClass();
+        expect(base.classList).toEqual(`d-block ${base.class}`);
     });
 });

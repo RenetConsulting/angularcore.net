@@ -21,7 +21,7 @@ let id = 0;
     selector: 'google-signin',
     templateUrl: './google-signin.component.html',
     styleUrls: ['./google-signin.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GoogleSigninComponent extends ExternalAuthBase<IGoogleError> implements OnInit, OnDestroy {
 

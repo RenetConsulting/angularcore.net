@@ -10,13 +10,12 @@ namespace Application.Business.Models
 
     public class BlogModel : ApplicationModel, IEntityModel<Blog>
     {
-        [StringLength(26)]
+        [StringLength(50)]
         public string BlogId { get; set; }
 
-        [StringLength(75)]
+        [StringLength(255)]
         public string Title { get; set; }
 
-        [StringLength(255)]
         public string Content { get; set; }
 
         public bool Editable { get; set; }
