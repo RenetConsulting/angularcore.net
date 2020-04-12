@@ -8,11 +8,8 @@ on:
 env:
   NODE_VERSION: '10.x'                # set this to the node version to use
   DOTNET_VERSION: '2.2.108'           # set this to the dotnet version to use
-  #AZURE_RESOURCE_GROUP: 'iamsapien-prod'
-  #AZURE_WEBAPP_NAME: 'iamsapien-prod2'
   ASURE_STORAGE_KEY: ${{ format('{0}', secrets.AZURE_DEPLOYMENT_STORAGE_CONNECTION_STRING) }} 
   
-
 jobs:
   build:
 
