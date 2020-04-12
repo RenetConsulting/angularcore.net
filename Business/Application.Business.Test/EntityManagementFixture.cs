@@ -32,7 +32,7 @@ namespace Application.Business.Test
             EntityManagement<MockEntity> um = new EntityManagement<MockEntity>(this.mockRepo.Object);
 
             Exception ex = await Assert.ThrowsAsync<ArgumentNullException>(async () => await um.AddAsync(null));
-            Assert.Equal("Value cannot be null.\r\nParameter name: model", ex.Message);
+            Assert.Equal("Value cannot be null." + Environment.NewLine + "Parameter name: model", ex.Message);
         }
 
         [Fact]
@@ -68,7 +68,7 @@ namespace Application.Business.Test
             EntityManagement<MockEntity> um = new EntityManagement<MockEntity>(this.mockRepo.Object);
 
             Exception ex = await Assert.ThrowsAsync<ArgumentNullException>(async () => await um.UpdateAsync(null));
-            Assert.Equal("Value cannot be null.\r\nParameter name: model", ex.Message);
+            Assert.Equal("Value cannot be null." + Environment.NewLine + "Parameter name: model", ex.Message);
         }
 
         [Fact]
@@ -132,7 +132,7 @@ namespace Application.Business.Test
             EntityManagement<MockEntity> um = new EntityManagement<MockEntity>(this.mockRepo.Object);
 
             Exception ex = await Assert.ThrowsAsync<ArgumentNullException>(async () => await um.FindByIdAsync(null));
-            Assert.Equal("Value cannot be null.\r\nParameter name: keys", ex.Message);
+            Assert.Equal("Value cannot be null." + Environment.NewLine + "Parameter name: keys", ex.Message);
         }
 
         [Fact]
