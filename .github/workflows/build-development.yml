@@ -77,7 +77,7 @@ jobs:
       run: |
          az storage blob upload -f ./UI/Application/bin/Release/netcoreapp2.2/publish/publish.zip -c deployment -n branch/${GITHUB_REF:11}/${{steps.date.outputs.date}}/${GITHUB_SHA}/web.zip --connection-string '${{ env.ASURE_STORAGE_KEY }}'
 
-         # -- az webapp config appsettings set --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --name ${{ env.AZURE_WEBAPP_NAME }} --settings WEBSITE_RUN_FROM_PACKAGE=${{ env.AZURE_STORAGE_PATH }}
+         az webapp config appsettings set --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --name ${{ secrets.AZURE_WEBAPP_NAME }} --settings WEBSITE_RUN_FROM_PACKAGE=${{ steps.webstorage.outputs.storage }}
       
     # Azure logout 
     - name: logout
