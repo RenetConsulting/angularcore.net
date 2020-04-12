@@ -8,7 +8,7 @@
     "build": "ng build",
     "build:prod": "ng build --prod",
     "build:ssr": "ng run angular:server:production",
-    "build:full:prod": "npm install --prod && npm run webpack && npm run ng-high-memory build --prod  && npm run ng-high-memory run iamsapien:server:production",
+    "build:full:prod": "npm install --prod && npm run webpack && npm run ng-high-memory build --prod  && npm run ng-high-memory run angular:server:production",
     "build:lib": "ng build blog",
     "clean": "rimraf dist/angular7 && rimraf dist-server",
     "lint": "ng lint",
