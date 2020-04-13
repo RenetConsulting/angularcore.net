@@ -103,7 +103,6 @@ describe('SigninEffects', () => {
         const expected = cold('--b', { b: completion });
         actions = hot('--a-', { a: action });
         expect(effects.signinSuccess).toBeObservable(expected);
-        expect(router.navigate).toHaveBeenCalledWith(['/']);
         expect(tokenService.setToken).toHaveBeenCalledWith(token);
     });
     it('signinError', () => {
