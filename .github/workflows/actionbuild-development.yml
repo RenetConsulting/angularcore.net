@@ -61,6 +61,11 @@ jobs:
     - name: Create web publish
       run: dotnet publish ./UI/Application/Application.csproj --configuration Release --no-build
 
+    - name: Test with npm
+      run: |
+         cd ./UI/Application/ClientApp/
+         npm run test
+
     - name: Zip Web Publish folder
       run: |
         cd ./UI/Application/bin/Release/netcoreapp2.2/publish/
