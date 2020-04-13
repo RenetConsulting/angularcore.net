@@ -12,6 +12,7 @@
     "build:lib": "ng build blog",
     "clean": "rimraf dist/angular7 && rimraf dist-server",
     "lint": "ng lint",
+    "test-headless": "ng test --watch=false --browsers=ChromeHeadless",
     "test": "ng test --watch=false",
     "test:watch": "ng test",
     "test:coverage": "npm run test -- --code-coverage && npm run coverage",

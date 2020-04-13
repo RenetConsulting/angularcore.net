@@ -64,7 +64,7 @@ jobs:
     - name: Test with npm
       run: |
          cd ./UI/Application/ClientApp/
-         npm run test
+         npm run test-headless
 
     - name: Zip Web Publish folder
       run: |
