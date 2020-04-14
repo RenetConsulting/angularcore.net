@@ -65,6 +65,7 @@ jobs:
       run: |
          cd ./UI/Application/ClientApp/
          npm run test-headless
+         npm run lint
 
     - name: Zip Web Publish folder
       run: |
