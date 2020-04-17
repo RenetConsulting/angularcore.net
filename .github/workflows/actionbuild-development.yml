@@ -34,12 +34,10 @@ jobs:
     - name: Cache web node modules
       uses: actions/cache@v1
       with:
-        path: ./UI/Application/ClientApp/node_modules
-        key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
-          ${{ runner.OS }}-build-${{ env.cache-name }}-
-          ${{ runner.OS }}-build-
-          ${{ runner.OS }}-
+           ${{ runner.os }}-node-
     
     - name: Setup .NET Core ${{ env.DOTNET_VERSION }}
       uses: actions/setup-dotnet@v1
