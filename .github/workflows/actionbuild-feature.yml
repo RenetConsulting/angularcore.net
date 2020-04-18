@@ -1,8 +1,10 @@
-name: ActionAngularCore - Development
+name: ActionAngularCore - Master
 
 on:
   push:
-    branches:
+    branches-ignore:
+      - master
+      - Test
       - Development
 
 env:

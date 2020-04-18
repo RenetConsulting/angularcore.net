@@ -1,9 +1,9 @@
-name: ActionAngularCore - Development
+name: ActionAngularCore - Master
 
 on:
   push:
     branches:
-      - Development
+      - master
 
 env:
   NODE_VERSION: '12.x'                # set this to the node version to use
@@ -78,7 +78,7 @@ jobs:
       run: |
          az storage blob upload -f ./UI/Application/bin/Release/netcoreapp2.2/publish/publish.zip -c deployment -n branch/${GITHUB_REF:11}/${{steps.date.outputs.date}}/${GITHUB_SHA}/web.zip --connection-string '${{ env.ASURE_STORAGE_KEY }}' --output none
 
-         # az webapp config appsettings set --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --name ${{ secrets.AZURE_WEBAPP_NAME }} --settings WEBSITE_RUN_FROM_PACKAGE=${{ steps.webstorage.outputs.storage }} --output none
+         az webapp config appsettings set --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --name ${{ secrets.AZURE_WEBAPP_NAME }} --settings WEBSITE_RUN_FROM_PACKAGE=${{ steps.webstorage.outputs.storage }} --output none
       
     # Azure logout 
     - name: logout
