@@ -162,6 +162,8 @@ namespace Application.DataAccess.Repositories
             {
                 try
                 {
+                    blog.BlogId = blog.BlogId == null ? Guid.NewGuid().ToString() : blog.BlogId;
+
                     this.context.Blogs.Add(blog);
 
                     await this.context.SaveChangesAsync();
