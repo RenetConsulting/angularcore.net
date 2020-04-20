@@ -305,6 +305,8 @@ namespace Application
 
             app.UseAuthentication();
 
+            app.UseAuthorization();
+
             app.UseStaticFiles(StaticFileOptions(env));
 
             app.UseSpaStaticFiles(StaticFileOptions(env));
