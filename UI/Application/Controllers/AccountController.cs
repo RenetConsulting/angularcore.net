@@ -30,14 +30,14 @@ namespace Application.Controllers
     [Route("api/[controller]")]
     public class AccountController : BaseController
     {
-        private readonly ApplicationUserManager<ApplicationUser> userManager;
+        private readonly IApplicationUserManager<ApplicationUser> userManager;
         private readonly ApplicationSignInManager<ApplicationUser> signInManager;
         private readonly IMailClient mailClient;
         private readonly ICoreCaptcha coreCaptcha;
 
         public AccountController(
             IGlobalRepository repository,
-            ApplicationUserManager<ApplicationUser> userManager,
+            IApplicationUserManager<ApplicationUser> userManager,
             ApplicationSignInManager<ApplicationUser> signInManager,
             IOptions<AppSettings> appSettings,
             IMailClient mailClient,

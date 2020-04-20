@@ -16,7 +16,7 @@ namespace Application.Business.Test
             MockModel model = new MockModel { Id = 1, IsActive = true, Timestamp = "AAAAAAAAB90=" };
 
             Exception ex = Assert.Throws<ArgumentNullException>(() => model.ToEntity(null));
-            Assert.Equal("Value cannot be null." + Environment.NewLine + "Parameter name: entity", ex.Message);
+            Assert.Equal("Value cannot be null. (Parameter 'entity')", ex.Message);
         }
 
         [Fact]
@@ -38,7 +38,7 @@ namespace Application.Business.Test
             MockModel model = new MockModel { Id = 1, IsActive = true, Timestamp = "AAAAAAAAB90=" };
 
             Exception ex = Assert.Throws<ArgumentNullException>(() => model.ToModel(null));
-            Assert.Equal("Value cannot be null." + Environment.NewLine + "Parameter name: entity", ex.Message);
+            Assert.Equal("Value cannot be null. (Parameter 'entity')", ex.Message);
         }
 
         [Fact]

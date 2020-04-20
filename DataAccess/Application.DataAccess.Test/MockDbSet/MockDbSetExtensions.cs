@@ -19,7 +19,7 @@ namespace Application.DataAccess.Test.MockDbSet
             Mock<DbSet<T>> dbSetMock = new Mock<DbSet<T>>();
 
             dbSetMock.As<IAsyncEnumerable<T>>()
-            .Setup(m => m.GetEnumerator())
+            .Setup(m => m.GetAsyncEnumerator(default))
             .Returns(new MockAsyncEnumeratorExtensions<T>(queryableList.GetEnumerator()));
 
             dbSetMock.As<IQueryable<T>>()

@@ -41,6 +41,9 @@ namespace CoreCaptchaAzure
             });
 
             services.AddScoped<ICoreCaptcha, CoreCaptcha>();
+
+            // Add our Config object so it can be injected
+            services.Configure<CoreCaptchaConfig>(this.Configuration.GetSection("CoreCaptcha"));
         }
 
         public override void Configure(IFunctionsHostBuilder builder)

@@ -43,10 +43,34 @@ namespace Application
     {
         private readonly ILogger logger;
 
-        public Startup(IConfiguration configuration, ILogger<Startup> logger)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             this.Configuration = configuration;
-            this.logger = logger;
+            this.Environment = env;
+            this.logger = GetEarlyInitializationLogger();
+        }
+
+        private ILogger GetEarlyInitializationLogger()
+        {
+            // var instrumentationKey = this.Configuration.GetValue<string>("ApplicationInsights:InstrumentationKey");
+            using var loggerFactory = LoggerFactory.Create(LoggingBuilder());
+            //    builder =>
+            //{
+            //    builder.AddConsole();
+            //    //builder.AddApplicationInsights(instrumentationKey);
+            //});
+
+            return loggerFactory.CreateLogger("Initialization");
+        }
+        private Action<ILoggingBuilder> LoggingBuilder()
+        {
+            return loggingBuilder =>
+            {
+                loggingBuilder.AddConfiguration(this.Configuration.GetSection("Logging"));
+                loggingBuilder.AddConsole();
+                loggingBuilder.AddDebug();
+                loggingBuilder.AddAzureWebAppDiagnostics();
+            };
         }
 
         public Startup(IWebHostEnvironment env)
@@ -215,6 +239,7 @@ namespace Application
                 .AddOAuthValidation();
 
             // Resolve dependencies
+            services.AddScoped<ApplicationSignInManager<ApplicationUser>>();
             services.AddScoped<IGlobalRepository, GlobalRepository>();
             string apiKey = this.Configuration["AppSettings:SendGridKey"];
             services.AddScoped<ISendGridClient>(f => new SendGridClient(apiKey));
@@ -222,6 +247,7 @@ namespace Application
             services.AddScoped<IAzureBlobManager, AzureBlobManager>();
             services.AddScoped<IBlogService, BlogService>();
             services.AddScoped<IFileManager, AzureFileManager>();
+            services.AddScoped<IApplicationUserManager<ApplicationUser>, ApplicationUserManager<ApplicationUser>>();
 
             services.Configure<CoreCaptchaSettings>(this.Configuration.GetSection("CoreCaptcha"));
 
@@ -274,6 +300,9 @@ namespace Application
             // The order is important for all type compression.
             app.UseResponseCompression();
 
+            // calls to UseAuthentication, UseAuthorization, and UseCors must appear between the calls to UseRouting and UseEndpoints to be effective.
+            app.UseRouting();
+
             app.UseAuthentication();
 
             app.UseStaticFiles(StaticFileOptions(env));
@@ -282,9 +311,10 @@ namespace Application
 
             app.UseCors("CorsPolicy");
 
-            app.UseEndpoints(endpoints =>
+            app.UseEndpoints(routes =>
             {
-                endpoints.MapHub<BlogHubBase>("/Blog");
+                routes.MapHub<BlogHubBase>("/Blog");
+                routes.MapDefaultControllerRoute();
             });
 
             app.UseMvc(routes =>

@@ -8,6 +8,7 @@ namespace Application.DataAccess.Test.MockDbSet
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Threading;
 
     public class MockAsyncEnumerableExtensions<T> : EnumerableQuery<T>, IAsyncEnumerable<T>, IQueryable<T>
     {
@@ -20,6 +21,9 @@ namespace Application.DataAccess.Test.MockDbSet
             : base(expression)
         {
         }
+
+        public IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = default)
+            => new MockAsyncEnumeratorExtensions<T>(this.AsEnumerable().GetEnumerator());
 
         public IAsyncEnumerator<T> GetEnumerator()
             => new MockAsyncEnumeratorExtensions<T>(this.AsEnumerable().GetEnumerator());

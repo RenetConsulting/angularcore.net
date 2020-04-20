@@ -23,6 +23,7 @@ namespace Application.Business.Test.Helpers
         private readonly IOptions<IdentityOptions> optionsAccessor;
         private readonly ILogger<SignInManager<ApplicationUser>> logger;
         private readonly IAuthenticationSchemeProvider scheme;
+        private readonly IUserConfirmation<ApplicationUser> confirmation;
 
         private readonly Mock<IUserStore<ApplicationUser>> mockStore;
 
@@ -35,6 +36,7 @@ namespace Application.Business.Test.Helpers
             this.optionsAccessor = new Mock<IOptions<IdentityOptions>>().Object;
             this.logger = new Mock<ILogger<SignInManager<ApplicationUser>>>().Object;
             this.scheme = new Mock<IAuthenticationSchemeProvider>().Object;
+            this.confirmation = new Mock<IUserConfirmation<ApplicationUser>>().Object;
         }
 
         [Fact]
@@ -46,7 +48,8 @@ namespace Application.Business.Test.Helpers
                     this.claimsFactory,
                     this.optionsAccessor,
                     this.logger,
-                    this.scheme);
+                    this.scheme,
+                    this.confirmation);
 
             ApplicationUser user = new ApplicationUser
             {
@@ -66,7 +69,8 @@ namespace Application.Business.Test.Helpers
                     this.claimsFactory,
                     this.optionsAccessor,
                     this.logger,
-                    this.scheme);
+                    this.scheme,
+                    this.confirmation);
 
             ApplicationUser user = new ApplicationUser();
 
