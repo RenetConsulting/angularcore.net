@@ -78,7 +78,7 @@
     "rxjs": "^6.5.5",
     "web-animations-js": "^2.3.2",
     "webpack-cli": "^3.3.9",
-    "zone.js": "~0.10.3"
+    "zone.js": "~0.9.1"
   },
   "devDependencies": {
     "@angular-devkit/build-ng-packagr": "^0.803.3",
