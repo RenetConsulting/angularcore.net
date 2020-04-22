@@ -13,20 +13,25 @@ namespace CoreCaptchaAzure
     using Microsoft.Azure.WebJobs;
     using Microsoft.Azure.WebJobs.Extensions.Http;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
     using Renet.CoreCaptcha;
 
     public class CaptchaCreate
     {
-        public static readonly string ClientId = Environment.GetEnvironmentVariable("ClientId");
+        private readonly string clientId;
 
         private readonly ICoreCaptcha coreCaptcha;
 
         private readonly ILogger logger;
 
-        public CaptchaCreate(ICoreCaptcha coreCaptcha, ILogger<CaptchaCreate> logger)
+        private readonly IOptions<CoreCaptchaConfig> config;
+
+        public CaptchaCreate(ICoreCaptcha coreCaptcha, ILogger<CaptchaCreate> logger, IOptions<CoreCaptchaConfig> config)
         {
             this.coreCaptcha = coreCaptcha;
             this.logger = logger;
+            this.config = config;
+            this.clientId = this.config.Value?.ClientId;
         }
 
         [FunctionName("CaptchaCreate")]
@@ -34,7 +39,7 @@ namespace CoreCaptchaAzure
         {
             this.logger.LogInformation("CaptchaCreateHandler trigger function processed a request.");
 
-            CoreCaptchaCreateResponse response = await this.coreCaptcha.CaptchaCreateAsync(this.logger, ClientId, 5, req.GetQueryParameterDictionary(), context.FunctionAppDirectory);
+            CoreCaptchaCreateResponse response = await this.coreCaptcha.CaptchaCreateAsync(this.logger, this.clientId, 5, req.GetQueryParameterDictionary(), context.FunctionAppDirectory);
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {

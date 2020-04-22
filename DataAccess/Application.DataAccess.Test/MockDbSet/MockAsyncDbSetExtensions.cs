@@ -38,5 +38,21 @@ namespace Application.DataAccess.Test.MockDbSet
 
         public Task<TResult> ExecuteAsync<TResult>(Expression expression, CancellationToken cancellationToken)
             => Task.FromResult(this.Execute<TResult>(expression));
+
+        TResult IAsyncQueryProvider.ExecuteAsync<TResult>(Expression expression, CancellationToken cancellationToken)
+        {
+            var expectedResultType = typeof(TResult).GetGenericArguments()[0];
+            var executionResult = typeof(IQueryProvider)
+                                 .GetMethod(
+                                      name: nameof(IQueryProvider.Execute),
+                                      genericParameterCount: 1,
+                                      types: new[] { typeof(Expression) })
+                                 .MakeGenericMethod(expectedResultType)
+                                 .Invoke(this, new[] { expression });
+
+            return (TResult)typeof(Task).GetMethod(nameof(Task.FromResult))
+                                        ?.MakeGenericMethod(expectedResultType)
+                                         .Invoke(null, new[] { executionResult });
+        }
     }
 }

@@ -14,6 +14,7 @@ namespace Application.DataAccess.Repositories
     using System.Threading.Tasks;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Enums;
+    using Application.DataAccess.Helpers;
     using Application.DataAccess.Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
@@ -161,6 +162,8 @@ namespace Application.DataAccess.Repositories
             {
                 try
                 {
+                    blog.BlogId = blog.BlogId == null ? Guid.NewGuid().ToString() : blog.BlogId;
+
                     this.context.Blogs.Add(blog);
 
                     await this.context.SaveChangesAsync();

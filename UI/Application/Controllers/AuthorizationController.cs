@@ -30,13 +30,13 @@ namespace Application.Controllers
     {
         private readonly ApplicationSignInManager<ApplicationUser> signInManager;
 
-        private readonly ApplicationUserManager<ApplicationUser> userManager;
+        private readonly IApplicationUserManager<ApplicationUser> userManager;
 
         private readonly ICoreCaptcha coreCaptcha;
 
         public AuthorizationController(
             ApplicationSignInManager<ApplicationUser> signInManager,
-            ApplicationUserManager<ApplicationUser> userManager,
+            IApplicationUserManager<ApplicationUser> userManager,
             ICoreCaptcha coreCaptcha)
             : base()
         {
