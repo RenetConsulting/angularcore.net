@@ -17,6 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "progress": false,
             "extractCss": true,
             "outputPath": "dist/angular",
@@ -30,14 +31,12 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss",
-              {
+              {"inject":false,
                 "input": "src/themes/deeppurple-amber.theme.scss",
-                "lazy": true,
                 "bundleName": "assets/deeppurple-amber.theme"
               },
-              {
+              {"inject":false,
                 "input": "src/themes/purple-green.theme.scss",
-                "lazy": true,
                 "bundleName": "assets/purple-green.theme"
               },
               "node_modules/quill/dist/quill.core.css",
@@ -47,6 +46,12 @@
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -177,7 +182,12 @@
             "tsConfig": "projects/blog/tsconfig.lib.json",
             "project": "projects/blog/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/blog/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
