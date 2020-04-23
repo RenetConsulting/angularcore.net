@@ -326,6 +326,10 @@ namespace Application
                     // See: https://docs.microsoft.com/en-us/aspnet/core/client-side/spa/angular?view=aspnetcore-3.1&tabs=visual-studio
                     spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
                 }
+                else
+                {
+                    this.logger?.LogInformation("Environment:Production.");
+                }
             });
 
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
