@@ -80,13 +80,7 @@ namespace Application
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddLogging(loggingBuilder =>
-            {
-                loggingBuilder.AddConfiguration(this.Configuration.GetSection("Logging"));
-                loggingBuilder.AddConsole();
-                loggingBuilder.AddDebug();
-                loggingBuilder.AddAzureWebAppDiagnostics();
-            });
+            services.AddLogging(LoggingBuilder());
 
             services.Configure<AppSettings>(this.Configuration.GetSection("AppSettings"));
 
@@ -118,6 +112,13 @@ namespace Application
             {
                 configuration.RootPath = "ClientApp/dist/angular";
             });
+
+            // Add SSL for Production
+            if (!this.Environment.IsDevelopment())
+            {
+                // Require SSL
+                services.Configure<MvcOptions>(options => options.Filters.Add(new RequireHttpsAttribute()));
+            }
 
             services.AddDbContext<DataContext>(options =>
             {
@@ -282,6 +283,10 @@ namespace Application
 
             app.UseHttpsRedirection();
 
+            app.UseStaticFiles(StaticFileOptions(env));
+
+            app.UseSpaStaticFiles(StaticFileOptions(env));
+
             // The UseResponseCompression should be first before UseStaticFiles/UseSpaStaticFiles.
             // The order is important for all type compression.
             app.UseResponseCompression();
@@ -292,10 +297,6 @@ namespace Application
             app.UseAuthentication();
 
             app.UseAuthorization();
-
-            app.UseStaticFiles(StaticFileOptions(env));
-
-            app.UseSpaStaticFiles(StaticFileOptions(env));
 
             app.UseCors("CorsPolicy");
 
