@@ -35,11 +35,11 @@ describe('AuthEffects', () => {
             ],
         });
 
-        effects = TestBed.get(AuthEffects);
-        authService = TestBed.get(AuthService);
-        tokenService = TestBed.get(TokenService);
-        storageService = TestBed.get(StorageService);
-        router = TestBed.get(Router);
+        effects = TestBed.inject(AuthEffects);
+        authService = TestBed.inject(AuthService as any);
+        tokenService = TestBed.inject(TokenService as any);
+        storageService = TestBed.inject(StorageService as any);
+        router = TestBed.inject(Router as any);
     });
 
     it('should work', () => {

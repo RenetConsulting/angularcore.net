@@ -33,9 +33,9 @@ describe('BlogDashboardEffects', () => {
             ],
         });
 
-        effects = TestBed.get(BlogDashboardEffects);
-        blogService = TestBed.get(BlogService);
-        router = TestBed.get(Router);
+        effects = TestBed.inject(BlogDashboardEffects);
+        blogService = TestBed.inject(BlogService as any);
+        router = TestBed.inject(Router as any);
     });
 
     it('should work', () => {

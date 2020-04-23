@@ -29,9 +29,9 @@ describe('ResendConfirmationEffects', () => {
                 { provide: AccountService, useValue: jasmine.createSpyObj<AccountService>('AccountService', ['resendConfirmation']) }
             ],
         });
-        store = TestBed.get(Store);
-        effects = TestBed.get(ResendConfirmationEffects);
-        accountService = TestBed.get(AccountService);
+        store = TestBed.inject(Store as any);
+        effects = TestBed.inject(ResendConfirmationEffects);
+        accountService = TestBed.inject(AccountService as any);
     });
 
     it('should work', () => {

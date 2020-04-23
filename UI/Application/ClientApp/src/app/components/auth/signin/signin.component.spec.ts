@@ -24,7 +24,7 @@ describe('SigninComponent', () => {
         TestBed.configureTestingModule({
             providers: [provideMockStore({})]
         });
-        store = TestBed.get(Store);
+        store = TestBed.inject(Store as any);
         storage = jasmine.createSpyObj<StorageService>('StorageService', ['setStorage']);
         errorCode = jasmine.createSpyObj<ErrorCodeService>('ErrorCodeService', ['map']);
 

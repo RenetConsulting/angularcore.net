@@ -40,10 +40,10 @@ describe('BlogDetailEffects', () => {
             ],
         });
 
-        effects = TestBed.get(BlogDetailEffects);
-        blogService = TestBed.get(BlogService);
-        router = TestBed.get(Router);
-        dialog = TestBed.get(MatDialog);
+        effects = TestBed.inject(BlogDetailEffects);
+        blogService = TestBed.inject(BlogService as any);
+        router = TestBed.inject(Router as any);
+        dialog = TestBed.inject(MatDialog as any);
         dialogRef = jasmine.createSpyObj<MatDialogRef<any>>('MatDialogRef', ['afterClosed']);
         promptDialog = jasmine.createSpyObj<PromptDialogComponent>('PromptDialogComponent', ['setContent']);
     });

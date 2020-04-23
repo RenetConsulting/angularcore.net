@@ -14,8 +14,8 @@ describe('SettingsService', () => {
             imports: [HttpClientTestingModule],
         });
 
-        service = TestBed.get(SettingsService);
-        controller = TestBed.get(HttpTestingController);
+        service = TestBed.inject(SettingsService);
+        controller = TestBed.inject(HttpTestingController);
     });
 
     afterEach(() => controller.verify());

@@ -15,8 +15,8 @@ describe('AuthenticationGuard', () => {
         TestBed.configureTestingModule({
             providers: [provideMockStore({})]
         });
-        store = TestBed.get(Store);
-        guard = TestBed.get(AuthGuard);
+        store = TestBed.inject(Store as any);
+        guard = TestBed.inject(AuthGuard);
     });
 
     it('should toBeTruthy', () => {

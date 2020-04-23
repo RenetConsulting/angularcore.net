@@ -38,9 +38,9 @@ describe('BlogListEffects', () => {
             ],
         });
 
-        effects = TestBed.get(BlogListEffects);
-        blogService = TestBed.get(BlogService);
-        snackBar = TestBed.get(MatSnackBar);
+        effects = TestBed.inject(BlogListEffects);
+        blogService = TestBed.inject(BlogService as any);
+        snackBar = TestBed.inject(MatSnackBar as any);
 
         snackBar.openFromComponent.and.returnValue({ instance } as MatSnackBarRef<MessageDialogComponent>);
     });

@@ -16,7 +16,7 @@ describe('MessageDialogComponent', () => {
             ]
         });
 
-        snackBar = TestBed.get(MatSnackBar);
+        snackBar = TestBed.inject(MatSnackBar as any);
 
         component = new MessageDialogComponent(snackBar);
     });

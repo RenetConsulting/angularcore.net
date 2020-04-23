@@ -25,8 +25,8 @@ describe('ConfirmEmailEffects', () => {
             ],
         });
 
-        effects = TestBed.get(ConfirmEmailEffects);
-        accountService = TestBed.get(AccountService);
+        effects = TestBed.inject(ConfirmEmailEffects);
+        accountService = TestBed.inject(AccountService as any);
     });
 
     it('should work', () => {

@@ -23,7 +23,7 @@ describe('FileListComponent', () => {
             ]
         });
 
-        store = TestBed.get(Store);
+        store = TestBed.inject(Store as any);
 
         component = new FileListComponent(store);
         component.viewport = {

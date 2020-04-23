@@ -18,9 +18,9 @@ describe('AccountService', () => {
             providers: [{ provide: NgxHttpParamsService, useValue: jasmine.createSpyObj('NgxHttpParamsService', ['map']) }]
         });
 
-        service = TestBed.get(AccountService);
-        params = TestBed.get(NgxHttpParamsService);
-        controller = TestBed.get(HttpTestingController);
+        service = TestBed.inject(AccountService);
+        params = TestBed.inject(NgxHttpParamsService as any);
+        controller = TestBed.inject(HttpTestingController);
         params.map.and.returnValue(new HttpParams());
     });
 

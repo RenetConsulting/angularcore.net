@@ -35,10 +35,10 @@ describe('ThemeEffects', () => {
             ],
         });
 
-        effects = TestBed.get(ThemeEffects);
-        store = TestBed.get(Store);
-        storageService = TestBed.get(StorageService);
-        stylesheet = TestBed.get(NgxLinkStylesheetService);
+        effects = TestBed.inject(ThemeEffects);
+        store = TestBed.inject(Store as any);
+        storageService = TestBed.inject(StorageService as any);
+        stylesheet = TestBed.inject(NgxLinkStylesheetService as any);
     });
 
     it('should work', () => {

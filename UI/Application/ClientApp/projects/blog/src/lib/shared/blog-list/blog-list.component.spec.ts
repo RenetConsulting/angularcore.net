@@ -25,8 +25,8 @@ describe('BlogListComponent', () => {
             ]
         });
 
-        store = TestBed.get(Store);
-        blogHub = TestBed.get(BlogHubService);
+        store = TestBed.inject(Store as any);
+        blogHub = TestBed.inject(BlogHubService as any);
 
         component = new BlogListComponent(store, blogHub, ɵPLATFORM_BROWSER_ID);
     });
