@@ -9,10 +9,8 @@ namespace Application.DataAccess.Repositories
     using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
+    using Application.DataAccess.Entities;
     using Application.DataAccess.Enums;
-    using Application.DataAccess.Models;
-    using Entities;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore.Storage;
 
     public interface IGlobalRepository

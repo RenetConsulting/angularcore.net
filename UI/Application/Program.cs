@@ -18,7 +18,8 @@ namespace Application
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>()
+                              .UseAzureAppServices(); // work around. See: https://github.com/dotnet/aspnetcore/issues/15381#issuecomment-566777363 
                 });
     }
 }
