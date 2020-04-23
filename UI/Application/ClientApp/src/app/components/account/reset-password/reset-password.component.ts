@@ -11,7 +11,7 @@ import { IResetPassword } from '~/interfaces/reset-password';
 import { RootStore } from '~/reducers';
 import { ResetError, ResetPasswordRequest } from './actions';
 import { selectResetPasswordError } from './selectors';
-import { MapPick } from '../../../../../src/typings'
+import { MapPick } from '../../../../../src/typings';
 
 /** the interface of the errors from the back-end side are wrong */
 @Component({

@@ -9,7 +9,7 @@ import { DeleteBlogPreRequest, GetBlogRequest, UpdateBlogRequest } from '../../c
 import { BlogModel } from '../../core/blog.model';
 import { RootBlogStore } from '../../core/reducers';
 import { selectSelectedBlog } from '../../core/selectors';
-import { MapPick } from '../../../../../../src/typings'
+import { MapPick } from '../../../../../../src/typings';
 
 @Component({
     selector: 'lib-blog-detail',

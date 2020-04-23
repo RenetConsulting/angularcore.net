@@ -11,7 +11,7 @@ import { RootStore } from '~/reducers';
 import { selectCoreCaptchaUrl } from '~/selectors/settings.selectors';
 import { selectSignupError } from '../selectors';
 import { SignupRequest } from './actions';
-import { MapPick } from '../../../../../src/typings'
+import { MapPick } from '../../../../../src/typings';
 
 @Component({
     selector: 'signup',

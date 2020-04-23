@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { CreateBlogRequest } from '../../core/actions';
 import { BlogModel } from '../../core/blog.model';
 import { RootBlogStore } from '../../core/reducers';
-import { MapPick } from '../../../../../../src/typings'
+import { MapPick } from '../../../../../../src/typings';
 
 @Component({
     selector: 'lib-blog-dashboard',

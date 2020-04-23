@@ -9,7 +9,7 @@ import { IPerson } from '~/interfaces/person';
 import { RootStore } from '~/reducers';
 import { GetProfileRequest, UpdateProfileRequest } from './actions';
 import { selectProfile } from './selectors';
-import { MapPick } from '../../../../src/typings'
+import { MapPick } from '../../../../src/typings';
 
 @Component({
     selector: 'app-profile',
