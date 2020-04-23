@@ -13,6 +13,7 @@ import { RootStore } from '~/reducers';
 import { selectCoreCaptchaUrl, selectFacebookAppId, selectGoogleClientId } from '~/selectors/settings.selectors';
 import { selectAuthUser, selectSigninError } from '../selectors';
 import { ExternalSignin, ResetError, SigninRequest } from './actions';
+import { MapPick } from '../../../../../src/typings'
 
 @Component({
     selector: 'signin',

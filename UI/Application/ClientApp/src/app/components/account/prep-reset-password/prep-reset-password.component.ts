@@ -5,6 +5,7 @@ import { EMAIL_VALIDATORS } from '~/consts/email.validators';
 import { IUser } from '~/interfaces/user';
 import { RootStore } from '~/reducers';
 import { PrepResetPasswordRequest } from './actions';
+import { MapPick } from '../../../../../src/typings'
 
 @Component({
     selector: 'prep-reset-password',

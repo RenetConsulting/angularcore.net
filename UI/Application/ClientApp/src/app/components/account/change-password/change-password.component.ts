@@ -7,6 +7,7 @@ import { IChangePassword } from '~/interfaces/change-password';
 import { ChangePasswordRequest, ResetError } from './actions';
 import { ChangePasswordStore } from './reducer';
 import { selectChangePasswordError } from './selectors';
+import { MapPick } from '../../../../../src/typings'
 
 @Component({
     selector: 'change-password',

@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { EMAIL_VALIDATORS } from '~/consts/email.validators';
 import { IConfirmEmail } from '~/interfaces/confirm-email';
 import { ConfirmEmailRequest } from './actions';
+import { MapPick } from '../../../../../src/typings'
 
 @Component({
     selector: 'confirm-email',
