@@ -31,11 +31,15 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss",
-              {"inject":false,
+              {
+                "lazy": true,
+                "inject": false,
                 "input": "src/themes/deeppurple-amber.theme.scss",
                 "bundleName": "assets/deeppurple-amber.theme"
               },
-              {"inject":false,
+              {
+                "lazy": true,
+                "inject": false,
                 "input": "src/themes/purple-green.theme.scss",
                 "bundleName": "assets/purple-green.theme"
               },
