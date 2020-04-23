@@ -134,7 +134,7 @@ describe('SigninEffects', () => {
             expect(messengerService.error).toHaveBeenCalledWith(ResendConfirmationComponent);
         });
         it('should have dispatch', () => {
-            expect(metadata.signinError1001).toEqual({ dispatch: false, resubscribeOnError: true });
+            expect(metadata.signinError1001).toEqual({ dispatch: false, useEffectsErrorHandler: true });
         });
     });
 
