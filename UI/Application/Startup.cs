@@ -334,6 +334,8 @@ namespace Application
 
                 if (env.IsDevelopment())
                 {
+                    this.logger?.LogInformation("Environment:Development. Starting UseProxyToSpaDevelopmentServer");
+
                     // use: npm start --sourceMap=true
                     // See: https://docs.microsoft.com/en-us/aspnet/core/client-side/spa/angular?view=aspnetcore-3.1&tabs=visual-studio
                     spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
