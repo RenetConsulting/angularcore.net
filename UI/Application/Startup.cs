@@ -73,20 +73,6 @@ namespace Application
             };
         }
 
-        public Startup(IWebHostEnvironment env)
-        {
-            this.Environment = env;
-
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile("secrets.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-
-            this.Configuration = builder.Build();
-        }
-
         public IConfiguration Configuration { get; }
 
         private IWebHostEnvironment Environment { get; set; }

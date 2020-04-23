@@ -5,6 +5,7 @@
 namespace Application
 {
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Hosting;
 
     public class Program
@@ -16,7 +17,24 @@ namespace Application
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
+             .ConfigureAppConfiguration((hostingContext, config) =>
+             {
+                 // config.Sources.Clear();
+
+                 var env = hostingContext.HostingEnvironment;
+
+                 config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                       .AddJsonFile($"appsettings.{env.EnvironmentName}.json",
+                                      optional: true, reloadOnChange: true);
+
+                 config.AddEnvironmentVariables();
+
+                 if (args != null)
+                 {
+                     config.AddCommandLine(args);
+                 }
+             })
+            .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>()
                               .UseAzureAppServices(); // work around. See: https://github.com/dotnet/aspnetcore/issues/15381#issuecomment-566777363 
