@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "scripts": {
     "postinstall": "ngcc",
-    "ng-high-memory": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng",
     "ng": "ng",
     "start": "npm run clean && ng serve",
     "build": "ng build",
@@ -17,7 +16,6 @@
     "test": "ng test --watch=false",
     "test:watch": "ng test",
     "test:coverage": "npm run test -- --code-coverage && npm run coverage",
-    "webpack": "node node_modules/webpack/bin/webpack.js --config ./webpack/webpack.config.js",
     "coverage": "http-server -c-1 -o http://localhost:9876/index.html -p 9876 ./coverage/app",
     "coverage:blog": "http-server -c-1 -o http://localhost:9877/index.html -p 9877 ./coverage/blog",
     "pree2e": "webdriver-manager update --standalone false --gecko false",
