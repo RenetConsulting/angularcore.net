@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:libraries": "ng build animations && ng build auth && ng build bypass && ng build control-value-accessor && ng build core-captcha && ng build editor && ng build elements && ng build external-auth && ng build http-hub-client && ng build infinite-source && ng build interceptors && ng build ngx-http-params && ng build ngx-link-stylesheet && ng build ngx-mat-input && ng build ngx-messenger && ng build ngx-uploader && ng build ngx-validator && ng build resize && ng build storage && ng build title-strategy && ng build ngx-tracking-analytics && ng build util && ng build viewport-change",
     "test-headless": "ng test --watch=false --browsers=ChromeHeadless",
     "test": "ng test --watch=false",
     "test:watch": "ng test",
