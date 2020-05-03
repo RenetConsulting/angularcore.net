@@ -5,7 +5,9 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "test": "ng test",
+    "test-headless": "ng test --watch=false --browsers=ChromeHeadless",
+    "test": "ng test --watch=false",
+    "test:watch": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build:editor": "ng build editor && scss-bundle -c scss-bundle.config.json"
