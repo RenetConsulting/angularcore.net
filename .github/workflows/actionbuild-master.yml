@@ -65,6 +65,19 @@ jobs:
          npm run test-headless
          npm run lint
 
+    - name: Build ngx-utils-demo with npm
+      run: |
+         cd ./Services/ngx-utils-demo/
+         npm install
+         npm run build
+         # npm run test-headless
+         # npm run lint
+
+    - name: Build @renet-consulting npm library
+      run: |
+         cd ./Services/ngx-utils-demo/
+         npm run build:libraries
+
     - name: Zip Web Publish folder
       run: |
         cd ./UI/Application/bin/Release/netcoreapp3.1/publish/

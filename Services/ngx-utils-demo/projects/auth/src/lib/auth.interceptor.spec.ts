@@ -62,9 +62,9 @@ describe('AuthInterceptor', () => {
         let headers: jasmine.SpyObj<HttpHeaders>;
 
         beforeEach(() => {
-            httpRequest = { headers: headers as HttpHeaders } as HttpRequest<any>;
             headers = jasmine.createSpyObj<HttpHeaders>('HttpHeaders', ['has']);
             headers.has.and.returnValue(false);
+            httpRequest = { headers: headers as HttpHeaders } as HttpRequest<any>;
         });
 
         it('invalid token', () => {

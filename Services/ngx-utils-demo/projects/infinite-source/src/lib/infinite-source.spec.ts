@@ -45,7 +45,7 @@ describe('InfiniteSource', () => {
             spyOn(base.stream, 'next');
             const items = undefined;
             base.update(items);
-            expect(base.stream.next).toHaveBeenCalledWith(items);
+            expect(base.stream.next).toHaveBeenCalledTimes(0);
         });
     });
 
