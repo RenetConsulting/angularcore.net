@@ -804,6 +804,41 @@
         }
       }
     },
+    "ngx-tracking-analytics": {
+      "projectType": "library",
+      "root": "projects/tracking-analytics",
+      "sourceRoot": "projects/tracking-analytics/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/tracking-analytics/tsconfig.lib.json",
+            "project": "projects/tracking-analytics/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tracking-analytics/src/test.ts",
+            "tsConfig": "projects/tracking-analytics/tsconfig.spec.json",
+            "karmaConfig": "projects/tracking-analytics/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/tracking-analytics/tsconfig.lib.json",
+              "projects/tracking-analytics/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
     "editor": {
       "projectType": "library",
       "root": "projects/editor",
