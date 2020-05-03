@@ -18,14 +18,13 @@ describe('ExternalComponent', () => {
                 FacebookSigninModule,
             ]
 
-        })
-            .compileComponents();
+        }).compileComponents();
     }));
 
     beforeEach(() => {
         fixture = TestBed.createComponent(ExternalComponent);
         component = fixture.componentInstance;
-        fixture.detectChanges();
+        fixture.autoDetectChanges();
     });
 
     it('should create', () => {

@@ -70,13 +70,17 @@ jobs:
          cd ./Services/ngx-utils-demo/
          npm install
          npm run build
-         # npm run test-headless
          # npm run lint
 
     - name: Build @renet-consulting npm library
       run: |
          cd ./Services/ngx-utils-demo/
          npm run build:libraries
+
+    - name: Test ngx-utils-demo with npm 
+      run: |
+         cd ./Services/ngx-utils-demo/
+         npm run test-headless
 
     - name: Zip Web Publish folder
       run: |
