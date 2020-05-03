@@ -1,25 +1,35 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { MessagerComponent } from './messenger.component';
+import { CommonModule } from '@angular/common';
+import { NgxMessengerModule } from 'projects/ngx-messenger/src/public-api';
+import { CustomErrorDialogModule } from './custom-error-dialog/custom-error-dialog.module';
+import { MessagerRoutingModule } from './messenger-routing.module';
 
 describe('MessagerComponent', () => {
-  let component: MessagerComponent;
-  let fixture: ComponentFixture<MessagerComponent>;
+    let component: MessagerComponent;
+    let fixture: ComponentFixture<MessagerComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ MessagerComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [MessagerComponent],
+            imports: [
+                CommonModule,
+                MessagerRoutingModule,
+                NgxMessengerModule,
+                CustomErrorDialogModule
+            ]
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(MessagerComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+        })
+            .compileComponents();
+    }));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(MessagerComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
+
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

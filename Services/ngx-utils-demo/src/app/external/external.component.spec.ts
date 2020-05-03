@@ -1,25 +1,34 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ExternalComponent } from './external.component';
+import { CommonModule } from '@angular/common';
+import { FacebookSigninModule, GoogleSigninModule } from 'projects/external-auth/src/public-api';
+import { ExternalRoutingModule } from './external-routing.module';
 
 describe('ExternalComponent', () => {
-  let component: ExternalComponent;
-  let fixture: ComponentFixture<ExternalComponent>;
+    let component: ExternalComponent;
+    let fixture: ComponentFixture<ExternalComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ExternalComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [ExternalComponent],
+            imports: [
+                CommonModule,
+                ExternalRoutingModule,
+                GoogleSigninModule,
+                FacebookSigninModule,
+            ]
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ExternalComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+        })
+            .compileComponents();
+    }));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(ExternalComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
+
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });
