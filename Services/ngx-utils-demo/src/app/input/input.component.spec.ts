@@ -10,32 +10,32 @@ import { InputComponent } from './input.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('InputComponent', () => {
-  let component: InputComponent;
-  let fixture: ComponentFixture<InputComponent>;
+    let component: InputComponent;
+    let fixture: ComponentFixture<InputComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-        declarations: [InputComponent],
-        imports: [
-            ReactiveFormsModule,
-            CommonModule,
-            InputRoutingModule,
-            NgxMatInputModule,
-            ResizeModule,
-            MatCardModule,
-            BrowserAnimationsModule
-        ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [InputComponent],
+            imports: [
+                ReactiveFormsModule,
+                CommonModule,
+                InputRoutingModule,
+                NgxMatInputModule,
+                ResizeModule,
+                MatCardModule,
+                BrowserAnimationsModule
+            ]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(InputComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(InputComponent);
+        component = fixture.componentInstance;
+        fixture.autoDetectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

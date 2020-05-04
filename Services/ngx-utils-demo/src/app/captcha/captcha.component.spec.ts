@@ -8,31 +8,31 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CaptchaComponent } from './captcha.component';
 
 describe('CaptchaComponent', () => {
-  let component: CaptchaComponent;
-  let fixture: ComponentFixture<CaptchaComponent>;
+    let component: CaptchaComponent;
+    let fixture: ComponentFixture<CaptchaComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-        declarations: [CaptchaComponent],
-        imports: [
-            ReactiveFormsModule,
-            CommonModule,
-            CaptchaRoutingModule,
-            HttpClientModule,
-            CoreCaptchaModule,
-            BrowserAnimationsModule
-        ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [CaptchaComponent],
+            imports: [
+                ReactiveFormsModule,
+                CommonModule,
+                CaptchaRoutingModule,
+                HttpClientModule,
+                CoreCaptchaModule,
+                BrowserAnimationsModule
+            ]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CaptchaComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(CaptchaComponent);
+        component = fixture.componentInstance;
+        fixture.autoDetectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });
