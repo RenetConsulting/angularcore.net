@@ -14,9 +14,9 @@
     "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/editor"
   },
   "dependencies": {
-    "@renet-consulting/animations": "^8.0.0",
-    "@renet-consulting/control-value-accessor": "^8.0.0",
-    "@renet-consulting/ngx-validator": "^8.0.0",
+    "@renet-consulting/animations": "^9.0.0",
+    "@renet-consulting/control-value-accessor": "^9.0.0",
+    "@renet-consulting/ngx-validator": "^9.0.0",
     "ngx-quill": "^7.1.2",
     "quill": "^1.3.7"
   },
