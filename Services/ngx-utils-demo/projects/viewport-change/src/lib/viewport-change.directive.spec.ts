@@ -20,8 +20,7 @@ describe('ViewportChangeDirective', () => {
             'getViewportSize'
         ]);
 
-        directive = new ViewportChangeDirective(zone);
-        directive.viewport = viewport;
+        directive = new ViewportChangeDirective(zone, viewport);
     });
 
     it('should create', () => {
