@@ -13,3 +13,6 @@ The library depends on:
 
 ## Breaking changes in version 9.x
 - InputBase renamed to InputBaseDirective
+
+## Release v9.0.0
+Converted project to Angular v9

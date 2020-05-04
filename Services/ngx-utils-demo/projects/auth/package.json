@@ -14,8 +14,8 @@
     "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/auth"
   },
   "dependencies": {
-    "@renet-consulting/ngx-http-params": "^8.0.0",
-    "@renet-consulting/storage": "^8.0.0"
+    "@renet-consulting/ngx-http-params": "^9.0.0",
+    "@renet-consulting/storage": "^9.0.0"
   },
   "peerDependencies": {
     "@angular/common": "^9.0.0",
