@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/ngx-mat-input",
-  "version": "8.2.2",
+  "version": "9.0.0",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
@@ -19,10 +19,10 @@
     "@renet-consulting/ngx-validator": "^8.0.0"
   },
   "peerDependencies": {
-    "@angular/common": "^8.0.0",
-    "@angular/core": "^8.0.0",
-    "@angular/forms": "^8.0.0",
-    "@angular/material": "^8.0.0",
+    "@angular/common": "^9.0.0",
+    "@angular/core": "^9.0.0",
+    "@angular/forms": "^9.0.0",
+    "@angular/material": "^9.0.0",
     "bootstrap": "^4.3.1"
   }
 }

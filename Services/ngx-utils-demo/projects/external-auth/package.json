@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/external-auth",
-  "version": "8.1.9",
+  "version": "9.0.0",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
@@ -17,8 +17,8 @@
     "@renet-consulting/auth": "^8.0.0"
   },
   "peerDependencies": {
-    "@angular/common": "^8.0.0",
-    "@angular/core": "^8.0.0",
-    "@angular/material": "^8.0.0"
+    "@angular/common": "^9.0.0",
+    "@angular/core": "^9.0.0",
+    "@angular/material": "^9.0.0"
   }
 }

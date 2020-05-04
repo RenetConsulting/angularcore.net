@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/http-hub-client",
-  "version": "8.0.1",
+  "version": "9.0.0",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
@@ -14,9 +14,9 @@
     "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/http-hub-client"
   },
   "peerDependencies": {
-    "@angular/common": "^8.0.0",
-    "@angular/core": "^8.0.0",
+    "@angular/common": "^9.0.0",
+    "@angular/core": "^9.0.0",
     "@aspnet/signalr": "^1.1.4",
-    "rxjs": "^6.5.2"
+    "rxjs": "~6.5.5"
   }
 }

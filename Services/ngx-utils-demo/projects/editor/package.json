@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/editor",
-  "version": "8.0.5",
+  "version": "9.0.0",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
@@ -18,12 +18,12 @@
     "@renet-consulting/control-value-accessor": "^8.0.0",
     "@renet-consulting/ngx-validator": "^8.0.0",
     "ngx-quill": "^7.1.2",
-    "quill": "^1.3.6"
+    "quill": "^1.3.7"
   },
   "peerDependencies": {
-    "@angular/common": "^8.0.0",
-    "@angular/core": "^8.0.0",
-    "@angular/forms": "^8.0.0"
+    "@angular/common": "^9.0.0",
+    "@angular/core": "^9.0.0",
+    "@angular/forms": "^9.0.0"
   },
   "files": [
     "*"

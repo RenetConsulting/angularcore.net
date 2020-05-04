@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/title-strategy",
-  "version": "8.0.1",
+  "version": "9.0.0",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
@@ -14,10 +14,10 @@
     "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/title-strategy"
   },
   "peerDependencies": {
-    "@angular/core": "^8.0.0",
-    "@angular/platform-browser": "^8.0.0",
-    "@angular/router": "^8.0.0",
-    "rxjs": "^6.5.2"
+    "@angular/core": "^9.0.0",
+    "@angular/platform-browser": "^9.0.0",
+    "@angular/router": "^9.0.0",
+    "rxjs": "~6.5.5"
   },
   "keywords": [
     "title",
