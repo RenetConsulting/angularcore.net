@@ -1,10 +1,10 @@
 import { EventEmitter, Injector, NgZone, Renderer2, Directive } from '@angular/core';
 import { ExternalTokenHandlerService } from 'external-auth/public-api';
 import { Observable } from 'rxjs';
-import { ExternalAuthBase } from './external-auth.base';
+import { ExternalAuthBaseDirective } from './external-auth.base';
 
 @Directive()
-class Test extends ExternalAuthBase {
+class TestDirective extends ExternalAuthBaseDirective {
 
     scriptUrl = 'bob';
     init: () => void;
@@ -14,9 +14,9 @@ class Test extends ExternalAuthBase {
     signout: () => void;
 }
 
-describe('ExternalAuthBase', () => {
+describe('ExternalAuthBaseDirective', () => {
 
-    let base: ExternalAuthBase;
+    let base: ExternalAuthBaseDirective;
 
     const doc = { head: {} };
     let injector: jasmine.SpyObj<Injector>;
@@ -34,7 +34,7 @@ describe('ExternalAuthBase', () => {
         // tslint:disable-next-line:deprecation
         injector.get.and.returnValues(zone, doc, renderer, {}, tokenHandler);
 
-        base = new Test(injector);
+        base = new TestDirective(injector);
     });
 
     it('class', () => {

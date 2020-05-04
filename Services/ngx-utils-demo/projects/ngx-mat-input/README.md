@@ -10,3 +10,6 @@ Since 8.2.0 animations moved to another package ``@renet-consulting/animation``;
 The library depends on:
 - ``@renet-consulting/control-value-accessor``
 - ``@renet-consulting/ngx-validator``
+
+## Breaking changes in version 9.x
+- InputBase renamed to InputBaseDirective

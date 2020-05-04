@@ -19,3 +19,5 @@ import { FacebookSigninModule, GoogleSigninModule } from '@renet-consulting/exte
 })
 export class SigninModule { }
 ```
+## Breaking changes in version 9.x
+- ExternalAuthBase renamed to ExternalAuthBaseDirective

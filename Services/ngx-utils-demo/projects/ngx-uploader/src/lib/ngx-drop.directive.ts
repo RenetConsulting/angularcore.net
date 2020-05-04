@@ -1,10 +1,10 @@
 import { Directive, ElementRef, EventEmitter, HostListener, Inject, Input, Output, Renderer2 } from '@angular/core';
-import { NgxUploaderBase } from './ngx-uploader.base';
+import { NgxUploaderBaseDirective } from './ngx-uploader.base';
 
 @Directive({
     selector: '[ngx-drop]'
 })
-export class NgxDropDirective extends NgxUploaderBase {
+export class NgxDropDirective extends NgxUploaderBaseDirective {
 
     @Input() dropClass = 'drop';
     @Output('ngx-drop') readonly emitter = new EventEmitter<Array<File>>();

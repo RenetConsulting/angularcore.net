@@ -3,7 +3,7 @@ import { EventEmitter, HostBinding, Injector, Input, NgZone, Output, PLATFORM_ID
 import { ExternalTokenHandlerService } from './external-token-handler.service';
 
 @Directive()
-export abstract class ExternalAuthBase<ErrorType = any> {
+export abstract class ExternalAuthBaseDirective<ErrorType = any> {
 
     @HostBinding('class') readonly class = 'd-block';
     @Input() provider: string;

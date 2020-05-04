@@ -1,7 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, Injector, Input, OnDestroy, OnInit } from '@angular/core';
 import { FAILED_EXTRACT_TOKEN } from '../error-codes';
-import { ExternalAuthBase } from '../external-auth.base';
+import { ExternalAuthBaseDirective } from '../external-auth.base';
 import { IGoogleError } from '../google-error';
 import { GOOGLE_SCRIPT_URL } from '../google-script-url';
 
@@ -23,7 +23,7 @@ let id = 0;
     styleUrls: ['./google-signin.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GoogleSigninComponent extends ExternalAuthBase<IGoogleError> implements OnInit, OnDestroy {
+export class GoogleSigninComponent extends ExternalAuthBaseDirective<IGoogleError> implements OnInit, OnDestroy {
 
     @Input() clientId: string;
     @Input() scope = 'openid';

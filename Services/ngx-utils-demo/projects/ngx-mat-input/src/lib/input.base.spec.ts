@@ -1,14 +1,14 @@
 import { EventEmitter, Directive } from '@angular/core';
 import { AbstractControl, FormGroupDirective, NgControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { InputBase } from './input.base';
+import { InputBaseDirective } from './input.base';
 
 @Directive()
-class Test extends InputBase { }
+class TestDirective extends InputBaseDirective { }
 
 describe('NgxMatInputBase', () => {
 
-    let base: Test;
+    let base: TestDirective;
 
     let ngControl: NgControl;
     let formGroup: FormGroupDirective;
@@ -25,11 +25,11 @@ describe('NgxMatInputBase', () => {
         ngControl = { control: control as AbstractControl } as NgControl;
         formGroup = {} as FormGroupDirective;
 
-        base = new Test(ngControl, formGroup);
+        base = new TestDirective(ngControl, formGroup);
     });
 
     it('base instanceof NgxMatInputBase', () => {
-        expect(base instanceof InputBase).toEqual(true);
+        expect(base instanceof InputBaseDirective).toEqual(true);
     });
     it('subscription instanceof Subscription', () => {
         expect(base.subscription instanceof Subscription).toEqual(true);
@@ -129,7 +129,7 @@ describe('NgxMatInputBase', () => {
                 'updateValueAndValidity',
             ]);
             ngControl = { control: control as AbstractControl } as NgControl;
-            base = new Test(ngControl, formGroup);
+            base = new TestDirective(ngControl, formGroup);
             base.setRequired();
             expect(base.required).toBeUndefined();
         });
@@ -150,7 +150,7 @@ describe('NgxMatInputBase', () => {
                 'updateValueAndValidity',
             ]);
             ngControl = { control: control as AbstractControl } as NgControl;
-            base = new Test(ngControl, formGroup);
+            base = new TestDirective(ngControl, formGroup);
             base.setMaxlength();
             expect(base.maxlength).toBeUndefined();
         });

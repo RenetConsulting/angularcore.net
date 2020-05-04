@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, Input, OnChanges, OnDestroy, OnInit, Optional, Renderer2, Self, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
 import { enterLeaveAnimation } from '@renet-consulting/animations';
-import { InputBase } from '../input.base';
+import { InputBaseDirective } from '../input.base';
 
 @Component({
     // tslint:disable-next-line
@@ -12,7 +12,7 @@ import { InputBase } from '../input.base';
     encapsulation: ViewEncapsulation.None,
     animations: [enterLeaveAnimation]
 })
-export class NgxMatInputComponent extends InputBase implements ControlValueAccessor, OnChanges, OnInit, OnDestroy {
+export class NgxMatInputComponent extends InputBaseDirective implements ControlValueAccessor, OnChanges, OnInit, OnDestroy {
 
     @Input() autocomplete = 'off';
     @Input() name: string;

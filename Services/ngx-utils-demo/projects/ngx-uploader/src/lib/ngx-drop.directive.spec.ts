@@ -1,6 +1,6 @@
 import { ElementRef, EventEmitter, Renderer2 } from '@angular/core';
 import { NgxDropDirective } from './ngx-drop.directive';
-import { NgxUploaderBase } from './ngx-uploader.base';
+import { NgxUploaderBaseDirective } from './ngx-uploader.base';
 
 describe('NgxDropDirective', () => {
 
@@ -18,8 +18,8 @@ describe('NgxDropDirective', () => {
         directive = new NgxDropDirective(elementRef, renderer);
     });
 
-    it('emitter instanceof NgxUploaderBase', () => {
-        expect(directive instanceof NgxUploaderBase).toEqual(true);
+    it('emitter instanceof NgxUploaderBaseDirective', () => {
+        expect(directive instanceof NgxUploaderBaseDirective).toEqual(true);
     });
     it('dropClass', () => {
         expect(directive.dropClass).toEqual('drop');

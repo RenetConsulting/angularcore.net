@@ -1,7 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, Injector, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ExternalAuthBase } from '../external-auth.base';
+import { ExternalAuthBaseDirective } from '../external-auth.base';
 import { FACEBOOK_SCRIPT_URL } from '../facebook-script-url';
 
 declare const window;
@@ -13,7 +13,7 @@ declare const FB;
     styleUrls: ['./facebook-signin.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FacebookSigninComponent extends ExternalAuthBase implements OnInit, OnDestroy {
+export class FacebookSigninComponent extends ExternalAuthBaseDirective implements OnInit, OnDestroy {
 
     @Input() appId: string;
     @Input() version = 'v4.0';

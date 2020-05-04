@@ -2,7 +2,7 @@ import { EventEmitter, Input, Directive } from '@angular/core';
 import { filterFileList } from './utils';
 
 @Directive()
-export abstract class NgxUploaderBase {
+export abstract class NgxUploaderBaseDirective {
 
     @Input() accept: string;
     @Input() multiple: boolean;
