@@ -2,7 +2,10 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/external-auth",
   "lib": {
-    "entryFile": "src/public-api.ts"
+    "entryFile": "src/public-api.ts",
+    "umdModuleIds": {
+      "@renet-consulting/auth": "auth"
+    }
   },
   "whitelistedNonPeerDependencies": [
     "@renet-consulting/auth"
