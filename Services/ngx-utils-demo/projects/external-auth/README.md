@@ -21,3 +21,6 @@ export class SigninModule { }
 ```
 ## Breaking changes in version 9.x
 - ExternalAuthBase renamed to ExternalAuthBaseDirective
+
+## Release v9.0.0
+Converted project to Angular v9
