@@ -1,10 +1,7 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Injectable, Inject } from '@angular/core';
+import { Inject } from '@angular/core';
 
-@Injectable({
-    providedIn: 'root'
-})
 export class ApiPrefixInterceptor implements HttpInterceptor {
 
     constructor(@Inject(String) private prefix: string) { }

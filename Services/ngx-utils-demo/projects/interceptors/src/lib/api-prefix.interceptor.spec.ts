@@ -16,6 +16,7 @@ describe('ApiPrefixInterceptor', () => {
                 { provide: BASE_URL, useValue: prefix },
                 { provide: String, useValue: prefix },
                 { provide: HTTP_INTERCEPTORS, useClass: ApiPrefixInterceptor, deps: [BASE_URL] },
+                { provide: ApiPrefixInterceptor, useClass: ApiPrefixInterceptor, deps: [BASE_URL] },
             ]
         });
 
