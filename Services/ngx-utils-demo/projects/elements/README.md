@@ -10,3 +10,6 @@ Before adding this package to a module be sure that you have added:
 The package is not completed, it has few bugs that are described in 
 - https://github.com/angular/angular/issues/29606
 - https://github.com/angular/angular/issues/30207
+
+## Release v9.0.0
+Converted project to Angular v9
