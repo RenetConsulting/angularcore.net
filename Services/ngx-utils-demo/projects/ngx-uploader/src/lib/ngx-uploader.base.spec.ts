@@ -1,6 +1,7 @@
-import { EventEmitter } from '@angular/core';
+import { EventEmitter, Directive } from '@angular/core';
 import { NgxUploaderBase } from './ngx-uploader.base';
 
+@Directive()
 export class TestBase extends NgxUploaderBase {
 
     emitter;

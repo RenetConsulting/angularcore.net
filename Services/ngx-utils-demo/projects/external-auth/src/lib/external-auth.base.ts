@@ -1,7 +1,8 @@
 import { DOCUMENT } from '@angular/common';
-import { EventEmitter, HostBinding, Injector, Input, NgZone, Output, PLATFORM_ID, Renderer2 } from '@angular/core';
+import { EventEmitter, HostBinding, Injector, Input, NgZone, Output, PLATFORM_ID, Renderer2, Directive } from '@angular/core';
 import { ExternalTokenHandlerService } from './external-token-handler.service';
 
+@Directive()
 export abstract class ExternalAuthBase<ErrorType = any> {
 
     @HostBinding('class') readonly class = 'd-block';

@@ -9,7 +9,6 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class ViewportChangeDirective implements OnInit, OnDestroy {
 
-    @ContentChild(CdkVirtualScrollViewport, { static: true }) viewport: CdkVirtualScrollViewport;
     @ContentChild(CdkVirtualForOf, { static: true }) forOf: CdkVirtualForOf<any>;
     @Input() itemSize: number;
     @Input() time = 20;
@@ -18,7 +17,8 @@ export class ViewportChangeDirective implements OnInit, OnDestroy {
     readonly subject = new Subject<null>();
 
     constructor(
-        @Inject(NgZone) private zone: NgZone
+        @Inject(NgZone) private zone: NgZone,
+        @Inject(CdkVirtualScrollViewport)  private viewport: CdkVirtualScrollViewport
     ) { }
 
     ngOnInit(): void {

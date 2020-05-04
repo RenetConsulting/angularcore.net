@@ -1,6 +1,7 @@
-import { EventEmitter, Input } from '@angular/core';
+import { EventEmitter, Input, Directive } from '@angular/core';
 import { filterFileList } from './utils';
 
+@Directive()
 export abstract class NgxUploaderBase {
 
     @Input() accept: string;

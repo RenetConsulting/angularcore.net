@@ -1,8 +1,9 @@
-import { EventEmitter } from '@angular/core';
+import { EventEmitter, Directive } from '@angular/core';
 import { AbstractControl, FormGroupDirective, NgControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { InputBase } from './input.base';
 
+@Directive()
 class Test extends InputBase { }
 
 describe('NgxMatInputBase', () => {

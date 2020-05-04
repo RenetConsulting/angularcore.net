@@ -1,8 +1,9 @@
-import { EventEmitter, Injector, NgZone, Renderer2 } from '@angular/core';
+import { EventEmitter, Injector, NgZone, Renderer2, Directive } from '@angular/core';
 import { ExternalTokenHandlerService } from 'external-auth/public-api';
 import { Observable } from 'rxjs';
 import { ExternalAuthBase } from './external-auth.base';
 
+@Directive()
 class Test extends ExternalAuthBase {
 
     scriptUrl = 'bob';
