@@ -24,7 +24,7 @@ describe('NgxAComponent', () => {
     }));
 
     beforeEach(() => {
-        router = TestBed.get(Router);
+        router = TestBed.inject(Router);
         component = new NgxAComponent(router);
     });
 

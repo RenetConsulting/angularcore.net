@@ -13,7 +13,7 @@ describe('NoneCacheInterceptor', () => {
             ]
         });
 
-        service = TestBed.get(HTTP_INTERCEPTORS);
+        service = TestBed.inject(NoneCacheInterceptor);
     });
 
     it('should be created', () => {

@@ -29,9 +29,9 @@ describe('BypassService', () => {
             ]
         });
 
-        service = TestBed.get(BypassService);
-        type = TestBed.get(BYPASS_TOKEN);
-        sanitizer = TestBed.get(DomSanitizer);
+        service = TestBed.inject(BypassService);
+        type = TestBed.inject(BYPASS_TOKEN);
+        sanitizer = TestBed.inject(DomSanitizer);
     });
 
     it('should be created', () => {

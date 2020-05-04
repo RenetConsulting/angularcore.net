@@ -34,7 +34,7 @@ describe('NgxLinkStylesheetService', () => {
                 { provide: RendererFactory2, useValue: rendererFactory }
             ]
         });
-        service = TestBed.get(NgxLinkStylesheetService);
+        service = TestBed.inject(NgxLinkStylesheetService);
     });
 
     it('should be created', () => {

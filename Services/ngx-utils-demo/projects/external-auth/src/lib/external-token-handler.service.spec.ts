@@ -18,9 +18,9 @@ describe('ExternalTokenHandlerService', () => {
             ]
         });
 
-        service = TestBed.get(ExternalTokenHandlerService);
-        authService = TestBed.get(AuthService);
-        tokenService = TestBed.get(TokenService);
+        service = TestBed.inject(ExternalTokenHandlerService);
+        authService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
+        tokenService = TestBed.inject(TokenService) as jasmine.SpyObj<TokenService>;
     });
 
     it('should be created', () => {

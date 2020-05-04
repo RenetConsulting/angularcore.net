@@ -6,7 +6,7 @@ describe('NgxHttpParamsService', () => {
     let service: NgxHttpParamsService;
 
     beforeEach(() => {
-        service = TestBed.get(NgxHttpParamsService);
+        service = TestBed.inject(NgxHttpParamsService);
     });
 
     it('should be created', () => {

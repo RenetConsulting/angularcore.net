@@ -15,8 +15,8 @@ describe('HttpHubClient', () => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
         });
-        service = TestBed.get(HttpHubClient);
-        http = TestBed.get(HttpClient);
+        service = TestBed.inject(HttpHubClient);
+        http = TestBed.inject(HttpClient);
     });
 
     it('toBeDefined', () => {

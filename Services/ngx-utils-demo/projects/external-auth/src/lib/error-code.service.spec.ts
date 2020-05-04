@@ -10,7 +10,7 @@ describe('service.map', () => {
 
         TestBed.configureTestingModule({});
 
-        service = TestBed.get(ErrorCodeService);
+        service = TestBed.inject(ErrorCodeService);
     });
 
     it(ACCESS_DENIED, () => {

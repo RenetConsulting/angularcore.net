@@ -35,9 +35,9 @@ describe('TitleStrategyComponent', () => {
             ]
         }).compileComponents();
 
-        router = TestBed.get(Router);
-        route = TestBed.get(ActivatedRoute);
-        titleStrategy = TestBed.get(TitleStrategyService);
+        router = TestBed.inject(Router);
+        route = TestBed.inject(ActivatedRoute);
+        titleStrategy = TestBed.inject(TitleStrategyService) as jasmine.SpyObj<TitleStrategyService>;
         component = new TitleStrategyComponent(router, route, titleStrategy);
     }));
 

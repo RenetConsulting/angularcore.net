@@ -4,7 +4,9 @@ import { ProvidedControlValueAccessorBase } from '@renet-consulting/control-valu
 import { Subscription } from 'rxjs';
 
 @Directive()
-export abstract class InputBaseDirective extends ProvidedControlValueAccessorBase implements ControlValueAccessor, OnChanges, OnInit, OnDestroy {
+export abstract class InputBaseDirective
+    extends ProvidedControlValueAccessorBase
+    implements ControlValueAccessor, OnChanges, OnInit, OnDestroy {
 
     @ViewChild('inputRef', { static: true }) inputRef: ElementRef;
     @HostBinding('class') classList: string;

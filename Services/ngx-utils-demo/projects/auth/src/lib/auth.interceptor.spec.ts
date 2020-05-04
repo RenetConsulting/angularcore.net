@@ -25,10 +25,10 @@ describe('AuthInterceptor', () => {
             ]
         });
 
-        interceptor = TestBed.get(AuthInterceptor);
-        params = TestBed.get(NgxHttpParamsService);
-        options = TestBed.get(AuthDefaultOptions);
-        token = TestBed.get(TokenService);
+        interceptor = TestBed.inject(AuthInterceptor);
+        params = TestBed.inject(NgxHttpParamsService) as jasmine.SpyObj<NgxHttpParamsService>;
+        options = TestBed.inject(AuthDefaultOptions);
+        token = TestBed.inject(TokenService) as jasmine.SpyObj<TokenService>;
 
         handler = jasmine.createSpyObj<HttpHandler>('HttpHandler', ['handle']);
     });

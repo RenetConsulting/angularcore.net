@@ -20,10 +20,10 @@ describe('AuthService', () => {
             providers: [{ provide: NgxHttpParamsService, useValue: jasmine.createSpyObj('NgxHttpParamsService', ['map']) }]
         });
 
-        service = TestBed.get(AuthService);
-        params = TestBed.get(NgxHttpParamsService);
-        options = TestBed.get(AuthDefaultOptions);
-        controller = TestBed.get(HttpTestingController);
+        service = TestBed.inject(AuthService);
+        params = TestBed.inject(NgxHttpParamsService) as jasmine.SpyObj<NgxHttpParamsService>;
+        options = TestBed.inject(AuthDefaultOptions);
+        controller = TestBed.inject(HttpTestingController);
 
         params.map.and.returnValue(new HttpParams());
     });

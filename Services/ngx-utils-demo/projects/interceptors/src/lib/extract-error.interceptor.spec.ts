@@ -14,7 +14,7 @@ describe('ExtractErrorService', () => {
             ]
         });
 
-        service = TestBed.get(HTTP_INTERCEPTORS);
+        service = TestBed.inject(ExtractErrorInterceptor);
     });
 
     it('should be created', () => {
