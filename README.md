@@ -19,3 +19,5 @@ This project template implement optimistic concurrency, generic entity managemen
     <DebugType>full</DebugType>
   </PropertyGroup>
   ```
+
+  The system been updated to Angular v9
