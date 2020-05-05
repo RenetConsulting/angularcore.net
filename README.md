@@ -20,4 +20,4 @@ This project template implement optimistic concurrency, generic entity managemen
   </PropertyGroup>
   ```
 
-  The system been updated to Angular v9
+  The system has been updated to Angular v9
