@@ -32,3 +32,6 @@ export class AppToolbarHandlersService implements ToolbarHandlersService {
 ```
 ## Release v9.0.0
 Converted project to Angular v9
+
+## Release v9.0.1
+Added missing theme.scss
