@@ -43,9 +43,14 @@ describe('ExternalTokenHandlerService', () => {
         it('error', () => {
             const error = { error: state };
             authService.getToken.and.returnValue(throwError(error));
-            service.handle(access_token, state).subscribe();
-            expect(authService.getToken).toHaveBeenCalledWith(token);
-            expect(tokenService.setToken).not.toHaveBeenCalled();
+
+            service.handle(access_token, state).subscribe(
+                () => fail('should have failed with error'),
+                () => {
+                    expect(authService.getToken).toHaveBeenCalledWith(token);
+                    expect(tokenService.setToken).not.toHaveBeenCalled();
+                }
+            );
         });
     });
 });
