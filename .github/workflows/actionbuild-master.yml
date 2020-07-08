@@ -23,7 +23,7 @@ jobs:
 
     - name: Get Azure Web storage
       id: webstorage
-      run: echo "::set-output name=storage::$(echo 'https://renetservices.blob.core.windows.net/deployment/branch/${GITHUB_REF:11}/${{steps.date.outputs.date}}/${GITHUB_SHA}/web.zip' ) "
+      run: echo "::set-output name=storage::$(echo 'https://renetservices.blob.core.windows.net/deployment/site/renet-opensource/branch/${GITHUB_REF:11}/${{steps.date.outputs.date}}/${GITHUB_SHA}/web.zip' ) "
 
     - name: Zip storage location
       run: |
