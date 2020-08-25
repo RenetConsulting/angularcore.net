@@ -23,5 +23,8 @@ Run `ng test control-value-accessor` to execute the unit tests via [Karma](https
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
+## Release v9.0.1
+Added @Directive() to supper classes
+
 ## Release v9.0.0
 Converted project to Angular v9

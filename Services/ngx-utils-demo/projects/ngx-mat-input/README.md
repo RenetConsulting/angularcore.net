@@ -11,6 +11,9 @@ The library depends on:
 - ``@renet-consulting/control-value-accessor``
 - ``@renet-consulting/ngx-validator``
 
+## Release v9.0.1
+Added Directive to the base class
+
 ## Breaking changes in version 9.x
 - InputBase renamed to InputBaseDirective
 

@@ -39,6 +39,16 @@ describe('NgxValidatorDirective', () => {
         // tslint:disable-next-line: deprecation
         expect(statusChanges.subscribe).toHaveBeenCalledWith(directive.emitError);
     });
+    it('ngOnInit with no statusChanges', () => {
+        statusChanges = null;
+        ngControl = { statusChanges: statusChanges as any } as NgControl;
+        expect(ngControl.statusChanges).toBeNull();
+        spyOn(directive.subscription, 'add');
+        directive.ngOnInit();
+        expect(directive.subscription.add).not.toHaveBeenCalled();
+        // tslint:disable-next-line: deprecation
+        //expect(statusChanges.subscribe).not.toHaveBeenCalledWith(directive.emitError);
+    });
     it('ngOnDestroy', () => {
         directive.ngOnDestroy();
         expect(directive.subscription.closed).toEqual(true);
