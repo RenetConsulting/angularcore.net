@@ -14,7 +14,8 @@
     "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/core-captcha"
   },
   "dependencies": {
-    "@renet-consulting/ngx-mat-input": "^9.0.0"
+    "@renet-consulting/ngx-mat-input": "^9.0.0",
+    "tslib": "^2.0.0"
   },
   "peerDependencies": {
     "@angular/animations": "^9.0.0",

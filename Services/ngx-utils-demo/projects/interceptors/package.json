@@ -13,6 +13,9 @@
     "type": "git",
     "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/interceptors"
   },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
   "peerDependencies": {
     "@angular/common": "^9.0.0",
     "rxjs": "~6.5.5"

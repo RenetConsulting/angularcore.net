@@ -1,7 +1,9 @@
 import { NgControl } from '@angular/forms';
 import { ControlValueAccessorBase } from './control-value-accessor.base';
 import { ProvidedControlValueAccessorBase } from './provided-control-value-accessor.base';
+import { Directive } from "@angular/core";
 
+@Directive()
 class Test extends ProvidedControlValueAccessorBase { }
 
 describe('ProvidedControlValueAccessorBase', () => {

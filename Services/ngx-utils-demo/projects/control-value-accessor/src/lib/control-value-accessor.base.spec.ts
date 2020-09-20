@@ -1,5 +1,7 @@
 import { ControlValueAccessorBase } from './control-value-accessor.base';
+import { Directive } from "@angular/core";
 
+@Directive()
 class Test extends ControlValueAccessorBase { }
 
 describe('ControlValueAccessorBase', () => {
