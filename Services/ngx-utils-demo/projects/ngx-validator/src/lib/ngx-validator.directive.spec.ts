@@ -42,6 +42,7 @@ describe('NgxValidatorDirective', () => {
     it('ngOnInit with no statusChanges', () => {
         statusChanges = null;
         ngControl = { statusChanges: statusChanges as any } as NgControl;
+        directive = new NgxValidatorDirective(ngControl);
         expect(ngControl.statusChanges).toBeNull();
         spyOn(directive.subscription, 'add');
         directive.ngOnInit();
