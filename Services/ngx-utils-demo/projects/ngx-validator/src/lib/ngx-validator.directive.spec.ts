@@ -47,8 +47,6 @@ describe('NgxValidatorDirective', () => {
         spyOn(directive.subscription, 'add');
         directive.ngOnInit();
         expect(directive.subscription.add).not.toHaveBeenCalled();
-        // tslint:disable-next-line: deprecation
-        //expect(statusChanges.subscribe).not.toHaveBeenCalledWith(directive.emitError);
     });
     it('ngOnDestroy', () => {
         directive.ngOnDestroy();

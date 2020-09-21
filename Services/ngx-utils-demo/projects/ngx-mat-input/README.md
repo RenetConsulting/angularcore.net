@@ -11,6 +11,9 @@ The library depends on:
 - ``@renet-consulting/control-value-accessor``
 - ``@renet-consulting/ngx-validator``
 
+## Release v10.0.0
+Converted project to Angular v10
+
 ## Release v9.0.1
 Added Directive to the base class
 

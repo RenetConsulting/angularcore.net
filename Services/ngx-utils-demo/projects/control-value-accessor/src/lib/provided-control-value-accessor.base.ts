@@ -1,9 +1,9 @@
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { ControlValueAccessorBase } from './control-value-accessor.base';
-import { Directive } from "@angular/core";
+import { ControlValueAccessorBaseDirective } from './control-value-accessor.base';
+import { Directive } from '@angular/core';
 
 @Directive()
-export abstract class ProvidedControlValueAccessorBase extends ControlValueAccessorBase implements ControlValueAccessor {
+export abstract class ProvidedControlValueAccessorBaseDirective extends ControlValueAccessorBaseDirective implements ControlValueAccessor {
 
     constructor(
         public ngControl: NgControl
