@@ -15,6 +15,6 @@ namespace Application.DataAccess.Enums
 
         ConfirmPassword = 3,
 
-        OldPassword = 4
+        OldPassword = 4,
     }
 }

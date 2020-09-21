@@ -14,7 +14,7 @@ namespace Application.DataAccess
 
     public class DataExpression
     {
-        public static List<Expression> WhereExpressionsByObject<TEntity, KObject>(KObject theObject, ParameterExpression parameter)
+        public static List<Expression> WhereExpressionsByObject<TEntity, TObject>(TObject theObject, ParameterExpression parameter)
             where TEntity : ApplicationEntity
         {
             // list of expressions
@@ -26,7 +26,7 @@ namespace Application.DataAccess
             }
 
             // contains array of public properties of the object
-            PropertyInfo[] objectProperties = typeof(KObject).GetProperties(BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+            PropertyInfo[] objectProperties = typeof(TObject).GetProperties(BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
 
             // used to create LIKE operation
             MethodInfo method = typeof(string).GetMethod("Contains", new[] { typeof(string) });
@@ -146,14 +146,14 @@ namespace Application.DataAccess
             return weCombined;
         }
 
-        public static IQueryable<TEntity> BuildWhereSelector<TEntity, KAndObject, KOrObject>(IQueryable<TEntity> selector, KAndObject whereAnd, KOrObject whereOr)
+        public static IQueryable<TEntity> BuildWhereSelector<TEntity, TAndObject, TOrObject>(IQueryable<TEntity> selector, TAndObject whereAnd, TOrObject whereOr)
             where TEntity : ApplicationEntity
         {
             var parameter = Expression.Parameter(typeof(TEntity), "x");
 
-            List<Expression> whereAndExpressions = DataExpression.WhereExpressionsByObject<TEntity, KAndObject>(whereAnd, parameter);
+            List<Expression> whereAndExpressions = DataExpression.WhereExpressionsByObject<TEntity, TAndObject>(whereAnd, parameter);
 
-            List<Expression> whereOrExpressions = DataExpression.WhereExpressionsByObject<TEntity, KOrObject>(whereOr, parameter);
+            List<Expression> whereOrExpressions = DataExpression.WhereExpressionsByObject<TEntity, TOrObject>(whereOr, parameter);
             Expression weOr = DataExpression.BuildOrExpression(whereOrExpressions);
             Expression weAnd = DataExpression.BuildAndExpression(whereAndExpressions);
             Expression weCombined = DataExpression.CombineAndExpression(weOr, weAnd);
