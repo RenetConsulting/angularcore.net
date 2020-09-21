@@ -14,7 +14,7 @@ namespace Application.Business.Helpers
             return new IdentityError
             {
                 Code = "ConfirmPasswordMismatch",
-                Description = "The confirm password you entered does not match."
+                Description = "The confirm password you entered does not match.",
             };
         }
     }

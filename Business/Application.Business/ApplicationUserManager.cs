@@ -46,7 +46,7 @@ namespace Application.Business
             {
                 UserName = userName,
                 Email = userName,
-                EmailConfirmed = false
+                EmailConfirmed = false,
             };
 
             IdentityResult result = await this.Me.CreateAsync(user, password);
@@ -143,6 +143,16 @@ namespace Application.Business
             TUser user = await this.Me.FindByIdAsync(userId);
 
             string result = await this.Me.GenerateEmailConfirmationTokenAsync(user);
+
+            return result;
+        }
+
+        public async Task<IdentityResult> ConfirmEmailAsync(string userId, string token)
+        {
+            token = token.Replace(' ', '+');
+
+            var user = await this.Me.FindByIdAsync(userId);
+            var result = await this.Me.ConfirmEmailAsync(user, token);
 
             return result;
         }

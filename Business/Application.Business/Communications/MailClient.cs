@@ -28,7 +28,7 @@ namespace Application.Business.Communications
             List<Content> contents = new List<Content>()
             {
                 new Content { Type = "text/plain", Value = messageBody },
-                new Content { Type = "text/html", Value = messageBody }
+                new Content { Type = "text/html", Value = messageBody },
             };
 
             // create a Mail object to send
@@ -50,7 +50,7 @@ namespace Application.Business.Communications
             List<Content> contents = new List<Content>()
             {
                 new Content { Type = "text/plain", Value = mailMessage.Body },
-                new Content { Type = "text/html", Value = mailMessage.Body }
+                new Content { Type = "text/html", Value = mailMessage.Body },
             };
 
             // create a Mail object to send
