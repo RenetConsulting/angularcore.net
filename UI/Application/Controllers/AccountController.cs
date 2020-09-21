@@ -353,7 +353,7 @@ namespace Application.Controllers
                 var emailToken = await this.userManager.GenerateEmailTokenAsync(userId).ConfigureAwait(false);
                 var url = this.AppSettings.SiteHost + "ConfirmEmail?email=" + WebUtility.UrlEncode(userEmail) + "&token=" + WebUtility.UrlEncode(emailToken);
 
-                string emailHtml = string.Format(/*emailHtmlTamplate,*/ userEmail, url, this.AppSettings.SiteHost);
+                string emailHtml = string.Format(emailHtmlTamplate, userEmail, url, this.AppSettings.SiteHost);
 
                 return await this.SendEmailAsync(userEmail, this.AppSettings.EmailConfirmationSubject, emailHtml);
             }
