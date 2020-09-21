@@ -327,16 +327,22 @@ namespace Application.Controllers
         {
             try
             {
+                const string assemblyName = "Application";
                 // pull template from resources
-                var assembly = Assembly.Load(new AssemblyName("Application"));
+                var assembly = Assembly.Load(new AssemblyName(assemblyName));
 
                 // TODO: Uncoment when template will create
-                const string resourceName = "ConfirmEmail.html";
+                const string resourceName = assemblyName + ".EmailTemplates.confirmEmail.html";
 
                 string emailHtmlTamplate = string.Empty;
 
                 using (Stream stream = assembly.GetManifestResourceStream(resourceName))
                 {
+                    if(stream==null)
+                    {
+                        throw new System.ApplicationException("Cannot read resource " + resourceName);
+                    }
+
                     using (StreamReader reader = new StreamReader(stream))
                     {
                         emailHtmlTamplate = reader.ReadToEnd();
