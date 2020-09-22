@@ -35,6 +35,8 @@ namespace Application.Business
 
         Task<IdentityResult> ConfirmEmailAsync(TUser user, string token);
 
+        Task<IdentityResult> ConfirmEmailAsync(string userName, string token);
+
         Task<IdentityResult> CreateAsync(string userName, string password);
 
         Task<TUser> GetUserAsync(ClaimsPrincipal principal);

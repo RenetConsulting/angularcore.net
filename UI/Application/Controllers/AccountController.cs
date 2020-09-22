@@ -186,37 +186,16 @@ namespace Application.Controllers
         [HttpGet("email/confirm")]
         public async Task<IActionResult> ConfirmEmailAsync(string email, string token)
         {
-            ApplicationUser user = await this.userManager.FindByEmailAsync(email).ConfigureAwait(false);
+            IdentityResult result = await this.userManager.ConfirmEmailAsync(email, token).ConfigureAwait(false);
 
-            if (user != null)
+            IActionResult errorResult = this.GetErrorResult(result);
+
+            if (errorResult != null)
             {
-                if (user.EmailConfirmed)
-                {
-                    return this.BadRequest("Token in link is invalid.");
-                }
-
-                if (user.Email == email)
-                {
-                    IdentityResult result = await this.userManager.ConfirmEmailAsync(user, token).ConfigureAwait(false);
-
-                    IActionResult errorResult = this.GetErrorResult(result);
-
-                    if (errorResult != null)
-                    {
-                        return this.BadRequest(errorResult);
-                    }
-
-                    return this.Ok();
-                }
-                else
-                {
-                    return this.BadRequest("Email not confirmed.");
-                }
+                return this.BadRequest(errorResult);
             }
-            else
-            {
-                return this.BadRequest("This user not registered.");
-            }
+
+            return this.Ok();
         }
 
         [HttpGet("email/send/token")]
@@ -305,19 +284,10 @@ namespace Application.Controllers
             {
                 if (result.Errors != null)
                 {
-                    foreach (var error in result.Errors)
-                    {
-                        this.ModelState.AddModelError(string.Empty, error.Description);
-                    }
+                    return this.BadRequest(result.Errors.FirstOrDefault()?.Description);
                 }
 
-                if (this.ModelState.IsValid)
-                {
-                    // No ModelState errors are available to send, so just return an empty BadRequest.
-                    return this.BadRequest();
-                }
-
-                return this.BadRequest(this.ModelState);
+                return this.BadRequest();
             }
 
             return null;
