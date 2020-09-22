@@ -19,7 +19,6 @@ export class ConfirmEmailEffects {
     @Effect() confirmEmailRequest = this.actions.pipe(
         ofType<ConfirmEmailRequest>(ConfirmEmailTypes.CONFIRM_EMAIL_REQUEST),
         mergeMap(x => this.accountService.confirmEmail(x.payload.value).pipe(
-            //tap(() => x.payload.reset()),
             mapTo(new ConfirmEmailSuccess()),
             catchError(() => EMPTY)
         ))
