@@ -25,9 +25,14 @@ jobs:
       id: webstorage
       run: echo "::set-output name=storage::$(echo 'https://renetservices.blob.core.windows.net/deployment/site/renet-opensource/branch/${GITHUB_REF:11}/${{steps.date.outputs.date}}/${GITHUB_SHA}/web.zip' ) "
 
+    - name: Get Azure CoreCaptchaAzure storage
+      id: corecaptcha
+      run: echo "::set-output name=storage::$(echo 'https://renetservices.blob.core.windows.net/deployment/site/renet-opensource/branch/${GITHUB_REF:11}/${{steps.date.outputs.date}}/${GITHUB_SHA}/CoreCaptcha.zip' ) "
+
     - name: Zip storage location
       run: |
         echo ${{ steps.webstorage.outputs.storage }}
+        echo ${{ steps.corecaptcha.outputs.storage }}
 
     - uses: actions/checkout@v1
 
@@ -58,6 +63,9 @@ jobs:
       
     - name: Create web publish
       run: dotnet publish ./UI/Application/Application.csproj --configuration Release --no-build
+
+    - name: Create CoreCaptchaAzure publish
+      run: dotnet publish ./Services/CoreCaptchaAzure/CoreCaptchaAzure.csproj --configuration Release --no-build
 
     - name: Test with npm
       run: |
@@ -91,6 +99,11 @@ jobs:
         cd ./UI/Application/bin/Release/netcoreapp3.1/publish/
         zip -r ./publish.zip ./*
 
+    - name: Zip CoreCaptchaAzure Publish folder
+      run: |
+        cd ./Services/CoreCaptchaAzure/bin/Release/netcoreapp3.1/publish/
+        zip -r ./publish.zip ./*
+
     - uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}      
@@ -98,6 +111,7 @@ jobs:
     - name: Upload publish zip and set in webapp
       run: |
          az storage blob upload -f ./UI/Application/bin/Release/netcoreapp3.1/publish/publish.zip -c deployment -n site/renet-opensource/branch/${GITHUB_REF:11}/${{steps.date.outputs.date}}/${GITHUB_SHA}/web.zip --connection-string '${{ env.ASURE_STORAGE_KEY }}' --output none
+         az storage blob upload -f ./Services/CoreCaptchaAzure/bin/Release/netcoreapp3.1/publish/publish.zip -c deployment -n site/renet-opensource/branch/${GITHUB_REF:11}/${{steps.date.outputs.date}}/${GITHUB_SHA}/CoreCaptcha.zip --connection-string '${{ env.ASURE_STORAGE_KEY }}' --output none
 
          az webapp config appsettings set --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --name ${{ secrets.AZURE_WEBAPP_NAME }} --settings WEBSITE_RUN_FROM_PACKAGE=${{ steps.webstorage.outputs.storage }} --output none
       
