@@ -10,6 +10,7 @@
 namespace CoreCaptchaAzure
 {
     using System;
+    using System.IO;
     using Microsoft.Azure.Functions.Extensions.DependencyInjection;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -46,18 +47,23 @@ namespace CoreCaptchaAzure
             services.Configure<CoreCaptchaConfig>(this.Configuration.GetSection("CoreCaptcha"));
         }
 
+        public override void ConfigureAppConfiguration(IFunctionsConfigurationBuilder builder)
+        {
+            FunctionsHostBuilderContext context = builder.GetContext();
+
+            // Note that these files are not automatically copied on build or publish. 
+            // See the csproj file to for the correct setup.
+            builder.ConfigurationBuilder
+                .SetBasePath(context.ApplicationRootPath)
+                .AddJsonFile(Path.Combine(context.ApplicationRootPath, "appsettings.json"), optional: true, reloadOnChange: false)
+                .AddJsonFile(Path.Combine(context.ApplicationRootPath, $"appsettings.{context.EnvironmentName}.json"), optional: true, reloadOnChange: false)
+                .AddEnvironmentVariables();
+        }
+
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-
-            var config = new ConfigurationBuilder()
-                .SetBasePath(Environment.CurrentDirectory)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: true)
-                .AddEnvironmentVariables();
-
-            this.Configuration = config.Build();
-
+            FunctionsHostBuilderContext context = builder.GetContext();
+            this.Configuration = context.Configuration;
             this.ConfigureServices(builder.Services);
         }
     }

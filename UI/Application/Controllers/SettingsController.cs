@@ -6,6 +6,7 @@
 namespace Application.Controllers
 {
     using System.Threading.Tasks;
+    using Application.Business.CoreCaptcha;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
@@ -14,9 +15,12 @@ namespace Application.Controllers
     [ApiController]
     public class SettingsController : BaseController
     {
-        public SettingsController(IOptions<AppSettings> appSettings, ILogger<AccountController> logger)
+        private CoreCaptchaSettings CoreCaptchaSettings { get; set; }
+
+        public SettingsController(IOptions<AppSettings> appSettings, IOptions<CoreCaptchaSettings> settings, ILogger<AccountController> logger)
             : base(appSettings, logger)
         {
+            this.CoreCaptchaSettings = settings.Value;
         }
 
         [HttpGet]
@@ -26,7 +30,7 @@ namespace Application.Controllers
             {
                 this.AppSettings.FacebookAppId,
                 this.AppSettings.GoogleClientId,
-                this.AppSettings.CoreCaptchaUrl
+                CoreCaptchaUrl = this.CoreCaptchaSettings.CreateUrl,
             };
 
             return await Task.FromResult(this.Ok(options));
