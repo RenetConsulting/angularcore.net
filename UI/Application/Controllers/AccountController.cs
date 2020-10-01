@@ -19,8 +19,6 @@ namespace Application.Controllers
     using Application.Business.Models;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Enums;
-    using Application.DataAccess.Repositories;
-    using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -31,14 +29,11 @@ namespace Application.Controllers
     public class AccountController : BaseController
     {
         private readonly IApplicationUserManager<ApplicationUser> userManager;
-        private readonly ApplicationSignInManager<ApplicationUser> signInManager;
         private readonly IMailClient mailClient;
         private readonly ICoreCaptcha coreCaptcha;
 
         public AccountController(
-            IGlobalRepository repository,
             IApplicationUserManager<ApplicationUser> userManager,
-            ApplicationSignInManager<ApplicationUser> signInManager,
             IOptions<AppSettings> appSettings,
             IMailClient mailClient,
             ILogger<AccountController> logger,
@@ -47,7 +42,6 @@ namespace Application.Controllers
         {
             this.userManager = userManager;
             this.mailClient = mailClient;
-            this.signInManager = signInManager;
             this.coreCaptcha = coreCaptcha;
         }
 
@@ -86,8 +80,7 @@ namespace Application.Controllers
         [HttpGet("password/send/token")]
         public async Task<IActionResult> ResetPasswordAsync(string email)
         {
-            string token = string.Empty;
-            ActionResult returnCode = this.Ok();
+            string token;
 
             try
             {
@@ -101,7 +94,7 @@ namespace Application.Controllers
 
             var url = this.AppSettings.SiteHost
                 + "reset-password?token="
-                + System.Net.WebUtility.UrlEncode(token)
+                + WebUtility.UrlEncode(token)
                 + $"&email={email}";
 
             string message = string.Format(
@@ -110,7 +103,7 @@ namespace Application.Controllers
                 + "<p>Please do not reply to this email.</p>",
                 url);
 
-            returnCode = await this.SendEmailAsync(email, this.AppSettings.ResetPasswordSubject, message);
+            ActionResult returnCode = await this.SendEmailAsync(email, this.AppSettings.ResetPasswordSubject, message);
 
             return returnCode;
         }
@@ -119,8 +112,6 @@ namespace Application.Controllers
         [HttpPost("password/reset")]
         public async Task<IActionResult> ResetPasswordFromMailAsync([FromBody] ResetPasswordFromMailModel resetPasswordFromMailModel)
         {
-            ActionResult returnCode = this.Ok();
-
             if (!this.ModelState.IsValid)
             {
                 return this.BadRequest(this.ModelState);
@@ -154,7 +145,7 @@ namespace Application.Controllers
                 this.AppSettings.SiteHost,
                 this.AppSettings.SiteHost);
 
-            returnCode = await this.SendEmailAsync(resetPasswordFromMailModel.Email, this.AppSettings.AfterResetPasswordSubject, message);
+            ActionResult returnCode = await this.SendEmailAsync(resetPasswordFromMailModel.Email, this.AppSettings.AfterResetPasswordSubject, message);
 
             return returnCode;
         }
@@ -301,7 +292,6 @@ namespace Application.Controllers
                 // pull template from resources
                 var assembly = Assembly.Load(new AssemblyName(assemblyName));
 
-                // TODO: Uncoment when template will create
                 const string resourceName = assemblyName + ".EmailTemplates.confirmEmail.html";
 
                 string emailHtmlTamplate = string.Empty;
