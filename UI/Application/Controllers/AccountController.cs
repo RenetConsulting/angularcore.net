@@ -14,7 +14,7 @@ namespace Application.Controllers
     using System.Threading.Tasks;
     using Application.Business;
     using Application.Business.Communications;
-    using Application.Business.CoreCaptcha;
+    using CoreCaptcha;
     using Application.Business.Helpers;
     using Application.Business.Models;
     using Application.DataAccess.Entities;

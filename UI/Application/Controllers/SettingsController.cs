@@ -6,7 +6,7 @@
 namespace Application.Controllers
 {
     using System.Threading.Tasks;
-    using Application.Business.CoreCaptcha;
+    using CoreCaptcha;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
