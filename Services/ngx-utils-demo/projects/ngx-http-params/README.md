@@ -7,3 +7,6 @@ Converted project to Angular v9
 
 ## Release v9.1.0
 Added bool parameter 
+
+## Release v9.1.1
+Changed .browserslistrc to use IE9-11 
