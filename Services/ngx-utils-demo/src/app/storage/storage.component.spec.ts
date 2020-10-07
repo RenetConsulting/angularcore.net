@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StorageComponent } from './storage.component';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -9,7 +9,7 @@ describe('StorageComponent', () => {
     let component: StorageComponent;
     let fixture: ComponentFixture<StorageComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             declarations: [StorageComponent],
             schemas: [CUSTOM_ELEMENTS_SCHEMA],

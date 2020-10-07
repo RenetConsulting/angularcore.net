@@ -34,7 +34,7 @@ export class NgxHttpParamsService {
                     value.forEach(x => params = params.append(param, x));
                 }
                 else if (isObject(value) && value) {
-                    const subPrams = this.map(value, (addObjectName)?`${param}.`:``);
+                    const subPrams = this.map(value, (addObjectName) ? `${param}.` : ``);
                     subPrams.keys().forEach(subKey => params = params.append(subKey, subPrams.get(subKey)));
                 }
             });

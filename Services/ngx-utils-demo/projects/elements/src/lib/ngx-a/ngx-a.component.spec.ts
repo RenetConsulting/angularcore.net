@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';
+import { waitForAsync, TestBed } from '@angular/core/testing';
 import { Router, NavigationEnd } from '@angular/router';
 import { NgxAComponent } from './ngx-a.component';
 import { of } from 'rxjs';
@@ -7,7 +7,7 @@ describe('NgxAComponent', () => {
     let component: NgxAComponent;
     let router: Router;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [NgxAComponent],
