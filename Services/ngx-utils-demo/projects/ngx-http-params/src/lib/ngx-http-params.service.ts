@@ -14,7 +14,7 @@ export class NgxHttpParamsService {
      * @param model an object with property type {@link string}, {@link number}, {@link Array}, {@link object}
      * @param prefix a util to set the right value of param for the property with the type {@link object}
      */
-    map<ItemType extends object>(model: ItemType, prefix: string = ''): HttpParams {
+    map<ItemType extends object>(model: ItemType, prefix: string = '', addObjectName: boolean = true): HttpParams {
         /** immutable */
         let params = new HttpParams();
         if (model) {
@@ -34,7 +34,7 @@ export class NgxHttpParamsService {
                     value.forEach(x => params = params.append(param, x));
                 }
                 else if (isObject(value) && value) {
-                    const subPrams = this.map(value, `${param}.`);
+                    const subPrams = this.map(value, (addObjectName)?`${param}.`:``);
                     subPrams.keys().forEach(subKey => params = params.append(subKey, subPrams.get(subKey)));
                 }
             });

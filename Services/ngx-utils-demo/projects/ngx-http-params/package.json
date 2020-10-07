@@ -1,7 +1,7 @@
 {
   "name": "@renet-consulting/ngx-http-params",
-  "version": "9.0.0",
-  "author": "Michael Vasyliv",
+  "version": "9.1.0",
+  "author": "Renet Consulting, Inc.",
   "license": "MIT",
   "private": false,
   "homepage": "https://github.com/RenetConsulting/angularcore.net",
