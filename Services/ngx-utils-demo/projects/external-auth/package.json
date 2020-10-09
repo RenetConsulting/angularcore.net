@@ -14,8 +14,7 @@
     "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/external-auth"
   },
   "dependencies": {
-    "@renet-consulting/auth": "^9.0.0",
-    "tslib": "^2.0.0"
+    "@renet-consulting/auth": "^9.0.0"
   },
   "peerDependencies": {
     "@angular/common": "^9.0.0",

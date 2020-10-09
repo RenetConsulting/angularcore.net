@@ -13,9 +13,6 @@
     "type": "git",
     "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/util"
   },
-  "dependencies": {
-    "tslib": "^2.0.0"
-  },
   "keywords": [
     "isBoolean",
     "isFunction",
