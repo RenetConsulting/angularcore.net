@@ -50,7 +50,7 @@
     "@renet-consulting/auth": "^9.0.0",
     "@renet-consulting/bypass": "^9.0.0",
     "@renet-consulting/core-captcha": "^10.0.1",
-    "@renet-consulting/editor": "^10.0.2",
+    "@renet-consulting/editor": "^10.0.3",
     "@renet-consulting/external-auth": "^9.0.0",
     "@renet-consulting/http-hub-client": "^9.0.0",
     "@renet-consulting/infinite-source": "^9.0.0",

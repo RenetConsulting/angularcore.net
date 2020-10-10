@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build:libraries": "ng build animations --prod && ng build auth --prod && ng build bypass --prod && ng build control-value-accessor --prod && ng build core-captcha --prod && ng build editor --prod && ng build elements --prod && ng build external-auth --prod && ng build http-hub-client --prod && ng build infinite-source --prod && ng build interceptors --prod && ng build ngx-http-params --prod && ng build ngx-link-stylesheet --prod && ng build ngx-mat-input --prod && ng build ngx-messenger --prod && ng build ngx-uploader --prod && ng build ngx-validator --prod && ng build resize --prod && ng build storage --prod && ng build title-strategy --prod && ng build ngx-tracking-analytics --prod && ng build util --prod && ng build viewport-change --prod",
+    "build:libraries": "ng build animations --prod && ng build auth --prod && ng build bypass --prod && ng build control-value-accessor --prod && ng build core-captcha --prod && ng build editor --prod && scss-bundle -c scss-bundle.config.json && ng build elements --prod && ng build external-auth --prod && ng build http-hub-client --prod && ng build infinite-source --prod && ng build interceptors --prod && ng build ngx-http-params --prod && ng build ngx-link-stylesheet --prod && ng build ngx-mat-input --prod && ng build ngx-messenger --prod && ng build ngx-uploader --prod && ng build ngx-validator --prod && ng build resize --prod && ng build storage --prod && ng build title-strategy --prod && ng build ngx-tracking-analytics --prod && ng build util --prod && ng build viewport-change --prod",
     "test-headless": "ng test --watch=false --browsers=ChromeHeadless",
     "test": "ng test --watch=false",
     "test:watch": "ng test",

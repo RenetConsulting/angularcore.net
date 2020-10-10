@@ -30,6 +30,9 @@ export class AppToolbarHandlersService implements ToolbarHandlersService {
     }
 }
 ```
+## Release v10.0.3
+Added missing stylesheets
+
 ## Release v10.0.2
 Fixed naming convention
 
