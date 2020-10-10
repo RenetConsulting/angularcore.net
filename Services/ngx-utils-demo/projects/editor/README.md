@@ -31,6 +31,9 @@ export class AppToolbarHandlersService implements ToolbarHandlersService {
 }
 ```
 
+## Release v10.0.1
+Revert to Angular v9 to support es5
+
 ## Release v10.0.0
 Converted project to Angular v10
 
