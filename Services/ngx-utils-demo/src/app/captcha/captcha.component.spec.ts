@@ -1,4 +1,4 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -11,7 +11,7 @@ describe('CaptchaComponent', () => {
     let component: CaptchaComponent;
     let fixture: ComponentFixture<CaptchaComponent>;
 
-    beforeEach(waitForAsync(() => {
+    beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [CaptchaComponent],
             imports: [

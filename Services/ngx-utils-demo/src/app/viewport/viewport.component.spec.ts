@@ -1,4 +1,4 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ViewportComponent } from './viewport.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
@@ -9,7 +9,7 @@ describe('ViewportComponent', () => {
     let component: ViewportComponent;
     let fixture: ComponentFixture<ViewportComponent>;
 
-    beforeEach(waitForAsync(() => {
+    beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [ViewportComponent],
             imports: [

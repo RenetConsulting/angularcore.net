@@ -1,4 +1,4 @@
-import { waitForAsync, TestBed } from '@angular/core/testing';
+import { async, TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { UploaderComponent } from './uploader.component';
 import { CommonModule } from '@angular/common';
@@ -10,7 +10,7 @@ describe('UploaderComponent', () => {
 
     let http: HttpClient;
 
-    beforeEach(waitForAsync(() => {
+    beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [UploaderComponent],
             imports: [

@@ -1,4 +1,4 @@
-import { waitForAsync, TestBed } from '@angular/core/testing';
+import { async, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, ActivatedRouteSnapshot, Data, NavigationEnd, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { TitleStrategyComponent } from './title-strategy.component';
@@ -13,7 +13,7 @@ describe('TitleStrategyComponent', () => {
     let titleStrategy: jasmine.SpyObj<TitleStrategyService>;
     const data = { title: 'Helloooo' } as Data;
 
-    beforeEach(waitForAsync(() => {
+    beforeEach(async(() => {
 
         TestBed.configureTestingModule({
             providers: [
