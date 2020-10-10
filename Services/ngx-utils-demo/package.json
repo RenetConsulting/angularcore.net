@@ -31,7 +31,7 @@
     "@renet-consulting/auth": "^9.0.0",
     "@renet-consulting/control-value-accessor": "^10.0.2",
     "@renet-consulting/ngx-http-params": "^9.1.5",
-    "@renet-consulting/ngx-mat-input": "^10.0.1",
+    "@renet-consulting/ngx-mat-input": "^10.0.2",
     "@renet-consulting/ngx-validator": "^9.0.0",
     "@renet-consulting/storage": "^9.0.0",
     "@renet-consulting/util": "^9.0.0",
