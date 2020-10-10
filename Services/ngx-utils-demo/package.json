@@ -11,7 +11,8 @@
     "test:watch": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build:editor": "ng build editor --prod && scss-bundle -c scss-bundle.config.json"
+    "build:editor": "ng build editor --prod && scss-bundle -c scss-bundle.config.json",
+    "postinstall": "ngcc"
   },
   "private": true,
   "dependencies": {
