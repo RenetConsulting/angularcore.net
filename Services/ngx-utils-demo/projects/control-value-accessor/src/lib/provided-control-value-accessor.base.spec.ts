@@ -1,22 +1,24 @@
 import { NgControl } from '@angular/forms';
-import { ControlValueAccessorBase } from './control-value-accessor.base';
-import { ProvidedControlValueAccessorBase } from './provided-control-value-accessor.base';
+import { ControlValueAccessorBaseDirective } from './control-value-accessor.base';
+import { ProvidedControlValueAccessorBaseDirective } from './provided-control-value-accessor.base';
+import { Directive } from '@angular/core';
 
-class Test extends ProvidedControlValueAccessorBase { }
+@Directive()
+class TestDirective extends ProvidedControlValueAccessorBaseDirective { }
 
-describe('ProvidedControlValueAccessorBase', () => {
+describe('ProvidedControlValueAccessorBaseDirective', () => {
 
-    let base: ProvidedControlValueAccessorBase;
+    let base: ProvidedControlValueAccessorBaseDirective;
 
     let ngControl: NgControl;
 
     beforeEach(() => {
         ngControl = {} as NgControl;
-        base = new Test(ngControl);
+        base = new TestDirective(ngControl);
     });
 
-    it('base instanceof ControlValueAccessorBase', () => {
-        expect(base instanceof ControlValueAccessorBase).toEqual(true);
+    it('base instanceof ControlValueAccessorBaseDirective', () => {
+        expect(base instanceof ControlValueAccessorBaseDirective).toEqual(true);
     });
     it('ngControl.valueAccessor', () => {
         expect(ngControl.valueAccessor).toEqual(base);
