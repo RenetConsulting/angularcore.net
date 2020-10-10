@@ -1,16 +1,14 @@
-import { ControlValueAccessorBaseDirective } from './control-value-accessor.base';
-import { Directive } from '@angular/core';
+import { ControlValueAccessorBase } from './control-value-accessor.base';
 
-@Directive()
-class TestDirective extends ControlValueAccessorBaseDirective { }
+class Test extends ControlValueAccessorBase { }
 
-describe('ControlValueAccessorBaseDirective', () => {
+describe('ControlValueAccessorBase', () => {
 
-    let base: ControlValueAccessorBaseDirective;
+    let base: ControlValueAccessorBase;
 
 
     beforeEach(() => {
-        base = new TestDirective();
+        base = new Test();
     });
 
     it('writeValue', () => {
