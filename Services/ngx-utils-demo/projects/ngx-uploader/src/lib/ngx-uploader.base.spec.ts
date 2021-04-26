@@ -1,19 +1,19 @@
-import { EventEmitter } from '@angular/core';
-import { NgxUploaderBase } from './ngx-uploader.base';
+import { EventEmitter, Directive } from '@angular/core';
+import { NgxUploaderBaseDirective } from './ngx-uploader.base';
 
-export class TestBase extends NgxUploaderBase {
-
+@Directive()
+export class TestBaseDirective extends NgxUploaderBaseDirective {
     emitter;
 }
 
-describe('NgxUploaderBase', () => {
+describe('NgxUploaderBaseDirective', () => {
 
-    let base: NgxUploaderBase;
+    let base: NgxUploaderBaseDirective;
 
     const files: any = [new File([], 'file1.png')];
 
     beforeEach(() => {
-        base = new TestBase();
+        base = new TestBaseDirective();
     });
 
     it('emit', () => {

@@ -18,7 +18,7 @@ namespace Application.Business
         None = 0,
         Violation,
         AcceptedTerms,
-        EmailConfirmed
+        EmailConfirmed,
     }
 
     public class ApplicationSignInManager<TUser> : SignInManager<TUser>
@@ -30,8 +30,9 @@ namespace Application.Business
             IUserClaimsPrincipalFactory<TUser> claimsFactory,
             IOptions<IdentityOptions> optionsAccessor,
             ILogger<SignInManager<TUser>> logger,
-            IAuthenticationSchemeProvider schemeProvider)
-            : base(userManager, contextAccessor, claimsFactory, optionsAccessor, logger, schemeProvider)
+            IAuthenticationSchemeProvider schemes,
+            IUserConfirmation<TUser> confirmation)
+            : base(userManager, contextAccessor, claimsFactory, optionsAccessor, logger, schemes, confirmation)
         {
         }
 

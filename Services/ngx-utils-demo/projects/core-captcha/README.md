@@ -22,3 +22,15 @@ Run `ng test core-captcha` to execute the unit tests via [Karma](https://karma-r
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## Release v10.0.2
+Upgrade to use a correct version of @renet-consulting/control-value-accessor and @renet-consulting/ngx-mat-input
+
+## Release v10.0.1
+Reverted project to Angular v9 to support es5
+
+## Release v10.0.0
+Converted project to Angular v10
+
+## Release v9.0.0
+Converted project to Angular v9

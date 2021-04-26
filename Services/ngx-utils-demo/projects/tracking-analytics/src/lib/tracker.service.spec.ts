@@ -34,10 +34,10 @@ describe('NgxTrackerService', () => {
             ]
         }).compileComponents();
 
-        service = TestBed.get(NgxTrackerService);
-        doc = TestBed.get(DOCUMENT);
-        storageService = TestBed.get(StorageService);
-        params = TestBed.get(NgxHttpParamsService);
+        service = TestBed.inject(NgxTrackerService);
+        doc = TestBed.inject(DOCUMENT);
+        storageService = TestBed.inject(StorageService) as jasmine.SpyObj<StorageService>;
+        params = TestBed.inject(NgxHttpParamsService) as jasmine.SpyObj<NgxHttpParamsService>;
     });
 
     it('randomValue', () => {

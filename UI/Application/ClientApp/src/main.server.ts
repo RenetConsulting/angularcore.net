@@ -29,3 +29,5 @@ export default createServerRenderer(params => {
 
     return renderPromise.then(html => ({ html }));
 });
+
+export { renderModule, renderModuleFactory } from '@angular/platform-server';

@@ -8,7 +8,7 @@ describe('AuthDefaultOptions', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({});
 
-        options = TestBed.get(AuthDefaultOptions);
+        options = TestBed.inject(AuthDefaultOptions);
     });
 
     it('should be created', () => {

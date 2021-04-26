@@ -1,12 +1,16 @@
-import { ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnDestroy, OnInit, Output, ViewChild, Directive } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
-import { ProvidedControlValueAccessorBase } from '@renet-consulting/control-value-accessor';
+import { ProvidedControlValueAccessorBaseDirective } from '@renet-consulting/control-value-accessor';
 import { Subscription } from 'rxjs';
 
-export abstract class InputBase extends ProvidedControlValueAccessorBase implements ControlValueAccessor, OnChanges, OnInit, OnDestroy {
+@Directive()
+export abstract class InputBaseDirective
+    extends ProvidedControlValueAccessorBaseDirective
+    implements ControlValueAccessor, OnChanges, OnInit, OnDestroy {
 
     @ViewChild('inputRef', { static: true }) inputRef: ElementRef;
-    @HostBinding('class') readonly class = 'd-block';
+    @HostBinding('class') classList: string;
+    @Input() class: string;
     @Input() placeholder: string;
     @Input() readonly: boolean;
     @Input() required: boolean;
@@ -36,6 +40,9 @@ export abstract class InputBase extends ProvidedControlValueAccessorBase impleme
             this.setErrorsState();
             this.setHintState();
         }
+        if (e.class) {
+            this.setClass();
+        }
         this.setRequired();
         this.setMaxlength();
     }
@@ -45,6 +52,7 @@ export abstract class InputBase extends ProvidedControlValueAccessorBase impleme
             this.subscription.add(this.formGroup.ngSubmit.subscribe(this.updateControl));
         }
         this.setError(null);
+        this.setClass();
     }
 
     ngOnDestroy(): void {
@@ -101,4 +109,7 @@ export abstract class InputBase extends ProvidedControlValueAccessorBase impleme
     }
 
     onBlur = () => this.blur.emit(this.ngControl.control.value);
+
+    /** bug-fix for https://github.com/angular/angular/issues/7289 */
+    setClass = () => this.classList = ['d-block', this.class].filter(x => !!x).join(' ');
 }

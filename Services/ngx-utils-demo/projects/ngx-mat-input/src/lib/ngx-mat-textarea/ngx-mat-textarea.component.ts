@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, Input, OnChanges, OnDestroy, OnInit, Optional, Self, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
 import { enterLeaveAnimation } from '@renet-consulting/animations';
-import { InputBase } from '../input.base';
+import { InputBaseDirective } from '../input.base';
 import { NGX_MAX_ROWS_TEXTAREA } from '../max-rows-textarea';
 import { NGX_MIN_ROWS_TEXTAREA } from '../min-rows-textarea';
 
@@ -14,7 +14,7 @@ import { NGX_MIN_ROWS_TEXTAREA } from '../min-rows-textarea';
     encapsulation: ViewEncapsulation.None,
     animations: [enterLeaveAnimation]
 })
-export class NgxMatTextareaComponent extends InputBase implements ControlValueAccessor, OnChanges, OnInit, OnDestroy {
+export class NgxMatTextareaComponent extends InputBaseDirective implements ControlValueAccessor, OnChanges, OnInit, OnDestroy {
 
     @Input() minRows: number;
     @Input() maxRows: number;

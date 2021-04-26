@@ -2,7 +2,10 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/core-captcha",
   "lib": {
-    "entryFile": "src/public_api.ts"
+    "entryFile": "src/public_api.ts",
+    "umdModuleIds": {
+      "@renet-consulting/ngx-mat-input": "ngxMatInput"
+    }
   },
   "whitelistedNonPeerDependencies": [
     "@renet-consulting/ngx-mat-input"

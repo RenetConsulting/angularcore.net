@@ -24,8 +24,8 @@ describe('ProfileEffects', () => {
             ],
         });
 
-        effects = TestBed.get(ProfileEffects);
-        personService = TestBed.get(PersonService);
+        effects = TestBed.inject(ProfileEffects);
+        personService = TestBed.inject(PersonService as any);
     });
 
     it('should work', () => {

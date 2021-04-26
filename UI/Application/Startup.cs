@@ -11,7 +11,7 @@ namespace Application
     using System.Threading.Tasks;
     using Application.Business;
     using Application.Business.Communications;
-    using Application.Business.CoreCaptcha;
+    using CoreCaptcha;
     using Application.Business.Interfaces;
     using Application.Business.Managements;
     using Application.Business.Services;
@@ -27,10 +27,10 @@ namespace Application
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.ResponseCompression;
-    using Microsoft.AspNetCore.SpaServices.AngularCli;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
     using Microsoft.Net.Http.Headers;
     using OpenIddict.Abstractions;
@@ -40,36 +40,44 @@ namespace Application
     {
         private readonly ILogger logger;
 
-        public Startup(IConfiguration configuration, ILogger<Startup> logger)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             this.Configuration = configuration;
-            this.logger = logger;
+            this.Environment = env;
+            this.logger = GetEarlyInitializationLogger();
         }
 
-        public Startup(IHostingEnvironment env)
+        private ILogger GetEarlyInitializationLogger()
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile("secrets.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
+            // var instrumentationKey = this.Configuration.GetValue<string>("ApplicationInsights:InstrumentationKey");
+            using var loggerFactory = LoggerFactory.Create(LoggingBuilder());
+            //    builder =>
+            //{
+            //    builder.AddConsole();
+            //    //builder.AddApplicationInsights(instrumentationKey);
+            //});
 
-            this.Configuration = builder.Build();
+            return loggerFactory.CreateLogger("Initialization");
         }
-
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        private Action<ILoggingBuilder> LoggingBuilder()
         {
-            services.AddLogging(loggingBuilder =>
+            return loggingBuilder =>
             {
                 loggingBuilder.AddConfiguration(this.Configuration.GetSection("Logging"));
                 loggingBuilder.AddConsole();
                 loggingBuilder.AddDebug();
                 loggingBuilder.AddAzureWebAppDiagnostics();
-            });
+            };
+        }
+
+        public IConfiguration Configuration { get; }
+
+        private IWebHostEnvironment Environment { get; set; }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddLogging(LoggingBuilder());
 
             services.Configure<AppSettings>(this.Configuration.GetSection("AppSettings"));
 
@@ -84,15 +92,17 @@ namespace Application
             });
 
             // Add framework services.
-            services.AddMvc().AddJsonOptions(options =>
+            services.AddMvc().AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc;
                 options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
             })
-            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+            .AddMvcOptions(o => o.EnableEndpointRouting = false);
 
-            services.AddSignalR().AddJsonProtocol(j => j.PayloadSerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc);
+            // TODO: Review need
+            services.AddSignalR();
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -100,8 +110,17 @@ namespace Application
                 configuration.RootPath = "ClientApp/dist/angular";
             });
 
+            // Add SSL for Production
+            if (!this.Environment.IsDevelopment())
+            {
+                // Require SSL
+                services.Configure<MvcOptions>(options => options.Filters.Add(new RequireHttpsAttribute()));
+            }
+
             services.AddDbContext<DataContext>(options =>
             {
+                string dsd = this.Configuration["Data:ConnectionString"];
+
                 // Configure the context to use Microsoft SQL Server.
                 options.UseSqlServer(this.Configuration["Data:ConnectionString"], o => o.MigrationsAssembly("Application"));
 
@@ -109,16 +128,14 @@ namespace Application
                 // Note: use the generic overload if you need
                 // to replace the default OpenIddict entities.
                 options.UseOpenIddict();
+
+                options.EnableSensitiveDataLogging();
             });
 
             // add identity
             services.AddIdentity<ApplicationUser, ApplicationRole>()
-                .AddRoles<ApplicationRole>()
-                .AddRoleManager<RoleManager<ApplicationRole>>()
-                .AddUserManager<ApplicationUserManager<ApplicationUser>>()
-                .AddSignInManager<ApplicationSignInManager<ApplicationUser>>()
-                .AddEntityFrameworkStores<DataContext>()
-                .AddDefaultTokenProviders();
+             .AddEntityFrameworkStores<DataContext>()
+             .AddDefaultTokenProviders();
 
             // Configure Identity to use the same JWT claims as OpenIddict instead
             // of the legacy WS-Federation claims it uses by default (ClaimTypes),
@@ -206,6 +223,7 @@ namespace Application
                 .AddOAuthValidation();
 
             // Resolve dependencies
+            services.AddScoped<ApplicationSignInManager<ApplicationUser>>();
             services.AddScoped<IGlobalRepository, GlobalRepository>();
             string apiKey = this.Configuration["AppSettings:SendGridKey"];
             services.AddScoped<ISendGridClient>(f => new SendGridClient(apiKey));
@@ -213,6 +231,7 @@ namespace Application
             services.AddScoped<IAzureBlobManager, AzureBlobManager>();
             services.AddScoped<IBlogService, BlogService>();
             services.AddScoped<IFileManager, AzureFileManager>();
+            services.AddScoped<IApplicationUserManager<ApplicationUser>, ApplicationUserManager<ApplicationUser>>();
             services.AddScoped<IPersonManagement, PersonManagement>();
 
             services.Configure<CoreCaptchaSettings>(this.Configuration.GetSection("CoreCaptcha"));
@@ -245,11 +264,10 @@ namespace Application
             {
                 options.Level = CompressionLevel.Fastest;
             });
-            services.AddNodeServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -263,22 +281,27 @@ namespace Application
 
             app.UseHttpsRedirection();
 
-            // The UseResponseCompression should be first before UseStaticFiles/UseSpaStaticFiles.
-            // The order is important for all type compression.
-            app.UseResponseCompression();
-
-            app.UseAuthentication();
-
             app.UseStaticFiles(StaticFileOptions(env));
 
             app.UseSpaStaticFiles(StaticFileOptions(env));
 
+            // The UseResponseCompression should be first before UseStaticFiles/UseSpaStaticFiles.
+            // The order is important for all type compression.
+            app.UseResponseCompression();
+
+            // calls to UseAuthentication, UseAuthorization, and UseCors must appear between the calls to UseRouting and UseEndpoints to be effective.
+            app.UseRouting();
+
+            app.UseAuthentication();
+
+            app.UseAuthorization();
+
             app.UseCors("CorsPolicy");
 
-            app.UseSignalR(routes =>
+            app.UseEndpoints(routes =>
             {
-                // @params PathString path - a path to {@link BlogController}
                 routes.MapHub<BlogHubBase>("/Blog");
+                routes.MapDefaultControllerRoute();
             });
 
             app.UseMvc(routes =>
@@ -294,22 +317,17 @@ namespace Application
                 // see https://go.microsoft.com/fwlink/?linkid=864501
                 spa.Options.SourcePath = "ClientApp";
 
-                this.logger.LogInformation("env is " + env.EnvironmentName);
-
                 if (env.IsDevelopment())
                 {
-                    spa.UseAngularCliServer(npmScript: "start");
+                    this.logger?.LogInformation("Environment:Development. Starting UseProxyToSpaDevelopmentServer");
+
+                    // use: npm start --sourceMap=true
+                    // See: https://docs.microsoft.com/en-us/aspnet/core/client-side/spa/angular?view=aspnetcore-3.1&tabs=visual-studio
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
                 }
                 else
                 {
-                    this.logger.LogInformation("SSR has started work.");
-
-                    // SSR is enabled only in production
-                    spa.UseSpaPrerendering(options =>
-                    {
-                        options.BootModulePath = $"{spa.Options.SourcePath}/dist-server/main.js";
-                        options.ExcludeUrls = new[] { "/sockjs-node" };
-                    });
+                    this.logger?.LogInformation("Environment:Production.");
                 }
             });
 
@@ -331,7 +349,24 @@ namespace Application
             }
         }
 
-        private static StaticFileOptions StaticFileOptions(IHostingEnvironment env)
+        // TODO: Need to review adding date to signalR
+        /*
+        private static void ProcessDateTimeWithCustomConverter()
+        {
+            JsonSerializerOptions options = new JsonSerializerOptions();
+            options.Converters.Add(new DateTimeConverterUsingDateTimeParse());
+
+            string testDateTimeStr = "04-10-2008 6:30 AM";
+            string testDateTimeJson = @"""" + testDateTimeStr + @"""";
+
+            DateTime resultDateTime = JsonSerializer.Deserialize<DateTime>(testDateTimeJson, options);
+            Console.WriteLine(resultDateTime);
+
+            string resultDateTimeJson = JsonSerializer.Serialize(DateTime.Parse(testDateTimeStr), options);
+            Console.WriteLine(Regex.Unescape(resultDateTimeJson));
+        }
+        */
+        private static StaticFileOptions StaticFileOptions(IWebHostEnvironment env)
         {
             return new StaticFileOptions
             {

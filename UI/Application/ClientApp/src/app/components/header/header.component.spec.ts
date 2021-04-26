@@ -17,7 +17,7 @@ describe('HeaderComponent', () => {
                 provideMockStore({}),
             ]
         });
-        store = TestBed.get(Store);
+        store = TestBed.inject(Store as any);
         component = new HeaderComponent(store);
     });
 

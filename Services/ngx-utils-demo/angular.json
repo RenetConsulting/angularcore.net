@@ -13,6 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/ngx-utils-demo",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -58,6 +59,10 @@
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
                 }
               ]
             }
@@ -88,7 +93,7 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "scripts": [],
             "assets": [
@@ -151,7 +156,12 @@
             "tsConfig": "projects/ngx-http-params/tsconfig.lib.json",
             "project": "projects/ngx-http-params/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-http-params/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -186,7 +196,12 @@
             "tsConfig": "projects/ngx-validator/tsconfig.lib.json",
             "project": "projects/ngx-validator/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-validator/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -221,7 +236,12 @@
             "tsConfig": "projects/ngx-link-stylesheet/tsconfig.lib.json",
             "project": "projects/ngx-link-stylesheet/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-link-stylesheet/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -256,7 +276,12 @@
             "tsConfig": "projects/core-captcha/tsconfig.lib.json",
             "project": "projects/core-captcha/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/core-captcha/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -291,7 +316,12 @@
             "tsConfig": "projects/ngx-mat-input/tsconfig.lib.json",
             "project": "projects/ngx-mat-input/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-mat-input/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -326,7 +356,12 @@
             "tsConfig": "projects/ngx-uploader/tsconfig.lib.json",
             "project": "projects/ngx-uploader/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-uploader/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -361,7 +396,12 @@
             "tsConfig": "projects/ngx-messenger/tsconfig.lib.json",
             "project": "projects/ngx-messenger/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-messenger/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -396,7 +436,12 @@
             "tsConfig": "projects/http-hub-client/tsconfig.lib.json",
             "project": "projects/http-hub-client/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/http-hub-client/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -431,7 +476,12 @@
             "tsConfig": "projects/storage/tsconfig.lib.json",
             "project": "projects/storage/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/storage/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -466,7 +516,12 @@
             "tsConfig": "projects/auth/tsconfig.lib.json",
             "project": "projects/auth/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/auth/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -501,7 +556,12 @@
             "tsConfig": "projects/util/tsconfig.lib.json",
             "project": "projects/util/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/util/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -536,7 +596,12 @@
             "tsConfig": "projects/interceptors/tsconfig.lib.json",
             "project": "projects/interceptors/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/interceptors/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -571,7 +636,12 @@
             "tsConfig": "projects/external-auth/tsconfig.lib.json",
             "project": "projects/external-auth/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/external-auth/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -606,7 +676,12 @@
             "tsConfig": "projects/infinite-source/tsconfig.lib.json",
             "project": "projects/infinite-source/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/infinite-source/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -641,7 +716,12 @@
             "tsConfig": "projects/elements/tsconfig.lib.json",
             "project": "projects/elements/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/elements/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -676,7 +756,12 @@
             "tsConfig": "projects/bypass/tsconfig.lib.json",
             "project": "projects/bypass/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/bypass/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -711,7 +796,12 @@
             "tsConfig": "projects/resize/tsconfig.lib.json",
             "project": "projects/resize/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/resize/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -746,7 +836,12 @@
             "tsConfig": "projects/title-strategy/tsconfig.lib.json",
             "project": "projects/title-strategy/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/title-strategy/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -781,7 +876,12 @@
             "tsConfig": "projects/control-value-accessor/tsconfig.lib.json",
             "project": "projects/control-value-accessor/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/control-value-accessor/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -804,6 +904,46 @@
         }
       }
     },
+    "ngx-tracking-analytics": {
+      "projectType": "library",
+      "root": "projects/tracking-analytics",
+      "sourceRoot": "projects/tracking-analytics/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/tracking-analytics/tsconfig.lib.json",
+            "project": "projects/tracking-analytics/ng-package.json"
+          }
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/tracking-analytics/tsconfig.lib.prod.json"
+            }
+          }
+},
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tracking-analytics/src/test.ts",
+            "tsConfig": "projects/tracking-analytics/tsconfig.spec.json",
+            "karmaConfig": "projects/tracking-analytics/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/tracking-analytics/tsconfig.lib.json",
+              "projects/tracking-analytics/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
     "editor": {
       "projectType": "library",
       "root": "projects/editor",
@@ -816,7 +956,12 @@
             "tsConfig": "projects/editor/tsconfig.lib.json",
             "project": "projects/editor/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/editor/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -851,7 +996,12 @@
             "tsConfig": "projects/animations/tsconfig.lib.json",
             "project": "projects/animations/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/animations/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -886,7 +1036,12 @@
             "tsConfig": "projects/viewport-change/tsconfig.lib.json",
             "project": "projects/viewport-change/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/viewport-change/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -921,7 +1076,12 @@
             "tsConfig": "projects/tracking-analytics/tsconfig.lib.json",
             "project": "projects/tracking-analytics/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/tracking-analytics/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {

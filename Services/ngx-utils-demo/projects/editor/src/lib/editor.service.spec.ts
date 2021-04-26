@@ -30,7 +30,7 @@ describe('EditorService', () => {
             ]
         });
 
-        service = TestBed.get(EditorService);
+        service = TestBed.inject(EditorService);
         toolbar = jasmine.createSpyObj<IToolbar>('IToolbar', ['addHandler']);
         quill = jasmine.createSpyObj<IQuill>('IQuill', ['getSelection', 'getLength']);
     });

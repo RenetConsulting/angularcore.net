@@ -14,7 +14,7 @@ export interface NgxTrackerModuleConfig {
 })
 export class NgxTrackerModule {
 
-    static forRoot(config: NgxTrackerModuleConfig): ModuleWithProviders {
+    static forRoot(config: NgxTrackerModuleConfig): ModuleWithProviders<NgxTrackerModule> {
         return {
             ngModule: NgxTrackerModule,
             providers: [

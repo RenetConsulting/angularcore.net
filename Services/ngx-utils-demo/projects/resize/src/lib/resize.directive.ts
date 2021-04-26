@@ -1,4 +1,7 @@
-import { Directive, ElementRef, EventEmitter, Inject, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, Inject, Input, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { ResizeObserverEntry } from './resize-observer-entry';
 import { RESIZE_OBSERVER } from './resize-observer.token';
 
 @Directive({
@@ -6,8 +9,11 @@ import { RESIZE_OBSERVER } from './resize-observer.token';
 })
 export class ResizeDirective implements OnInit, OnDestroy {
 
+    @Input() time = 20;
     @Output() readonly resize = new EventEmitter<DOMRectReadOnly>();
-    observer: ResizeObserver;
+    readonly subject = new Subject<ResizeObserverEntry>();
+    readonly subscription = new Subscription();
+    observer;
 
     constructor(
         @Inject(RESIZE_OBSERVER) private resizeObserver: any,
@@ -16,14 +22,23 @@ export class ResizeDirective implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit(): void {
-        this.observer = new this.resizeObserver(this.subscribe);
-        this.observer.observe(this.elementRef.nativeElement);
+        if (this.resizeObserver) {
+            this.observer = new this.resizeObserver(this.subscribe);
+            this.observer.observe(this.elementRef.nativeElement);
+        }
+        this.subscription.add(this.subject.pipe(
+            debounceTime(this.time)
+        ).subscribe(this.emit));
     }
 
     ngOnDestroy(): void {
-        this.observer.disconnect();
+        if (this.observer) {
+            this.observer.disconnect();
+        }
+        this.subscription.unsubscribe();
     }
 
-    subscribe = (entries: Array<ResizeObserverEntry>) =>
-        entries.forEach(x => this.zone.run(() => this.resize.emit(x.contentRect as DOMRectReadOnly)))
+    subscribe = (entries: Array<ResizeObserverEntry>) => entries.forEach(x => this.subject.next(x));
+
+    emit = (x: ResizeObserverEntry) => this.zone.run(() => this.resize.emit(x.contentRect));
 }

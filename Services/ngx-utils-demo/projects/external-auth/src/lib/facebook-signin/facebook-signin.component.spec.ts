@@ -26,10 +26,10 @@ describe('FacebookSigninComponent', () => {
         expect(component).toBeTruthy();
     });
     it('version', () => {
-        expect(component.version).toEqual('v3.3');
+        expect(component.version).toEqual('v4.0');
     });
     it('iconClass', () => {
-        expect(component.iconClass).toEqual('fab fa-facebook-f');
+        expect(component.iconClass).toEqual('fab fa-facebook-square');
     });
     it('provider', () => {
         expect(component.provider).toEqual('facebook');

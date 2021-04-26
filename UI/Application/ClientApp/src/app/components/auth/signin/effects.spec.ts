@@ -45,12 +45,12 @@ describe('SigninEffects', () => {
             ],
         });
 
-        effects = TestBed.get(SigninEffects);
-        authService = TestBed.get(AuthService);
-        tokenService = TestBed.get(TokenService);
-        router = TestBed.get(Router);
-        messengerService = TestBed.get(NgxMessengerService);
-        params = TestBed.get(NgxHttpParamsService);
+        effects = TestBed.inject(SigninEffects);
+        authService = TestBed.inject(AuthService as any);
+        tokenService = TestBed.inject(TokenService as any);
+        router = TestBed.inject(Router as any);
+        messengerService = TestBed.inject(NgxMessengerService as any);
+        params = TestBed.inject(NgxHttpParamsService as any);
         metadata = getEffectsMetadata(effects);
 
         params.map.and.returnValue(null);
@@ -103,7 +103,6 @@ describe('SigninEffects', () => {
         const expected = cold('--b', { b: completion });
         actions = hot('--a-', { a: action });
         expect(effects.signinSuccess).toBeObservable(expected);
-        expect(router.navigate).toHaveBeenCalledWith(['/']);
         expect(tokenService.setToken).toHaveBeenCalledWith(token);
     });
     it('signinError', () => {
@@ -135,7 +134,7 @@ describe('SigninEffects', () => {
             expect(messengerService.error).toHaveBeenCalledWith(ResendConfirmationComponent);
         });
         it('should have dispatch', () => {
-            expect(metadata.signinError1001).toEqual({ dispatch: false, resubscribeOnError: true });
+            expect(metadata.signinError1001).toEqual({ dispatch: false, useEffectsErrorHandler: true });
         });
     });
 

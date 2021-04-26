@@ -13,7 +13,7 @@ namespace Application.DataAccess
     using System.Security.Principal;
     using System.Threading;
     using System.Threading.Tasks;
-    using Entities;
+    using Application.DataAccess.Entities;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.ChangeTracking;

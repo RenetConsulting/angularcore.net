@@ -1,7 +1,7 @@
 {
   "name": "@renet-consulting/viewport-change",
-  "version": "8.0.1",
-  "author": "Michael Vasyliv",
+  "version": "9.0.0",
+  "author": "Michael Vasyliv, Alexander Altotsky",
   "license": "MIT",
   "private": false,
   "homepage": "https://github.com/RenetConsulting/angularcore.net",
@@ -14,8 +14,8 @@
     "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/viewport-change"
   },
   "peerDependencies": {
-    "@angular/core": "^8.0.0",
-    "@angular/cdk": "^8.0.0",
-    "rxjs": "^6.5.2"
+    "@angular/core": "^9.0.0",
+    "@angular/cdk": "^9.0.0",
+    "rxjs": "~6.5.5"
   }
 }

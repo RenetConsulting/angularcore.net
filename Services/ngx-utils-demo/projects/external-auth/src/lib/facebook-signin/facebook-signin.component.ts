@@ -1,7 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, Injector, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ExternalAuthBase } from '../external-auth.base';
+import { ExternalAuthBaseDirective } from '../external-auth.base';
 import { FACEBOOK_SCRIPT_URL } from '../facebook-script-url';
 
 declare const window;
@@ -13,12 +13,13 @@ declare const FB;
     styleUrls: ['./facebook-signin.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FacebookSigninComponent extends ExternalAuthBase implements OnInit, OnDestroy {
+export class FacebookSigninComponent extends ExternalAuthBaseDirective implements OnInit, OnDestroy {
 
     @Input() appId: string;
-    @Input() version = 'v3.3';
+    @Input() version = 'v4.0';
+    @Input() options = { scope: 'email', return_scopes: true };
     readonly subscription = new Subscription();
-    iconClass = 'fab fa-facebook-f';
+    iconClass = 'fab fa-facebook-square';
     provider = 'facebook';
     label = 'Continue with facebook';
 
@@ -50,7 +51,7 @@ export class FacebookSigninComponent extends ExternalAuthBase implements OnInit,
         if (x.authResponse) {
             this.getToken(x.authResponse.accessToken);
         }
-    })
+    }, this.options)
 
     signin = (): void => {
         FB.getLoginStatus(x => {

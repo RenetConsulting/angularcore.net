@@ -18,9 +18,9 @@ describe('BlogService', () => {
             ]
         });
 
-        service = TestBed.get(BlogService);
-        controller = TestBed.get(HttpTestingController);
-        params = TestBed.get(NgxHttpParamsService);
+        service = TestBed.inject(BlogService);
+        controller = TestBed.inject(HttpTestingController);
+        params = TestBed.inject(NgxHttpParamsService as any);
 
         params.map.and.returnValue(null);
     });

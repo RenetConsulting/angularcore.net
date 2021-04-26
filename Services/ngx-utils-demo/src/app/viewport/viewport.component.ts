@@ -1,26 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-viewport',
-  templateUrl: './viewport.component.html',
-  styleUrls: ['./viewport.component.css']
+    selector: 'app-viewport',
+    templateUrl: './viewport.component.html',
+    styleUrls: ['./viewport.component.css']
 })
 export class ViewportComponent implements OnInit {
 
-  items = Array.from({ length: 100000 }).map((_, i) => `Item #${i}`);
+    items = Array.from({ length: 100000 }).map((_, i) => `Item #${i}`);
 
-  constructor() { }
+    change = console.log;
 
-  ngOnInit() {
-  }
+    constructor() { }
 
-  change = console.log
+    ngOnInit() {
+    }
 
-  create = () => {
-    this.items = [new Date().toString()].concat(this.items);
-  }
+    create = () => {
+        this.items = [new Date().toString()].concat(this.items);
+    }
 
-  delete = () => {
-    this.items = this.items.filter((_, i) => i !== 0);
-  }
+    delete = () => {
+        this.items = this.items.filter((_, i) => i !== 0);
+    }
 }

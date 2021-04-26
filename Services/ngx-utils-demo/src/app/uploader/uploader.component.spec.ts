@@ -1,25 +1,34 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { async, TestBed } from '@angular/core/testing';
+import { HttpClient } from '@angular/common/http';
 import { UploaderComponent } from './uploader.component';
+import { CommonModule } from '@angular/common';
+import { NgxUploaderModule } from 'projects/ngx-uploader/src/public-api';
+import { UploaderRoutingModule } from './uploader-routing.module';
 
 describe('UploaderComponent', () => {
-  let component: UploaderComponent;
-  let fixture: ComponentFixture<UploaderComponent>;
+    let component: UploaderComponent;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ UploaderComponent ]
-    })
-    .compileComponents();
-  }));
+    let http: HttpClient;
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(UploaderComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [UploaderComponent],
+            imports: [
+                CommonModule,
+                UploaderRoutingModule,
+                NgxUploaderModule
+            ]
+        })
+            .compileComponents();
+        http = jasmine.createSpyObj<HttpClient>('HttpClient', ['get']);
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    }));
+
+    beforeEach(() => {
+        component = new UploaderComponent(http);
+    });
+
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

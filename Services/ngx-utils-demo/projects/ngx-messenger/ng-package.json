@@ -2,7 +2,10 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/ngx-messenger",
   "lib": {
-    "entryFile": "src/public-api.ts"
+    "entryFile": "src/public-api.ts",
+    "umdModuleIds": {
+      "@renet-consulting/util": "util"
+    }
   },
   "whitelistedNonPeerDependencies": [
     "@renet-consulting/util"

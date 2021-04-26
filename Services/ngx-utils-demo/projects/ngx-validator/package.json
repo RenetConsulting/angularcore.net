@@ -1,7 +1,7 @@
 {
   "name": "@renet-consulting/ngx-validator",
-  "version": "8.0.4",
-  "author": "Michael Vasyliv",
+  "version": "9.0.1",
+  "author": "Renet Consulting, Inc.",
   "license": "MIT",
   "private": false,
   "homepage": "https://github.com/RenetConsulting/angularcore.net",
@@ -14,8 +14,8 @@
     "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/ngx-validator"
   },
   "peerDependencies": {
-    "@angular/common": "^8.0.0",
-    "@angular/core": "^8.0.0",
-    "@angular/forms": "^8.0.0"
+    "@angular/common": "^9.0.0",
+    "@angular/core": "^9.0.0",
+    "@angular/forms": "^9.0.0"
   }
 }

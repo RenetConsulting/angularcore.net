@@ -14,11 +14,13 @@ describe('ApiPrefixInterceptor', () => {
         TestBed.configureTestingModule({
             providers: [
                 { provide: BASE_URL, useValue: prefix },
+                { provide: String, useValue: prefix },
                 { provide: HTTP_INTERCEPTORS, useClass: ApiPrefixInterceptor, deps: [BASE_URL] },
+                { provide: ApiPrefixInterceptor, useClass: ApiPrefixInterceptor, deps: [BASE_URL] },
             ]
         });
 
-        service = TestBed.get(HTTP_INTERCEPTORS);
+        service = TestBed.inject(ApiPrefixInterceptor);
     });
 
     it('should be created', () => {

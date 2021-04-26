@@ -188,38 +188,6 @@ namespace Application.DataAccess.Test
         }
 
         [Fact]
-        public async Task ItemListTest_Success()
-        {
-            int? skip = 0;
-            int? take = 10;
-            bool active = true;
-            PropertyInfo sortFieldProperty = null;
-            SortOrder? sortOrder = SortOrder.Ascending;
-
-            Mock<ApplicationEntity> app1 = new Mock<ApplicationEntity>();
-            app1.Object.IsActive = true;
-            Mock<ApplicationEntity> app2 = new Mock<ApplicationEntity>();
-            app2.Object.IsActive = true;
-
-            List<ApplicationEntity> entityList = new List<ApplicationEntity>
-            {
-                app1.Object,
-                app2.Object
-            };
-
-            IQueryable<ApplicationEntity> selector = entityList.AsDbSetMock().Object.AsQueryable();
-
-            this.mockContext.Setup(x => x.Set<ApplicationEntity>())
-                .Returns(entityList.AsDbSetMock().Object);
-
-            long total = entityList.Count;
-
-            var(list, totalItems) = await this.repo.ItemList(selector, skip, take, active, sortFieldProperty, sortOrder);
-
-            Assert.Equal(total, totalItems);
-        }
-
-        [Fact]
         public async Task ListAsyncTest_Success()
         {
             int? skip = 0;
@@ -232,21 +200,24 @@ namespace Application.DataAccess.Test
             app1.Object.IsActive = true;
             Mock<ApplicationEntity> app2 = new Mock<ApplicationEntity>();
             app2.Object.IsActive = true;
+            Mock<ApplicationEntity> app3 = new Mock<ApplicationEntity>();
+            app3.Object.IsActive = false;
 
             List<ApplicationEntity> entityList = new List<ApplicationEntity>
             {
                 app1.Object,
-                app2.Object
+                app2.Object,
+                app3.Object
             };
 
-            this.mockContext.Setup(x => x.Set<ApplicationEntity>())
-                .Returns(entityList.AsDbSetMock().Object);
+            var mock = entityList.AsDbSetMock();
 
-            long total = entityList.Count;
+            this.mockContext.Setup(x => x.Set<ApplicationEntity>())
+                .Returns(mock.Object);
 
             var(list, totalItems) = await this.repo.ListAsync<ApplicationEntity>(skip, take, active, sortFieldName, sortOrder);
 
-            Assert.Equal(total, totalItems);
+            Assert.Equal(2, totalItems);
         }
 
         [Fact]
@@ -256,7 +227,7 @@ namespace Application.DataAccess.Test
 
             // Setup Moq
             this.mockContext.Setup(x => x.FindAsync<MockEntity>(1))
-                .Returns(Task.FromResult(dummyUnit));
+                .Returns(new ValueTask<MockEntity>(dummyUnit));
 
             // Run Code
             var unit = await this.repo.FindByIdAsync<MockEntity>(dummyUnit.MockEntityId);
@@ -272,7 +243,7 @@ namespace Application.DataAccess.Test
 
             // Setup Moq
             this.mockContext.Setup(x => x.FindAsync<EntitySample>(1))
-                .Returns(Task.FromResult((EntitySample)null));
+                .Returns(new ValueTask<EntitySample>((EntitySample)null));
 
             // Run Code
             var unit = await this.repo.FindByIdAsync<EntitySample>(id);

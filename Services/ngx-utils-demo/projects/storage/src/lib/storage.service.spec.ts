@@ -17,9 +17,9 @@ describe('StorageService', () => {
                 { provide: SESSION_STORAGE, useValue: jasmine.createSpyObj('SESSION_STORAGE', ['getItem', 'setItem', 'removeItem']) }
             ]
         });
-        service = TestBed.get(StorageService);
-        localStorage = TestBed.get(LOCAL_STORAGE);
-        sessionStorage = TestBed.get(SESSION_STORAGE);
+        service = TestBed.inject(StorageService);
+        localStorage = TestBed.inject(LOCAL_STORAGE);
+        sessionStorage = TestBed.inject(SESSION_STORAGE);
     });
 
     it('should be created', () => {

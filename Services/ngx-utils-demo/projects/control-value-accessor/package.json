@@ -1,7 +1,7 @@
 {
   "name": "@renet-consulting/control-value-accessor",
-  "version": "8.0.0",
-  "author": "Michael Vasyliv",
+  "version": "10.0.2",
+  "author": "Renet Consulting, Inc.",
   "license": "MIT",
   "private": false,
   "homepage": "https://github.com/RenetConsulting/angularcore.net",
@@ -14,6 +14,6 @@
     "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/control-value-accessor"
   },
   "peerDependencies": {
-    "@angular/forms": "^8.0.0"
+    "@angular/forms": "^9.0.0"
   }
 }

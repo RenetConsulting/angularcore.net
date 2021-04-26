@@ -15,7 +15,7 @@ describe('PrepResetPasswordComponent', () => {
         TestBed.configureTestingModule({
             providers: [provideMockStore({})]
         });
-        store = TestBed.get(Store);
+        store = TestBed.inject(Store as any);
         component = new PrepResetPasswordComponent(store);
     });
 

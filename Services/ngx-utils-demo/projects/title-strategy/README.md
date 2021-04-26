@@ -23,3 +23,6 @@ inside html:
 ```html
 <title-strategy></title-strategy>
 ```
+
+## Release v9.0.0
+Converted project to Angular v9

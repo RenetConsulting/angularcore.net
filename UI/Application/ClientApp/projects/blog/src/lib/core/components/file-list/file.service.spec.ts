@@ -18,9 +18,9 @@ describe('FileService', () => {
             ]
         });
 
-        service = TestBed.get(FileService);
-        controller = TestBed.get(HttpTestingController);
-        params = TestBed.get(NgxHttpParamsService);
+        service = TestBed.inject(FileService);
+        controller = TestBed.inject(HttpTestingController);
+        params = TestBed.inject(NgxHttpParamsService as any);
 
         params.map.and.returnValue(null);
     });

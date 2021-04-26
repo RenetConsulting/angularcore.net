@@ -5,6 +5,7 @@
 
 namespace Application.Business
 {
+    using System.Security.Claims;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Identity;
 
@@ -23,5 +24,27 @@ namespace Application.Business
         Task<IdentityResult> ResetPasswordAsync(TUser user, string token, string newPassword);
 
         Task<IdentityResult> ChangePasswordAsync(TUser user, string oldPassword, string newPassword);
+
+        Task<string> GeneratePasswordResetTokenByEmailAsync(string email);
+
+        Task<IdentityResult> ResetPasswordByEmailAsync(string email, string token, string newPassword);
+
+        Task<IdentityResult> ChangeUserPasswordAsync(System.Security.Claims.ClaimsPrincipal userClaims, string oldPassword, string newPassword, string confirmNewPassword);
+
+        Task<string> GenerateEmailTokenAsync(string userId);
+
+        Task<IdentityResult> ConfirmEmailAsync(TUser user, string token);
+
+        Task<IdentityResult> ConfirmEmailAsync(string userName, string token);
+
+        Task<IdentityResult> CreateAsync(string userName, string password);
+
+        Task<TUser> GetUserAsync(ClaimsPrincipal principal);
+
+        Task<TUser> FindByLoginAsync(string loginProvider, string providerKey);
+
+        Task<IdentityResult> AddLoginAsync(TUser user, UserLoginInfo login);
+
+        Task<TUser> FindByNameAsync(string userName);
     }
 }

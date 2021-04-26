@@ -22,9 +22,9 @@ describe('InitializerService', () => {
             ]
         });
 
-        service = TestBed.get(InitializerService);
-        settingsService = TestBed.get(SettingsService);
-        store = TestBed.get(Store);
+        service = TestBed.inject(InitializerService);
+        settingsService = TestBed.inject(SettingsService as any);
+        store = TestBed.inject(Store as any);
     });
 
     it('should be created', () => {

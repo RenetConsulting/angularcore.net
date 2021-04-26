@@ -17,6 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "progress": false,
             "extractCss": true,
             "outputPath": "dist/angular",
@@ -25,19 +26,22 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
-              "src/assets"
+              "src/assets",
+              "src/google75e9326ab6a27102.html"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss",
               {
-                "input": "src/themes/deeppurple-amber.theme.scss",
                 "lazy": true,
+                "inject": false,
+                "input": "src/themes/deeppurple-amber.theme.scss",
                 "bundleName": "assets/deeppurple-amber.theme"
               },
               {
-                "input": "src/themes/purple-green.theme.scss",
                 "lazy": true,
+                "inject": false,
+                "input": "src/themes/purple-green.theme.scss",
                 "bundleName": "assets/purple-green.theme"
               },
               "node_modules/quill/dist/quill.core.css",
@@ -47,6 +51,12 @@
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -95,7 +105,8 @@
             ],
             "scripts": [],
             "assets": [
-              "src/assets"
+              "src/assets",
+              "src/google75e9326ab6a27102.html"
             ]
           }
         },
@@ -177,7 +188,12 @@
             "tsConfig": "projects/blog/tsconfig.lib.json",
             "project": "projects/blog/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/blog/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {

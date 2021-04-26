@@ -25,10 +25,10 @@ describe('AuthInterceptor', () => {
             ]
         });
 
-        interceptor = TestBed.get(AuthInterceptor);
-        params = TestBed.get(NgxHttpParamsService);
-        options = TestBed.get(AuthDefaultOptions);
-        token = TestBed.get(TokenService);
+        interceptor = TestBed.inject(AuthInterceptor);
+        params = TestBed.inject(NgxHttpParamsService) as jasmine.SpyObj<NgxHttpParamsService>;
+        options = TestBed.inject(AuthDefaultOptions);
+        token = TestBed.inject(TokenService) as jasmine.SpyObj<TokenService>;
 
         handler = jasmine.createSpyObj<HttpHandler>('HttpHandler', ['handle']);
     });
@@ -62,9 +62,9 @@ describe('AuthInterceptor', () => {
         let headers: jasmine.SpyObj<HttpHeaders>;
 
         beforeEach(() => {
-            httpRequest = { headers: headers as HttpHeaders } as HttpRequest<any>;
             headers = jasmine.createSpyObj<HttpHeaders>('HttpHeaders', ['has']);
             headers.has.and.returnValue(false);
+            httpRequest = { headers: headers as HttpHeaders } as HttpRequest<any>;
         });
 
         it('invalid token', () => {

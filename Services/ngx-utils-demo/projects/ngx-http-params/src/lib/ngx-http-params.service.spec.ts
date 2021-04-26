@@ -6,7 +6,7 @@ describe('NgxHttpParamsService', () => {
     let service: NgxHttpParamsService;
 
     beforeEach(() => {
-        service = TestBed.get(NgxHttpParamsService);
+        service = TestBed.inject(NgxHttpParamsService);
     });
 
     it('should be created', () => {
@@ -52,6 +52,17 @@ describe('NgxHttpParamsService', () => {
             };
             // tslint:disable-next-line
             expect(service.map(x).toString()).toEqual('param1=val1&param2=2&numbers=1&numbers=2&numbers=3&numbers=4&fruits=apple&fruits=pear&fruits=peach&vegetables.tomato=1&vegetables.potato=0.5&vegetables.cucumber=4');
+        });
+        it('with data and no prefix', () => {
+            const x = {
+                param1: 'val1',
+                param2: 2,
+                numbers: [1, 2, 3, 4],
+                fruits: ['apple', 'pear', 'peach'],
+                vegetables: { tomato: 1, potato: 0.5, cucumber: 4 },
+            };
+            // tslint:disable-next-line
+            expect(service.map(x, '', false).toString()).toEqual('param1=val1&param2=2&numbers=1&numbers=2&numbers=3&numbers=4&fruits=apple&fruits=pear&fruits=peach&tomato=1&potato=0.5&cucumber=4');
         });
         it('with null', () => {
             const x = {

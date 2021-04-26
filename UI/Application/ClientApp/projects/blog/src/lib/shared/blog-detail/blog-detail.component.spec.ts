@@ -31,9 +31,9 @@ describe('BlogDetailComponent', () => {
             ]
         });
 
-        store = TestBed.get(Store);
-        route = TestBed.get(ActivatedRoute);
-        title = TestBed.get(Title);
+        store = TestBed.inject(Store as any);
+        route = TestBed.inject(ActivatedRoute);
+        title = TestBed.inject(Title as any);
 
         component = new BlogDetailComponent(store, route, title);
     });

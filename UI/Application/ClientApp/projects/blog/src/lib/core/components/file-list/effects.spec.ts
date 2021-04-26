@@ -38,10 +38,10 @@ describe('FileEffects', () => {
             ],
         });
 
-        effects = TestBed.get(FileEffects);
-        fileService = TestBed.get(FileService);
-        store = TestBed.get(Store);
-        dialog = TestBed.get(MatDialog);
+        effects = TestBed.inject(FileEffects);
+        fileService = TestBed.inject(FileService as any);
+        store = TestBed.inject(Store as any);
+        dialog = TestBed.inject(MatDialog as any);
         dialogRef = jasmine.createSpyObj<MatDialogRef<any>>('MatDialogRef', ['afterClosed']);
         promptDialog = jasmine.createSpyObj<PromptDialogComponent>('PromptDialogComponent', ['setContent']);
     });

@@ -11,7 +11,7 @@ namespace Application.Controllers
     using System.Net.Http;
     using System.Threading.Tasks;
     using Application.Business;
-    using Application.Business.CoreCaptcha;
+    using CoreCaptcha;
     using Application.Business.Helpers;
     using Application.Business.Models;
     using Application.DataAccess.Entities;
@@ -30,13 +30,13 @@ namespace Application.Controllers
     {
         private readonly ApplicationSignInManager<ApplicationUser> signInManager;
 
-        private readonly ApplicationUserManager<ApplicationUser> userManager;
+        private readonly IApplicationUserManager<ApplicationUser> userManager;
 
         private readonly ICoreCaptcha coreCaptcha;
 
         public AuthorizationController(
             ApplicationSignInManager<ApplicationUser> signInManager,
-            ApplicationUserManager<ApplicationUser> userManager,
+            IApplicationUserManager<ApplicationUser> userManager,
             ICoreCaptcha coreCaptcha)
             : base()
         {

@@ -27,8 +27,8 @@ describe('ChangePasswordEffects', () => {
             ],
         });
 
-        effects = TestBed.get(ChangePasswordEffects);
-        accountService = TestBed.get(AccountService);
+        effects = TestBed.inject(ChangePasswordEffects);
+        accountService = TestBed.inject(AccountService as any);
     });
 
     it('should work', () => {

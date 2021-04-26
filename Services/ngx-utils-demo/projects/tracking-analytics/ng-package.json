@@ -2,7 +2,12 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/tracking-analytics",
   "lib": {
-    "entryFile": "src/public-api.ts"
+    "entryFile": "src/public-api.ts",
+    "umdModuleIds": {
+      "@renet-consulting/ngx-http-params": "ngxHttpParams",
+      "@renet-consulting/storage": "storage",
+      "crypto-js": "cryptoJs"
+    }
   },
   "whitelistedNonPeerDependencies": [
     "@renet-consulting/ngx-http-params",

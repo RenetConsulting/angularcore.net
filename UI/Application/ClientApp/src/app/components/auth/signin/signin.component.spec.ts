@@ -8,9 +8,9 @@ import { SetError } from '~/actions/messenger.actions';
 import { IError } from '~/interfaces/error';
 import { IUser } from '~/interfaces/user';
 import { RootStore } from '~/reducers';
-import { SetAuthorized } from '../actions';
-import { ResetError, SigninRequest } from './actions';
+import { ResetError, SigninRequest, ExternalSignin } from './actions';
 import { SigninComponent } from './signin.component';
+import { ErrorCodeService } from '@renet-consulting/external-auth';
 
 describe('SigninComponent', () => {
 
@@ -18,15 +18,17 @@ describe('SigninComponent', () => {
 
     let store: MockStore<RootStore>;
     let storage: jasmine.SpyObj<StorageService>;
+    let errorCode: jasmine.SpyObj<ErrorCodeService>;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [provideMockStore({})]
         });
-        store = TestBed.get(Store);
+        store = TestBed.inject(Store as any);
         storage = jasmine.createSpyObj<StorageService>('StorageService', ['setStorage']);
+        errorCode = jasmine.createSpyObj<ErrorCodeService>('ErrorCodeService', ['map']);
 
-        component = new SigninComponent(store, storage);
+        component = new SigninComponent(store, storage, errorCode);
     });
 
     it('subscription', () => {
@@ -72,7 +74,7 @@ describe('SigninComponent', () => {
         spyOn(store, 'dispatch');
         const provider = 'bob';
         component.externalSignin(provider);
-        expect(store.dispatch).toHaveBeenCalledWith(new SetAuthorized({ authorized: true, provider }));
+        expect(store.dispatch).toHaveBeenCalledWith(new ExternalSignin(provider));
     });
     it('externalSigninError', () => {
         spyOn(store, 'dispatch');

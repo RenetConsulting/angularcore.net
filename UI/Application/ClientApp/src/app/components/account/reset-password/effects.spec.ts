@@ -26,8 +26,8 @@ describe('ResetPasswordEffects', () => {
             ],
         });
 
-        effects = TestBed.get(ResetPasswordEffects);
-        accountService = TestBed.get(AccountService);
+        effects = TestBed.inject(ResetPasswordEffects);
+        accountService = TestBed.inject(AccountService as any);
     });
 
     it('should work', () => {

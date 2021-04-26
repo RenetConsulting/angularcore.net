@@ -100,8 +100,7 @@ namespace Application.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(50);
 
-                    b.Property<string>("Content")
-                        .HasMaxLength(2550);
+                    b.Property<string>("Content");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()

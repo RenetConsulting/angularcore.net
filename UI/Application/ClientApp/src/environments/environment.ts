@@ -6,7 +6,7 @@ import { RootStore } from '~/reducers';
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
-function logger(reducer: ActionReducer<RootStore>): ActionReducer<RootStore> {
+export function logger(reducer: ActionReducer<RootStore>): ActionReducer<RootStore> {
     return (state: RootStore, action: any): any => {
         const result = reducer(state, action);
         console.groupCollapsed(action.type);

@@ -14,8 +14,8 @@ describe('PersonService', () => {
             imports: [HttpClientTestingModule],
         });
 
-        service = TestBed.get(PersonService);
-        controller = TestBed.get(HttpTestingController);
+        service = TestBed.inject(PersonService);
+        controller = TestBed.inject(HttpTestingController);
     });
 
     afterEach(() => controller.verify());

@@ -28,9 +28,9 @@ describe('NgxMessengerService', () => {
             ]
         });
 
-        snackBarConfig = TestBed.get(NGX_SNACK_BAR_CONFIG);
-        dialogConfig = TestBed.get(NGX_DIALOG_CONFIG);
-        service = TestBed.get(NgxMessengerService);
+        snackBarConfig = TestBed.inject(NGX_SNACK_BAR_CONFIG);
+        dialogConfig = TestBed.inject(NGX_DIALOG_CONFIG);
+        service = TestBed.inject(NgxMessengerService);
     });
 
     it('toBeDefined', () => {

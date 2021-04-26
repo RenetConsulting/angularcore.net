@@ -1,6 +1,6 @@
 import { EventEmitter, Renderer2 } from '@angular/core';
 import { NgxSelectDirective } from './ngx-select.directive';
-import { NgxUploaderBase } from './ngx-uploader.base';
+import { NgxUploaderBaseDirective } from './ngx-uploader.base';
 
 describe('NgxSelectDirective', () => {
 
@@ -19,8 +19,8 @@ describe('NgxSelectDirective', () => {
         directive = new NgxSelectDirective(renderer);
     });
 
-    it('emitter instanceof NgxUploaderBase', () => {
-        expect(directive instanceof NgxUploaderBase).toEqual(true);
+    it('emitter instanceof NgxUploaderBaseDirective', () => {
+        expect(directive instanceof NgxUploaderBaseDirective).toEqual(true);
     });
     it('emitter instanceof EventEmitter', () => {
         expect(directive.emitter instanceof EventEmitter).toEqual(true);

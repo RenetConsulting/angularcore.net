@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/bypass",
-  "version": "8.0.0",
+  "version": "9.0.0",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
@@ -14,7 +14,7 @@
     "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/bypass"
   },
   "peerDependencies": {
-    "@angular/core": "^8.0.0",
-    "@angular/platform-browser": "^8.0.0"
+    "@angular/core": "^9.0.0",
+    "@angular/platform-browser": "^9.0.0"
   }
 }

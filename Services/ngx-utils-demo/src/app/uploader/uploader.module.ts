@@ -12,4 +12,5 @@ import { UploaderComponent } from './uploader.component';
         NgxUploaderModule
     ]
 })
-export class UploaderModule { }
+export class UploaderModule {
+}

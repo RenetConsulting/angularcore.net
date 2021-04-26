@@ -36,10 +36,10 @@ describe('SignupEffects', () => {
             ],
         });
 
-        effects = TestBed.get(SignupEffects);
-        authService = TestBed.get(AuthService);
-        router = TestBed.get(Router);
-        params = TestBed.get(NgxHttpParamsService);
+        effects = TestBed.inject(SignupEffects);
+        authService = TestBed.inject(AuthService as any);
+        router = TestBed.inject(Router as any);
+        params = TestBed.inject(NgxHttpParamsService as any);
 
         params.map.and.returnValue(null);
     });

@@ -18,7 +18,7 @@ describe('BlogDashboardComponent', () => {
             providers: [provideMockStore({})]
         });
 
-        store = TestBed.get(Store);
+        store = TestBed.inject(Store as any);
 
         component = new BlogDashboardComponent(store);
     });

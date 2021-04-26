@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit, Optional, Self, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Optional, Output, Self, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormGroupDirective, NgControl, ValidationErrors } from '@angular/forms';
 import { enterLeaveAnimation } from '@renet-consulting/animations';
-import { ProvidedControlValueAccessorBase } from '@renet-consulting/control-value-accessor';
+import { ProvidedControlValueAccessorBaseDirective } from '@renet-consulting/control-value-accessor';
 import { Subscription } from 'rxjs';
 import { EditorService } from './editor.service';
 
@@ -15,7 +15,7 @@ import { EditorService } from './editor.service';
     providers: [EditorService],
     animations: [enterLeaveAnimation]
 })
-export class EditorComponent extends ProvidedControlValueAccessorBase implements OnInit, OnDestroy, ControlValueAccessor {
+export class EditorComponent extends ProvidedControlValueAccessorBaseDirective implements OnInit, OnDestroy, ControlValueAccessor {
 
     @Input() placeholder: string;
     @Input() readonly: boolean;
@@ -24,6 +24,7 @@ export class EditorComponent extends ProvidedControlValueAccessorBase implements
     @Input() minLength: number;
     @Input() maxLength: number;
     @Input() label: number;
+    @Output() blur = new EventEmitter();
     readonly subscription = new Subscription();
     errorState: number;
     error: string;
@@ -62,6 +63,8 @@ export class EditorComponent extends ProvidedControlValueAccessorBase implements
         this.quill = quill;
         this.editorService.addToolbarHandlers(quill.getModule('toolbar'), quill);
     }
+
+    onBlur = (e) => this.blur.emit(e);
 
     setError = (e?: string): void => {
         this.error = e;

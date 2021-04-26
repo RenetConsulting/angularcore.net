@@ -1,0 +1,109 @@
+name: ActionAngularCore - Feature
+
+on:
+  push:
+    branches-ignore:
+      - master
+      - Test
+      - Development
+
+env:
+  NODE_VERSION: '12.x'                # set this to the node version to use
+  DOTNET_VERSION: '3.1.401'           # set this to the dotnet version to use
+  ASURE_STORAGE_KEY: ${{ format('{0}', secrets.AZURE_DEPLOYMENT_STORAGE_CONNECTION_STRING) }} 
+  
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Get current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
+    - name: Get Azure Web storage
+      id: webstorage
+      run: echo "::set-output name=storage::$(echo 'https://renetservices.blob.core.windows.net/deployment/branch/${GITHUB_REF:11}/${{steps.date.outputs.date}}/${GITHUB_SHA}/web.zip' ) "
+
+    - name: Zip storage location
+      run: |
+        echo ${{ steps.webstorage.outputs.storage }}
+
+    - uses: actions/checkout@v1
+
+    - name: Cache web node modules
+      uses: actions/cache@v1
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+           ${{ runner.os }}-node-
+    
+    - name: Setup .NET Core ${{ env.DOTNET_VERSION }}
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Use Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        registry-url: 'https://registry.npmjs.org'
+
+    - name: Build with dotnet
+      run: dotnet build ./AngularCore.sln --configuration Release
+      
+    - name: Test with dotnet
+      run: dotnet test ./AngularCore.sln --configuration Release  --no-build
+      
+    - name: Create web publish
+      run: dotnet publish ./UI/Application/Application.csproj --configuration Release --no-build
+
+    - name: Test with npm
+      run: |
+         cd ./UI/Application/ClientApp/
+         npm run test-headless
+         npm run lint
+
+    - name: Build ngx-utils-demo with npm
+      run: |
+         cd ./Services/ngx-utils-demo/
+         npm install
+         npm run build
+
+    - name: Build @renet-consulting npm library
+      run: |
+         cd ./Services/ngx-utils-demo/
+         npm run build:libraries
+
+    - name: Test ngx-utils-demo with npm 
+      run: |
+         cd ./Services/ngx-utils-demo/
+         npm run test-headless
+
+    - name: Lint ngx-utils-demo with npm lint
+      run: |
+         cd ./Services/ngx-utils-demo/
+         npm run lint
+
+    - name: Zip Web Publish folder
+      run: |
+        cd ./UI/Application/bin/Release/netcoreapp3.1/publish/
+        zip -r ./publish.zip ./*
+
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}      
+    
+    - name: Upload publish zip and set in webapp
+      run: |
+         az storage blob upload -f ./UI/Application/bin/Release/netcoreapp3.1/publish/publish.zip -c deployment -n branch/${GITHUB_REF:11}/${{steps.date.outputs.date}}/${GITHUB_SHA}/web.zip --connection-string '${{ env.ASURE_STORAGE_KEY }}' --output none
+
+         # az webapp config appsettings set --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --name ${{ secrets.AZURE_WEBAPP_NAME }} --settings WEBSITE_RUN_FROM_PACKAGE=${{ steps.webstorage.outputs.storage }} --output none
+      
+    # Azure logout 
+    - name: logout
+      run: |
+        az logout      

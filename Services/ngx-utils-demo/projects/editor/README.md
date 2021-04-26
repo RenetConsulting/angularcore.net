@@ -30,3 +30,20 @@ export class AppToolbarHandlersService implements ToolbarHandlersService {
     }
 }
 ```
+## Release v10.0.3
+Added missing stylesheets
+
+## Release v10.0.2
+Fixed naming convention
+
+## Release v10.0.1
+Revert to Angular v9 to support es5
+
+## Release v10.0.0
+Converted project to Angular v10
+
+## Release v9.0.0
+Converted project to Angular v9
+
+## Release v9.0.1
+Added missing theme.scss

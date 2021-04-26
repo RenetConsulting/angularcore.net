@@ -19,10 +19,13 @@ namespace Application.DataAccess.Test.MockDbSet
         public T Current
            => this.inner.Current;
 
-        public Task<bool> MoveNext(CancellationToken cancellationToken)
-           => Task.FromResult(this.inner.MoveNext());
+        public ValueTask<bool> MoveNextAsync()
+             => new ValueTask<bool>(this.inner.MoveNext());
 
-        public void Dispose()
-           => this.inner.Dispose();
+        public ValueTask DisposeAsync()
+        {
+            this.inner.Dispose();
+            return new ValueTask();
+        }
     }
 }

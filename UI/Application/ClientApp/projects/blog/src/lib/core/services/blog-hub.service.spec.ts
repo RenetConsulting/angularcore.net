@@ -36,8 +36,8 @@ describe('BlogHubService', () => {
             ]
         });
 
-        service = TestBed.get(BlogHubService);
-        store = TestBed.get(Store);
+        service = TestBed.inject(BlogHubService);
+        store = TestBed.inject(Store as any);
         connection = service.connection as Partial<HubConnectionBuilder> as MockHubBuilder;
     });
 

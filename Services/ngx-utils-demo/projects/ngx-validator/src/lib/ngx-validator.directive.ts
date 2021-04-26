@@ -24,11 +24,18 @@ export class NgxValidatorDirective implements OnChanges, OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.subscription.add(this.ngControl.statusChanges.subscribe(this.emitError));
+        if (this.ngControl && this.ngControl.statusChanges) {
+            this.subscription.add(this.ngControl.statusChanges.subscribe(this.emitError));
+        }
+        else {
+            console.log('NgxValidatorDirective Error: this.ngControl undefined');
+        }
     }
 
     ngOnDestroy(): void {
-        this.subscription.unsubscribe();
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 
     @HostListener('blur') blur = (): void => this.emitError();

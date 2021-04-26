@@ -17,8 +17,8 @@ describe('TokenService', () => {
             ]
         });
 
-        service = TestBed.get(TokenService);
-        storage = TestBed.get(StorageService);
+        service = TestBed.inject(TokenService);
+        storage = TestBed.inject(StorageService) as jasmine.SpyObj<StorageService>;
     });
 
     it('should be created', () => {

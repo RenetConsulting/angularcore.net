@@ -2,21 +2,11 @@
 
 This library provides a directive that listens resize event of an element.
 
-## Dependencies
+## Polyfill
 
-This library depends on ``resize-observer-polyfill``
-
-## Installation
-
-At first please install dependencies ([resize-observer-polyfill](https://www.npmjs.com/package/resize-observer-polyfill)):
-```
-npm install resize-observer-polyfill --save-dev
-```
-
-then install 
-```
-npm install @renet-consulting/resize --save-dev
-```
+There are few veriants of polyfills:
+[resize-observer-polyfill](https://www.npmjs.com/package/resize-observer-polyfill)
+[resize-observer](https://www.npmjs.com/package/resize-observer)
 
 ## Usage Example
 
@@ -41,3 +31,6 @@ inside html:
 </div>
 ...
 ```
+
+## Release v9.0.0
+Converted project to Angular v9

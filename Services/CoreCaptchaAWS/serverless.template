@@ -1,0 +1,262 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+  "Transform" : "AWS::Serverless-2016-10-31",
+  "Description" : "An AWS Serverless Application.",
+
+  "Resources" : {
+
+   "ApiCoreCaptcha": {
+        "Type": "AWS::ApiGateway::RestApi",
+		"DependsOn": [	
+			"CaptchaCreate",
+			"CaptchaValidate"
+		],
+        "Properties": {
+            "Name": "ApiCoreCaptcha",
+			 "Description" : "Created by VS Template",
+			 "EndpointConfiguration" : {
+			  "Types" : ["REGIONAL"]
+			 }
+        }
+    },
+
+	"ApiCoreCaptchaDeployment" : {
+	  "Type" : "AWS::ApiGateway::Deployment",
+		"DependsOn": [	
+			"ApiCoreCaptcha",
+			"CaptchaCreateApi",
+			"CaptchaValidateApi"
+		],
+	  "Properties" : {
+		  "RestApiId": {
+					"Ref": "ApiCoreCaptcha"
+			}
+		}
+	},
+
+	"ApiCoreCaptchaStage": {
+		"Type" : "AWS::ApiGateway::Stage",
+		"DependsOn": [	
+			"ApiCoreCaptcha",
+			"ApiCoreCaptchaDeployment"
+		],
+		"Properties" : {
+			"RestApiId": {
+					"Ref": "ApiCoreCaptcha"
+				},
+			"StageName" : "api",
+			"DeploymentId": {
+                    "Ref": "ApiCoreCaptchaDeployment"
+                }
+		}
+	},
+
+
+
+	"CaptchaCreatePermission": {
+            "Type": "AWS::Lambda::Permission",
+			"DependsOn": [		
+				"CaptchaCreate",
+				"ApiCoreCaptcha"
+			],
+            "Properties": {
+                "Action": "lambda:InvokeFunction", 
+                "FunctionName": "CaptchaCreate", 
+                "Principal": "apigateway.amazonaws.com"
+            }
+     },
+
+	"CaptchaCreateResource": {
+        "Type": "AWS::ApiGateway::Resource",
+        "Properties": {
+            "RestApiId": {
+                "Ref": "ApiCoreCaptcha"
+            },
+			 "ParentId": {
+                "Fn::GetAtt": [
+                    "ApiCoreCaptcha",
+                    "RootResourceId"
+                ]
+            },
+            "PathPart": "CaptchaCreate"
+        }
+    },
+
+	"CaptchaCreateApi": {
+	  "Type" : "AWS::ApiGateway::Method",
+	  "DependsOn": [
+		"CaptchaCreatePermission",
+		"CaptchaCreate"
+	  ],
+	  "Properties" : {
+		  "ApiKeyRequired" : false,
+		   "ResourceId": {
+                 "Ref": "CaptchaCreateResource"
+            },
+		  "HttpMethod" : "ANY",
+		  "AuthorizationType": "NONE",
+		  "Integration" : {
+		    "IntegrationHttpMethod" : "POST",
+			"Type" : "AWS_PROXY",
+			"Uri" : {			 
+                "Fn::Join": [
+                    "", [
+                        "arn:aws:apigateway:",
+                        {
+                            "Ref": "AWS::Region"
+                        },
+                        ":",
+                        "lambda:path/2015-03-31/functions/",
+						{
+							"Fn::GetAtt": [
+								"CaptchaCreate",
+								"Arn"
+							]
+						},
+                        "/invocations"
+                    ]
+                ]   
+            }
+		  },
+		  "MethodResponses": [{
+                "StatusCode": 200
+				}],
+		  "RestApiId" : 
+		  {
+			"Ref": "ApiCoreCaptcha"
+		  }
+		}
+	},
+
+
+	"CaptchaValidateResource": {
+        "Type": "AWS::ApiGateway::Resource",
+        "Properties": {
+            "RestApiId": {
+                "Ref": "ApiCoreCaptcha"
+            },
+			 "ParentId": {
+                "Fn::GetAtt": [
+                    "ApiCoreCaptcha",
+                    "RootResourceId"
+                ]
+            },
+            "PathPart": "CaptchaValidate"
+        }
+    },
+
+	"CaptchaValidatePermission": {
+            "Type": "AWS::Lambda::Permission", 
+			"DependsOn": [		
+				"CaptchaValidate",
+				"ApiCoreCaptcha"
+			],
+            "Properties": {
+                "Action": "lambda:InvokeFunction", 
+                "FunctionName": "CaptchaValidate", 
+                "Principal": "apigateway.amazonaws.com"
+            }
+        },
+
+	"CaptchaValidateApi": {
+	  "Type" : "AWS::ApiGateway::Method",
+	  "DependsOn": [
+		"CaptchaValidatePermission",
+		"CaptchaValidate"
+	  ],
+	  "Properties" : {
+		  "ApiKeyRequired" : false,
+		   "ResourceId": {
+                 "Ref": "CaptchaValidateResource"
+            },
+		  "HttpMethod" : "ANY",
+		  "AuthorizationType": "NONE",
+		  "Integration" : {
+		    "IntegrationHttpMethod" : "POST",
+			"Type" : "AWS_PROXY",
+			"Uri" : {			 
+                "Fn::Join": [
+                    "", [
+                        "arn:aws:apigateway:",
+                        {
+                            "Ref": "AWS::Region"
+                        },
+                        ":",
+                        "lambda:path/2015-03-31/functions/",
+						{
+							"Fn::GetAtt": [
+								"CaptchaValidate",
+								"Arn"
+							]
+						},
+                        "/invocations"
+                    ]
+                ]   
+            }
+		  },
+		  "MethodResponses": [{
+                "StatusCode": 200
+				}],
+		  "RestApiId" : 
+		  {
+			"Ref": "ApiCoreCaptcha"
+		  }
+		}
+	},
+
+
+    "CaptchaCreate" : {
+        "Type" : "AWS::Lambda::Function",
+        "Properties" : {
+            "Handler" : "CoreCaptchaAWS::CoreCaptchaAWS.CaptchaCreate::CaptchaCreateHandler",
+            "Role"    : {"Fn::GetAtt" : [ "LambdaRole", "Arn"]},
+            "Runtime" : "dotnetcore2.1",
+            "MemorySize" : 256,
+            "Timeout" : 30,
+			"FunctionName" : "CaptchaCreate"
+			
+        }
+    },
+
+	"CaptchaValidate" : {
+        "Type" : "AWS::Lambda::Function",
+        "Properties" : {
+            "Handler" : "CoreCaptchaAWS::CoreCaptchaAWS.CaptchaValidate::CaptchaValidateHandler",
+            "Role"    : {"Fn::GetAtt" : [ "LambdaRole", "Arn"]},
+            "Runtime" : "dotnetcore2.1",
+            "MemorySize" : 256,
+            "Timeout" : 30,
+            "FunctionName" : "CaptchaValidate"
+        }
+    },
+
+    "LambdaRole" : {
+        "Type" : "AWS::IAM::Role",
+        "Properties" : {
+            "AssumeRolePolicyDocument" : {
+                "Version" : "2012-10-17",
+                "Statement" : [
+                    {
+                        "Action" : [
+                            "sts:AssumeRole"
+                        ],
+                        "Effect" : "Allow",
+                        "Principal" : {
+                            "Service" : [
+                                "lambda.amazonaws.com"
+                            ]
+                        }
+                    }
+                ]
+            },
+            "ManagedPolicyArns" : [
+                "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+            ]
+       }
+    }
+
+  },
+
+  "Outputs" : {
+  }
+}

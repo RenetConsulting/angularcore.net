@@ -1,11 +1,11 @@
 import { Directive, EventEmitter, HostListener, Inject, OnChanges, OnDestroy, OnInit, Output, Renderer2 } from '@angular/core';
 import { isString } from '@renet-consulting/util';
-import { NgxUploaderBase } from './ngx-uploader.base';
+import { NgxUploaderBaseDirective } from './ngx-uploader.base';
 
 @Directive({
     selector: '[ngx-select]',
 })
-export class NgxSelectDirective extends NgxUploaderBase implements OnChanges, OnInit, OnDestroy {
+export class NgxSelectDirective extends NgxUploaderBaseDirective implements OnChanges, OnInit, OnDestroy {
 
     @Output('ngx-select') readonly emitter = new EventEmitter<Array<File>>();
     private element: HTMLInputElement;

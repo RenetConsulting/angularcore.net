@@ -37,10 +37,10 @@ describe('NgxTrackerComponent', () => {
             ]
         });
 
-        title = TestBed.get(Title);
-        trackerHttpService = TestBed.get(NgxTrackerHttpService);
-        trackerService = TestBed.get(NgxTrackerService);
-        router = TestBed.get(Router);
+        title = TestBed.inject(Title);
+        trackerHttpService = TestBed.inject(NgxTrackerHttpService) as jasmine.SpyObj<NgxTrackerHttpService>;
+        trackerService = TestBed.inject(NgxTrackerService);
+        router = TestBed.inject(Router) as jasmine.SpyObj<Router>;
         component = TestBed.createComponent(NgxTrackerComponent).componentInstance;
     });
 

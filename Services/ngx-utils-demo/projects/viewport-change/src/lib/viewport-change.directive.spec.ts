@@ -1,5 +1,6 @@
-import { CdkVirtualScrollViewport, CdkVirtualForOf } from '@angular/cdk/scrolling';
+import { CdkVirtualForOf, CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { EventEmitter, NgZone } from '@angular/core';
+import { fakeAsync, tick } from '@angular/core/testing';
 import { of, Subscription } from 'rxjs';
 import { ViewportChangeDirective } from './viewport-change.directive';
 
@@ -19,9 +20,7 @@ describe('ViewportChangeDirective', () => {
             'getViewportSize'
         ]);
 
-        directive = new ViewportChangeDirective(zone);
-        directive.viewport = viewport;
-        directive.forOf = { dataStream: of(null) } as CdkVirtualForOf<any>;
+        directive = new ViewportChangeDirective(zone, viewport);
     });
 
     it('should create', () => {
@@ -36,16 +35,35 @@ describe('ViewportChangeDirective', () => {
     it('subscription', () => {
         expect(directive.subscription instanceof Subscription).toEqual(true);
     });
-    it('ngOnInit', () => {
-        spyOn(directive, 'emitViewChange');
 
-        viewport.elementScrolled.and.returnValue(of(null));
-        directive.ngOnInit();
-        expect(viewport.elementScrolled).toHaveBeenCalled();
-        expect(directive.emitViewChange).toHaveBeenCalled();
+    describe('ngOnInit', () => {
 
-        directive.ngOnDestroy();
+        beforeEach(() => {
+            spyOn(directive, 'emit');
+            viewport.elementScrolled.and.returnValue(of(null));
+        });
+
+        it('with forOf (3 source of data)', fakeAsync(() => {
+            directive.forOf = { dataStream: of(null) } as CdkVirtualForOf<any>;
+            directive.ngOnInit();
+
+            tick(directive.time);
+
+            expect(viewport.elementScrolled).toHaveBeenCalled();
+            expect(directive.emit).toHaveBeenCalledTimes(1);
+        }));
+        it('without', fakeAsync(() => {
+            directive.ngOnInit();
+
+            tick(directive.time);
+
+            expect(viewport.elementScrolled).toHaveBeenCalled();
+            expect(directive.emit).toHaveBeenCalledTimes(1);
+        }));
+
+        afterEach(() => directive.ngOnDestroy());
     });
+
     it('ngOnDestroy', () => {
         directive.ngOnDestroy();
         expect(directive.subscription.closed).toEqual(true);
@@ -60,7 +78,7 @@ describe('ViewportChangeDirective', () => {
         const end = 17;
         directive.itemSize = 200;
 
-        directive.emitViewChange();
+        directive.emit();
 
         expect(directive.viewChange.emit).toHaveBeenCalledWith({ start, end });
     });

@@ -29,7 +29,7 @@ namespace Application.Business.Models
                 FileId = this.FileId,
                 Url = this.Url,
                 Description = this.Description,
-                Title = this.Title
+                Title = this.Title,
             };
         }
 

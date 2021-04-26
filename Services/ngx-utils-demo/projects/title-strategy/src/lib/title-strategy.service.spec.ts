@@ -20,8 +20,8 @@ describe('TitleStrategyService', () => {
             ]
         });
 
-        service = TestBed.get(TitleStrategyService);
-        titleService = TestBed.get(Title);
+        service = TestBed.inject(TitleStrategyService);
+        titleService = TestBed.inject(Title) as jasmine.SpyObj<Title>;
     });
 
     it('should be created', () => {
