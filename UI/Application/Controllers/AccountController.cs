@@ -72,6 +72,10 @@ namespace Application.Controllers
 
             if (result.Succeeded)
             {
+                ApplicationUser user = await this.userManager.FindByEmailAsync(userModel.Email).ConfigureAwait(false);
+
+                await this.SendRegistrationMessageAsync(userModel.Email, user.Id).ConfigureAwait(false);
+
                 return this.Ok();
             }
             else
