@@ -349,7 +349,6 @@ namespace Application.DataAccess.Repositories
             return person;
         }
 
-        internal IQueryable<TEntity> WhereSelector<TEntity, KAndObject, KOrObject>(KAndObject whereAnd, KOrObject whereOr)
         internal IQueryable<TEntity> WhereSelector<TEntity, TAndObject, TOrObject>(TAndObject whereAnd, TOrObject whereOr)
              where TEntity : ApplicationEntity
         {
