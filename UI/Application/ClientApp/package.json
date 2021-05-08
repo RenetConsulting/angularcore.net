@@ -97,7 +97,7 @@
     "karma-jasmine-html-reporter": "^1.5.3",
     "karma-phantomjs-launcher": "^1.0.4",
     "lodash": "^4.17.19",
-    "ng-packagr": "^9.0.0",
+    "ng-packagr": "^10.1.1",
     "popper.js": "^1.16.0",
     "phantomjs-prebuilt": "^2.1.16",
     "protractor": "^5.4.4",
