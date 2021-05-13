@@ -34,16 +34,6 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss",
-              {
-                "inject": true,
-                "input": "src/themes/deeppurple-amber.theme.scss",
-                "bundleName": "assets/deeppurple-amber.theme"
-              },
-              {
-                "inject": true,
-                "input": "src/themes/purple-green.theme.scss",
-                "bundleName": "assets/purple-green.theme"
-              },
               "node_modules/quill/dist/quill.core.css",
               "node_modules/quill/dist/quill.snow.css"
             ],
