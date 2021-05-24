@@ -3,7 +3,6 @@ import { ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { NgxLinkStylesheetService } from '@renet-consulting/ngx-link-stylesheet';
 import { StorageService } from '@renet-consulting/storage';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
@@ -19,7 +18,6 @@ describe('ThemeEffects', () => {
     let actions: Observable<any>;
     let store: MockStore<RootStore>;
     let storageService: jasmine.SpyObj<StorageService>;
-    let stylesheet: jasmine.SpyObj<NgxLinkStylesheetService>;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -28,17 +26,12 @@ describe('ThemeEffects', () => {
                 provideMockActions(() => actions),
                 provideMockStore({}),
                 { provide: StorageService, useValue: jasmine.createSpyObj<StorageService>('StorageService', ['get', 'set']) },
-                {
-                    provide: NgxLinkStylesheetService,
-                    useValue: jasmine.createSpyObj<NgxLinkStylesheetService>('NgxLinkStylesheetService', ['delete', 'update'])
-                },
             ],
         });
 
         effects = TestBed.inject(ThemeEffects);
         store = TestBed.inject(Store as any);
         storageService = TestBed.inject(StorageService as any);
-        stylesheet = TestBed.inject(NgxLinkStylesheetService as any);
     });
 
     it('should work', () => {
@@ -80,7 +73,6 @@ describe('ThemeEffects', () => {
             const expected = cold('--b', { b: theme });
             actions = hot('--a-', { a: action });
             expect(effects.setTheme).toBeObservable(expected);
-            expect(stylesheet.delete).toHaveBeenCalledWith(effects.cssClass);
             expect(storageService.set).toHaveBeenCalledWith(effects.key, theme);
         });
         it('delete', () => {
@@ -89,7 +81,6 @@ describe('ThemeEffects', () => {
             const expected = cold('--b', { b: theme });
             actions = hot('--a-', { a: action });
             expect(effects.setTheme).toBeObservable(expected);
-            expect(stylesheet.update).toHaveBeenCalledWith(effects.cssClass, `assets/${theme.name}.css`);
             expect(storageService.set).toHaveBeenCalledWith(effects.key, theme);
         });
     });
