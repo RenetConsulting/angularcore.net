@@ -14,37 +14,37 @@ import { ThemeTypes } from './types';
 @Injectable()
 export class ThemeEffects {
 
-	readonly key = 'theme';
-	readonly cssClass = 'theme-picker';
+    readonly key = 'theme';
+    readonly cssClass = 'theme-picker';
 
-	constructor(
-		@Inject(Actions) private actions: Actions,
-		@Inject(Store) private store: Store<RootStore>,
-		@Inject(StorageService) private storageService: StorageService,
-		@Inject(DOCUMENT) private document: Document
-	) { }
+    constructor(
+        @Inject(Actions) private actions: Actions,
+        @Inject(Store) private store: Store<RootStore>,
+        @Inject(StorageService) private storageService: StorageService,
+        @Inject(DOCUMENT) private document: Document
+    ) { }
 
-	@Effect() init = this.actions.pipe(
-		ofType(ROOT_EFFECTS_INIT),
-		map(() => this.storageService.get(this.key)),
-		withLatestFrom(this.store.select(selectThemes)),
-		map(([selected, themes]) => selected ? selected : themes.find(i => i.isDefault)),
-		map(i => new SetTheme(i)),
-	);
+    @Effect() init = this.actions.pipe(
+        ofType(ROOT_EFFECTS_INIT),
+        map(() => this.storageService.get(this.key)),
+        withLatestFrom(this.store.select(selectThemes)),
+        map(([selected, themes]) => selected ? selected : themes.find(i => i.isDefault)),
+        map(i => new SetTheme(i)),
+    );
 
-	@Effect({ dispatch: false }) setTheme = this.actions.pipe(
-		ofType<SetTheme>(ThemeTypes.SET_THEME),
-		map(a => a.payload),
-		tap(i => {
-			const classList = this.document.body.classList[0] ? this.document.body.classList[0] : 'empty';
+    @Effect({ dispatch: false }) setTheme = this.actions.pipe(
+        ofType<SetTheme>(ThemeTypes.SET_THEME),
+        map(a => a.payload),
+        tap(i => {
+            const classList = this.document.body.classList[0] ? this.document.body.classList[0] : 'empty';
 
-			if (i.isDefault) {
-				this.document.body.classList.remove(classList);
-			} else if (classList !== i.name) {
-				this.document.body.classList.remove(classList);
-				this.document.body.classList.add(i.name);
-			}
-		}),
-		tap(x => this.storageService.set(this.key, x)),
-	);
+            if (i.isDefault) {
+                this.document.body.classList.remove(classList);
+            } else if (classList !== i.name) {
+                this.document.body.classList.remove(classList);
+                this.document.body.classList.add(i.name);
+            }
+        }),
+        tap(x => this.storageService.set(this.key, x)),
+    );
 }
