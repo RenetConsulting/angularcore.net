@@ -1,8 +1,10 @@
+import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
+
 import { Actions, Effect, ofType, ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { NgxLinkStylesheetService } from '@renet-consulting/ngx-link-stylesheet';
 import { StorageService } from '@renet-consulting/storage';
+
 import { map, tap, withLatestFrom } from 'rxjs/operators';
 import { RootStore } from '~/reducers';
 import { SetTheme } from './actions';
@@ -19,7 +21,7 @@ export class ThemeEffects {
         @Inject(Actions) private actions: Actions,
         @Inject(Store) private store: Store<RootStore>,
         @Inject(StorageService) private storageService: StorageService,
-        @Inject(NgxLinkStylesheetService) private stylesheet: NgxLinkStylesheetService
+        @Inject(DOCUMENT) private document: Document
     ) { }
 
     @Effect() init = this.actions.pipe(
@@ -33,7 +35,16 @@ export class ThemeEffects {
     @Effect({ dispatch: false }) setTheme = this.actions.pipe(
         ofType<SetTheme>(ThemeTypes.SET_THEME),
         map(a => a.payload),
-        tap(i => i.isDefault ? this.stylesheet.delete(this.cssClass) : this.stylesheet.update(this.cssClass, `assets/${i.name}.css`)),
+        tap(i => {
+            const classList = this.document.body.classList[0] ? this.document.body.classList[0] : 'empty';
+
+            if (i.isDefault) {
+                this.document.body.classList.remove(classList);
+            } else if (classList !== i.name) {
+                this.document.body.classList.remove(classList);
+                this.document.body.classList.add(i.name);
+            }
+        }),
         tap(x => this.storageService.set(this.key, x)),
     );
 }

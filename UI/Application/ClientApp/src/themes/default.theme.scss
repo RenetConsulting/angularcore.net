@@ -6,6 +6,26 @@ $primary: mat-palette($mat-blue-palette);
 $accent: mat-palette($mat-green, A200, A100, A400);
 $theme: mat-light-theme($primary, $accent);
 
+
 @include mat-core();
 @include angular-material-theme($theme);
 @include app-theme($theme);
+
+$purple-green-primary: mat-palette($mat-purple);
+$purple-green-accent: mat-palette($mat-green, A200, A100, A400);
+$purple-green-theme: mat-dark-theme($purple-green-primary, $purple-green-accent);
+
+.purple-green {
+  @include angular-material-theme($purple-green-theme);
+  @include app-theme($purple-green-theme);
+}
+
+
+$deeppurple-amber-primary: mat-palette($mat-deep-purple);
+$deeppurple-amber-accent: mat-palette($mat-amber, A200, A100, A400);
+$deeppurple-amber-theme: mat-light-theme($deeppurple-amber-primary, $deeppurple-amber-accent);
+
+.deeppurple-amber {
+  @include angular-material-theme($deeppurple-amber-theme);
+  @include app-theme($deeppurple-amber-theme);
+}
