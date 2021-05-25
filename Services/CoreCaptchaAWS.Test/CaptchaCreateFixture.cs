@@ -68,13 +68,6 @@
 
             var result = await captchaCreate.CaptchaCreateHandler(input, lambdaContextMock.Object);
 
-            // Verify logger
-            loggerMock.Verify(l => l.Log(LogLevel.Information,
-                0,
-                It.IsAny<Microsoft.Extensions.Logging.Internal.FormattedLogValues>(),
-                It.IsAny<Exception>(),
-                It.IsAny<Func<object, Exception, string>>()));
-
             Assert.Equal(result.Body, responseMock.BodyJson);
         }
         [Fact]
@@ -87,13 +80,6 @@
                 .Returns(Task.FromResult(responseMock)).Verifiable();
 
             var result = await captchaCreate.CaptchaCreateHandler(input, lambdaContextMock.Object);
-
-            // Verify logger
-            loggerMock.Verify(l => l.Log(LogLevel.Information,
-                0,
-                It.IsAny<Microsoft.Extensions.Logging.Internal.FormattedLogValues>(),
-                It.IsAny<Exception>(),
-                It.IsAny<Func<object, Exception, string>>()));
 
             Assert.Equal(result.Body, responseMock.BodyJson);
         }

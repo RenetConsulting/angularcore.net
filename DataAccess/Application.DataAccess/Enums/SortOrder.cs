@@ -11,6 +11,6 @@ namespace Application.DataAccess.Enums
 
         Ascending = 1,
 
-        Descending = 2
+        Descending = 2,
     }
 }

@@ -1,7 +1,7 @@
 {
   "name": "@renet-consulting/ngx-mat-input",
-  "version": "9.0.0",
-  "author": "Michael Vasyliv",
+  "version": "10.0.2",
+  "author": "Rewnet Consulting, Inc.",
   "license": "MIT",
   "private": false,
   "homepage": "https://github.com/RenetConsulting/angularcore.net",
@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@renet-consulting/animations": "^9.0.0",
-    "@renet-consulting/control-value-accessor": "^9.0.0",
+    "@renet-consulting/control-value-accessor": "^10.0.2",
     "@renet-consulting/ngx-validator": "^9.0.0"
   },
   "peerDependencies": {

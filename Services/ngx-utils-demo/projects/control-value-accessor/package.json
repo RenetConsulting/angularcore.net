@@ -1,7 +1,7 @@
 {
   "name": "@renet-consulting/control-value-accessor",
-  "version": "9.0.0",
-  "author": "Michael Vasyliv",
+  "version": "10.0.2",
+  "author": "Renet Consulting, Inc.",
   "license": "MIT",
   "private": false,
   "homepage": "https://github.com/RenetConsulting/angularcore.net",

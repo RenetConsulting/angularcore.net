@@ -46,7 +46,7 @@ namespace Application.Business
             {
                 UserName = userName,
                 Email = userName,
-                EmailConfirmed = false
+                EmailConfirmed = false,
             };
 
             IdentityResult result = await this.Me.CreateAsync(user, password);
@@ -143,6 +143,29 @@ namespace Application.Business
             TUser user = await this.Me.FindByIdAsync(userId);
 
             string result = await this.Me.GenerateEmailConfirmationTokenAsync(user);
+
+            return result;
+        }
+
+        public async Task<IdentityResult> ConfirmEmailAsync(string email, string token)
+        {
+            TUser user = await this.Me.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                IdentityError error = new IdentityError { Code = "401", Description = "User is not registered." };
+                return IdentityResult.Failed(new[] { error });
+            }
+
+            if (user.EmailConfirmed)
+            {
+                IdentityError error = new IdentityError { Code = "402", Description = "Token in link is invalid" };
+                return IdentityResult.Failed(new[] { error });
+            }
+
+            token = token.Replace(' ', '+');
+
+            var result = await this.Me.ConfirmEmailAsync(user, token);
 
             return result;
         }

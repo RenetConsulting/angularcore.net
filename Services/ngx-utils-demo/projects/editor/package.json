@@ -1,7 +1,7 @@
 {
   "name": "@renet-consulting/editor",
-  "version": "9.0.1",
-  "author": "Michael Vasyliv",
+  "version": "10.0.3",
+  "author": "Renet Consulting, Inc.",
   "license": "MIT",
   "private": false,
   "homepage": "https://github.com/RenetConsulting/angularcore.net",
@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@renet-consulting/animations": "^9.0.0",
-    "@renet-consulting/control-value-accessor": "^9.0.0",
+    "@renet-consulting/control-value-accessor": "^10.0.2",
     "@renet-consulting/ngx-validator": "^9.0.0",
     "ngx-quill": "^7.1.2",
     "quill": "^1.3.7"

@@ -5,17 +5,13 @@
 namespace Application
 {
     using System;
-    using System.Diagnostics;
     using System.IO.Compression;
     using System.Linq;
     using System.Security.Principal;
-    using System.Text.Json;
-    using System.Text.Json.Serialization;
-    using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using Application.Business;
     using Application.Business.Communications;
-    using Application.Business.CoreCaptcha;
+    using CoreCaptcha;
     using Application.Business.Interfaces;
     using Application.Business.Services;
     using Application.DataAccess;
