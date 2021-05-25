@@ -98,10 +98,10 @@ namespace Application.DataAccess.Repositories
         }
 
         [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "ValueTuple.")]
-        public async Task<(TEntity[] list, long totalItems)> FindItems<TEntity, KAndObject, KOrObject>(KAndObject whereAnd, KOrObject whereOr, int? skip, int? take, PropertyInfo sortFieldProperty, SortOrder? sortOrder)
+        public async Task<(TEntity[] list, long totalItems)> FindItems<TEntity, TAndObject, TOrObject>(TAndObject whereAnd, TOrObject whereOr, int? skip, int? take, PropertyInfo sortFieldProperty, SortOrder? sortOrder)
            where TEntity : ApplicationEntity
         {
-            IQueryable<TEntity> selector = this.WhereSelector<TEntity, KAndObject, KOrObject>(whereAnd, whereOr);
+            IQueryable<TEntity> selector = this.WhereSelector<TEntity, TAndObject, TOrObject>(whereAnd, whereOr);
 
             selector = SortSelector(sortFieldProperty, sortOrder, selector);
 
@@ -306,7 +306,7 @@ namespace Application.DataAccess.Repositories
 
         #endregion
 
-        internal IQueryable<TEntity> WhereSelector<TEntity, KAndObject, KOrObject>(KAndObject whereAnd, KOrObject whereOr)
+        internal IQueryable<TEntity> WhereSelector<TEntity, TAndObject, TOrObject>(TAndObject whereAnd, TOrObject whereOr)
              where TEntity : ApplicationEntity
         {
             DbSet<TEntity> entity = this.context.Set<TEntity>();

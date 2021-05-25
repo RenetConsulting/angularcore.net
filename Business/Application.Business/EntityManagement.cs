@@ -21,7 +21,7 @@ namespace Application.Business
     public class EntityManagement<TEntity> : IEntityManagement<TEntity>
         where TEntity : DataAccess.Entities.ApplicationEntity
     {
-        public EntityManagement(DataAccess.Repositories.IGlobalRepository repo)
+        public EntityManagement(IGlobalRepository repo)
         {
             this.Repository = repo;
         }

@@ -1,140 +1,46 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Company>Renet Consulting, Inc.</Company>
+    <Version>1.0.0.1</Version>
+    <RepositoryUrl>https://github.com/RenetConsulting/angularcore.net</RepositoryUrl>
+    <Description>CoreCaptcha integration component.</Description>
+    <PackageProjectUrl>https://github.com/RenetConsulting/angularcore.net</PackageProjectUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Authors>Alexander Altotsky</Authors>
+    <PackageReleaseNotes>Minor updates</PackageReleaseNotes>
+    <PackageId>CoreCaptcha</PackageId>
+    
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+    <PackageTags>CoreCaptcha; Captcha; Renet Consulting; UI</PackageTags>
+    <Description>
+      This client library enables working with the Renet Consulting CoreCaptcha Serverless service for user validation.
+      For this release see notes - https://github.com/RenetConsulting/angularcore.net/tree/master/Services/CoreCaptcha/README.md and https://github.com/RenetConsulting/angularcore.net/tree/master/Services/CoreCaptcha/CHANGELOG.md
+      in addition to the breaking changes https://github.com/RenetConsulting/angularcore.net/tree/master/Services/CoreCaptcha/BreakingChanges.txt
+      CoreCaptcha Azure Function - https://github.com/RenetConsulting/angularcore.net/tree/master/Services/CoreCaptchaAzure
+    </Description>
+
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
+
   <ItemGroup>
-    <AdditionalFiles Include="..\..\stylecop.json" Link="Properties\stylecop.json" />
+    <Compile Include="..\..\GlobalAssemblyInfo.cs" Link="GlobalAssemblyInfo.cs" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="..\..\GlobalSuppressions.cs" Link="Properties\GlobalSuppressions.cs" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.5" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="host.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="local.settings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
-    </None>
-    <None Update="MP3\0.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\1.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\2.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\3.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\4.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\5.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\6.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\7.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\8.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\9.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\a.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\b.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\c.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\d.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\e.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\f.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\g.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\h.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\i.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\j.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\k.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\l.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\m.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\n.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\o.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\p.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\q.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\r.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\s.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\t.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\u.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\v.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\w.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\x.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\y.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MP3\z.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Include="..\..\LICENSE" Link="LICENSE" />
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
     </None>
   </ItemGroup>
+  
 </Project>

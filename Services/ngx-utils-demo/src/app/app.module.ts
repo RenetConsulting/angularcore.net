@@ -4,7 +4,6 @@ import { MatFormFieldDefaultOptions, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@ang
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import 'hammerjs';
 import { NgxAModule } from 'projects/elements/src/lib/ngx-a/ngx-a.module';
 import { ApiPrefixInterceptor, NoneCacheInterceptor } from 'projects/interceptors/src/public-api';
 import { TitleStrategyModule } from 'projects/title-strategy/src/public-api';

@@ -4,3 +4,21 @@ This library provides a service ``NgxHttpParamsService`` to map object to HttpPa
 
 ## Release v9.0.0
 Converted project to Angular v9
+
+## Release v9.1.0
+Added bool parameter 
+
+## Release v9.1.1
+Changed .browserslistrc to use IE9-11 
+
+## Release v9.1.2
+Changed modules to es2015
+
+## Release v9.1.3
+Changed modules to esnext
+
+## Release v9.1.4
+Reverted back to Angular 9 to support es5
+
+## Release v9.1.5
+Reverted back to Angular 9 to support es5 with a tag

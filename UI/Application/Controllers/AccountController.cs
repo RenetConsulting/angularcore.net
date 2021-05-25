@@ -14,13 +14,11 @@ namespace Application.Controllers
     using System.Threading.Tasks;
     using Application.Business;
     using Application.Business.Communications;
-    using Application.Business.CoreCaptcha;
+    using CoreCaptcha;
     using Application.Business.Helpers;
     using Application.Business.Models;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Enums;
-    using Application.DataAccess.Repositories;
-    using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -31,14 +29,11 @@ namespace Application.Controllers
     public class AccountController : BaseController
     {
         private readonly IApplicationUserManager<ApplicationUser> userManager;
-        private readonly ApplicationSignInManager<ApplicationUser> signInManager;
         private readonly IMailClient mailClient;
         private readonly ICoreCaptcha coreCaptcha;
 
         public AccountController(
-            IGlobalRepository repository,
             IApplicationUserManager<ApplicationUser> userManager,
-            ApplicationSignInManager<ApplicationUser> signInManager,
             IOptions<AppSettings> appSettings,
             IMailClient mailClient,
             ILogger<AccountController> logger,
@@ -47,7 +42,6 @@ namespace Application.Controllers
         {
             this.userManager = userManager;
             this.mailClient = mailClient;
-            this.signInManager = signInManager;
             this.coreCaptcha = coreCaptcha;
         }
 
@@ -90,8 +84,7 @@ namespace Application.Controllers
         [HttpGet("password/send/token")]
         public async Task<IActionResult> ResetPasswordAsync(string email)
         {
-            string token = string.Empty;
-            ActionResult returnCode = this.Ok();
+            string token;
 
             try
             {
@@ -105,7 +98,7 @@ namespace Application.Controllers
 
             var url = this.AppSettings.SiteHost
                 + "reset-password?token="
-                + System.Net.WebUtility.UrlEncode(token)
+                + WebUtility.UrlEncode(token)
                 + $"&email={email}";
 
             string message = string.Format(
@@ -114,7 +107,7 @@ namespace Application.Controllers
                 + "<p>Please do not reply to this email.</p>",
                 url);
 
-            returnCode = await this.SendEmailAsync(email, this.AppSettings.ResetPasswordSubject, message);
+            ActionResult returnCode = await this.SendEmailAsync(email, this.AppSettings.ResetPasswordSubject, message);
 
             return returnCode;
         }
@@ -123,8 +116,6 @@ namespace Application.Controllers
         [HttpPost("password/reset")]
         public async Task<IActionResult> ResetPasswordFromMailAsync([FromBody] ResetPasswordFromMailModel resetPasswordFromMailModel)
         {
-            ActionResult returnCode = this.Ok();
-
             if (!this.ModelState.IsValid)
             {
                 return this.BadRequest(this.ModelState);
@@ -158,7 +149,7 @@ namespace Application.Controllers
                 this.AppSettings.SiteHost,
                 this.AppSettings.SiteHost);
 
-            returnCode = await this.SendEmailAsync(resetPasswordFromMailModel.Email, this.AppSettings.AfterResetPasswordSubject, message);
+            ActionResult returnCode = await this.SendEmailAsync(resetPasswordFromMailModel.Email, this.AppSettings.AfterResetPasswordSubject, message);
 
             return returnCode;
         }
@@ -190,37 +181,16 @@ namespace Application.Controllers
         [HttpGet("email/confirm")]
         public async Task<IActionResult> ConfirmEmailAsync(string email, string token)
         {
-            ApplicationUser user = await this.userManager.FindByEmailAsync(email).ConfigureAwait(false);
+            IdentityResult result = await this.userManager.ConfirmEmailAsync(email, token).ConfigureAwait(false);
 
-            if (user != null)
+            IActionResult errorResult = this.GetErrorResult(result);
+
+            if (errorResult != null)
             {
-                if (user.EmailConfirmed)
-                {
-                    return this.BadRequest("Token in link is invalid.");
-                }
-
-                if (user.Email == email)
-                {
-                    IdentityResult result = await this.userManager.ConfirmEmailAsync(user, token).ConfigureAwait(false);
-
-                    IActionResult errorResult = this.GetErrorResult(result);
-
-                    if (errorResult != null)
-                    {
-                        return this.BadRequest(errorResult);
-                    }
-
-                    return this.Ok();
-                }
-                else
-                {
-                    return this.BadRequest("Email not confirmed.");
-                }
+                return this.BadRequest(errorResult);
             }
-            else
-            {
-                return this.BadRequest("This user not registered.");
-            }
+
+            return this.Ok();
         }
 
         [HttpGet("email/send/token")]
@@ -309,19 +279,10 @@ namespace Application.Controllers
             {
                 if (result.Errors != null)
                 {
-                    foreach (var error in result.Errors)
-                    {
-                        this.ModelState.AddModelError(string.Empty, error.Description);
-                    }
+                    return this.BadRequest(result.Errors.FirstOrDefault()?.Description);
                 }
 
-                if (this.ModelState.IsValid)
-                {
-                    // No ModelState errors are available to send, so just return an empty BadRequest.
-                    return this.BadRequest();
-                }
-
-                return this.BadRequest(this.ModelState);
+                return this.BadRequest();
             }
 
             return null;
@@ -331,16 +292,21 @@ namespace Application.Controllers
         {
             try
             {
+                const string assemblyName = "Application";
                 // pull template from resources
-                var assembly = Assembly.Load(new AssemblyName("Application"));
+                var assembly = Assembly.Load(new AssemblyName(assemblyName));
 
-                // TODO: Uncoment when template will create
-                const string resourceName = "ConfirmEmail.html";
+                const string resourceName = assemblyName + ".EmailTemplates.confirmEmail.html";
 
                 string emailHtmlTamplate = string.Empty;
 
                 using (Stream stream = assembly.GetManifestResourceStream(resourceName))
                 {
+                    if(stream==null)
+                    {
+                        throw new System.ApplicationException("Cannot read resource " + resourceName);
+                    }
+
                     using (StreamReader reader = new StreamReader(stream))
                     {
                         emailHtmlTamplate = reader.ReadToEnd();
@@ -349,9 +315,9 @@ namespace Application.Controllers
 
                 // update template with images and links
                 var emailToken = await this.userManager.GenerateEmailTokenAsync(userId).ConfigureAwait(false);
-                var url = this.AppSettings.SiteHost + "ConfirmEmail?email=" + WebUtility.UrlEncode(userEmail) + "&token=" + WebUtility.UrlEncode(emailToken);
+                var url = this.AppSettings.SiteHost + "confirm-email?email=" + WebUtility.UrlEncode(userEmail) + "&token=" + WebUtility.UrlEncode(emailToken);
 
-                string emailHtml = string.Format(/*emailHtmlTamplate,*/ userEmail, url, this.AppSettings.SiteHost);
+                string emailHtml = string.Format(emailHtmlTamplate, userEmail, url, this.AppSettings.SiteHost);
 
                 return await this.SendEmailAsync(userEmail, this.AppSettings.EmailConfirmationSubject, emailHtml);
             }

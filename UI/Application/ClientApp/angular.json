@@ -29,7 +29,8 @@
               "ngx-quill"
             ],
             "assets": [
-              "src/assets"
+              "src/assets",
+              "src/google75e9326ab6a27102.html"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -94,7 +95,8 @@
             ],
             "scripts": [],
             "assets": [
-              "src/assets"
+              "src/assets",
+              "src/google75e9326ab6a27102.html"
             ]
           }
         },

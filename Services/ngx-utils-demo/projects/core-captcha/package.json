@@ -1,7 +1,7 @@
 {
   "name": "@renet-consulting/core-captcha",
-  "version": "9.0.0",
-  "author": "Michael Vasyliv, Alexander Altotsky",
+  "version": "10.0.2",
+  "author": "Renet Consulting, Inc.",
   "license": "MIT",
   "private": false,
   "homepage": "https://github.com/RenetConsulting/angularcore.net",
@@ -14,7 +14,7 @@
     "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/core-captcha"
   },
   "dependencies": {
-    "@renet-consulting/ngx-mat-input": "^9.0.0"
+    "@renet-consulting/ngx-mat-input": "^10.0.2"
   },
   "peerDependencies": {
     "@angular/animations": "^9.0.0",

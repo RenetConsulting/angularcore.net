@@ -18,7 +18,7 @@ namespace Application.Business
         None = 0,
         Violation,
         AcceptedTerms,
-        EmailConfirmed
+        EmailConfirmed,
     }
 
     public class ApplicationSignInManager<TUser> : SignInManager<TUser>

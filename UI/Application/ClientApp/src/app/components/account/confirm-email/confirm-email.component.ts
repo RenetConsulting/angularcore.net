@@ -25,7 +25,7 @@ export class ConfirmEmailComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.setFormGroup();
-        this.subscription.add(this.route.queryParams.subscribe(i => this.setToken(i.token)));
+        this.subscription.add(this.route.queryParams.subscribe(i => { this.setToken(i.token); this.setEmail(i.email); }));
     }
 
     ngOnDestroy(): void {
@@ -40,6 +40,7 @@ export class ConfirmEmailComponent implements OnInit, OnDestroy {
     }
 
     setToken = (value: string): void => this.formGroup.controls.token.patchValue(value);
+    setEmail = (value: string): void => this.formGroup.controls.email.patchValue(value);
 
     submit = (): void => {
         if (this.formGroup.valid) {

@@ -14,6 +14,7 @@ describe('ConfirmEmailComponent', () => {
     let store: MockStore<null>;
     let route: ActivatedRoute;
     const token = 'bob';
+    const email = 'bob@myemail.com';
 
     beforeEach(() => {
         route = { queryParams: of({ token } as Params) } as ActivatedRoute;
@@ -30,9 +31,11 @@ describe('ConfirmEmailComponent', () => {
     it('ngOnInit', () => {
         spyOn(component, 'setFormGroup');
         spyOn(component, 'setToken');
+        spyOn(component, 'setEmail');
         component.ngOnInit();
         expect(component.setFormGroup).toHaveBeenCalled();
         expect(component.setToken).toHaveBeenCalled();
+        expect(component.setEmail).toHaveBeenCalled();
     });
     it('ngOnDestroy', () => {
         component.ngOnDestroy();
@@ -49,6 +52,14 @@ describe('ConfirmEmailComponent', () => {
         } as FormGroup;
         component.setToken(token);
         expect(component.formGroup.controls.token.patchValue).toHaveBeenCalledWith(token);
+    });
+    it('setEmail', () => {
+        const emailControl = jasmine.createSpyObj<AbstractControl>('AbstractControl', ['patchValue']);
+        component.formGroup = {
+            controls: { email: emailControl } as { [k: string]: AbstractControl }
+        } as FormGroup;
+        component.setEmail(email);
+        expect(component.formGroup.controls.email.patchValue).toHaveBeenCalledWith(email);
     });
     it('submit', () => {
         spyOn(store, 'dispatch');

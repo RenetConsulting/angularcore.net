@@ -11,7 +11,7 @@ namespace Application.Controllers
     using System.Net.Http;
     using System.Threading.Tasks;
     using Application.Business;
-    using Application.Business.CoreCaptcha;
+    using CoreCaptcha;
     using Application.Business.Helpers;
     using Application.Business.Models;
     using Application.DataAccess.Entities;
