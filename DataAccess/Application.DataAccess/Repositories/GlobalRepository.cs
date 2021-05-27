@@ -308,13 +308,43 @@ namespace Application.DataAccess.Repositories
 
         #region Person information
 
-        public async Task<PersonInformation> GetUserInformation(string personId)
+        public async Task<PersonInformation> GetUserInformationAsync(string personId)
         {
             var applicationUser = await this.userManager.FindByIdAsync(personId);
 
             return await this.context.PersonInformations
                 .Where(pInformation => pInformation.PersonId == applicationUser.Id)
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<bool> CreateUserInformationAsync(PersonInformation personInformation)
+        {
+            var applicationUser = await this.userManager.FindByIdAsync(personInformation.PersonId);
+
+            if (!Equals(applicationUser, null))
+            {
+                var information = new PersonInformation
+                {
+                    PersonId = applicationUser.Id,
+                    FirstName = personInformation.FirstName,
+                    LastName = personInformation.LastName,
+                    Address = personInformation.Address,
+                    City = personInformation.City,
+                    Country = personInformation.Country,
+                    Email = personInformation.Email,
+                    Phone = personInformation.Phone,
+                    Region = personInformation.Region,
+                    ZipCode = personInformation.ZipCode,
+                };
+
+                this.context.PersonInformations.Add(information);
+
+                return await this.context.SaveChangesAsync() > 0;
+            }
+            else
+            {
+                throw new Exception("Something wrong with adding your information.");
+            }
         }
 
         #endregion
