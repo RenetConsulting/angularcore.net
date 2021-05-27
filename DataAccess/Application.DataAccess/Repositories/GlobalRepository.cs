@@ -308,24 +308,24 @@ namespace Application.DataAccess.Repositories
 
         #region Person information
 
-        public async Task<PersonInformation> GetUserInformationAsync(string personId)
+        public async Task<PersonInformation> GetUserInformationAsync(string personId, string userId)
         {
             var applicationUser = await this.userManager.FindByIdAsync(personId);
 
             return await this.context.PersonInformations
-                .Where(pInformation => pInformation.PersonId == applicationUser.Id)
+                .Where(pInformation => pInformation.PersonId.Equals(userId))
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<bool> CreateUserInformationAsync(PersonInformation personInformation)
+        public async Task<bool> CreateUserInformationAsync(PersonInformation personInformation, string userId)
         {
-            var applicationUser = await this.userManager.FindByIdAsync(personInformation.PersonId);
+            var applicationUser = await this.userManager.FindByIdAsync(userId);
 
             if (!Equals(applicationUser, null))
             {
                 var information = new PersonInformation
                 {
-                    PersonId = applicationUser.Id,
+                    PersonId = userId,
                     FirstName = personInformation.FirstName,
                     LastName = personInformation.LastName,
                     Address = personInformation.Address,
@@ -344,6 +344,40 @@ namespace Application.DataAccess.Repositories
             else
             {
                 throw new Exception("Something wrong with adding your information.");
+            }
+        }
+
+        public async Task<PersonInformation> UpdateUserInformationAsync(PersonInformation personInformation, string userId)
+        {
+            var applicationUser = await this.userManager.FindByIdAsync(userId);
+
+            if (!Equals(applicationUser, null))
+            {
+                PersonInformation existingInformation = await this.context.PersonInformations
+                    .Where(pInformation => pInformation.PersonId.Equals(applicationUser.Id)).FirstOrDefaultAsync();
+
+                existingInformation.Address = personInformation.Address;
+                existingInformation.City = personInformation.City;
+                existingInformation.Country = personInformation.Country;
+                existingInformation.Email = personInformation.Email;
+                existingInformation.FirstName = personInformation.FirstName;
+                existingInformation.LastName = personInformation.LastName;
+                existingInformation.Phone = personInformation.Phone;
+                existingInformation.Region = personInformation.Region;
+                existingInformation.ZipCode = personInformation.ZipCode;
+
+                this.context.PersonInformations.Update(existingInformation);
+
+                if (await this.context.SaveChangesAsync() <= 0)
+                {
+                    throw new Exception($"Error updating {existingInformation.FirstName} user information.");
+                }
+
+                return personInformation;
+            }
+            else
+            {
+                throw new Exception("Information can not be updated.");
             }
         }
 

@@ -53,9 +53,11 @@ namespace Application.DataAccess.Repositories
 
         Task<Blog> GetBlogAsync(string blogId);
 
-        Task<PersonInformation> GetUserInformationAsync(string personId);
+        Task<PersonInformation> GetUserInformationAsync(string personId, string userId);
 
-        Task<bool> CreateUserInformationAsync(PersonInformation personInformation);
+        Task<bool> CreateUserInformationAsync(PersonInformation personInformation, string userId);
+
+        Task<PersonInformation> UpdateUserInformationAsync(PersonInformation personInformation, string userId);
 
         Task<List<FileStorage>> GetAllFilesAsync();
 
