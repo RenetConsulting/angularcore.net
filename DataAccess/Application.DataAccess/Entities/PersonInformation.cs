@@ -5,8 +5,6 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-using System;
-
 namespace Application.DataAccess.Entities
 {
     using System.ComponentModel.DataAnnotations;
@@ -14,9 +12,10 @@ namespace Application.DataAccess.Entities
 
     public class PersonInformation
     {
+        [Key]
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int PersonId { get; set; }
+        public string PersonId { get; set; }
 
         [Required]
         public string FirstName { get; set; }

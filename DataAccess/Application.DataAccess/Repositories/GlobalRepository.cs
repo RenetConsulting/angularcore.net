@@ -308,9 +308,12 @@ namespace Application.DataAccess.Repositories
 
         #region Person information
 
-        public async Task<PersonInformation> GetUserInformation(int personId)
+        public async Task<PersonInformation> GetUserInformation(string personId)
         {
-            return await this.context.PersonInformations.Where(pInformation => pInformation.PersonId == personId)
+            var applicationUser = await this.userManager.FindByIdAsync(personId);
+
+            return await this.context.PersonInformations
+                .Where(pInformation => pInformation.PersonId == applicationUser.Id)
                 .FirstOrDefaultAsync();
         }
 
