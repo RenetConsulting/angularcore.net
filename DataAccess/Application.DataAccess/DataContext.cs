@@ -46,6 +46,8 @@ namespace Application.DataAccess
 
         public virtual DbSet<FileStorage> FileStorages { get; set; }
 
+        public virtual DbSet<PersonInformation> PersonInformations { get; set; }
+
         internal string UserName
         {
             get
