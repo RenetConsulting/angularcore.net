@@ -9,7 +9,7 @@ describe('NgxDropDirective', () => {
     const elementRef = new ElementRef(null);
     let renderer: jasmine.SpyObj<Renderer2>;
     let event: jasmine.SpyObj<Event> & { [key: string]: any };
-    const files: FileList = new FileList();
+    const files = [];
 
     beforeEach(() => {
         event = jasmine.createSpyObj<Event>('Event', ['stopPropagation', 'preventDefault']);
@@ -36,7 +36,7 @@ describe('NgxDropDirective', () => {
         directive.drop(event);
         expect(directive.stopEvent).toHaveBeenCalledWith(event);
         expect(renderer.removeClass).toHaveBeenCalledWith(directive.element, directive.dropClass);
-        expect(directive.emit).toHaveBeenCalledWith(files);
+        expect(directive.emit).toHaveBeenCalledWith(files as any);
     });
     it('dragenter', () => {
         spyOn(directive, 'stopEvent');

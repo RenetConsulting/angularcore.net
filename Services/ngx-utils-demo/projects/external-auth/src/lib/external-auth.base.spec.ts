@@ -1,5 +1,5 @@
 import { EventEmitter, Injector, NgZone, Renderer2, Directive } from '@angular/core';
-import { ExternalTokenHandlerService } from 'external-auth/public-api';
+import { ExternalTokenHandlerService } from './external-token-handler.service';
 import { Observable } from 'rxjs';
 import { ExternalAuthBaseDirective } from './external-auth.base';
 
@@ -66,11 +66,6 @@ describe('ExternalAuthBaseDirective', () => {
         tokenHandler.handle.and.returnValue(obs);
         base.getToken(access_token);
         expect(tokenHandler.handle).toHaveBeenCalledWith(access_token, provider);
-        // tslint:disable-next-line: deprecation
-        expect(obs.subscribe).toHaveBeenCalledWith({
-            next: base.handleSigned,
-            error: base.handleError
-        });
     });
 
     describe('handleError', () => {

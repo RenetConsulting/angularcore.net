@@ -1,4 +1,4 @@
-import { HttpClient, HttpEventType, HttpHeaders, HttpRequest, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpEventType, HttpResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, TestBed } from '@angular/core/testing';
 import * as signalr from '@aspnet/signalr';
@@ -50,31 +50,6 @@ describe('HttpHubClient', () => {
                 spyOn(http, 'request').and.returnValue(of(response));
             });
 
-            it('should override responseType to `text`', async(() => {
-                request = { method: 'POST', url: 'https://google.com', responseType: '' };
-                service.send(request).then(() => {
-                    expect(http.request).toHaveBeenCalledWith(new HttpRequest(request.method, request.url, request.content, {
-                        headers: new HttpHeaders(request.headers),
-                        responseType: 'text',
-                    }));
-                }, () => fail('should be a success'));
-            }));
-            it('should call with origin responseType', async(() => {
-                service.send(request).then(() => {
-                    expect(http.request).toHaveBeenCalledWith(new HttpRequest(request.method, request.url, request.content, {
-                        headers: new HttpHeaders(request.headers),
-                        responseType: request.responseType as any,
-                    }));
-                }, () => fail('should be a success'));
-            }));
-            it('should call with origin responseType', async(() => {
-                service.send(request).then(() => {
-                    expect(http.request).toHaveBeenCalledWith(new HttpRequest(request.method, request.url, request.content, {
-                        headers: new HttpHeaders(request.headers),
-                        responseType: request.responseType as any,
-                    }));
-                }, () => fail('should be a success'));
-            }));
             it('response should be right', async(() => {
                 service.send(request).then(r => {
                     expect(r).toEqual(new signalr.HttpResponse(response.status, response.statusText, response.body));
