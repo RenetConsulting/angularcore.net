@@ -14,7 +14,8 @@
     "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/ngx-messenger"
   },
   "dependencies": {
-    "@renet-consulting/util": "^0.0.1"
+    "@renet-consulting/util": "^0.0.1",
+    "tslib": "^2.0.0"
   },
   "peerDependencies": {
     "@angular/common": "^9.0.0",

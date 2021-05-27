@@ -22,12 +22,15 @@
           "options": {
             "aot": true,
             "progress": false,
-            "extractCss": true,
             "outputPath": "dist/angular",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
+            "allowedCommonJsDependencies": [
+              "hammerjs",
+              "ngx-quill"
+            ],
             "assets": [
               "src/assets",
               "src/google75e9326ab6a27102.html"
@@ -35,18 +38,6 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss",
-              {
-                "lazy": true,
-                "inject": false,
-                "input": "src/themes/deeppurple-amber.theme.scss",
-                "bundleName": "assets/deeppurple-amber.theme"
-              },
-              {
-                "lazy": true,
-                "inject": false,
-                "input": "src/themes/purple-green.theme.scss",
-                "bundleName": "assets/purple-green.theme"
-              },
               "node_modules/quill/dist/quill.core.css",
               "node_modules/quill/dist/quill.snow.css"
             ],
@@ -69,7 +60,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -186,17 +176,21 @@
       },
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/blog/tsconfig.lib.json",
-            "project": "projects/blog/ng-package.json"
-          }
-        ,          "configurations": {
+            "project": "projects/blog/ng-package.json",
+            "allowedCommonJsDependencies": [
+              "hammerjs",
+              "ngx-quill"
+            ]
+          },
+          "configurations": {
             "production": {
               "tsConfig": "projects/blog/tsconfig.lib.prod.json"
             }
           }
-},
+        },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -220,5 +214,8 @@
       }
     }
   },
-  "defaultProject": "angular"
+  "defaultProject": "angular",
+  "cli": {
+    "analytics": false
+  }
 }

@@ -19,7 +19,8 @@
     "@renet-consulting/ngx-uploader": "^8.0.0",
     "@renet-consulting/ngx-validator": "^8.0.0",
     "@renet-consulting/http-hub-client": "^8.0.0",
-    "@renet-consulting/infinite-source": "^8.0.0"
+    "@renet-consulting/infinite-source": "^8.0.0",
+    "tslib": "^2.0.0"
   },
   "peerDependencies": {
     "@angular/common": "^8.0.0",

@@ -16,7 +16,8 @@
   "dependencies": {
     "@renet-consulting/animations": "^9.0.0",
     "@renet-consulting/control-value-accessor": "^10.0.2",
-    "@renet-consulting/ngx-validator": "^9.0.0"
+    "@renet-consulting/ngx-validator": "^9.0.0",
+    "tslib": "^2.0.0"
   },
   "peerDependencies": {
     "@angular/common": "^9.0.0",
