@@ -53,6 +53,8 @@ namespace Application.DataAccess.Repositories
 
         Task<Blog> GetBlogAsync(string blogId);
 
+        Task<PersonInformation> GetUserInformation(int personId);
+
         Task<List<FileStorage>> GetAllFilesAsync();
 
         [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "ValueTuple.")]

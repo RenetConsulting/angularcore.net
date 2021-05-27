@@ -306,6 +306,16 @@ namespace Application.DataAccess.Repositories
 
         #endregion
 
+        #region Person information
+
+        public async Task<PersonInformation> GetUserInformation(int personId)
+        {
+            return await this.context.PersonInformations.Where(pInformation => pInformation.PersonId == personId)
+                .FirstOrDefaultAsync();
+        }
+
+        #endregion
+
         internal IQueryable<TEntity> WhereSelector<TEntity, TAndObject, TOrObject>(TAndObject whereAnd, TOrObject whereOr)
              where TEntity : ApplicationEntity
         {
