@@ -9,7 +9,7 @@ describe('NgxDropDirective', () => {
     const elementRef = new ElementRef(null);
     let renderer: jasmine.SpyObj<Renderer2>;
     let event: jasmine.SpyObj<Event> & { [key: string]: any };
-    const files = [];
+    const files: FileList = new FileList();
 
     beforeEach(() => {
         event = jasmine.createSpyObj<Event>('Event', ['stopPropagation', 'preventDefault']);
