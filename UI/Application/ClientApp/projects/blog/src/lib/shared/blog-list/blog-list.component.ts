@@ -50,7 +50,7 @@ export class BlogListComponent implements OnInit, OnDestroy {
         // history.back();
         // console.log('back');
         // setTimeout(()=> {
-        //     history.forward(); 
+        //     history.forward();
         //     console.log('forward');
         // }, 4);
     }
