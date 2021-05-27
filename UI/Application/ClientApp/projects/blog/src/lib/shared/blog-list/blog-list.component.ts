@@ -46,6 +46,13 @@ export class BlogListComponent implements OnInit, OnDestroy {
         if (isPlatformBrowser(this.platformId)) {
             this.blogHub.connect();
         }
+
+        // history.back();
+        // console.log('back');
+        // setTimeout(()=> {
+        //     history.forward(); 
+        //     console.log('forward');
+        // }, 4);
     }
 
     ngOnDestroy(): void {
