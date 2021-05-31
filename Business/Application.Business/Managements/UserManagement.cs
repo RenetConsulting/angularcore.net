@@ -20,11 +20,28 @@ namespace Application.Business.Managements
         {
         }
 
+        public async Task<PersonInformationModel> GetPersonInformationAsync(string personId, string userId)
+        {
+            try
+            {
+                var code = await this.Repository.GetUserInformationAsync(personId, userId).ConfigureAwait(false);
+
+                var model = new PersonInformationModel();
+                model.ToModel(code);
+
+                return model;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public async Task<PersonInformationModel> AddPersonInformationAsync(PersonInformationModel userInformation, string userId)
         {
             try
             {
-                var userInformationData = await Repository.CreateUserInformationAsync(userInformation.ToEntity(), userId);
+                var userInformationData = await this.Repository.CreateUserInformationAsync(userInformation.ToEntity(), userId);
 
                 userInformation.ToModel(userInformationData);
 
@@ -40,7 +57,7 @@ namespace Application.Business.Managements
         {
             try
             {
-                var userInformationData = await Repository.UpdateUserInformationAsync(userInformation.ToEntity(), userId);
+                var userInformationData = await this.Repository.UpdateUserInformationAsync(userInformation.ToEntity(), userId);
 
                 userInformation.ToModel(userInformationData);
 

@@ -17,5 +17,8 @@ namespace Application.Business.Interfaces
 
         Task<PersonInformationModel>
             UpdatePersonInformationAsync(PersonInformationModel userInformation, string userId);
+
+        Task<PersonInformationModel>
+            GetPersonInformationAsync(string personId, string userId);
     }
 }

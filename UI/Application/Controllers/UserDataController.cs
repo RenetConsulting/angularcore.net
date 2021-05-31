@@ -29,6 +29,21 @@
             this.userManagement = userManagement;
         }
 
+        [HttpGet("{personId}")]
+        public async Task<IActionResult> GetPersonInformationAsync(string personId)
+        {
+            try
+            {
+                var userData = await this.userManagement.GetPersonInformationAsync(personId, this.UserId).ConfigureAwait(false);
+
+                return this.Ok(userData);
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreatePersonInformationAsync(PersonInformationModel personInformationModel)
         {
