@@ -317,7 +317,7 @@ namespace Application.DataAccess.Repositories
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<bool> CreateUserInformationAsync(PersonInformation personInformation, string userId)
+        public async Task<PersonInformation> CreateUserInformationAsync(PersonInformation personInformation, string userId)
         {
             var applicationUser = await this.userManager.FindByIdAsync(userId);
 
@@ -339,7 +339,9 @@ namespace Application.DataAccess.Repositories
 
                 this.context.PersonInformations.Add(information);
 
-                return await this.context.SaveChangesAsync() > 0;
+                await this.context.SaveChangesAsync();
+
+                return information;
             }
             else
             {

@@ -10,7 +10,7 @@ namespace Application.DataAccess.Entities
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public class PersonInformation
+    public class PersonInformation : ApplicationEntity
     {
         [Key]
         [Required]

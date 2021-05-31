@@ -55,7 +55,7 @@ namespace Application.DataAccess.Repositories
 
         Task<PersonInformation> GetUserInformationAsync(string personId, string userId);
 
-        Task<bool> CreateUserInformationAsync(PersonInformation personInformation, string userId);
+        Task<PersonInformation> CreateUserInformationAsync(PersonInformation personInformation, string userId);
 
         Task<PersonInformation> UpdateUserInformationAsync(PersonInformation personInformation, string userId);
 
