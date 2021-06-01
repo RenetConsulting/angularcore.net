@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import 'hammerjs';
 import { AppSharedModule } from './app.shared.module';
 import { AppComponent } from './components/app/app.component';
 import { BASE_URL } from './tokens/base-url.token';

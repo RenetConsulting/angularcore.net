@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import 'file/file.component.scss';
 @mixin lib-file-list-theme($theme) {
     $background: map-get($theme, background);
@@ -6,14 +7,14 @@
 
     lib-file-list {
         .upload-files {
-            background: mat-color($foreground, text, .1);
-            color: mat-color($foreground, text);
-            outline: 2px dashed mat-color($foreground, text, .5);
+            background: mat.get-color-from-palette($foreground, text, .1);
+            color: mat.get-color-from-palette($foreground, text);
+            outline: 2px dashed mat.get-color-from-palette($foreground, text, .5);
         }
 
         .swipe-item {
             &.active .mat-card {
-                border: 2px solid mat-color($primary, .75);
+                border: 2px solid mat.get-color-from-palette($primary, .75);
             }
         }
     }
