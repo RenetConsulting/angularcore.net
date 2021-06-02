@@ -3,7 +3,7 @@
 @import './app.mixin.scss';
 
 /** here is an example of creating custom mixin of a theme https://stackblitz.com/edit/angular-material-custom-background?file=theme.scss */
-$primary: mat.define-palette(mat.$blue-palette-palette);
+$primary: mat.define-palette($blue-palette-palette);
 $accent: mat.define-palette(mat.$green-palette, A200, A100, A400);
 $theme: mat.define-light-theme($primary, $accent);
 
