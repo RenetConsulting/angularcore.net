@@ -11,6 +11,8 @@
     using Application.Business.Models;
 
     [Authorize]
+    [ApiController]
+    [Route("api/[controller]")]
     public class UserDataController : BaseController
     {
         private readonly IGlobalRepository repository;
@@ -27,21 +29,6 @@
             this.appSettings = appSettings;
 
             this.userManagement = userManagement;
-        }
-
-        [HttpGet("{personId}")]
-        public async Task<IActionResult> GetPersonInformationAsync(string personId)
-        {
-            try
-            {
-                var userData = await this.userManagement.GetPersonInformationAsync(personId, this.UserId).ConfigureAwait(false);
-
-                return this.Ok(userData);
-            }
-            catch (Exception ex)
-            {
-                return this.BadRequest(ex.Message);
-            }
         }
 
         [HttpPost]
@@ -77,6 +64,21 @@
                 var result = await this.userManagement.UpdatePersonInformationAsync(personInformationModel, this.UserId).ConfigureAwait(false);
 
                 return this.Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("{personId}")]
+        public async Task<IActionResult> GetPersonInformationAsync(string personId)
+        {
+            try
+            {
+                var userData = await this.userManagement.GetPersonInformationAsync(personId, this.UserId).ConfigureAwait(false);
+
+                return this.Ok(userData);
             }
             catch (Exception ex)
             {
