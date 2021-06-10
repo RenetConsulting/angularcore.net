@@ -2,11 +2,11 @@
 @import '../node_modules/@angular/material/theming';
 @import '../projects/editor/src/lib/theme.scss';
 
-// $primary: mat-palette($mat-blue);
-// $accent: mat-palette($mat-green, A200, A100, A400);
-// //$theme: mat-dark-theme($primary, $accent);
-// $theme: mat-light-theme($primary, $accent);
+$primary: mat-palette($mat-blue);
+$accent: mat-palette($mat-green, A200, A100, A400);
+//$theme: mat-dark-theme($primary, $accent);
+$theme: mat-light-theme($primary, $accent);
 
-// @include mat-core();
-// @include angular-material-theme($theme);
-// @include editor-theme($theme);
+@include mat-core();
+@include angular-material-theme($theme);
+@include editor-theme($theme);
