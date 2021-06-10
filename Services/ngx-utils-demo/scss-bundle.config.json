@@ -1,4 +1,14 @@
 {
     "entry": "./projects/editor/src/lib/theme.scss",
-    "dest": "./dist/editor/theme.scss"
+    "dest": "./dist/editor/theme.scss",
+    "bundlerOptions": {
+        "project": "../../",
+        "rootDir": "./src",
+        "entryFile": "./projects/editor/src/lib/theme.scss",
+        "outFile": "./dist/editor/theme.scss",
+        "includePaths": ["./../../node_modules"],
+        "ignoreImports": ["~@angular/.*"],
+        "logLevel": "debug",
+        "tilde": true
+    }
 }
