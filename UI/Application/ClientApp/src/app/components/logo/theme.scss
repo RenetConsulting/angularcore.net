@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @mixin logo-theme($theme) {
     $is-dark-theme: map-get($theme, is-dark);
     $primary: map-get($theme, primary);
@@ -8,12 +9,12 @@
 
     logo {
         .brand {
-            background: mat-color($background, card);
+            background: mat.get-color-from-palette($background, card);
             h1 {
-                color: mat-color($primary);
+                color: mat.get-color-from-palette($primary);
             }
             span {
-                color: mat-color($foreground, text);
+                color: mat.get-color-from-palette($foreground, text);
             }
         }
     }

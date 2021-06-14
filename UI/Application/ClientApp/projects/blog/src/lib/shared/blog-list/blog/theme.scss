@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @mixin blog-theme($theme) {
     $is-dark-theme: map-get($theme, is-dark);
     $primary: map-get($theme, primary);
@@ -7,20 +8,20 @@
     $foreground: map-get($theme, foreground);
 
     $background-light: rgba(0, 0, 0, 0.02);
-    $background-dark: mat-color($background, card, 0.92);
+    $background-dark: mat.get-color-from-palette($background, card, 0.92);
 
-    $created: if($is-dark-theme, darken(mat-color($primary), 30%), lighten(mat-color($primary), 30%));
-    $updated: if($is-dark-theme, darken(mat-color($accent), 40%), lighten(mat-color($accent), 30%));
+    $created: if($is-dark-theme, darken(mat.get-color-from-palette($primary), 30%), lighten(mat.get-color-from-palette($primary), 30%));
+    $updated: if($is-dark-theme, darken(mat.get-color-from-palette($accent), 40%), lighten(mat.get-color-from-palette($accent), 30%));
 
     //blog mat-card
     lib-blog {
         mat-card {
             .mat-card-content::after {
-                background-image: linear-gradient(mat-color($background, card, 0), mat-color($background, card, 1));
+                background-image: linear-gradient(mat.get-color-from-palette($background, card, 0), mat.get-color-from-palette($background, card, 1));
             }
 
             mat-card-footer {
-                color: mat-color($foreground, text, .5);
+                color: mat.get-color-from-palette($foreground, text, .5);
             }
 
             &.created {

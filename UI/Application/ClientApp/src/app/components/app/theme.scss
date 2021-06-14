@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @mixin app-root-theme($theme) {
     $is-dark-theme: map-get($theme, is-dark);
     $primary: map-get($theme, primary);
@@ -7,15 +8,15 @@
     $foreground: map-get($theme, foreground);
 
     $background-light: rgba(0, 0, 0, 0.02);
-    $background-dark: mat-color($background, card, 0.92);
+    $background-dark: mat.get-color-from-palette($background, card, 0.92);
 
     app-root {
         main {
             background: if($is-dark-theme, $background-dark, $background-light);
-            color: mat-color($foreground, text);
+            color: mat.get-color-from-palette($foreground, text);
 
             a, code {
-                color: mat-color($primary) !important;
+                color: mat.get-color-from-palette($primary) !important;
             }
         }
     }
