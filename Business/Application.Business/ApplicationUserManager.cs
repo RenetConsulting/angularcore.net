@@ -29,27 +29,21 @@ namespace Application.Business
 
         internal IApplicationUserManager<TUser> Me
         {
-            get
-            {
-                return this.me ?? this;
-            }
+            get => this.me ?? this;
 
-            set
-            {
-                this.me = value;
-            }
+            set => this.me = value;
         }
 
         public async Task<IdentityResult> CreateAsync(string userName, string password)
         {
-            TUser user = new TUser
+            var user = new TUser
             {
                 UserName = userName,
                 Email = userName,
                 EmailConfirmed = false,
             };
 
-            IdentityResult result = await this.Me.CreateAsync(user, password);
+            var result = await this.Me.CreateAsync(user, password);
 
             return result;
         }
@@ -64,7 +58,7 @@ namespace Application.Business
         {
             userId = userId ?? throw new ArgumentNullException(nameof(userId));
 
-            TUser user = await this.Me.FindByIdAsync(userId);
+            var user = await this.Me.FindByIdAsync(userId);
 
             if (user != null)
             {
@@ -80,7 +74,7 @@ namespace Application.Business
         {
             email = email ?? throw new ArgumentNullException(nameof(email));
 
-            TUser user = await this.Me.FindByEmailAsync(email);
+            var user = await this.Me.FindByEmailAsync(email);
 
             if (user != null)
             {
@@ -112,7 +106,7 @@ namespace Application.Business
         {
             email = email ?? throw new ArgumentNullException(nameof(email));
 
-            TUser user = await this.Me.FindByEmailAsync(email);
+            var user = await this.Me.FindByEmailAsync(email);
 
             if (user != null)
             {
@@ -131,7 +125,7 @@ namespace Application.Business
                 return IdentityResult.Failed(new ApplicationIdentityErrorDescriber().ConfirmPasswordMismatch());
             }
 
-            TUser user = await this.GetUserAsync(userClaims);
+            var user = await this.GetUserAsync(userClaims);
 
             user = user ?? throw new InvalidCredentialException(UserNotFoundMessage);
 
@@ -140,26 +134,26 @@ namespace Application.Business
 
         public async Task<string> GenerateEmailTokenAsync(string userId)
         {
-            TUser user = await this.Me.FindByIdAsync(userId);
+            var user = await this.Me.FindByIdAsync(userId);
 
-            string result = await this.Me.GenerateEmailConfirmationTokenAsync(user);
+            var result = await this.Me.GenerateEmailConfirmationTokenAsync(user);
 
             return result;
         }
 
         public async Task<IdentityResult> ConfirmEmailAsync(string email, string token)
         {
-            TUser user = await this.Me.FindByEmailAsync(email);
+            var user = await this.Me.FindByEmailAsync(email);
 
             if (user == null)
             {
-                IdentityError error = new IdentityError { Code = "401", Description = "User is not registered." };
+                var error = new IdentityError { Code = "401", Description = "User is not registered." };
                 return IdentityResult.Failed(new[] { error });
             }
 
             if (user.EmailConfirmed)
             {
-                IdentityError error = new IdentityError { Code = "402", Description = "Token in link is invalid" };
+                var error = new IdentityError { Code = "402", Description = "Token in link is invalid" };
                 return IdentityResult.Failed(new[] { error });
             }
 

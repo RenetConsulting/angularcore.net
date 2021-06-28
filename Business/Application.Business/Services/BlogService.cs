@@ -22,7 +22,7 @@ namespace Application.Business.Services
             this.globalRepository = globalRepository;
         }
 
-        [SuppressMessage("StyleCop.CSharp.SpacingRules","SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "ValueTuple.")]
+        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "ValueTuple.")]
         public async Task<(List<BlogModel>, int)> GetBlogsAsync(int index, int count, string userId)
         {
             var (blogs, totalAmount) = await this.globalRepository.GetBlogsAsync(index, count).ConfigureAwait(false);
