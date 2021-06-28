@@ -13,7 +13,7 @@ namespace Application.Business.Communications
 
     public class MailClient : IMailClient
     {
-        private ISendGridClient sendGridClient;
+        private readonly ISendGridClient sendGridClient;
 
         public MailClient(ISendGridClient sendGridClient)
         {

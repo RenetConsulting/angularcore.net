@@ -12,11 +12,14 @@ namespace Application.Business.Helpers
     {
         public static string GenerateRandomPassword(int length = 16)
         {
-            StringBuilder pass = new StringBuilder();
-            Random random = new Random();
+            var pass = new StringBuilder();
+
+            var random = new Random();
+
             while (pass.Length < length)
             {
-                char c = (char)random.Next(33, 125);
+                var c = (char)random.Next(33, 125);
+
                 if (char.IsLetterOrDigit(c))
                 {
                     pass.Append(c);

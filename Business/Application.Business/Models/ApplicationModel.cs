@@ -12,7 +12,7 @@ namespace Application.Business.Models
     {
         public DateTime CreatedDate { get; protected set; }
 
-        public DateTime? UpdatedDate { get; protected set; }
+        public DateTime? UpdatedDate { get; private set; }
 
         public bool IsActive { get; set; }
 
@@ -42,7 +42,7 @@ namespace Application.Business.Models
         {
             entity = entity ?? throw new ArgumentNullException(nameof(entity));
 
-            this.IsActive = entity.IsActive.HasValue ? entity.IsActive.Value : true;
+            this.IsActive = entity.IsActive ?? true;
             this.Timestamp = entity.Timestamp;
             this.CreatedDate = entity.CreatedDate;
             this.UpdatedDate = entity.UpdatedDate;

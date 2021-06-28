@@ -6,7 +6,6 @@
 namespace Application.Business.Helpers
 {
     using Application.DataAccess.Enums;
-    using Microsoft.AspNetCore.Identity;
 
     public static class ErrorMarks
     {
