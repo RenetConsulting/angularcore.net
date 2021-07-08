@@ -7,11 +7,12 @@
 
 namespace EmailAWS
 {
+    using System.Net;
     using System.Threading.Tasks;
     using Microsoft.Extensions.Logging;
 
     public interface IEmail
     {
-        Task<string> SendEmailAsync(ILogger log, string clientId, IMessage msg);
+        Task<HttpStatusCode> SendEmailAsync(ILogger log, string clientId, IMessage msg);
     }
 }
