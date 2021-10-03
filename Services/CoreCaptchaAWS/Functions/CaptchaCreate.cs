@@ -14,6 +14,7 @@ namespace CoreCaptchaAWS
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Renet.CoreCaptcha;
+    using Renet.CoreCaptcha.Enumerables;
 
     public class CaptchaCreate : Function
     {
@@ -35,13 +36,13 @@ namespace CoreCaptchaAWS
         }
 
         [LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
-        public async Task<APIGatewayProxyResponse> CaptchaCreateHandler(APIGatewayProxyRequest input, ILambdaContext context)
+        public async Task<APIGatewayProxyResponse> CaptchaCreateHandler(APIGatewayProxyRequest input, ILambdaContext context, CoreCaptchaLanguage language)
         {
             this.Logger.LogInformation("CaptchaCreateHandler trigger function processed a request.");
 
             ICoreCaptcha coreCaptcha = this.serviceProviderDelegate();
 
-            CoreCaptchaCreateResponse response = await coreCaptcha.CaptchaCreateAsync(this.Logger, ClientId, 5, input?.QueryStringParameters, Directory.GetCurrentDirectory());
+            CoreCaptchaCreateResponse response = await coreCaptcha.CaptchaCreateAsync(this.Logger, ClientId, 5, input?.QueryStringParameters, Directory.GetCurrentDirectory(), language);
 
             return new APIGatewayProxyResponse { Headers = response.Headers, Body = response.BodyJson, StatusCode = (int)response.StatusCode };
         }

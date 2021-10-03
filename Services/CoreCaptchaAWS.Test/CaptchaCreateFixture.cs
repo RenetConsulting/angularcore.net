@@ -5,10 +5,10 @@
     using System.Threading.Tasks;
     using Amazon.Lambda.APIGatewayEvents;
     using Amazon.Lambda.Core;
-    using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Moq;
     using Renet.CoreCaptcha;
+    using Renet.CoreCaptcha.Enumerables;
     using Xunit;
 
     public class CaptchaCreateFixture
@@ -57,29 +57,33 @@
 
             Assert.NotNull(captchaCreate);
         }
+
         [Fact]
         public async Task CaptchaCreateTest_APIGatewayProxyRequestIsNull()
         {
             input = null;
+            CoreCaptchaLanguage language = CoreCaptchaLanguage.English;
 
             // Setup Moq
-            coreCaptchaMock.Setup(x => x.CaptchaCreateAsync(loggerMock.Object, null, 5, null, Directory.GetCurrentDirectory()))
+            coreCaptchaMock.Setup(x => x.CaptchaCreateAsync(loggerMock.Object, null, 5, null, Directory.GetCurrentDirectory(), language))
                 .Returns(Task.FromResult(responseMock)).Verifiable();
 
-            var result = await captchaCreate.CaptchaCreateHandler(input, lambdaContextMock.Object);
+            var result = await captchaCreate.CaptchaCreateHandler(input, lambdaContextMock.Object, language);
 
             Assert.Equal(result.Body, responseMock.BodyJson);
         }
+
         [Fact]
         public async Task CaptchaCreateTest_APIGatewayProxyRequestIsSet()
         {
-            input = new APIGatewayProxyRequest() ;
+            input = new APIGatewayProxyRequest();
+            CoreCaptchaLanguage language = CoreCaptchaLanguage.English;
 
             // Setup Moq
-            coreCaptchaMock.Setup(x => x.CaptchaCreateAsync(loggerMock.Object, null, 5, input.QueryStringParameters, Directory.GetCurrentDirectory()))
+            coreCaptchaMock.Setup(x => x.CaptchaCreateAsync(loggerMock.Object, null, 5, input.QueryStringParameters, Directory.GetCurrentDirectory(), language))
                 .Returns(Task.FromResult(responseMock)).Verifiable();
 
-            var result = await captchaCreate.CaptchaCreateHandler(input, lambdaContextMock.Object);
+            var result = await captchaCreate.CaptchaCreateHandler(input, lambdaContextMock.Object, language);
 
             Assert.Equal(result.Body, responseMock.BodyJson);
         }
