@@ -153,9 +153,9 @@ function wpcf7_core_captcha_validation($result, $tag) {
 
   $data = file_get_contents('https://localhost:44301/api/CaptchaValidate?'.$getData, false, stream_context_create($opts));
 
-  // if (!$captchaValue || !$hashValue || strpos($http_response_header[0], '400') !== false) {
+  if (!$captchaValue || !$hashValue || strpos($http_response_header[0], '400') !== false) {
     $result->invalidate( $tag, "Are you sure this is the correct address?" );
-  // }
+  }
   
   return $result;
 }
