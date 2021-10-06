@@ -43,3 +43,12 @@
 	/* background: transparent; */
 	border: none;
 }
+/*admin form*/
+.captcha-form {
+	font-size: 15px; 
+	background: #fff; 
+	border: 1px solid #e5e5e5; 
+	margin-top: 20px; 
+	padding: 20px; 
+	margin-right: 20px;
+}

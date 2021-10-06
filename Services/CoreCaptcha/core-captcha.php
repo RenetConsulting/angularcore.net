@@ -15,7 +15,7 @@
 add_action( 'wp_enqueue_scripts', 'register_plugin_styles' );
 //register the stylesheet and add it to the queue
 function register_plugin_styles() {
-	wp_register_style( 'core-captcha', plugins_url( 'core-captcha/style.css' ) );
+	wp_register_style( 'core-captcha', plugins_url( 'CoreCaptcha/style.css' ) );
 	wp_enqueue_style( 'core-captcha' );
 }
 
@@ -74,7 +74,7 @@ if (!empty($cf7sr_captcha_create_url) && !empty($cf7sr_captcha_validate_url) && 
       document.getElementById("captchaRefresh").addEventListener("click", async () => {
         window.setTimeout("this.disabled=true",0);
 
-        const response = await fetch("https://localhost:44301/api/CaptchaCreate");
+        const response = await fetch("' . get_option("cf7sr_captcha_create_url") . '");
         const data = await response.json();
 
         document.getElementById("captchaImage").src = data.image;
@@ -131,6 +131,8 @@ if (!empty($cf7sr_captcha_create_url) && !empty($cf7sr_captcha_validate_url) && 
   add_filter('wpcf7_validate', 'cf7sr_verify_recaptcha', 20, 2);
 }
 
+
+//add captcha settings in admin panel
 if (is_admin()) {
   function cf7sr_adminhtml() {
     if (!current_user_can('manage_options')) {
@@ -161,7 +163,7 @@ if (is_admin()) {
       $cf7sr_client_id = get_option('cf7sr_client_id');
     }
     ?>
-    <div class="cf7sr-wrap" style="font-size: 15px; background: #fff; border: 1px solid #e5e5e5; margin-top: 20px; padding: 20px; margin-right: 20px;">
+    <div class="cf7sr-wrap captcha-form">
       <h2>
         Captcha Settings
       </h2>
@@ -171,9 +173,21 @@ if (is_admin()) {
         <input type="hidden" value="1" name="update">
         <?php wp_nonce_field( 'cf7sr_update_settings', 'cf7sr_nonce' ); ?>
         <ul>
-          <li><input type="text" style="width: 370px;" value="<?php echo esc_attr($cf7sr_captcha_create_url); ?>" name="cf7sr_captcha_create_url"> Captcha create url</li>
-          <li><input type="text" style="width: 370px;" value="<?php echo esc_attr($cf7sr_captcha_validate_url); ?>" name="cf7sr_captcha_validate_url"> Captcha validate url</li>
-          <li><input type="text" style="width: 370px;" value="<?php echo esc_attr($cf7sr_client_id); ?>" name="cf7sr_client_id"> Client id</li>
+          <li>
+			<label><strong style="width: 120px; display: inline-flex;">Captcha create url</strong> 
+				<input type="text" class="regular-text code" value="<?php echo esc_attr($cf7sr_captcha_create_url); ?>" name="cf7sr_captcha_create_url">
+			  </label>
+		  </li>
+          <li>
+			  <label><strong style="width: 120px; display: inline-flex;">Captcha validate url</strong> 
+				<input type="text" class="regular-text code" value="<?php echo esc_attr($cf7sr_captcha_validate_url); ?>" name="cf7sr_captcha_validate_url">
+			  <label>
+		  </li>
+          <li>
+			<label><strong style="width: 120px; display: inline-flex;">Client id</strong> 
+				<input type="text" class="regular-text code" value="<?php echo esc_attr($cf7sr_client_id); ?>" name="cf7sr_client_id">
+			<label>
+		  </li>
         </ul>
         <input type="submit" class="button-primary" value="Save Settings">
       </form><br>
