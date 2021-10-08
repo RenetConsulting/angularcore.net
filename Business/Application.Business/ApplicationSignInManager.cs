@@ -16,8 +16,6 @@ namespace Application.Business
     public enum CanSignInResult
     {
         None = 0,
-        Violation,
-        AcceptedTerms,
         EmailConfirmed,
     }
 
@@ -36,7 +34,7 @@ namespace Application.Business
         {
         }
 
-        public CanSignInResult CanSignInResult { get; private set; }
+        private CanSignInResult CanSignInResult { get; set; }
 
         public override async Task<bool> CanSignInAsync(TUser user)
         {

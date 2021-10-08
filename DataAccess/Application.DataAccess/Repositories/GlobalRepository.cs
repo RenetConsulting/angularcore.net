@@ -14,8 +14,6 @@ namespace Application.DataAccess.Repositories
     using System.Threading.Tasks;
     using Application.DataAccess.Entities;
     using Application.DataAccess.Enums;
-    using Application.DataAccess.Helpers;
-    using Application.DataAccess.Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Storage;
@@ -23,8 +21,6 @@ namespace Application.DataAccess.Repositories
     public class GlobalRepository : IGlobalRepository
     {
         private readonly DataContext context;
-
-        private readonly UserManager<ApplicationUser> userManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalRepository"/> class.
@@ -34,7 +30,6 @@ namespace Application.DataAccess.Repositories
         public GlobalRepository(DataContext context, UserManager<ApplicationUser> userManager)
         {
             this.context = context;
-            this.userManager = userManager;
         }
 
         #region Transactions
@@ -61,9 +56,9 @@ namespace Application.DataAccess.Repositories
         {
             entity = entity ?? throw new ArgumentNullException(nameof(entity));
 
-            this.context.Add<T>(entity);
+            this.context.Add(entity);
 
-            int savedRecords = await this.context.SaveChangesAsync();
+            await this.context.SaveChangesAsync();
 
             return entity;
         }
@@ -73,18 +68,18 @@ namespace Application.DataAccess.Repositories
         {
             entity = entity ?? throw new ArgumentNullException(nameof(entity));
 
-            var entry = this.context.Entry(entity);
+            this.context.Entry(entity);
 
-            this.context.Update<T>(entity);
+            this.context.Update(entity);
             try
             {
-                int savedRecords = await this.context.SaveChangesAsync();
+                await this.context.SaveChangesAsync();
 
                 return entity;
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                ex.Entries[0].Reload();
+                await ex.Entries[0].ReloadAsync();
                 throw;
             }
         }
@@ -135,7 +130,7 @@ namespace Application.DataAccess.Repositories
 
             DbSet<TEntity> entity = this.context.Set<TEntity>();
 
-            return await this.ItemList<TEntity>(entity, skip, take, active, propertyInfo, sortOrder);
+            return await this.ItemList(entity, skip, take, active, propertyInfo, sortOrder);
         }
 
         #region Blog
@@ -158,102 +153,79 @@ namespace Application.DataAccess.Repositories
 
         public async Task<Blog> AddBlogAsync(Blog blog)
         {
-            using (IDbContextTransaction dbContextTransaction = await this.BeginTransactionAsync())
+            await using IDbContextTransaction dbContextTransaction = await this.BeginTransactionAsync();
+            try
             {
-                try
-                {
-                    blog.BlogId = blog.BlogId == null ? Guid.NewGuid().ToString() : blog.BlogId;
+                blog.BlogId ??= Guid.NewGuid().ToString();
 
-                    this.context.Blogs.Add(blog);
+                this.context.Blogs.Add(blog);
 
-                    await this.context.SaveChangesAsync();
+                await this.context.SaveChangesAsync();
 
-                    dbContextTransaction.Commit();
+                await dbContextTransaction.CommitAsync();
 
-                    return blog;
-                }
-                catch (Exception ex)
-                {
-                    dbContextTransaction.Rollback();
+                return blog;
+            }
+            catch
+            {
+                await dbContextTransaction.RollbackAsync();
 
-                    throw ex;
-                }
+                throw;
             }
         }
 
         public async Task<Blog> UpdateBlogAsync(string blogId, string title, string content, string userId)
         {
-            try
+            Blog blog = await this.context.Blogs.FirstOrDefaultAsync(bl => bl.IsActive.Value && bl.BlogId.Equals(blogId));
+
+            if (!Equals(blog, null))
             {
-                Blog blog = await this.context.Blogs.FirstOrDefaultAsync(bl => bl.IsActive.Value && bl.BlogId.Equals(blogId));
-
-                if (!Equals(blog, null))
+                if (!blog.UserId.Equals(userId))
                 {
-                    if (!blog.UserId.Equals(userId))
-                    {
-                        throw new Exception("You can update only own blogs!");
-                    }
-
-                    blog.Title = title;
-                    blog.Content = content;
-                }
-                else
-                {
-                    throw new Exception($"Blog with id {blogId} not found.");
+                    throw new Exception("You can update only own blogs!");
                 }
 
-                await this.context.SaveChangesAsync();
-
-                return blog;
+                blog.Title = title;
+                blog.Content = content;
             }
-            catch (Exception ex)
+            else
             {
-                throw ex;
+                throw new Exception($"Blog with id {blogId} not found.");
             }
+
+            await this.context.SaveChangesAsync();
+
+            return blog;
         }
 
         public async Task<bool> DeleteBlogAsync(string blogId, string userId)
         {
-            try
+            Blog deleteBlog = await this.context.Blogs.FirstOrDefaultAsync(a => a.IsActive.Value && a.BlogId.Equals(blogId));
+
+            if (!Equals(deleteBlog, null))
             {
-                Blog deleteBlog = await this.context.Blogs.FirstOrDefaultAsync(a => a.IsActive.Value && a.BlogId.Equals(blogId));
-
-                if (!Equals(deleteBlog, null))
+                if (!deleteBlog.UserId.Equals(userId))
                 {
-                    if (!deleteBlog.UserId.Equals(userId))
-                    {
-                        throw new Exception("You can remove only own blogs!");
-                    }
-
-                    this.context.Blogs.Remove(deleteBlog);
-                }
-                else
-                {
-                    throw new Exception($"Blog with id {blogId} not found.");
+                    throw new Exception("You can remove only own blogs!");
                 }
 
-                return await this.context.SaveChangesAsync() > 0;
+                this.context.Blogs.Remove(deleteBlog);
             }
-            catch (Exception ex)
+            else
             {
-                throw ex;
+                throw new Exception($"Blog with id {blogId} not found.");
             }
+
+            return await this.context.SaveChangesAsync() > 0;
         }
 
         public async Task<bool> SaveBlogFileAsync(string userId, string fileBlobName, string title)
         {
-            try
-            {
-                FileStorage blogFile = new FileStorage { FileId = fileBlobName, UserId = userId, Title = title ?? string.Empty };
+            FileStorage blogFile = new FileStorage { FileId = fileBlobName, UserId = userId, Title = title ?? string.Empty };
 
-                this.context.FileStorages.Add(blogFile);
+            this.context.FileStorages.Add(blogFile);
 
-                return await this.context.SaveChangesAsync() > 0;
-            }
-            catch
-            {
-                throw;
-            }
+            return await this.context.SaveChangesAsync() > 0;
         }
 
         public async Task<FileStorage> GetBlogFileAsync(string fileBlobName)
@@ -269,23 +241,16 @@ namespace Application.DataAccess.Repositories
         [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "ValueTuple.")]
         public async Task<(List<FileStorage>, int)> GetFileStoragesAsync(string userId, int index, int count)
         {
-            try
-            {
-                var filesQuery = this.context.FileStorages.Where(x => x.UserId == userId);
-                int totalAmount = await filesQuery.CountAsync();
+            var filesQuery = this.context.FileStorages.Where(x => x.UserId == userId);
+            int totalAmount = await filesQuery.CountAsync();
 
-                List<FileStorage> fileStorage = await filesQuery
-                    .OrderByDescending(a => a.CreatedDate)
-                    .Skip(index)
-                    .Take(count)
-                    .ToListAsync();
+            List<FileStorage> fileStorage = await filesQuery
+                .OrderByDescending(a => a.CreatedDate)
+                .Skip(index)
+                .Take(count)
+                .ToListAsync();
 
-                return (fileStorage, totalAmount);
-            }
-            catch
-            {
-                throw;
-            }
+            return (fileStorage, totalAmount);
         }
 
         public async Task<bool> DeleteBlogFileAsync(string fileBlobName, string userId)
@@ -365,15 +330,6 @@ namespace Application.DataAccess.Repositories
             }
 
             return selector;
-        }
-
-        private int SkipSize(int page, int elementsAmount)
-        {
-            double toSkip = (page - 1) * elementsAmount;
-
-            toSkip = toSkip < 0 ? 0 : toSkip;
-
-            return (int)toSkip;
         }
     }
 }

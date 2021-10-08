@@ -11,7 +11,6 @@ namespace Application.Business.Services
     using System.Threading.Tasks;
     using Application.Business.Interfaces;
     using Application.Business.Models;
-    using Application.DataAccess.Entities;
     using Application.DataAccess.Repositories;
 
     public class BlogService : IBlogService
@@ -26,126 +25,91 @@ namespace Application.Business.Services
         [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "ValueTuple.")]
         public async Task<(List<BlogModel>, int)> GetBlogsAsync(int index, int count, string userId)
         {
-            try
+            var (blogs, totalAmount) = await this.globalRepository.GetBlogsAsync(index, count).ConfigureAwait(false);
+
+            var models = new List<BlogModel>();
+
+            if (!Equals(userId, null))
             {
-                (List<Blog> blogs, int totalAmount) = await this.globalRepository.GetBlogsAsync(index, count).ConfigureAwait(false);
-
-                List<BlogModel> models = new List<BlogModel>();
-
-                if (!Equals(userId, null))
+                foreach (var blog in blogs)
                 {
-                    foreach (Blog blog in blogs)
-                    {
-                        BlogModel model = new BlogModel();
-                        model.ToModel(blog);
-                        model.Editable = blog.UserId == userId;
-                        models.Add(model);
-                    }
+                    var model = new BlogModel();
+                    model.ToModel(blog);
+                    model.Editable = blog.UserId == userId;
+                    models.Add(model);
                 }
-                else
-                {
-                    foreach (Blog blog in blogs)
-                    {
-                        BlogModel model = new BlogModel();
-                        model.ToModel(blog);
-                        model.Editable = false;
-                        models.Add(model);
-                    }
-                }
-
-                return (models, totalAmount);
             }
-            catch
+            else
             {
-                throw;
+                foreach (var blog in blogs)
+                {
+                    var model = new BlogModel();
+                    model.ToModel(blog);
+                    model.Editable = false;
+                    models.Add(model);
+                }
             }
+
+            return (models, totalAmount);
         }
 
         public async Task<BlogModel> GetBlogAsync(string blogId, string userId)
         {
-            try
+            var blog = await this.globalRepository.GetBlogAsync(blogId).ConfigureAwait(false);
+            var model = new BlogModel();
+
+            if (!Equals(userId, null))
             {
-                Blog blog = await this.globalRepository.GetBlogAsync(blogId).ConfigureAwait(false);
-                BlogModel model = new BlogModel();
-
-                if (!Equals(userId, null))
-                {
-                    model.Editable = blog.UserId == userId;
-                }
-                else
-                {
-                    model.Editable = false;
-                }
-
-                model.ToModel(blog);
-
-                return model;
+                model.Editable = blog.UserId == userId;
             }
-            catch
+            else
             {
-                throw;
+                model.Editable = false;
             }
+
+            model.ToModel(blog);
+
+            return model;
         }
 
         public async Task<BlogModel> AddBlogAsync(BlogModel model, string userId)
         {
-            try
-            {
-                model = model ?? throw new ArgumentNullException(nameof(model));
+            model = model ?? throw new ArgumentNullException(nameof(model));
 
-                userId = userId ?? throw new ArgumentNullException(nameof(userId));
+            userId = userId ?? throw new ArgumentNullException(nameof(userId));
 
-                model.UserId = userId;
+            model.UserId = userId;
 
-                Blog entity = await this.globalRepository.AddBlogAsync(model.ToEntity()).ConfigureAwait(false);
+            var entity = await this.globalRepository.AddBlogAsync(model.ToEntity()).ConfigureAwait(false);
 
-                BlogModel returnModel = new BlogModel();
-                returnModel.ToModel(entity);
-                returnModel.Editable = true;
+            var returnModel = new BlogModel();
+            returnModel.ToModel(entity);
+            returnModel.Editable = true;
 
-                return returnModel;
-            }
-            catch
-            {
-                throw;
-            }
+            return returnModel;
         }
 
         public async Task<BlogModel> UpdateBlogAsync(BlogModel model, string userId)
         {
-            try
-            {
-                model = model ?? throw new ArgumentNullException(nameof(model));
+            model = model ?? throw new ArgumentNullException(nameof(model));
 
-                userId = userId ?? throw new ArgumentNullException(nameof(userId));
+            userId = userId ?? throw new ArgumentNullException(nameof(userId));
 
-                Blog entity = await this.globalRepository.UpdateBlogAsync(model.BlogId, model.Title, model.Content, userId).ConfigureAwait(false);
+            var entity = await this.globalRepository.UpdateBlogAsync(model.BlogId, model.Title, model.Content, userId).ConfigureAwait(false);
 
-                BlogModel returnModel = new BlogModel();
-                returnModel.ToModel(entity);
-                returnModel.Editable = true;
+            var returnModel = new BlogModel();
+            returnModel.ToModel(entity);
+            returnModel.Editable = true;
 
-                return returnModel;
-            }
-            catch
-            {
-                throw;
-            }
+            return returnModel;
         }
 
         public async Task DeleteBlogAsync(string blogId, string userId)
         {
-            try
-            {
-                blogId = blogId ?? throw new ArgumentNullException(nameof(blogId));
-                userId = userId ?? throw new ArgumentNullException(nameof(userId));
+            blogId = blogId ?? throw new ArgumentNullException(nameof(blogId));
+            userId = userId ?? throw new ArgumentNullException(nameof(userId));
 
-                await this.globalRepository.DeleteBlogAsync(blogId, userId).ConfigureAwait(false);
-            }
-            catch
-            {
-                throw;
-            }
+            await this.globalRepository.DeleteBlogAsync(blogId, userId).ConfigureAwait(false);
         }
     }
 }

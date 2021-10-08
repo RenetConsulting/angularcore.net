@@ -11,13 +11,13 @@
     using System.Reflection;
     using SixLabors.ImageSharp.Advanced;
     using Microsoft.Extensions.Logging;
+    using Renet.CoreCaptcha.Enumerables;
 
     public static class Captcha
     {
-        const string Letters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-        public static string GenerateCaptchaCode(int length)
+        public static string GenerateCaptchaCode(int length, CoreCaptchaLanguage language)
         {
+            string Letters = GetLocalizeLettersSymbols(language);
             Random rand = new Random();
             int maxRand = Letters.Length - 1;
 
@@ -50,6 +50,27 @@
 
                 return new CaptchaResult { CaptchaCode = captchaCode, CaptchaByteData = ms.ToArray(), Timestamp = DateTime.Now };         
             }
+        }
+
+        public static string GetLocalizeLettersSymbols(CoreCaptchaLanguage language)
+        {
+            string Letters = null;
+
+            switch (language)
+            {
+                case CoreCaptchaLanguage.English:
+                    Letters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"; break;
+
+                case CoreCaptchaLanguage.Russian:
+                    Letters = "0123456789АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЪЫЭЮЯ"; break;
+
+                case CoreCaptchaLanguage.Ukraine:
+                    Letters = "0123456789АБВГДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ"; break;
+
+                default: throw new ArgumentException("Please, select site language");
+            }
+
+            return Letters;
         }
 
         private static Image<Rgba32>  AdjustRippleEffect(Image<Rgba32> image, int width, int height)

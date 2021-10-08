@@ -1,0 +1,32 @@
+<div class="cf7sr-wrap captcha-form">
+  <h2>
+    Captcha Settings
+  </h2>
+  This plugin implements anti spam captcha.<br><br>
+  To add Core Captcha to CF7 form, add <strong>[core-captcha]</strong> in your form ( preferable above submit button )<br>
+  <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="POST">
+    <input type="hidden" value="1" name="update">
+    <?php wp_nonce_field( 'cf7sr_update_settings', 'cf7sr_nonce' ); ?>
+    <ul>
+      <li>
+  <label><strong style="width: 120px; display: inline-flex;">Captcha create url</strong> 
+    <input type="text" class="regular-text code" value="<?php echo esc_attr($cf7sr_captcha_create_url); ?>" name="cf7sr_captcha_create_url">
+    </label>
+  </li>
+      <li>
+    <label><strong style="width: 120px; display: inline-flex;">Captcha validate url</strong> 
+    <input type="text" class="regular-text code" value="<?php echo esc_attr($cf7sr_captcha_validate_url); ?>" name="cf7sr_captcha_validate_url">
+    <label>
+  </li>
+      <li>
+  <label><strong style="width: 120px; display: inline-flex;">Client id</strong> 
+    <input type="text" class="regular-text code" value="<?php echo esc_attr($cf7sr_client_id); ?>" name="cf7sr_client_id">
+  <label>
+  </li>
+    </ul>
+    <input type="submit" class="button-primary" value="Save Settings">
+  </form><br>
+  <?php if (!empty($updated)): ?>
+    <p>Settings were updated successfully!</p>
+  <?php endif; ?>
+</div>
