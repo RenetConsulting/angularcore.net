@@ -1,0 +1,54 @@
+/*--------------------------------------------------------------
+  Core captcha
+--------------------------------------------------------------*/
+.captcha-container {
+	display: flex; 
+	justify-content: flex-start; 
+	align-items: center;
+}
+/* .captcha-image-container { */
+	/* flex-grow: 1; */
+    /* background: #fff; */
+/* } */
+.captcha-image {
+	filter: grayscale(1) contrast(2);
+	max-width: 100%;
+	width: 250px;
+	height: auto;
+	margin: 10px 0;
+}
+.captcha-button-container {
+	display: flex; 
+	flex-direction: column; 
+	height: 100%; 
+	align-items: center; 
+	justify-content: stretch;
+}
+.captcha-button {
+	/* background: transparent; */
+	outline: none; 
+	border: none;
+	padding: 5px; 
+	text-align: center;
+	display: flex;
+	margin: .25rem .5rem;
+	width: 30px;
+	height: 30px;
+	/* border-radius: 5px 5px 0 0; */
+}
+.captcha-button:nth-child(2) {
+	/* border-radius: 0 0 5px 5px; */
+}
+.captcha-button:hover {
+	/* background: transparent; */
+	border: none;
+}
+/*admin form*/
+.captcha-form {
+	font-size: 15px; 
+	background: #fff; 
+	border: 1px solid #e5e5e5; 
+	margin-top: 20px; 
+	padding: 20px; 
+	margin-right: 20px;
+}
