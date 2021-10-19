@@ -15,7 +15,7 @@
 add_action( 'wp_enqueue_scripts', 'register_plugin_styles' );
 //register the stylesheet and add it to the queue
 function register_plugin_styles() {
-	wp_register_style( 'core-captcha', plugins_url( 'CoreCaptcha/style.css' ) );
+	wp_register_style( 'core-captcha', plugins_url( 'CoreCaptchaWordpressPlugin/style.css' ) );
 	wp_enqueue_style( 'core-captcha' );
 }
 
