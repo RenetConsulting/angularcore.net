@@ -69,6 +69,6 @@
     "tslint": "~6.1.0",
     "typescript": "~4.2.4",
     "lodash": "^4.17.21",
-    "url-parse": "^1.5.1"
+    "url-parse": "^1.5.2"
   }
 }
