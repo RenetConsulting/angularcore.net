@@ -7,7 +7,6 @@ import { MessageDialogComponent } from './message-dialog.component';
 @NgModule({
     declarations: [MessageDialogComponent],
     exports: [MessageDialogComponent],
-    entryComponents: [MessageDialogComponent],
     imports: [
         CommonModule,
         MatButtonModule,

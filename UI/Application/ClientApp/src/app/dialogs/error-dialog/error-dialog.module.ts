@@ -9,7 +9,6 @@ import { CloseDialogModule } from '~/directives/close-dialog/close-dialog.module
 @NgModule({
     declarations: [ErrorDialogComponent],
     exports: [ErrorDialogComponent],
-    entryComponents: [ErrorDialogComponent],
     imports: [
         CommonModule,
         RouteTransformerModule,
