@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/interceptors",
-  "version": "9.0.0",
+  "version": "14.0.0",
   "author": "Michael Vasyliv, Alexander Altotsky",
   "license": "MIT",
   "private": false,
@@ -17,7 +17,7 @@
     "tslib": "^2.0.0"
   },
   "peerDependencies": {
-    "@angular/common": "^9.0.0",
+    "@angular/common": "^14.0.0",
     "rxjs": "~6.5.5"
   }
 }

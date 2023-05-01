@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/viewport-change",
-  "version": "9.0.0",
+  "version": "14.0.0",
   "author": "Michael Vasyliv, Alexander Altotsky",
   "license": "MIT",
   "private": false,
@@ -17,8 +17,8 @@
     "tslib": "^2.0.0"
   },
   "peerDependencies": {
-    "@angular/core": "^9.0.0",
-    "@angular/cdk": "^9.0.0",
+    "@angular/core": "^14.0.0",
+    "@angular/cdk": "^14.0.0",
     "rxjs": "~6.5.5"
   }
 }

@@ -1,7 +1,7 @@
 {
   "name": "@renet-consulting/bypass",
-  "version": "9.0.0",
-  "author": "Michael Vasyliv",
+  "version": "14.0.0",
+  "author": "Renet Consulting",
   "license": "MIT",
   "private": false,
   "homepage": "https://github.com/RenetConsulting/angularcore.net",
@@ -17,7 +17,7 @@
     "tslib": "^2.0.0"
   },
   "peerDependencies": {
-    "@angular/core": "^9.0.0",
-    "@angular/platform-browser": "^9.0.0"
+    "@angular/core": "^14.0.0",
+    "@angular/platform-browser": "^14.0.0"
   }
 }

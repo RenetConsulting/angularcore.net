@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/infinite-source",
-  "version": "9.0.0",
+  "version": "14.0.0",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
@@ -17,7 +17,7 @@
     "tslib": "^2.0.0"
   },
   "peerDependencies": {
-    "@angular/cdk": "^9.0.0",
+    "@angular/cdk": "^14.0.0",
     "rxjs": "~6.5.5"
   }
 }
