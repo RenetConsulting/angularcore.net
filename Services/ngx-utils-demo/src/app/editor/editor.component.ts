@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 import { ToolbarHandlersService } from 'projects/editor/src/public-api';
 
 export function imageValue(quill) {
@@ -14,7 +14,7 @@ export function imageValue(quill) {
 })
 export class EditorComponent implements OnInit {
 
-    control = new FormControl('123', [Validators.required]);
+    control = new UntypedFormControl('123', [Validators.required]);
 
     constructor() { }
 

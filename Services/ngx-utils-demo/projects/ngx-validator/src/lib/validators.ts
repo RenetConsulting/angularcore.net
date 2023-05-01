@@ -1,8 +1,8 @@
-import { AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup, ValidationErrors } from '@angular/forms';
 
 export const mismatchPasswordValidator = (name = 'password', errorMessage = 'The password and confirmation password do not match.') =>
     (control: AbstractControl): ValidationErrors | null => {
-        const formGroup = control.parent as FormGroup;
+        const formGroup = control.parent as UntypedFormGroup;
         const value = formGroup && formGroup.controls[name].value;
         return control.value !== value ? { errorMessage } : null;
     };

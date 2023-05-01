@@ -8,7 +8,6 @@ import { NgxAComponent } from './ngx-a.component';
 @NgModule({
     declarations: [NgxAComponent],
     exports: [NgxAComponent],
-    entryComponents: [NgxAComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     imports: [
         CommonModule,

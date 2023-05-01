@@ -6,7 +6,6 @@ import { CustomErrorDialogComponent } from './custom-error-dialog.component';
 @NgModule({
     declarations: [CustomErrorDialogComponent],
     exports: [CustomErrorDialogComponent],
-    entryComponents: [CustomErrorDialogComponent],
     imports: [
         CommonModule,
         MatDialogModule

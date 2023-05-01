@@ -1,4 +1,4 @@
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup } from '@angular/forms';
 import { phoneUSRegExp } from './regexps';
 import { mismatchPasswordValidator, phoneValidator } from './validators';
 
@@ -9,7 +9,7 @@ describe('validators', () => {
         it('should return null', () => {
             const value = 'KSSdJMASJn 1j^%1,';
             const password = { value } as AbstractControl;
-            const parent = { controls: { password } as any } as FormGroup;
+            const parent = { controls: { password } as any } as UntypedFormGroup;
             const control = { value, parent } as AbstractControl;
             expect(mismatchPasswordValidator()(control)).toEqual(null);
         });
@@ -22,7 +22,7 @@ describe('validators', () => {
         it('should return errorMessage', () => {
             const value = 'KSSdJMASJn 1j^%1,';
             const password = { value } as AbstractControl;
-            const parent = { controls: { password } as any } as FormGroup;
+            const parent = { controls: { password } as any } as UntypedFormGroup;
             const control = { value: value + 1, parent } as AbstractControl;
             const errorMessage = 'bob';
             expect(mismatchPasswordValidator('password', errorMessage)(control)).toEqual({ errorMessage });

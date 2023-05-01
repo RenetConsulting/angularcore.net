@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { StorageService } from 'projects/storage/src/public-api';
 // import { StorageService } from '@renet-consulting/storage';
 
@@ -10,9 +10,9 @@ import { StorageService } from 'projects/storage/src/public-api';
 })
 export class StorageComponent implements OnInit {
 
-    formGroup = new FormGroup({
-        key: new FormControl(),
-        value: new FormControl()
+    formGroup = new UntypedFormGroup({
+        key: new UntypedFormControl(),
+        value: new UntypedFormControl()
     });
 
     constructor(

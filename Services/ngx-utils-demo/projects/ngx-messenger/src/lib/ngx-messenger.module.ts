@@ -9,7 +9,6 @@ import { NgxMessengerService } from './ngx-messenger.service';
 @NgModule({
     declarations: [NgxErrorDialogComponent],
     exports: [NgxErrorDialogComponent],
-    entryComponents: [NgxErrorDialogComponent],
     providers: [
         NgxMessengerService
     ],
@@ -18,6 +17,6 @@ import { NgxMessengerService } from './ngx-messenger.service';
         MatDialogModule,
         MatSnackBarModule,
         MatButtonModule
-    ],
+    ]
 })
 export class NgxMessengerModule { }

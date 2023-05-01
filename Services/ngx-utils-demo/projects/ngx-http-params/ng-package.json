@@ -2,10 +2,7 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/ngx-http-params",
   "lib": {
-    "entryFile": "src/public-api.ts",
-    "umdModuleIds": {
-      "@renet-consulting/util": "util"
-    }
+    "entryFile": "src/public-api.ts"
   },
   "whitelistedNonPeerDependencies": [
     "@renet-consulting/util"

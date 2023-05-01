@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { CoreCaptchaRequired } from 'projects/core-captcha/src/public_api';
 
 @Component({
@@ -10,8 +10,8 @@ import { CoreCaptchaRequired } from 'projects/core-captcha/src/public_api';
 export class CaptchaComponent {
 
     readonly errors = ['Please fill captcha'];
-    readonly formGroup = new FormGroup({
-        captcha: new FormControl(null, [CoreCaptchaRequired])
+    readonly formGroup = new UntypedFormGroup({
+        captcha: new UntypedFormControl(null, [CoreCaptchaRequired])
     });
     url = 'https://corecaptcha.azurewebsites.net/api/CaptchaCreate';
     toggled: boolean;

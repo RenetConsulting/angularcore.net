@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { phoneUSRegExp, phoneValidator } from 'projects/ngx-validator/src/public-api';
 
 @Component({
@@ -9,10 +9,10 @@ import { phoneUSRegExp, phoneValidator } from 'projects/ngx-validator/src/public
 })
 export class ValidatorComponent implements OnInit {
 
-    readonly formGroup = new FormGroup({
-        city: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(6), this.helloBobValidator]),
-        address: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(6), this.helloBobValidator]),
-        phone: new FormControl('', [phoneValidator(phoneUSRegExp)])
+    readonly formGroup = new UntypedFormGroup({
+        city: new UntypedFormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(6), this.helloBobValidator]),
+        address: new UntypedFormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(6), this.helloBobValidator]),
+        phone: new UntypedFormControl('', [phoneValidator(phoneUSRegExp)])
     });
     errorMessage: string;
     error: string;
