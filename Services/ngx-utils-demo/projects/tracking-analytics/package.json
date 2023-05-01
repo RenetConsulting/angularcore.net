@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/ngx-tracking-analytics",
-  "version": "14.0.0",
+  "version": "14.0.1",
   "author": "Michael Vasyliv, Alexander Altotsky",
   "license": "MIT",
   "private": false,
@@ -24,7 +24,7 @@
     "@angular/common": "^14.0.0",
     "@angular/platform-browser": "^14.0.0",
     "@angular/router": "^14.0.0",
-    "rxjs": "~6.5.5"
+    "rxjs": "~6.6.7"
   },
   "optionalDependencies": {
     "@types/crypto-js": "~3.1.39"
