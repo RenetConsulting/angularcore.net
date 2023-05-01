@@ -4,7 +4,7 @@
   "lib": {
     "entryFile": "src/public-api.ts"
   },
-  "whitelistedNonPeerDependencies": [
+  "allowedNonPeerDependencies": [
     "@renet-consulting/animations",
     "@renet-consulting/control-value-accessor",
     "@renet-consulting/ngx-validator"
