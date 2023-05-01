@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/ngx-mat-input",
-  "version": "10.0.2",
+  "version": "14.0.0",
   "author": "Rewnet Consulting, Inc.",
   "license": "MIT",
   "private": false,
@@ -14,16 +14,16 @@
     "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/ngx-mat-input"
   },
   "dependencies": {
-    "@renet-consulting/animations": "^9.0.0",
-    "@renet-consulting/control-value-accessor": "^10.0.2",
-    "@renet-consulting/ngx-validator": "^9.0.0",
+    "@renet-consulting/animations": "^14.0.0",
+    "@renet-consulting/control-value-accessor": "^14.0.0",
+    "@renet-consulting/ngx-validator": "^14.0.0",
     "tslib": "^2.0.0"
   },
   "peerDependencies": {
-    "@angular/common": "^9.0.0",
-    "@angular/core": "^9.0.0",
-    "@angular/forms": "^9.0.0",
-    "@angular/material": "^9.0.0",
+    "@angular/common": "^14.0.0",
+    "@angular/core": "^14.0.0",
+    "@angular/forms": "^14.0.0",
+    "@angular/material": "^14.0.0",
     "bootstrap": "^4.3.1"
   }
 }
