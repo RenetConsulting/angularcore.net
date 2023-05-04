@@ -7,7 +7,6 @@ import { PromptDialogComponent } from './prompt-dialog.component';
 @NgModule({
     declarations: [PromptDialogComponent],
     exports: [PromptDialogComponent],
-    entryComponents: [PromptDialogComponent],
     imports: [
         CommonModule,
         MatDialogModule,

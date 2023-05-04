@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY } from 'rxjs';
 import { catchError, mapTo, mergeMap  } from 'rxjs/operators';
 import { SetSuccess } from '~/actions/messenger.actions';
@@ -16,16 +16,16 @@ export class ConfirmEmailEffects {
         @Inject(AccountService) private accountService: AccountService,
     ) { }
 
-    @Effect() confirmEmailRequest = this.actions.pipe(
+     confirmEmailRequest = createEffect(() => this.actions.pipe(
         ofType<ConfirmEmailRequest>(ConfirmEmailTypes.CONFIRM_EMAIL_REQUEST),
         mergeMap(x => this.accountService.confirmEmail(x.payload.value).pipe(
             mapTo(new ConfirmEmailSuccess()),
             catchError(() => EMPTY)
         ))
-    );
+    ));
 
-    @Effect() confirmEmailSuccess = this.actions.pipe(
+     confirmEmailSuccess = createEffect(() => this.actions.pipe(
         ofType<ConfirmEmailSuccess>(ConfirmEmailTypes.CONFIRM_EMAIL_SUCCESS),
         mapTo(new SetSuccess(Messages.emailConfirmed))
-    );
+    ));
 }

@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, filter, mapTo, mergeMap, withLatestFrom } from 'rxjs/operators';
@@ -20,7 +20,7 @@ export class ResendConfirmationEffects {
         @Inject(Store) private store: Store<RootStore>,
     ) { }
 
-    @Effect() resendConfirmationRequest = this.actions.pipe(
+     resendConfirmationRequest = createEffect(() => this.actions.pipe(
         ofType<ResendConfirmationRequest>(ResendConfirmationTypes.RESEND_CONFIRMATION_REQUEST),
         withLatestFrom(this.store.select(selectAuthUser)),
         filter(([_, user]) => !!user),
@@ -28,10 +28,10 @@ export class ResendConfirmationEffects {
             mapTo(new ResendConfirmationSuccess()),
             catchError(e => of(new ResendConfirmationError(e)))
         ))
-    );
+    ));
 
-    @Effect() resendConfirmationSuccess = this.actions.pipe(
+     resendConfirmationSuccess = createEffect(() => this.actions.pipe(
         ofType<ResendConfirmationSuccess>(ResendConfirmationTypes.RESEND_CONFIRMATION_SUCCESS),
         mapTo(new SetSuccess(Messages.checkEmail))
-    );
+    ));
 }

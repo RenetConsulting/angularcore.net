@@ -10,13 +10,12 @@ import { ResendConfirmationComponent } from './resend-confirmation.component';
 @NgModule({
     exports: [ResendConfirmationComponent],
     declarations: [ResendConfirmationComponent],
-    entryComponents: [ResendConfirmationComponent],
     imports: [
         CommonModule,
         MatButtonModule,
         MatDialogModule,
         RouterModule,
         EffectsModule.forFeature([ResendConfirmationEffects])
-    ],
+    ]
 })
 export class ResendConfirmationModule { }

@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
 
-import { Actions, Effect, ofType, ROOT_EFFECTS_INIT } from '@ngrx/effects';
+import { Actions, createEffect, ofType, ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { StorageService } from '@renet-consulting/storage';
 
@@ -24,15 +24,15 @@ export class ThemeEffects {
         @Inject(DOCUMENT) private document: Document
     ) { }
 
-    @Effect() init = this.actions.pipe(
+     init = createEffect(() => this.actions.pipe(
         ofType(ROOT_EFFECTS_INIT),
         map(() => this.storageService.get(this.key)),
         withLatestFrom(this.store.select(selectThemes)),
         map(([selected, themes]) => selected ? selected : themes.find(i => i.isDefault)),
         map(i => new SetTheme(i)),
-    );
+    ));
 
-    @Effect({ dispatch: false }) setTheme = this.actions.pipe(
+     setTheme = createEffect(() => this.actions.pipe(
         ofType<SetTheme>(ThemeTypes.SET_THEME),
         map(a => a.payload),
         tap(i => {
@@ -46,5 +46,5 @@ export class ThemeEffects {
             }
         }),
         tap(x => this.storageService.set(this.key, x)),
-    );
+    ), { dispatch: false });
 }

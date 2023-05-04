@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
+import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { AuthService, TokenService } from '@renet-consulting/auth';
 import { StorageService } from '@renet-consulting/storage';
 import { of } from 'rxjs';
@@ -23,15 +23,15 @@ export class AuthEffects implements OnInitEffects {
         @Inject(Router) private router: Router,
     ) { }
 
-    @Effect() signoutRequest = this.actions.pipe(
+     signoutRequest = createEffect(() => this.actions.pipe(
         ofType<SignoutRequest>(AuthTypes.SIGNOUT_REQUEST),
         mergeMap(() => this.authService.signout().pipe(
             map(() => new SignoutSuccess()),
             catchError(() => of(new SignoutError()))
         )),
-    );
+    ));
 
-    @Effect() signoutSuccess = this.actions.pipe(
+     signoutSuccess = createEffect(() => this.actions.pipe(
         ofType<SignoutSuccess>(AuthTypes.SIGNOUT_SUCCESS),
         tap(this.tokenService.clean),
         tap(() => this.storageService.remove(this.providerKey)),
@@ -40,17 +40,17 @@ export class AuthEffects implements OnInitEffects {
             new SetSuccess('You has signed out successfully.'),
             new Reset()
         ]),
-    );
+    ));
 
-    @Effect({ dispatch: false }) signoutError = this.actions.pipe(
+     signoutError = createEffect(() => this.actions.pipe(
         ofType<SignoutError>(AuthTypes.SIGNOUT_ERROR),
         tap(this.tokenService.clean),
-    );
+    ), { dispatch: false });
 
-    @Effect({ dispatch: false }) setAuthorized = this.actions.pipe(
+     setAuthorized = createEffect(() => this.actions.pipe(
         ofType<SetAuthorized>(AuthTypes.SET_AUTHORIZED),
         tap(x => this.storageService.set(this.providerKey, x.payload.provider)),
-    );
+    ), { dispatch: false });
 
     ngrxOnInitEffects() {
         return new SetAuthorized({

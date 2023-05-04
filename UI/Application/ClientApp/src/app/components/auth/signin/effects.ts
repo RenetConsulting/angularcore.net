@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AuthService, TokenService } from '@renet-consulting/auth';
 import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
 import { NgxMessengerService } from '@renet-consulting/ngx-messenger';
@@ -26,42 +26,42 @@ export class SigninEffects {
         @Inject(NgxHttpParamsService) private params: NgxHttpParamsService,
     ) { }
 
-    @Effect() signinRequest = this.actions.pipe(
+     signinRequest = createEffect(() => this.actions.pipe(
         ofType<SigninRequest>(SigninTypes.SIGNIN_REQUEST),
         mergeMap(a => this.authService.signin(a.payload.value, { params: this.params.map(a.payload.value.captcha) }).pipe(
             tap(() => a.payload.reset()),
             map(i => new SigninSuccess(a.payload, i)),
             catchError(e => of(new SigninError(e)))
         ))
-    );
+    ));
 
-    @Effect() signinSuccess = this.actions.pipe(
+     signinSuccess = createEffect(() => this.actions.pipe(
         ofType<SigninSuccess>(SigninTypes.SIGNIN_SUCCESS),
         tap(a => this.tokenService.setToken(a.success)),
         map(() => new SetAuthorized({ authorized: true }))
-    );
+    ));
 
-    @Effect() signinError = this.actions.pipe(
+     signinError = createEffect(() => this.actions.pipe(
         ofType<SigninError>(SigninTypes.SIGNIN_ERROR),
         filter(filterError),
         filter(e => e.error.code !== ErrorCodeType.unconfirmedEmail),
         map(e => new SetError(e.error))
-    );
+    ));
 
-    @Effect() externalSignin = this.actions.pipe(
+     externalSignin = createEffect(() => this.actions.pipe(
         ofType<ExternalSignin>(SigninTypes.EXTERNAL_SIGNIN),
         map(a => new SetAuthorized({ authorized: true, provider: a.payload })),
-    );
+    ));
 
-    @Effect({ dispatch: false }) signinError1001 = this.actions.pipe(
+     signinError1001 = createEffect(() => this.actions.pipe(
         ofType<SigninError>(SigninTypes.SIGNIN_ERROR),
         filter(filterError),
         filter(e => e.error.code === ErrorCodeType.unconfirmedEmail),
         tap(e => this.messenger.error(ResendConfirmationComponent).componentInstance.error = e.error.error_description)
-    );
+    ), { dispatch: false });
 
-    @Effect({ dispatch: false }) navigate = this.actions.pipe(
+     navigate = createEffect(() => this.actions.pipe(
         ofType<ExternalSignin | SigninSuccess>(SigninTypes.EXTERNAL_SIGNIN, SigninTypes.SIGNIN_SUCCESS),
         tap(() => this.router.navigate(['/'])),
-    );
+    ), { dispatch: false });
 }

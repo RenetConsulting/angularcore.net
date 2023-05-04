@@ -18,7 +18,6 @@ import { fileReducer } from './reducer';
 @NgModule({
     declarations: [FileListComponent],
     exports: [FileListComponent],
-    entryComponents: [FileListComponent],
     imports: [
         CommonModule,
         MatDialogModule,

@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY } from 'rxjs';
 import { catchError, mapTo, mergeMap, tap } from 'rxjs/operators';
 import { SetSuccess } from '~/actions/messenger.actions';
@@ -16,17 +16,17 @@ export class PrepResetPasswordEffects {
         @Inject(AccountService) private accountService: AccountService
     ) { }
 
-    @Effect() prepResetPasswordRequest = this.actions.pipe(
+     prepResetPasswordRequest = createEffect(() => this.actions.pipe(
         ofType<PrepResetPasswordRequest>(PrepResetPasswordTypes.PREP_RESET_PASSWORD_REQUEST),
         mergeMap(x => this.accountService.prepResetPassword(x.payload.controls.email.value).pipe(
             tap(() => x.payload.reset()),
             mapTo(new PrepResetPasswordSuccess()),
             catchError(() => EMPTY)
         ))
-    );
+    ));
 
-    @Effect() prepResetPasswordSuccess = this.actions.pipe(
+     prepResetPasswordSuccess = createEffect(() => this.actions.pipe(
         ofType<PrepResetPasswordSuccess>(PrepResetPasswordTypes.PREP_RESET_PASSWORD_SUCCESS),
         mapTo(new SetSuccess(Messages.checkEmail))
-    );
+    ));
 }

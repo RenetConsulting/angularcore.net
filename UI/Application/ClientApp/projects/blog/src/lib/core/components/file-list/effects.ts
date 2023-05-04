@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, filter, map, mergeMap, tap, withLatestFrom } from 'rxjs/operators';
@@ -23,30 +23,30 @@ export class FileEffects {
         @Inject(MatDialog) private dialog: MatDialog,
     ) { }
 
-    @Effect() uploadFileRequest = this.actions.pipe(
+     uploadFileRequest = createEffect(() => this.actions.pipe(
         ofType<UIActions.UploadFileRequest>(FileTypes.UPLOAD_FILE_REQUEST),
         mergeMap(a => this.fileService.upload(a.payload).pipe(
             map(r => new UIActions.UploadFileSuccess(r)),
             catchError(e => of(new UIActions.UploadFileError(e)))
         ))
-    );
+    ));
 
-    @Effect() getFilesRequest = this.actions.pipe(
+     getFilesRequest = createEffect(() => this.actions.pipe(
         ofType<UIActions.GetFilesRequest>(FileTypes.GET_FILES_REQUEST),
         mergeMap(a => this.fileService.getFiles({ ...a.payload, count: this.options.count }).pipe(
             map(r => new UIActions.GetFilesSuccess(r)),
             catchError(e => of(new UIActions.GetFilesError(e)))
         ))
-    );
+    ));
 
-    @Effect() getFilesSuccess = this.actions.pipe(
+     getFilesSuccess = createEffect(() => this.actions.pipe(
         ofType<UIActions.GetFilesSuccess>(FileTypes.GET_FILES_SUCCESS),
         withLatestFrom(this.store.select(selectSelectedFile)),
         filter(([a, x]) => a.success.items.length > 0 && !x),
         map(([a]) => new UIActions.SelectFile(a.success.items[0]))
-    );
+    ));
 
-    @Effect() deleteFilePreRequest = this.actions.pipe(
+     deleteFilePreRequest = createEffect(() => this.actions.pipe(
         ofType<UIActions.DeleteFilePreRequest>(FileTypes.DELETE_FILE_PRE_REQUEST),
         map(action => ({ ref: this.dialog.open(PromptDialogComponent), action })),
         tap(x => x.ref.componentInstance.setContent('Are you sure you want to delete this file?')),
@@ -54,20 +54,20 @@ export class FileEffects {
             filter(z => z),
             map(() => new UIActions.DeleteFileRequest(x.action.payload)),
         ))
-    );
+    ));
 
-    @Effect() deleteFileRequest = this.actions.pipe(
+     deleteFileRequest = createEffect(() => this.actions.pipe(
         ofType<UIActions.DeleteFileRequest>(FileTypes.DELETE_FILE_REQUEST),
         mergeMap(a => this.fileService.delete(a.payload).pipe(
             map(() => new UIActions.DeleteFileSuccess(a.payload)),
             catchError(e => of(new UIActions.DeleteFileError(e)))
         ))
-    );
+    ));
 
-    @Effect() deleteFileSuccess = this.actions.pipe(
+     deleteFileSuccess = createEffect(() => this.actions.pipe(
         ofType<UIActions.DeleteFileSuccess>(FileTypes.DELETE_FILE_SUCCESS),
         withLatestFrom(this.store.select(selectFileTotalAmount), this.store.select(selectFileTotal)),
         filter(([_a, totalAmount, total]) => totalAmount > this.options.count && total < this.options.count),
         map(() => new UIActions.GetFilesRequest({ index: 0 })),
-    );
+    ));
 }

@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, filter, map, mapTo, mergeMap, tap } from 'rxjs/operators';
 import { SetError, SetSuccess } from '~/actions/messenger.actions';
@@ -17,24 +17,24 @@ export class ResetPasswordEffects {
         @Inject(AccountService) private accountService: AccountService,
     ) { }
 
-    @Effect() resetPasswordRequest = this.actions.pipe(
+     resetPasswordRequest = createEffect(() => this.actions.pipe(
         ofType<ResetPasswordRequest>(ResetPasswordTypes.RESET_PASSWORD_REQUEST),
         mergeMap(x => this.accountService.resetPassword(x.payload.value).pipe(
             tap(() => x.payload.reset()),
             mapTo(new ResetPasswordSuccess()),
             catchError(e => of(new ResetPasswordError(e)))
         ))
-    );
+    ));
 
-    @Effect() resetPasswordSuccess = this.actions.pipe(
+     resetPasswordSuccess = createEffect(() => this.actions.pipe(
         ofType<ResetPasswordSuccess>(ResetPasswordTypes.RESET_PASSWORD_SUCCESS),
         mapTo(new SetSuccess(Messages.passwordHasChanged))
-    );
+    ));
 
 
-    @Effect() resetPasswordError = this.actions.pipe(
+     resetPasswordError = createEffect(() => this.actions.pipe(
         ofType<ResetPasswordError>(ResetPasswordTypes.RESET_PASSWORD_ERROR),
         filter(filterError),
         map(e => new SetError(e.error))
-    );
+    ));
 }

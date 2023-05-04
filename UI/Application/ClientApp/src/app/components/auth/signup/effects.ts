@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AuthService } from '@renet-consulting/auth';
 import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
 import { of } from 'rxjs';
@@ -21,24 +21,24 @@ export class SignupEffects {
         @Inject(Router) private router: Router,
     ) { }
 
-    @Effect() signupRequest = this.actions.pipe(
+     signupRequest = createEffect(() => this.actions.pipe(
         ofType<SignupRequest>(SignupTypes.SIGNUP_REQUEST),
         mergeMap(a => this.authService.signup(a.payload.value, { params: this.params.map(a.payload.value.captcha) }).pipe(
             tap(() => a.payload.reset()),
             mapTo(new SignupSuccess()),
             catchError(e => of(new SignupError(e)))
         ))
-    );
+    ));
 
-    @Effect() signupSuccess = this.actions.pipe(
+     signupSuccess = createEffect(() => this.actions.pipe(
         ofType<SignupSuccess>(SignupTypes.SIGNUP_SUCCESS),
         tap(() => this.router.navigate(['/signin'])),
         mapTo(new SetSuccess(Messages.checkEmail))
-    );
+    ));
 
-    @Effect() signupError = this.actions.pipe(
+     signupError = createEffect(() => this.actions.pipe(
         ofType<SignupError>(SignupTypes.SIGNUP_ERROR),
         filter(filterError),
         map(e => new SetError(e.error))
-    );
+    ));
 }

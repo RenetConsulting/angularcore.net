@@ -9,7 +9,7 @@ export class TrackerModel {
      * The Protocol version. The current value is "1".
      * This will only change when there are changes made that are not backwards compatible.
      */
-    v = '1';
+    v = '2';
 
     /**
      * Campaign Medium
@@ -76,7 +76,7 @@ export class TrackerModel {
      * Required for all hit types.
      * The type of hit. Must be one of "pageview", "screenview", "event", "transaction", "item", "social", "exception", "timing".
      */
-    t?: keyof IHitType = 'pageview';
+    en?: keyof IHitType = 'pageview';
 
     /**
      * Java Enabled

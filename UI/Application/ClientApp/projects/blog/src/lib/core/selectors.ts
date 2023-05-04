@@ -2,7 +2,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as State from './reducer';
 import { RootBlogStore } from './reducers';
 
-const getModule = createFeatureSelector<RootBlogStore, State.BlogState>('blog');
+const getModule = createFeatureSelector< State.BlogState>('blog');
 const getAllBlogs = (s: State.BlogState) => s && State.selectAll(s);
 const getSelectedBlogId = (s: State.BlogState) => s.selectedBlogId;
 const getTotalAmount = (s: State.BlogState) => s.totalAmount;
