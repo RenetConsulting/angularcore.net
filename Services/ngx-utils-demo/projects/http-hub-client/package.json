@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/http-hub-client",
-  "version": "14.0.2",
+  "version": "14.0.3",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
@@ -20,6 +20,6 @@
     "@angular/common": "^14.0.0",
     "@angular/core": "^14.0.0",
     "@aspnet/signalr": "^1.1.4",
-    "rxjs": "~6.6.7"
+    "rxjs": "^7.4.0"
   }
 }
