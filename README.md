@@ -1,6 +1,8 @@
 # angularcore.net
 Template for Angular front-end .net core back-end project template. 
-This project template implement optimistic concurrency, generic entity management, unit test with code coverage.
+This project template implements optimistic concurrency, generic entity management, and unit tests with code coverage.
+
+[![ActionAngularCore - Feature](https://github.com/RenetConsulting/angularcore.net/actions/workflows/actionbuild-feature.yml/badge.svg)](https://github.com/RenetConsulting/angularcore.net/actions/workflows/actionbuild-feature.yml)
 
 ## [DEMO](https://open-source.azurewebsites.net/)
 
