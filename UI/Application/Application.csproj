@@ -78,7 +78,7 @@
     </Exec>
     <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
     <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install --force" />
   </Target>
 
   <Target Name="Testing Production" BeforeTargets="Build" Condition=" '$(Configuration)' == 'TestingProduction' ">
@@ -90,7 +90,7 @@
     <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
     <Exec WorkingDirectory="$(SpaRoot)" Command="node --version" />
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm --version" />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install --force" />
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:full:prod" />
   </Target>
 
@@ -98,7 +98,7 @@
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
     <Exec WorkingDirectory="$(SpaRoot)" Command="node --version" />
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm --version" />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install --force" />
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:full:prod" />
 
     <!-- Include the newly-built files in the publish output -->
