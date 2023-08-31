@@ -8,7 +8,7 @@
     "build": "ng build",
     "build:prod": "ng build --prod",
     "build:ssr": "ng run angular:server:production",
-    "build:full:prod": "npm i --prod && npm run build:prod && npm run build:ssr",
+    "build:full:prod": "npm i --legacy-peer-deps --prod && npm run build:prod && npm run build:ssr",
     "build:lib": "ng build blog",
     "clean": "rimraf dist/angular7 && rimraf dist-server",
     "lint": "ng lint",
