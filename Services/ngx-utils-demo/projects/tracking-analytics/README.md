@@ -95,6 +95,9 @@ export class AppComponent {
 }
 ```
 
+## Release v15.0.0
+Converted project to Angular v15
+
 ## Release v14.0.3
 Upgrade version to 2 and change t>en
 

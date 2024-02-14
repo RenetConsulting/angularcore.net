@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/bypass",
-  "version": "14.0.2",
+  "version": "15.0.0",
   "author": "Renet Consulting",
   "license": "MIT",
   "private": false,
@@ -17,7 +17,7 @@
     "tslib": "^2.0.0"
   },
   "peerDependencies": {
-    "@angular/core": "^14.0.0",
-    "@angular/platform-browser": "^14.0.0"
+    "@angular/core": "^15.0.0",
+    "@angular/platform-browser": "^15.0.0"
   }
 }
