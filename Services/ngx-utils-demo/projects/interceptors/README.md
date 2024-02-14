@@ -2,9 +2,6 @@
 
 This library provides interceptors: ApiPrefixInterceptor, NoneCacheInterceptor.
 
-## Release v15.0.0
-Converted project to Angular v15
-
 ## Release v14.0.1
 Upgrade "rxjs" to  "~6.6.7"
 

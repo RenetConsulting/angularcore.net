@@ -5,9 +5,6 @@ Also you can pass your error by passing an object with property ``errorMessage: 
 
 ## History
 
-## Release v15.0.0
-Converted project to Angular v15
-
 ## Release v14.0.0
 Converted project to Angular v14
 

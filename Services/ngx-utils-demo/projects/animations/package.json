@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/animations",
-  "version": "15.0.0",
+  "version": "14.0.2",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
@@ -17,6 +17,6 @@
     "tslib": "^2.0.0"
   },
   "peerDependencies": {
-    "@angular/animations": "^15.0.0"
+    "@angular/animations": "^14.0.0"
   }
 }
