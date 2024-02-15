@@ -31,6 +31,10 @@ export class AppToolbarHandlersService implements ToolbarHandlersService {
 }
 ```
 
+## Release v15.0.0
+Converted project to Angular v15
+Updated ngx-quill to v21.0.2
+
 ## Release v14.0.0
 Converted project to Angular v14
 
