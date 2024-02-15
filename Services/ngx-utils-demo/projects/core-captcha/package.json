@@ -21,7 +21,7 @@
     "@angular/animations": "^15.2.10",
     "@angular/common": "^15.2.10",
     "@angular/core": "^15.2.10",
-    "@angular/material": "^15.2.10",
+    "@angular/material": "^15.2.9",
     "bootstrap": "^5.3.2"
   }
 }
