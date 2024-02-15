@@ -2,7 +2,7 @@ import { ComponentType } from '@angular/cdk/portal';
 import { Inject, Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
-import { isString } from '@renet-consulting/util';
+import { isString } from '@renet-consulting/util/src/public-api';
 import { NgxErrorDialogComponent } from './ngx-error-dialog.component';
 import { NGX_DIALOG_CONFIG, NGX_SNACK_BAR_CONFIG } from './tokens';
 

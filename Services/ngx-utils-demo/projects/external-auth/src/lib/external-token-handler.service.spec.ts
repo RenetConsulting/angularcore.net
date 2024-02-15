@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { AuthService, IToken, TokenService } from '@renet-consulting/auth';
+import { AuthService, IToken, TokenService } from '@renet-consulting/auth/src/public-api';
 import { of, throwError } from 'rxjs';
 import { ExternalTokenHandlerService } from './external-token-handler.service';
 

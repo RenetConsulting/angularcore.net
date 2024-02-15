@@ -44,7 +44,11 @@ describe('ViewportChangeDirective', () => {
         });
 
         it('with forOf (3 source of data)', fakeAsync(() => {
-            directive.forOf = { dataStream: of(null) } as CdkVirtualForOf<any>;
+            const mockCdkVirtualForOf: Partial<CdkVirtualForOf<any>> = {
+                dataStream: of(null)
+            };
+
+            directive.forOf = mockCdkVirtualForOf as CdkVirtualForOf<any>;
             directive.ngOnInit();
 
             tick(directive.time);

@@ -1,9 +1,10 @@
 {
   "name": "@renet-consulting/animations",
-  "version": "15.0.1",
+  "version": "15.0.2",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
+  "main": "src/public-api.ts",
   "homepage": "https://github.com/RenetConsulting/angularcore.net",
   "description": "This library provides animations.",
   "bugs": {

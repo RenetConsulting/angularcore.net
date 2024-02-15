@@ -1,6 +1,6 @@
 import { HttpHandler, HttpHeaders, HttpParams, HttpRequest, HttpResponse } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
-import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
+import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params/src/public-api';
 import { of, Subject } from 'rxjs';
 import { AuthDefaultOptions } from './auth-default-options';
 import { AuthInterceptor } from './auth.interceptor';

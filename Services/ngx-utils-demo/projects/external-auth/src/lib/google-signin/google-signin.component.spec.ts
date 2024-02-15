@@ -1,5 +1,5 @@
 import { Injector, NgZone } from '@angular/core';
-import { AuthService, IToken, TokenService } from '@renet-consulting/auth';
+import { AuthService, IToken, TokenService } from '@renet-consulting/auth/src/public-api';
 import { of } from 'rxjs';
 import { GoogleSigninComponent } from './google-signin.component';
 // /// <reference path="@types/gapi" />

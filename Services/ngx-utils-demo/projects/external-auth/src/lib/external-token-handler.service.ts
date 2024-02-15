@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { AuthService, IToken, TokenService } from '@renet-consulting/auth';
+import { AuthService, IToken, TokenService } from '@renet-consulting/auth/src/public-api';
 import { Observable } from 'rxjs';
 
 @Injectable({
