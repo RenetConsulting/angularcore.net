@@ -25,3 +25,6 @@ Reverted back to Angular 9 to support es5 with a tag
 
 ## Release v14.0.0
 Converted project to Angular v14
+
+## Release v15.0.0
+Converted project to Angular v15
