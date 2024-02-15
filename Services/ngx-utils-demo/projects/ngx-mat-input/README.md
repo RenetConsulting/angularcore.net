@@ -11,6 +11,14 @@ The library depends on:
 - ``@renet-consulting/control-value-accessor``
 - ``@renet-consulting/ngx-validator``
 
+
+## Release v15.0.0
+Converted project to Angular v15
+Updated bootstrap to v5.3.2
+
+## Release v14.0.0
+Converted project to Angular v14
+
 ## Release v10.0.2
 Upgrade to use a correct version of @renet-consulting/control-value-accessor
 
