@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, Input, OnChanges, OnDestroy, OnInit, Optional, Renderer2, Self, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
-import { enterLeaveAnimation } from '@renet-consulting/animations/src/public-api';
+import { enterLeaveAnimation } from '@renet-consulting/animations';
 import { InputBaseDirective } from '../input.base';
 
 @Component({

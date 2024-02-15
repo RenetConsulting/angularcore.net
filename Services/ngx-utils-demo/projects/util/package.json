@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/util",
-  "version": "15.0.1",
+  "version": "15.0.2",
   "author": "Renet Consulting",
   "license": "MIT",
   "private": false,
@@ -14,7 +14,7 @@
     "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/util"
   },
   "dependencies": {
-    "tslib": "^2.0.0"
+    "tslib": "^2.6.2"
   },
   "keywords": [
     "isBoolean",

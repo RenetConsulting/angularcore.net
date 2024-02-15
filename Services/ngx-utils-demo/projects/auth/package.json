@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/auth",
-  "version": "15.0.1",
+  "version": "15.0.3",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
@@ -14,9 +14,9 @@
     "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/auth"
   },
   "dependencies": {
-    "@renet-consulting/ngx-http-params": "^15.0.0",
-    "@renet-consulting/storage": "^15.0.0",
-    "tslib": "^2.0.0"
+    "@renet-consulting/ngx-http-params": "^15.0.3",
+    "@renet-consulting/storage": "^15.0.2",
+    "tslib": "^2.6.2"
   },
   "peerDependencies": {
     "@angular/common": "^15.2.10",

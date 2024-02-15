@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Optional, Output, Self, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormGroupDirective, NgControl, ValidationErrors } from '@angular/forms';
-import { enterLeaveAnimation } from '@renet-consulting/animations/src/public-api';
-import { ProvidedControlValueAccessorBaseDirective } from '@renet-consulting/control-value-accessor/src/public-api';
+import { enterLeaveAnimation } from '@renet-consulting/animations';
+import { ProvidedControlValueAccessorBaseDirective } from '@renet-consulting/control-value-accessor';
 import { Subscription } from 'rxjs';
 import { EditorService } from './editor.service';
 

@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/title-strategy",
-  "version": "15.0.1",
+  "version": "15.0.2",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
@@ -20,7 +20,7 @@
     "rxjs": "^7.4.0"
   },
   "dependencies": {
-    "tslib": "^2.0.0"
+    "tslib": "^2.6.2"
   },
   "keywords": [
     "title",

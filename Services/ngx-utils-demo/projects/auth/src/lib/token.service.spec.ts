@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { StorageService } from '@renet-consulting/storage/src/public-api';
+import { StorageService } from '@renet-consulting/storage';
 import { IToken } from './token';
 import { TokenService } from './token.service';
 

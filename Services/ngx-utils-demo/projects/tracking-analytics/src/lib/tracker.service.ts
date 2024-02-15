@@ -1,7 +1,7 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params/src/public-api';
-import { StorageService } from '@renet-consulting/storage/src/public-api';
+import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
+import { StorageService } from '@renet-consulting/storage';
 import { AES, CipherOption, enc, mode, pad } from 'crypto-js';
 import { TrackerModel } from './tracker.model';
 

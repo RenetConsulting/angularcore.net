@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, Input, OnChanges, OnDestroy, OnInit, Optional, Self, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
-import { enterLeaveAnimation } from '@renet-consulting/animations/src/public-api';
+import { enterLeaveAnimation } from '@renet-consulting/animations';
 import { InputBaseDirective } from '../input.base';
 import { NGX_MAX_ROWS_TEXTAREA } from '../max-rows-textarea';
 import { NGX_MIN_ROWS_TEXTAREA } from '../min-rows-textarea';

@@ -1,6 +1,6 @@
 import { HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params/src/public-api';
+import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
 import { Observable, of, Subject, throwError } from 'rxjs';
 import { catchError, finalize, mergeMap } from 'rxjs/operators';
 import { AuthDefaultOptions } from './auth-default-options';

@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/ngx-uploader",
-  "version": "15.0.1",
+  "version": "15.0.3",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
@@ -14,8 +14,8 @@
     "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/ngx-uploader"
   },
   "dependencies": {
-    "@renet-consulting/util": "^15.0.0",
-    "tslib": "^2.0.0"
+    "@renet-consulting/util": "^15.0.2",
+    "tslib": "^2.6.2"
   },
   "peerDependencies": {
     "@angular/common": "^15.2.10",

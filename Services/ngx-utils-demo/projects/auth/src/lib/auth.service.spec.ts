@@ -1,7 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params/src/public-api';
+import { NgxHttpParamsService } from '@renet-consulting/ngx-http-params';
 import { AuthDefaultOptions } from './auth-default-options';
 import { AuthService } from './auth.service';
 import { HTTP_HEADER_NAMES } from './http-header-names.type';

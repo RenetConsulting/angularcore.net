@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { StorageService } from '@renet-consulting/storage/src/public-api';
+import { StorageService } from '@renet-consulting/storage';
 import { IToken } from './token';
 
 @Injectable({

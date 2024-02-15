@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/infinite-source",
-  "version": "15.0.1",
+  "version": "15.0.2",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
@@ -14,7 +14,7 @@
     "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/infinite-source"
   },
   "dependencies": {
-    "tslib": "^2.0.0"
+    "tslib": "^2.6.2"
   },
   "peerDependencies": {
     "@angular/cdk": "^15.2.9",

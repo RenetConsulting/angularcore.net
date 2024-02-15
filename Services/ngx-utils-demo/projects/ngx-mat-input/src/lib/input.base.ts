@@ -1,6 +1,6 @@
 import { ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnDestroy, OnInit, Output, ViewChild, Directive } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
-import { ProvidedControlValueAccessorBaseDirective } from '@renet-consulting/control-value-accessor/src/public-api';
+import { ProvidedControlValueAccessorBaseDirective } from '@renet-consulting/control-value-accessor';
 import { Subscription } from 'rxjs';
 
 @Directive()
