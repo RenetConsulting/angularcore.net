@@ -2,6 +2,9 @@
 
 This library provides pipe, services, token and type to bypass DomSanitizer.
 
+## Release v17.0.0
+Converted project to Angular v17
+
 ## Release v16.0.0
 Converted project to Angular v16
 
