@@ -23,10 +23,12 @@ Run `ng test core-captcha` to execute the unit tests via [Karma](https://karma-r
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
+## Release v16.0.0
+Converted project to Angular v16
+
 ## Release v15.0.0
-Converted project to Angular v15 
-<br>
-Updated bootstrap to v5.3.2
+- Converted project to Angular v15
+- Updated bootstrap to v5.3.2
 
 ## Release v14.0.0
 Converted project to Angular v14
