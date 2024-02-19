@@ -32,6 +32,9 @@ inside html:
 ...
 ```
 
+## Release v16.0.0
+Converted project to Angular v16
+
 ## Release v15.0.0
 Converted project to Angular v15
 
