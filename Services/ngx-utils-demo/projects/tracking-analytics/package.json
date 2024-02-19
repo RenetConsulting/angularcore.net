@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/ngx-tracking-analytics",
-  "version": "15.0.2",
+  "version": "16.0.0",
   "author": "Michael Vasyliv, Alexander Altotsky",
   "license": "MIT",
   "private": false,
@@ -14,16 +14,16 @@
     "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/tracking-analytics"
   },
   "dependencies": {
-    "@renet-consulting/ngx-http-params": "^15.0.3",
-    "@renet-consulting/storage": "^15.0.2",
+    "@renet-consulting/ngx-http-params": "^16.0.0",
+    "@renet-consulting/storage": "^16.0.0",
     "crypto-js": "^4.2.0",
     "tslib": "^2.6.2"
   },
   "peerDependencies": {
-    "@angular/core": "^15.2.10",
-    "@angular/common": "^15.2.10",
-    "@angular/platform-browser": "^15.2.10",
-    "@angular/router": "^15.2.10",
+    "@angular/core": "^16.2.12",
+    "@angular/common": "^16.2.12",
+    "@angular/platform-browser": "^16.2.12",
+    "@angular/router": "^16.2.12",
     "rxjs": "^7.4.0"
   },
   "optionalDependencies": {

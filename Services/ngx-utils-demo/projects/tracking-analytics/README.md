@@ -95,12 +95,13 @@ export class AppComponent {
 }
 ```
 
+## Release v16.0.0
+- Converted project to Angular v16
+
 ## Release v15.0.0
-Converted project to Angular v15
-<br>
-Updated crypto-js to v4.2.0
-<br>
-Updated @types/crypto-js to v4.2.2
+- Converted project to Angular v15
+- Updated crypto-js to v4.2.0
+- Updated @types/crypto-js to v4.2.2
 
 ## Release v14.0.3
 Upgrade version to 2 and change t>en
