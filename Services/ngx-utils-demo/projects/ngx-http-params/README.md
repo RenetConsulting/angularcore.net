@@ -31,3 +31,6 @@ Converted project to Angular v15
 
 ## Release v16.0.0
 Converted project to Angular v16
+
+## Release v17.0.0
+Converted project to Angular v17
