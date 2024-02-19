@@ -2,6 +2,9 @@
 
 This library has an implementation of viewport-change (a helper to determinate ``RangeList`` of view elements inside ``cdk-virtual-scroll-viewport``).
 
+## Release v16.0.0
+Converted project to Angular v16
+
 ## Release v15.0.0
 Converted project to Angular v15
 
