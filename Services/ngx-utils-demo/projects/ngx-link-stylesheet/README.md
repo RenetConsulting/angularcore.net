@@ -2,6 +2,9 @@
 
 The library provides a service ``NgxLinkStylesheetService`` to manage additional style files.
 
+## Release v17.0.0
+Converted project to Angular v17
+
 ## Release v16.0.0
 Converted project to Angular v16
 
