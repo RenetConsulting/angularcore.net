@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/elements",
-  "version": "16.0.0",
+  "version": "17.0.0",
   "author": "Michael Vasyliv",
   "license": "MIT",
   "private": false,
@@ -17,9 +17,9 @@
     "tslib": "^2.6.2"
   },
   "peerDependencies": {
-    "@angular/elements": "^16.2.12",
-    "@angular/common": "^16.2.12",
-    "@angular/core": "^16.2.12",
+    "@angular/elements": "^17.2.1",
+    "@angular/common": "^17.2.1",
+    "@angular/core": "^17.2.1",
     "@webcomponents/webcomponentsjs": "^2.2.10",
     "document-register-element": "1.14.3"
   }

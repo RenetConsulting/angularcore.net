@@ -11,6 +11,9 @@ The package is not completed, it has few bugs that are described in
 - https://github.com/angular/angular/issues/29606
 - https://github.com/angular/angular/issues/30207
 
+## Release v17.0.0
+Converted project to Angular v17
+
 ## Release v16.0.0
 Converted project to Angular v16
 
