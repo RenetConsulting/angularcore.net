@@ -23,11 +23,14 @@ Run `ng test animations` to execute the unit tests via [Karma](https://karma-run
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
+## Release v16.0.0
+Converted project to Angular v16
+
 ## Release v15.0.1
 Added README notation
 
 ## Release v15.0.0
-Converted project to Angular v14
+Converted project to Angular v15
 
 ## Release v14.0.0
 Converted project to Angular v14
