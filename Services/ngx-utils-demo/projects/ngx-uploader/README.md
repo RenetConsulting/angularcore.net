@@ -5,6 +5,9 @@ This library provides simple file uploader without http.
 ## Breaking changes in version 9.x
 - NgxUploaderBase renamed to NgxUploaderBaseDirective
 
+## Release v17.0.0
+Converted project to Angular v17
+
 ## Release v16.0.0
 Converted project to Angular v16
 
