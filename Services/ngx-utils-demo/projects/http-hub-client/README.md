@@ -2,6 +2,9 @@
 
 This library provides HttpHubClient service that is a custom implementation HTTP for ``@aspnet/signalr`` for Angular.
 
+## Release v17.0.0
+Converted project to Angular v17
+
 ## Release v16.0.0
 Converted project to Angular v16
 
