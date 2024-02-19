@@ -2,6 +2,9 @@
 
 This library provides s StorageService with tokens: LOCAL_STORAGE and SESSION_STORAGE
 
+## Release v17.0.0
+Converted project to Angular v17
+
 ## Release v16.0.0
 Converted project to Angular v16
 
