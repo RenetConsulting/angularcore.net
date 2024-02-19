@@ -1,4 +1,6 @@
 /** the theme is based on @angular/material */
+@use '@angular/material' as mat;
+
 @mixin editor-theme($theme) {
     $primary: map-get($theme, primary);
     $accent: map-get($theme, accent);
@@ -9,11 +11,11 @@
 
     editor {
         .ql-editor {
-            color: mat-color($foreground, text);
+            color: mat.get-color-from-palette($foreground, text);
 
             &.ql-blank {
                 &::before {
-                    color: mat-color($foreground, secondary-text, if($is-dark-theme, 0.5, 0.42));
+                    color: mat.get-color-from-palette($foreground, secondary-text, if($is-dark-theme, 0.5, 0.42));
                 }
             }
         }
@@ -21,7 +23,7 @@
         .ng-untouched {
             &.ng-valid {
                 .ql-editor {
-                    border-bottom: 1px solid mat-color($foreground, text, 0.42);
+                    border-bottom: 1px solid mat.get-color-from-palette($foreground, text, 0.42);
                 }
             }
         }
@@ -29,29 +31,29 @@
         .ng-touched {
             &.ng-valid {
                 .ql-editor {
-                    border-bottom: 2px solid mat-color($primary);
+                    border-bottom: 2px solid mat.get-color-from-palette($primary);
                 }
             }
 
             &.ng-invalid {
                 .ql-editor {
-                    border-bottom: 1px solid mat-color($warn);
+                    border-bottom: 1px solid mat.get-color-from-palette($warn);
                 }
             }
         }
 
         .error {
-            color: mat-color($warn);
+            color: mat.get-color-from-palette($warn);
         }
 
         .ql-toolbar.ql-snow {
-            background: mat-color($foreground, text, 0.1);
-            border-color: mat-color($foreground, text, 0.2);
+            background: mat.get-color-from-palette($foreground, text, 0.1);
+            border-color: mat.get-color-from-palette($foreground, text, 0.2);
 
             .ql-picker.ql-expanded {
                 .ql-picker-options,
                 .ql-picker-label {
-                    border-color: mat-color($foreground, text, 0.2);
+                    border-color: mat.get-color-from-palette($foreground, text, 0.2);
                     outline: 0;
                 }
             }
@@ -59,26 +61,26 @@
 
         .ql-snow {
             .ql-stroke {
-                stroke: mat-color($foreground, text);
+                stroke: mat.get-color-from-palette($foreground, text);
             }
 
             .ql-fill,
             .ql-stroke.ql-fill {
-                fill: mat-color($foreground, text);
+                fill: mat.get-color-from-palette($foreground, text);
             }
 
             .ql-picker {
-                color: mat-color($foreground, text);
+                color: mat.get-color-from-palette($foreground, text);
             }
 
             .ql-picker-options {
-                background-color: mat-color($background, dialog);
+                background-color: mat.get-color-from-palette($background, dialog);
             }
 
             .ql-tooltip {
-                background-color: mat-color($background, dialog);
-                color: mat-color($foreground, text);
-                border-color: mat-color($foreground, text, 0.2);
+                background-color: mat.get-color-from-palette($background, dialog);
+                color: mat.get-color-from-palette($foreground, text);
+                border-color: mat.get-color-from-palette($foreground, text, 0.2);
 
                 input[type="text"] {
                     @extend .ql-tooltip;
@@ -100,7 +102,7 @@
             .ql-toolbar .ql-picker-item:hover,
             &.ql-toolbar .ql-picker-item.ql-selected,
             .ql-toolbar .ql-picker-item.ql-selected {
-                color: mat-color($primary) !important;
+                color: mat.get-color-from-palette($primary) !important;
             }
 
             &.ql-toolbar button:hover .ql-stroke,
@@ -131,7 +133,7 @@
             .ql-toolbar .ql-picker-item:hover .ql-stroke-miter,
             &.ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter,
             .ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter {
-                stroke: mat-color($primary) !important;
+                stroke: mat.get-color-from-palette($primary) !important;
             }
 
             &.ql-toolbar button:hover .ql-fill,
@@ -162,12 +164,12 @@
             .ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill,
             &.ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill,
             .ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill {
-                fill: mat-color($primary) !important;
+                fill: mat.get-color-from-palette($primary) !important;
             }
 
             .ql-picker-label {
                 &:hover {
-                    color: mat-color($primary) !important;
+                    color: mat.get-color-from-palette($primary) !important;
                 }
             }
         }
