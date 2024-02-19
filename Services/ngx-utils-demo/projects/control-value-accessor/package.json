@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/control-value-accessor",
-  "version": "15.0.2",
+  "version": "16.0.0",
   "author": "Renet Consulting, Inc.",
   "license": "MIT",
   "private": false,
@@ -17,6 +17,6 @@
     "tslib": "^2.6.2"
   },
   "peerDependencies": {
-    "@angular/forms": "^15.2.10"
+    "@angular/forms": "^16.2.12"
   }
 }
