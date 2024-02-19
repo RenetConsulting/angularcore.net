@@ -1,6 +1,6 @@
 {
   "name": "@renet-consulting/editor",
-  "version": "16.0.0",
+  "version": "17.0.0",
   "author": "Renet Consulting, Inc.",
   "license": "MIT",
   "private": false,
@@ -14,17 +14,17 @@
     "url": "https://github.com/RenetConsulting/angularcore.net/tree/master/Services/ngx-utils-demo/projects/editor"
   },
   "dependencies": {
-    "@renet-consulting/animations": "^16.0.0",
-    "@renet-consulting/control-value-accessor": "^16.0.0",
-    "@renet-consulting/ngx-validator": "^16.0.0",
-    "ngx-quill": "^23.0.2",
+    "@renet-consulting/animations": "^17.0.0",
+    "@renet-consulting/control-value-accessor": "^17.0.0",
+    "@renet-consulting/ngx-validator": "^17.0.0",
+    "ngx-quill": "^24.0.5",
     "quill": "^1.3.7",
     "tslib": "^2.6.2"
   },
   "peerDependencies": {
-    "@angular/common": "^16.2.12",
-    "@angular/core": "^16.2.12",
-    "@angular/forms": "^16.2.12"
+    "@angular/common": "^17.2.1",
+    "@angular/core": "^17.2.1",
+    "@angular/forms": "^17.2.1"
   },
   "files": [
     "*"
