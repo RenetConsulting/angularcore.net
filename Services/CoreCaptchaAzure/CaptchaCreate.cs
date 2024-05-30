@@ -14,7 +14,6 @@ namespace CoreCaptchaAzure
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using Renet.CoreCaptcha;
-    using Renet.CoreCaptcha.Enumerables;
 
     public class CaptchaCreate
     {
@@ -35,11 +34,11 @@ namespace CoreCaptchaAzure
         }
 
         [FunctionName("CaptchaCreate")]
-        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "options", Route = null)]HttpRequest req, ExecutionContext context, CoreCaptchaLanguage language)
+        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "options", Route = null)]HttpRequest req, ExecutionContext context)
         {
             this.logger.LogInformation("CaptchaCreateHandler trigger function processed a request.");
 
-            CoreCaptchaCreateResponse response = await this.coreCaptcha.CaptchaCreateAsync(this.logger, this.clientId, 5, req.GetQueryParameterDictionary(), context.FunctionAppDirectory, language);
+            CoreCaptchaCreateResponse response = await this.coreCaptcha.CaptchaCreateAsync(this.logger, this.clientId, 5, req.GetQueryParameterDictionary(), context.FunctionAppDirectory);
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {

@@ -3,7 +3,6 @@
     using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
-    using Renet.CoreCaptcha.Enumerables;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -22,7 +21,7 @@
         private readonly int DefaultWidth = 180;
         private readonly int DefaultHeight = 40;
 
-        public async Task<CoreCaptchaCreateResponse> CaptchaCreateAsync(ILogger log, string clientId, int size, IEnumerable<KeyValuePair<string, string>> queryParam, string functionAppDirectory, CoreCaptchaLanguage language)
+        public async Task<CoreCaptchaCreateResponse> CaptchaCreateAsync(ILogger log, string clientId, int size, IEnumerable<KeyValuePair<string, string>> queryParam, string functionAppDirectory)
         {
             CoreCaptchaCreateResponse response = new CoreCaptchaCreateResponse();
 
@@ -30,7 +29,7 @@
             int height = ImageSize(queryParam, ImageDimention.Height, DefaultHeight);
 
 
-            var captchaCode = Captcha.GenerateCaptchaCode(size, language);
+            var captchaCode = Captcha.GenerateCaptchaCode(size);
 
             var result = Captcha.GenerateCaptchaImage(width, height, captchaCode, log);
 
