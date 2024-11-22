@@ -47,7 +47,6 @@
 
                 imageCopy.SaveAsPng(ms);
 
-
                 return new CaptchaResult { CaptchaCode = captchaCode, CaptchaByteData = ms.ToArray(), Timestamp = DateTime.Now };         
             }
         }
