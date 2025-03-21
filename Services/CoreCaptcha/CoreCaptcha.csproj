@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Company>Renet Consulting, Inc.</Company>
-    <Version>1.0.0.1</Version>
+    <Version>8.0.0.1</Version>
     <RepositoryUrl>https://github.com/RenetConsulting/angularcore.net</RepositoryUrl>
     <Description>CoreCaptcha integration component.</Description>
     <PackageProjectUrl>https://github.com/RenetConsulting/angularcore.net</PackageProjectUrl>

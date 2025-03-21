@@ -51,7 +51,7 @@ namespace CoreCaptchaAzure
         {
             FunctionsHostBuilderContext context = builder.GetContext();
 
-            // Note that these files are not automatically copied on build or publish. 
+            // Note that these files are not automatically copied on build or publish.
             // See the csproj file to for the correct setup.
             builder.ConfigurationBuilder
                 .SetBasePath(context.ApplicationRootPath)

@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35728.132
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreCaptcha", "Services\CoreCaptcha\CoreCaptcha.csproj", "{B5AD35C0-9EC1-4130-A5B8-9DA631B9250F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreCaptchaAWS", "Services\CoreCaptchaAWS\CoreCaptchaAWS.csproj", "{B4CCAD46-44E6-4C08-80E1-278E6DEFB7E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreCaptchaAWS.Test", "Services\CoreCaptchaAWS.Test\CoreCaptchaAWS.Test.csproj", "{2AA16AAD-6490-41C7-89BA-0228CA7FD771}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreCaptchaAzure", "Services\CoreCaptchaAzure\CoreCaptchaAzure.csproj", "{1933BB0F-5B2C-471C-B1D7-97CC7DB6D5C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Renet.CoreCaptcha", "Services\Renet.CoreCaptcha\Renet.CoreCaptcha.csproj", "{A12251FC-F2A3-4A47-B6C5-551FE33FC135}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B5AD35C0-9EC1-4130-A5B8-9DA631B9250F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5AD35C0-9EC1-4130-A5B8-9DA631B9250F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5AD35C0-9EC1-4130-A5B8-9DA631B9250F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5AD35C0-9EC1-4130-A5B8-9DA631B9250F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4CCAD46-44E6-4C08-80E1-278E6DEFB7E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4CCAD46-44E6-4C08-80E1-278E6DEFB7E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4CCAD46-44E6-4C08-80E1-278E6DEFB7E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4CCAD46-44E6-4C08-80E1-278E6DEFB7E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AA16AAD-6490-41C7-89BA-0228CA7FD771}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AA16AAD-6490-41C7-89BA-0228CA7FD771}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AA16AAD-6490-41C7-89BA-0228CA7FD771}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AA16AAD-6490-41C7-89BA-0228CA7FD771}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1933BB0F-5B2C-471C-B1D7-97CC7DB6D5C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1933BB0F-5B2C-471C-B1D7-97CC7DB6D5C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1933BB0F-5B2C-471C-B1D7-97CC7DB6D5C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1933BB0F-5B2C-471C-B1D7-97CC7DB6D5C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A12251FC-F2A3-4A47-B6C5-551FE33FC135}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A12251FC-F2A3-4A47-B6C5-551FE33FC135}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A12251FC-F2A3-4A47-B6C5-551FE33FC135}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A12251FC-F2A3-4A47-B6C5-551FE33FC135}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
