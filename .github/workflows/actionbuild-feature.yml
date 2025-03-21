@@ -53,10 +53,10 @@ jobs:
         registry-url: 'https://registry.npmjs.org'
 
     - name: Build with dotnet
-      run: dotnet build ./AngularCore.sln --configuration Release
+      run: dotnet build ./CoreCaptcha.sln --configuration Release
       
     - name: Test with dotnet
-      run: dotnet test ./AngularCore.sln --configuration Release  --no-build
+      run: dotnet test ./CoreCaptcha.sln --configuration Release  --no-build
       
     - name: Create web publish
       run: dotnet publish ./UI/Application/Application.csproj --configuration Release --no-build
