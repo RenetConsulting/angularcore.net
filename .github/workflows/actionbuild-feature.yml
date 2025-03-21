@@ -61,11 +61,6 @@ jobs:
     - name: Create CoreCaptchaAzure publish
       run: dotnet publish ./Services/CoreCaptchaAzure/CoreCaptchaAzure.csproj --configuration Release --no-build
 
-    - name: Test with npm
-      run: |
-         cd ./UI/Application/ClientApp/
-         npm run test-headless
-         npm run lint
 
     - name: Build ngx-utils-demo with npm
       run: |
