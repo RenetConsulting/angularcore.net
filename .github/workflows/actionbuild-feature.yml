@@ -58,8 +58,8 @@ jobs:
     - name: Test with dotnet
       run: dotnet test ./CoreCaptcha.sln --configuration Release  --no-build
       
-    - name: Create web publish
-      run: dotnet publish ./UI/Application/Application.csproj --configuration Release --no-build
+    - name: Create CoreCaptchaAzure publish
+      run: dotnet publish ./Services/CoreCaptchaAzure/CoreCaptchaAzure.csproj --configuration Release --no-build
 
     - name: Test with npm
       run: |
@@ -88,9 +88,9 @@ jobs:
          cd ./Services/ngx-utils-demo/
          npm run lint
 
-    - name: Zip Web Publish folder
+    - name: Zip CoreCaptchaAzure Publish folder
       run: |
-        cd ./UI/Application/bin/Release/netcoreapp3.1/publish/
+        cd ./Services/CoreCaptchaAzure/bin/Release/net8.0/publish/
         zip -r ./publish.zip ./*
 
     - uses: azure/login@v1
@@ -99,7 +99,7 @@ jobs:
     
     - name: Upload publish zip and set in webapp
       run: |
-         az storage blob upload -f ./UI/Application/bin/Release/netcoreapp3.1/publish/publish.zip -c deployment -n branch/${GITHUB_REF:11}/${{steps.date.outputs.date}}/${GITHUB_SHA}/web.zip --connection-string '${{ env.ASURE_STORAGE_KEY }}' --output none
+         az storage blob upload -f ./Services/CoreCaptchaAzure/bin/Release/net8.0/publish/publish.zip -c deployment -n site/renet-opensource/branch/${GITHUB_REF:11}/${{steps.date.outputs.date}}/${GITHUB_SHA}/CoreCaptcha.zip --connection-string '${{ env.ASURE_STORAGE_KEY }}' --output none
 
          # az webapp config appsettings set --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --name ${{ secrets.AZURE_WEBAPP_NAME }} --settings WEBSITE_RUN_FROM_PACKAGE=${{ steps.webstorage.outputs.storage }} --output none
       
