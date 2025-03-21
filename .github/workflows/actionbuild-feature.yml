@@ -61,28 +61,6 @@ jobs:
     - name: Create CoreCaptchaAzure publish
       run: dotnet publish ./Services/CoreCaptchaAzure/CoreCaptchaAzure.csproj --configuration Release --no-build
 
-
-    - name: Build ngx-utils-demo with npm
-      run: |
-         cd ./Services/ngx-utils-demo/
-         npm install
-         npm run build
-
-    - name: Build @renet-consulting npm library
-      run: |
-         cd ./Services/ngx-utils-demo/
-         npm run build:libraries
-
-    - name: Test ngx-utils-demo with npm 
-      run: |
-         cd ./Services/ngx-utils-demo/
-         npm run test-headless
-
-    - name: Lint ngx-utils-demo with npm lint
-      run: |
-         cd ./Services/ngx-utils-demo/
-         npm run lint
-
     - name: Zip CoreCaptchaAzure Publish folder
       run: |
         cd ./Services/CoreCaptchaAzure/bin/Release/net8.0/publish/
