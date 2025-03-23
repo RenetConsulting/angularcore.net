@@ -4,13 +4,14 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 // -----------------------------------------------------------------------
-namespace CoreCaptchaAWS
+namespace CoreCaptchaAWS.Functions
 {
     using System;
     using System.IO;
     using System.Threading.Tasks;
     using Amazon.Lambda.APIGatewayEvents;
     using Amazon.Lambda.Core;
+    using CoreCaptchaAWS;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Renet.CoreCaptcha;
@@ -19,7 +20,7 @@ namespace CoreCaptchaAWS
     {
         public static readonly string ClientId = Environment.GetEnvironmentVariable("ClientId");
 
-        private Func<ICoreCaptcha> serviceProviderDelegate;
+        private readonly Func<ICoreCaptcha> serviceProviderDelegate;
 
         public CaptchaCreate()
             : base()
@@ -40,8 +41,8 @@ namespace CoreCaptchaAWS
             this.Logger.LogInformation("CaptchaCreateHandler trigger function processed a request.");
 
             ICoreCaptcha coreCaptcha = this.serviceProviderDelegate();
-
-            CoreCaptchaCreateResponse response = await coreCaptcha.CaptchaCreateAsync(this.Logger, ClientId, 5, input?.QueryStringParameters, Directory.GetCurrentDirectory());
+            var queryParam = input?.QueryStringParameters?.ToStringValuesEnumerable();
+            CoreCaptchaCreateResponse response = await coreCaptcha.CaptchaCreateAsync(this.Logger, ClientId, 5, queryParam, Directory.GetCurrentDirectory());
 
             return new APIGatewayProxyResponse { Headers = response.Headers, Body = response.BodyJson, StatusCode = (int)response.StatusCode };
         }

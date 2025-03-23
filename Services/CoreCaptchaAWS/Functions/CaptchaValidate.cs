@@ -4,7 +4,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 // -----------------------------------------------------------------------
-namespace CoreCaptchaAWS
+namespace CoreCaptchaAWS.Functions
 {
     using System.Net;
     using Amazon.Lambda.APIGatewayEvents;
@@ -27,7 +27,7 @@ namespace CoreCaptchaAWS
 
             ICoreCaptcha coreCaptcha = this.ServiceProvider.GetRequiredService<ICoreCaptcha>();
 
-            HttpStatusCode response = coreCaptcha.CaptchaValidate(this.Logger, input?.QueryStringParameters);
+            HttpStatusCode response = coreCaptcha.CaptchaValidate(this.Logger, input?.QueryStringParameters.ToStringValuesEnumerable());
 
             return new APIGatewayProxyResponse { StatusCode = (int)response };
         }
