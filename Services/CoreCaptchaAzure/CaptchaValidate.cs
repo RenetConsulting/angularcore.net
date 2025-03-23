@@ -1,37 +1,30 @@
-// -----------------------------------------------------------------------
-// <copyright file="CaptchaValidate.cs" company="Renet Consulting, Inc">
-// Copyright (c) Renet Consulting, Inc. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
-// </copyright>
-// -----------------------------------------------------------------------
 namespace CoreCaptchaAzure
 {
-    using System.Net;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Azure.WebJobs;
-    using Microsoft.Azure.WebJobs.Extensions.Http;
+    using Microsoft.Azure.Functions.Worker;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Primitives;
     using Renet.CoreCaptcha;
+    using System.Net;
 
-    public class CaptchaValidate
+    public class CaptchaValidate(ICoreCaptcha coreCaptcha, ILogger<CaptchaCreate> logger)
     {
-        private readonly ICoreCaptcha coreCaptcha;
+        private readonly ILogger<CaptchaCreate> _logger = logger;
 
-        private readonly ILogger logger;
+        private readonly ICoreCaptcha _coreCaptcha = coreCaptcha;
 
-        public CaptchaValidate(ICoreCaptcha coreCaptcha, ILogger<CaptchaCreate> logger)
+        [Function("CaptchaValidate")]
+        public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
         {
-            this.coreCaptcha = coreCaptcha;
-            this.logger = logger;
-        }
+            _logger.LogInformation("CaptchaValidate trigger function processed a request.");
 
-        [FunctionName("CaptchaValidate")]
-        public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)]HttpRequest req)
-        {
-            this.logger.LogInformation("CaptchaValidate trigger function processed a request.");
+            HttpStatusCode response = _coreCaptcha.CaptchaValidate(_logger, req.Query);
 
-            HttpStatusCode response = this.coreCaptcha.CaptchaValidate(this.logger, req.GetQueryParameterDictionary());
+            req.HttpContext.Response.Headers.Append("Access-Control-Allow-Origin", "*");
+            req.HttpContext.Response.Headers.Append("Access-Control-Allow-Credentials", "true");
+            req.HttpContext.Response.Headers.Append("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
+            req.HttpContext.Response.Headers.Append("Access-Control-Allow-Headers", "Origin, Content-Type, Pragma, Cache-Control");
 
             return new StatusCodeResult((int)response);
         }

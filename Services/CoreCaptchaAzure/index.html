@@ -10,14 +10,34 @@
     <button onclick="loadCaptcha()">Load Captcha</button>
     <br><br>
     <img id="captchaImage" width="400" height="90" alt="Captcha will appear here">
-
-    <script>function loadCaptcha() {
-    fetch('http://localhost:7071/api/CaptchaCreate?Width=400&Height=90')
+    <input type="hidden" id="hash" />
+    <script>
+    function loadCaptcha() {
+            fetch('http://localhost:7188/api/CaptchaCreate?Width=400&Height=90')
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('captchaImage').src = data.image;
+                    document.getElementById('hash').value = data.hash;
                 })
                 .catch(error => console.error('Error fetching captcha:', error));
         }</script>
+    <br />
+    <input type="text" id="captcha" />
+    <button onclick="validateCaptcha()">Validate Captcha</button><br />
+    <label id="result" />
+    <script>
+        function validateCaptcha() {
+            fetch('http://localhost:7188/api/CaptchaValidate?hash=' + document.getElementById('hash').value + '&captcha=' + document.getElementById('captcha').value + '&clientid=12345',
+                {
+                    method: "GET",
+                    //mode: "no-cors",
+                    strictErrors: true
+                })
+                .then(response => {
+                    document.getElementById('result').textContent = (response.ok)?'Valid':'Invalid';
+                })
+                .catch(error => console.error('Error fetching captcha:', error));
+        }</script>
+
 </body>
 </html>

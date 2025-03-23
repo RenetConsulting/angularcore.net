@@ -1,6 +1,7 @@
 ﻿namespace Renet.CoreCaptcha
 {
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Primitives;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
     using System;
@@ -21,9 +22,9 @@
         private readonly int DefaultWidth = 180;
         private readonly int DefaultHeight = 40;
 
-        public async Task<CoreCaptchaCreateResponse> CaptchaCreateAsync(ILogger log, string clientId, int size, IEnumerable<KeyValuePair<string, string>> queryParam, string functionAppDirectory)
+        public async Task<CoreCaptchaCreateResponse> CaptchaCreateAsync(ILogger log, string clientId, int size, IEnumerable<KeyValuePair<string, StringValues>> queryParam, string functionAppDirectory)
         {
-            CoreCaptchaCreateResponse response = new CoreCaptchaCreateResponse();
+            CoreCaptchaCreateResponse response = new();
 
             int width = ImageSize(queryParam, ImageDimention.Width, DefaultWidth);
             int height = ImageSize(queryParam, ImageDimention.Height, DefaultHeight);
@@ -33,11 +34,10 @@
 
             var result = Captcha.GenerateCaptchaImage(width, height, captchaCode, log);
 
-            Stream captchaStream = new MemoryStream(result.CaptchaByteData);
             string imageHeader = "data:image/png;base64,";
             string soundHeader = "data:audio/mp3;base64,";
 
-            CaptchaModel model = new CaptchaModel
+            CaptchaModel model = new()
             {
                 Image = imageHeader + Convert.ToBase64String(result.CaptchaByteData)
             };
@@ -45,7 +45,7 @@
             var hash = Cryptor.ComputeHashWithSalt(captchaCode, clientId);
             model.Hash = hash;
 
-            CaptchaSoundMp3 captchaSoundMp3 = new CaptchaSoundMp3();
+            CaptchaSoundMp3 captchaSoundMp3 = new();
             byte[] soundData = await captchaSoundMp3.GenerateCaptchaSound(captchaCode, functionAppDirectory);
 
             model.Sound = soundHeader + Convert.ToBase64String(soundData);
@@ -57,7 +57,7 @@
             response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
             response.Headers.Add("Access-Control-Allow-Headers", "Origin, Content-Type, Pragma, Cache-Control");
 
-            JsonSerializerSettings formatter = new JsonSerializerSettings
+            JsonSerializerSettings formatter = new()
             {
                 ContractResolver = new DefaultContractResolver
                 {
@@ -73,7 +73,7 @@
             return response;
         }
 
-        private static int ImageSize(IEnumerable<KeyValuePair<string, string>> queryParam, ImageDimention size, int absence)
+        private static int ImageSize(IEnumerable<KeyValuePair<string, StringValues>> queryParam, ImageDimention size, int absence)
         {
             string sizeValue = queryParam?
                .FirstOrDefault(q => string.Compare(q.Key, size.ToString(), true) == 0)
@@ -92,7 +92,7 @@
             return propery;
         }
 
-        public HttpStatusCode CaptchaValidate(ILogger log, IEnumerable<KeyValuePair<string, string>> queryParam)
+        public HttpStatusCode CaptchaValidate(ILogger log, IEnumerable<KeyValuePair<string, StringValues>> queryParam)
         {
             HttpStatusCode httpStatusCode = HttpStatusCode.BadRequest;
 

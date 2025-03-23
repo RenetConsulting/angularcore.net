@@ -1,38 +1,36 @@
 ﻿namespace CoreCaptchaAWS.Test
 {
-    using System;
-    using System.IO;
-    using System.Threading.Tasks;
     using Amazon.Lambda.APIGatewayEvents;
     using Amazon.Lambda.Core;
-    using Microsoft.Extensions.DependencyInjection;
+    using CoreCaptchaAWS.Functions;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Primitives;
     using Moq;
     using Renet.CoreCaptcha;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Threading.Tasks;
     using Xunit;
 
     public class CaptchaCreateFixture
     {
-        Mock<IServiceProvider> serviceProviderMock;
+        private readonly Mock<ILogger> loggerMock;
 
-        Mock<ILogger> loggerMock;
+        private readonly Mock<ICoreCaptcha> coreCaptchaMock;
 
-        Mock<ICoreCaptcha> coreCaptchaMock;
+        private readonly Mock<ILambdaContext> lambdaContextMock;
 
-        Mock<ILambdaContext> lambdaContextMock;
+        private readonly Func<ICoreCaptcha> func;
 
-        Func<ICoreCaptcha> func;
+        private readonly CaptchaCreate captchaCreate;
 
-        CaptchaCreate captchaCreate;
+        private APIGatewayProxyRequest input;
 
-        APIGatewayProxyRequest input;
-
-        CoreCaptchaCreateResponse responseMock;
+        private readonly CoreCaptchaCreateResponse responseMock;
 
         public CaptchaCreateFixture()
         {
-            serviceProviderMock = new Mock<IServiceProvider>();
-
             loggerMock = new Mock<ILogger>();
 
             coreCaptchaMock = new Mock<ICoreCaptcha>();
@@ -76,7 +74,7 @@
             input = new APIGatewayProxyRequest() ;
 
             // Setup Moq
-            coreCaptchaMock.Setup(x => x.CaptchaCreateAsync(loggerMock.Object, null, 5, input.QueryStringParameters, Directory.GetCurrentDirectory()))
+            coreCaptchaMock.Setup(x => x.CaptchaCreateAsync(loggerMock.Object, null, 5, It.IsAny<IEnumerable<KeyValuePair<string, StringValues>>>(), Directory.GetCurrentDirectory()))
                 .Returns(Task.FromResult(responseMock)).Verifiable();
 
             var result = await captchaCreate.CaptchaCreateHandler(input, lambdaContextMock.Object);
